@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schema.intuit.com/finance/v3"
+	targetNamespace="http://schema.intuit.com/finance/v3" elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+	<xs:complexType name="IEntity" abstract="true">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Product: ALL
+				Description: to be changed to interface.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+</xs:schema>

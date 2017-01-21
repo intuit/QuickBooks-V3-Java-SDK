@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<sdk-config>
+
+    <baseURL>
+          <qbo>https://sandbox-quickbooks.api.intuit.com/v3/company</qbo> 
+    </baseURL>
+
+    <!--
+    <message>
+        <request>
+            <serialization>xml</serialization>
+        </request>
+
+        <response>
+            <serialization>xml</serialization>
+        </response>
+    </message>
+    -->
+</sdk-config>

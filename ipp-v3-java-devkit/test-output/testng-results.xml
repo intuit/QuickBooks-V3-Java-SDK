@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="1" total="1" passed="0">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="17887" started-at="2016-05-09T19:59:33Z" finished-at="2016-05-09T19:59:51Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="17887" started-at="2016-05-09T19:59:33Z" finished-at="2016-05-09T19:59:51Z">
+      <class name="com.intuit.ipp.services.QBODataServiceTest">
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.intuit.ipp.services.QBODataServiceTest@4493d195]" name="setup" is-config="true" duration-ms="103" started-at="2016-05-09T12:59:33Z" finished-at="2016-05-09T12:59:33Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method status="FAIL" signature="testAddBill()[pri:0, instance:com.intuit.ipp.services.QBODataServiceTest@4493d195]" name="testAddBill" duration-ms="17768" started-at="2016-05-09T12:59:33Z" finished-at="2016-05-09T12:59:51Z">
+          <exception class="com.intuit.ipp.exception.FMSException">
+            <message>
+              <![CDATA[ERROR CODE:2010, ERROR MESSAGE:Request has invalid or unsupported property, ERROR DETAIL:Property Name:Can not construct instance of com.intuit.schema.finance.v3.AccountClassific specified is unsupported or invalid
+]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[com.intuit.ipp.exception.FMSException: ERROR CODE:2010, ERROR MESSAGE:Request has invalid or unsupported property, ERROR DETAIL:Property Name:Can not construct instance of com.intuit.schema.finance.v3.AccountClassific specified is unsupported or invalid
+
+	at com.intuit.ipp.interceptors.HandleResponseInterceptor.execute(HandleResponseInterceptor.java:98)
+	at com.intuit.ipp.interceptors.IntuitInterceptorProvider.executeResponseInterceptors(IntuitInterceptorProvider.java:94)
+	at com.intuit.ipp.interceptors.IntuitInterceptorProvider.executeInterceptors(IntuitInterceptorProvider.java:67)
+	at com.intuit.ipp.services.DataService.executeInterceptors(DataService.java:126)
+	at com.intuit.ipp.services.DataService.add(DataService.java:115)
+	at com.intuit.ipp.services.QBODataServiceTest.createLiabilityBankAccount(QBODataServiceTest.java:155)
+	at com.intuit.ipp.services.QBODataServiceTest.getLiabilityBankAccount(QBODataServiceTest.java:108)
+	at com.intuit.ipp.services.QBODataServiceTest.testAddBill(QBODataServiceTest.java:191)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+]]>
+            </full-stacktrace>
+          </exception> <!-- com.intuit.ipp.exception.FMSException -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testAddBill -->
+      </class> <!-- com.intuit.ipp.services.QBODataServiceTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

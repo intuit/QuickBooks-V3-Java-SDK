@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<jxb:bindings version="1.0" xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+	xmlns:annox="http://annox.dev.java.net" jxb:extensionBindingPrefixes="xjc">
+
+	<jxb:bindings schemaLocation="IntuitBaseTypes.xsd">
+		<jxb:bindings node="//xs:complexType[@name='IntuitEntity']">
+			<inheritance:implements>com.intuit.ipp.core.IEntity
+			</inheritance:implements>
+		</jxb:bindings>
+	</jxb:bindings>
+
+	<jxb:bindings schemaLocation="IntuitBaseTypes.xsd">
+		<jxb:bindings node="//xs:complexType[@name='NameValue']">
+			<inheritance:implements>com.intuit.ipp.core.IEntity
+			</inheritance:implements>
+		</jxb:bindings>
+	</jxb:bindings>
+
+	<jxb:bindings schemaLocation="IntuitRestServiceDef.xsd">
+		<jxb:bindings node="//xs:complexType[@name='IntuitResponse']">
+			<inheritance:implements>com.intuit.ipp.core.Response
+			</inheritance:implements>
+		</jxb:bindings>
+	</jxb:bindings>
+
+		<jxb:bindings schemaLocation="Finance.xsd">
+		<jxb:bindings node="//xs:complexType[@name='OLBTransaction']">
+			<inheritance:implements>com.intuit.ipp.core.IEntity
+			</inheritance:implements>
+		</jxb:bindings>
+	</jxb:bindings>
+	
+			<jxb:bindings schemaLocation="Finance.xsd">
+		<jxb:bindings node="//xs:complexType[@name='OLBAccount']">
+			<inheritance:implements>com.intuit.ipp.core.IEntity
+			</inheritance:implements>
+		</jxb:bindings>
+	</jxb:bindings>
+	
+			<jxb:bindings schemaLocation="Finance.xsd">
+		<jxb:bindings node="//xs:complexType[@name='OLBStatus']">
+			<inheritance:implements>com.intuit.ipp.core.IEntity
+			</inheritance:implements>
+		</jxb:bindings>
+	</jxb:bindings>
+	
+		<jxb:bindings schemaLocation="SalesTax.xsd">
+		<jxb:bindings node="//xs:complexType[@name='TaxService']">
+			<inheritance:implements>com.intuit.ipp.core.IEntity
+			</inheritance:implements>
+		</jxb:bindings>
+	</jxb:bindings>
+	
+	<jxb:bindings schemaLocation="SalesTax.xsd">
+		<jxb:bindings node="//xs:complexType[@name='TaxService']">
+			<inheritance:implements>com.intuit.ipp.core.Response
+			</inheritance:implements>
+		</jxb:bindings>
+	</jxb:bindings>
+	<!--
+	<jxb:globalBindings>
+		<jxb:javaType name="java.util.Calendar" xmlType="xs:date"
+			parseMethod="javax.xml.bind.DatatypeConverter.parseDate" printMethod="javax.xml.bind.DatatypeConverter.printDate" />
+		<jxb:javaType name="java.util.Calendar" xmlType="xs:dateTime"
+			parseMethod="javax.xml.bind.DatatypeConverter.parseDateTime"
+			printMethod="javax.xml.bind.DatatypeConverter.printDateTime" />
+		<jxb:serializable uid="1" />
+		<xjc:simple />
+	</jxb:globalBindings>
+	-->
+
+</jxb:bindings>

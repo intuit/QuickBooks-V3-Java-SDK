@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<intuit-config>
+	<baseURL>
+		<qbo>https://quickbooks.api.intuit.com/v3/company</qbo> 
+		<platformService>https://appcenter.intuit.com/db</platformService>
+	</baseURL>
+	
+	<retry>
+		<mode>fixed</mode>
+		<fixed>
+			<count>3</count>
+			<interval>30</interval>
+		</fixed>
+		<incremental>
+			<count>3</count>
+			<interval>30</interval>
+			<increment>5</increment>
+		</incremental>
+		<exponential>
+			<count>3</count>
+			<minBackoff>5</minBackoff>
+			<maxBackoff>100</maxBackoff>
+			<deltaBackoff>10</deltaBackoff>
+		</exponential>		
+	</retry>
+	
+	<message>
+		<request>
+			<compression>gzip</compression>
+			<serialization>json</serialization>
+		</request>
+	
+		<response>
+			<compression>gzip</compression>
+			<serialization>json</serialization>
+		</response>
+	</message>
+	
+	<timeout>
+		<connectionTimeout></connectionTimeout>
+		<requestTimeout></requestTimeout>
+	</timeout>
+</intuit-config>

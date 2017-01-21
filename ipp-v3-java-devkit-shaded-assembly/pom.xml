@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  o-o
+  |
+  o CONFIDENTIAL - Copyright 2012 Intuit Inc. This material contains certain
+  | trade secrets and confidential and proprietary information of Intuit Inc.
+  o Use, reproduction, disclosure and distribution by any means are prohibited,
+  | except pursuant to a written license from Intuit Inc. Use of copyright
+  o notice is precautionary and does not imply publication or disclosure.
+  |
+  o-o
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.intuit.code.devkit.v3</groupId>
+    <artifactId>ipp-v3-java-devkit-pom</artifactId>
+    <version>2.8.0</version>
+  </parent>
+
+  <artifactId>ipp-v3-java-devkit-shaded-assembly</artifactId>
+  <packaging>pom</packaging>
+  <name>IPP Java Devkit Assembly Shaded (${project.version})</name>
+  <description>IPP Java V3 DevKit assembly</description>
+  <version>2.8.0</version>
+  <properties>
+      <release.devkit.version>2.8.0</release.devkit.version>
+      <release.data.version>2.8.0</release.data.version>
+  </properties>
+  <dependencies>
+    <!-- Main artifacts -->
+      <dependency>
+          <groupId>com.intuit.code.devkit.v3</groupId>
+          <artifactId>ipp-v3-java-devkit</artifactId>
+          <version>${release.devkit.version}</version>
+          <classifier>shaded</classifier>
+      </dependency>
+  </dependencies>
+  <build>
+    <finalName>${project.artifactId}-${project.version}</finalName>
+    <plugins>
+   <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>create-package</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>src/main/assembly/assembly.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+       <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+    </plugins>
+  </build>
+</project>

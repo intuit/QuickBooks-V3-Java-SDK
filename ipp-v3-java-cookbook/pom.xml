@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>ipp-v3-java-devkit-pom</artifactId>
+		<groupId>com.intuit.code.devkit.v3</groupId>
+		<version>2.3.4</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<artifactId>ipp-v3-java-cookbook</artifactId>
+    <name>IPP V3 Java Devkit - CookBook Project</name>
+	<description>IPP Java V3 DevKit - Simple application to test devkit</description>
+    <version>2.3.5</version>
+
+	 <dependencies>
+		<dependency>
+			<groupId>com.intuit.code.devkit.v3</groupId>
+			<artifactId>ipp-v3-java-data</artifactId>
+			<version>2.3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.intuit.code.devkit.v3</groupId>
+			<artifactId>ipp-v3-java-devkit</artifactId>
+			<version>2.3.6</version>
+		</dependency>
+	</dependencies> 
+
+    <build>
+    <plugins>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+            <skip>true</skip>
+        </configuration>
+    </plugin>
+    </plugins>
+    </build>
+
+</project>
