@@ -22,11 +22,9 @@ The QuickBooks Online Java SDK provides a set of Java class libraries that make 
 ## Project Overview
 * ipp-v3-java-data - contains all entities and entity dependencies that are used in data services operations
 * ipp-v3-java-devkit - core component, contains rest API support
-* ipp-v3-java-cookbook - contains crud samples
 * ipp-v3-java-devkit-assembly - builds final deployment package (zip) which includes everything
 * ipp-v3-java-devkit-shaded-assembly - builds lightweight version (some dependencies excluded)
 * ipp-v3-java-devkit-javadoc - contains javadoc for data and devkit classes
-* IntuitAnywhere - Sample app
 
 ## Sample Apps
 

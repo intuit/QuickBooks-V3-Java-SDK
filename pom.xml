@@ -26,7 +26,6 @@
     <modules>
         <module>ipp-v3-java-data</module>
         <module>ipp-v3-java-devkit</module>
-        <module>ipp-v3-java-cookbook</module>
         <module>ipp-v3-java-devkit-assembly</module>
         <module>ipp-v3-java-devkit-shaded-assembly</module>
     </modules>
