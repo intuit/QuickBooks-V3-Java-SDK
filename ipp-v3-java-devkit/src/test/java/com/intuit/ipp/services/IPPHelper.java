@@ -56,7 +56,6 @@ public class IPPHelper {
 		ippHelper.setQboConsumerSecret(bundle.getString("testsuit.qbo.consumer.secret"));
 		ippHelper.setQboAccessToken(bundle.getString("testsuit.qbo.access.token"));
 		ippHelper.setQboAccessTokenSecret(bundle.getString("testsuit.qbo.access.token.secret"));
-		ippHelper.setQboAppDBId(bundle.getString("testsuit.qbo.app.db.id"));
 		ippHelper.setQboRealmID(bundle.getString("testsuit.qbo.realm.id"));
 		
 		Map<String, String> env = System.getenv();

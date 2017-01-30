@@ -1,9 +1,14 @@
 V3-JAVA-SDK
 ===========
 
-V3-JAVA-SDK
+**Help:** [Support](https://developer.intuit.com/help), [Samples](https://developer.intuit.com/docs/0100_quickbooks_online/0400_tools/0005_sdks/0200_java/0004_sample_code_and_sample_apps) <br/>
+**Documentation:** [User Guide](https://developer.intuit.com/docs/0100_quickbooks_online/0400_tools/0005_accounting/0200_java/0001_quick_start), [JavaDocs](https://developer-static.intuit.com/SDKDocs/QBV3Doc/ipp-v3-java-devkit-javadoc/index.html)
+<br/>
+**Continuous Integration:** <br/>
+**License:** [![Apache 2](http://img.shields.io/badge/license-Apache%202-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0) <br/>
 
 
+## Overview
 The QuickBooks Online Java SDK provides a set of Java class libraries that make it easier to call QuickBooks Online APIs, and access to QuickBooks Online data. Some of the features included in this SDK are:
 
 * Ability to perform single and batch processing of CRUD operations on all QuickBooks Online entities.
@@ -19,109 +24,51 @@ The QuickBooks Online Java SDK provides a set of Java class libraries that make 
 * Sparse Update to update writable properties specified in a request and leave the others unchanged.
 * Change data that enables you to retrieve a list of entities modified during specified time points.
 
-## Project Overview
+## Project Structure
 * ipp-v3-java-data - contains all entities and entity dependencies that are used in data services operations
 * ipp-v3-java-devkit - core component, contains rest API support
 * ipp-v3-java-devkit-assembly - builds final deployment package (zip) which includes everything
 * ipp-v3-java-devkit-shaded-assembly - builds lightweight version (some dependencies excluded)
 * ipp-v3-java-devkit-javadoc - contains javadoc for data and devkit classes
 
-## Sample Apps
+## System Requirements
+The SDK works on JDK 1.6 and above.
 
-* [CRUD Sample](https://github.com/IntuitDeveloper/SampleApp-CRUD-Java)
-* [Webhooks Sample](https://github.com/IntuitDeveloper/SampleApp-Webhooks-Java)
-* [OAuth Sample](https://github.com/IntuitDeveloper/oauth-java)
-* [OpenId-OAuth Sample](https://github.com/IntuitDeveloper/SampleApp-OpenID-Oauth-Java)
+## First Use Instructions
+1. Clone the GitHub repo to your computer
+2. Import it to the IDE of your choice
 
-## Documentation
-* [Class Library Reference](https://developer-static.intuit.com/SDKDocs/QBV3Doc/ipp-v3-java-devkit-javadoc/index.html)
-* [Installation and SDK user guide](https://developer.intuit.com/docs/0100_quickbooks_online/0400_tools/0005_accounting/0200_java/0001_quick_start)
+## Testing the code & building artifacts
+To test the code locally, follow the steps below:
+1. Update keys and tokens in [ippdevkit.properties](https://github.com/intuit/QuickBooks-V3-Java-SDK/blob/master/ipp-v3-java-devkit/src/test/resources/ippdevkit.properties) 
+Not sure how to get the tokens? Refer this [blog](https://developer.intuit.com/hub/blog/2016/04/25/quick-start-to-quickbooks-online-rest-api-with-oauth1-0) post to get on boarded with OAuth1 quickly.
+2. cd to the project directory
+3. Run the command: `mvn install` - this will run the unit test, build the project and generate data & devkit jars
 
-## Building components
-To build out individual components such as ipp-v3-java-data.jar or ipp-v3-java-devkit.jar, remove parent dependency from the pom.xml and run maven install.
+Note: To build out individual components such as ipp-v3-java-data.jar or ipp-v3-java-devkit.jar, remove parent dependency from the pom.xml of the respective projects and run maven install on the individual project folders.
 
 ## Release Notes:
+Refer [Java SDK Release Notes](https://developer.intuit.com/docs/0100_quickbooks_online/0400_tools/0005_sdks/0200_java/0080_quickbooks_java_sdk_release_notes)
 
-* V2.8.0 (12/19/2016)
-  * Removed QBD and IAM Cookie code
-  * Added support for AuthorizationFault response
-  * Updated javadoc for findAll method
-  * Updated httpclient library for platform API (ipp-java-qbapihelper-1.2.2.jar)
-  * Updated disconnect and reconnect API to return response in platform API (ipp-java-qbapihelper-1.2.2.jar)
+## Contribute:
+We greatly encourage contributions! You can add new features, report and fix existing bugs, write docs and
+tutorials, or any of the above. Feel free to open issues and/or send pull requests.
 
-* V2.7.1 (11/28/2016)
-  * Minor version 8 support
-  * cc/bcc field support for Invoice and Preferences entities
-  * HttpClient 4.5.2 support
+The `master` branch of this repository contains the latest stable release of Wasabi, while snapshots are published to the `develop` branch. In general, pull requests should be submitted against `develop` by forking this repo into your account, developing and testing your changes, and creating pull requests to request merges. See the [Contributing to a Project](https://guides.github.com/activities/contributing-to-open-source/)
+article for more details about how to contribute.
 
-* V2.6.0 (10/14/2016)
-  * Webhooks support
-  * Error code 429
+Steps to contribute:
 
-* V2.5.0 (05/15/2016)
-  * Minor version 5 support
-  * cc/bcc field support for Invoice and Preferences entities
-  * HttpClient 4.5.2 support
+1. Fork this repository into your account on Github
+2. Clone *your forked repository* (not our original one) to your hard drive with `git clone https://github.com/YOURUSERNAME/QuickBooks-V3-Java-SDK.git`
+3. Design and develop your changes
+4. Add/update unit tests
+5. Create a pull request for review to request merge
+6. Obtain approval before your changes can be merged
 
-* V2.4.0 (09/28/2015)
-  * This version includes minor version 3 (default) and 4 support. It also has number of bugfixes.
-  * Support for voiding transactions, viewing transactions as PDF, and sending transactions as email
+Note: Before you submit the pull request, make sure to remove the keys and tokens from [ippdevkit.properties](https://github.com/intuit/QuickBooks-V3-Java-SDK/blob/master/ipp-v3-java-devkit/src/test/resources/ippdevkit.properties) that you might have added for testing purpose.
 
-* V2.3.2
-  * Added JSON support for SyncErrorResponse
-  * Adding data jar packages
-
-* V2.3.1
-  * Added reports, General Ledger, Vendor Balance Detail, AP Aging Detail.
-  * Added timeout support for AMEX.
-
-* V2.3.0
-  * HttpURLConnection
-  * Tax Agency create
-  * Tax Code create
-
-* V2.2.1
-  * v72 Reports
-
-* V2.2.0 
-  * Include param support
-
-* V2.1.2
-  * Default minor version 1
-
-* V2.1.1
-  * Modifications for CRT APIs
-
-* V2.1.0 
-  * Regenerated POJOs - v71
-  * Added minorVersion flag
-  * Added code to ignore JSON additional fields
-
-* V2.0.4 
-  * Regenerated POJOs - v70 
-  * Added AuthenticationApplicationFailed fault type
-
-* V2.0.3
-  * Separate jars
-  * Tested for 8.1 and v69
-
-* V2.0.2
-  * consolidated jar
-
-* V2.0.1 
-  * Request Id non static method
-  * Tracking id implementation
-  * Platform API deprecation - including qbapihelper jar
-
-* V2.0.0
-  * Regenerated classes with new XSD (v67 + IDs 8.0)
-
-* V1.0.9
-  * Added support for request id as a param
-
-* V1.0.8
-  * Connection and Socket Timeout support
-  * Added environment variables (for builds) in devkit project 
+Thank you for your contribution!
 
 
 

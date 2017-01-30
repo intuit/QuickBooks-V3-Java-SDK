@@ -36,20 +36,8 @@
       </dependency>
       <dependency>
           <groupId>com.intuit.code.devkit.v3</groupId>
-          <artifactId>ipp-v3-java-data</artifactId>
-          <version>${release.data.version}</version>
-          <classifier>javadoc</classifier>
-      </dependency>
-      <dependency>
-          <groupId>com.intuit.code.devkit.v3</groupId>
           <artifactId>ipp-v3-java-devkit</artifactId>
           <version>${release.devkit.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>com.intuit.code.devkit.v3</groupId>
-          <artifactId>ipp-v3-java-devkit</artifactId>
-          <version>${release.devkit.version}</version>
-          <classifier>javadoc</classifier>
       </dependency>
       <dependency>
           <groupId>com.intuit.code.devkit.v3</groupId>
@@ -83,7 +71,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
-                    <skip>false</skip>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
     </plugins>
