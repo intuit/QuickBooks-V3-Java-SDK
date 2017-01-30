@@ -56,7 +56,7 @@ Refer [Java SDK Release Notes](https://developer.intuit.com/docs/0100_quickbooks
 We greatly encourage contributions! You can add new features, report and fix existing bugs, write docs and
 tutorials, or any of the above. Feel free to open issues and/or send pull requests.
 
-The `master` branch of this repository contains the latest stable release of Wasabi, while snapshots are published to the `develop` branch. In general, pull requests should be submitted against `develop` by forking this repo into your account, developing and testing your changes, and creating pull requests to request merges. See the [Contributing to a Project](https://guides.github.com/activities/contributing-to-open-source/)
+The `master` branch of this repository contains the latest stable release of the SDK, while snapshots are published to the `develop` branch. In general, pull requests should be submitted against `develop` by forking this repo into your account, developing and testing your changes, and creating pull requests to request merges. See the [Contributing to a Project](https://guides.github.com/activities/contributing-to-open-source/)
 article for more details about how to contribute.
 
 Steps to contribute:
