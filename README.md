@@ -39,9 +39,13 @@ The SDK works on JDK 1.6 and above.
 2. Import it to the IDE of your choice
 
 ## Testing the code & building artifacts
+
 To test the code locally, follow the steps below:
+
 1. Update keys and tokens in [ippdevkit.properties](https://github.com/intuit/QuickBooks-V3-Java-SDK/blob/master/ipp-v3-java-devkit/src/test/resources/ippdevkit.properties) 
+
 Not sure how to get the tokens? Refer this [blog](https://developer.intuit.com/hub/blog/2016/04/25/quick-start-to-quickbooks-online-rest-api-with-oauth1-0) post to get on boarded with OAuth1 quickly.
+
 2. cd to the project directory
 3. Run the command: `mvn install` - this will run the unit test, build the project and generate data & devkit jars
 
