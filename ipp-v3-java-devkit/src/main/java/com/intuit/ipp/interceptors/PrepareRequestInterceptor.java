@@ -1,18 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2017 Intuit
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * 	http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *******************************************************************************/
 package com.intuit.ipp.interceptors;
 
 import java.io.UnsupportedEncodingException;
@@ -27,10 +12,10 @@ import com.intuit.ipp.core.Context;
 import com.intuit.ipp.core.IEntity;
 import com.intuit.ipp.core.ServiceType;
 import com.intuit.ipp.data.Attachable;
+import com.intuit.ipp.exception.CompressionException;
 import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.net.ContentTypes;
 import com.intuit.ipp.net.OperationType;
-import com.intuit.ipp.services.DataService;
 import com.intuit.ipp.util.Config;
 import com.intuit.ipp.util.Logger;
 import com.intuit.ipp.util.StringUtils;
@@ -266,7 +251,7 @@ public class PrepareRequestInterceptor implements Interceptor {
 		
 		if(context.getMinorVersion() == null)
 		{
-		context.setMinorVersion("5");
+		context.setMinorVersion("8");
 		}
 		
 		uri.append("minorversion").append("=").append(context.getMinorVersion()).append("&");
@@ -430,7 +415,8 @@ public class PrepareRequestInterceptor implements Interceptor {
                 || key.equals(RequestElements.REPORT_PARAM_DEPARTMENT)
                 || key.equals(RequestElements.REPORT_PARAM_QZURL)
                 || key.equals(RequestElements.REPORT_PARAM_AGING_PERIOD)
-                || key.equals(RequestElements.REPORT_PARAM_NUM_PERIOD);
+                || key.equals(RequestElements.REPORT_PARAM_NUM_PERIOD)
+                || key.equals(RequestElements.REPORT_PARAM_REPORT_DT);
     }
 
     /**

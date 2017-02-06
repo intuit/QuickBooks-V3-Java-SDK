@@ -5,16 +5,16 @@ import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
 
-import com.intuit.ipp.data.TaxRateApplicableOnEnum;
+import com.intuit.ipp.data.TaxApplicableOnEnum;
 
 
-public class TaxRateApplicableOnEnumJsonSerializer extends JsonSerializer<TaxRateApplicableOnEnum>{
+public class TaxApplicableOnEnumJsonSerializer extends JsonSerializer<TaxApplicableOnEnum>{
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void serialize(TaxRateApplicableOnEnum value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+	public void serialize(TaxApplicableOnEnum value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
 		jgen.writeString(value.value());
 	}
 

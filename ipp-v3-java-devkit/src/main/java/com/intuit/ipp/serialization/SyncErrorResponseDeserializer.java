@@ -1,30 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2017 Intuit
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * 	http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *******************************************************************************/
 package com.intuit.ipp.serialization;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.xml.bind.JAXBElement;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
@@ -38,21 +20,11 @@ import org.codehaus.jackson.map.introspect.JacksonAnnotationIntrospector;
 import org.codehaus.jackson.map.module.SimpleModule;
 import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 
-import com.intuit.ipp.data.CustomFieldDefinition;
-import com.intuit.ipp.data.Fault;
-import com.intuit.ipp.data.IntuitEntity;
-import com.intuit.ipp.data.ObjectFactory;
-import com.intuit.ipp.data.QueryResponse;
 import com.intuit.ipp.data.SyncError;
 import com.intuit.ipp.data.SyncErrorResponse;
-import com.intuit.ipp.util.Logger;
 
 public class SyncErrorResponseDeserializer extends JsonDeserializer<SyncErrorResponse> {
 	
-	/**
-	 * logger instance
-	 */
-	private static final org.slf4j.Logger LOG = Logger.getLogger();
 
 	
 	/**
@@ -75,11 +47,7 @@ public class SyncErrorResponseDeserializer extends JsonDeserializer<SyncErrorRes
 	 */
 	private static final String LATESTUPLOADTIME = "latestUploadTime";
 	
-	/**
-	 * variable objFactory
-	 */
-	private ObjectFactory objFactory = new ObjectFactory();
-
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public SyncErrorResponse deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
@@ -127,7 +95,7 @@ public class SyncErrorResponseDeserializer extends JsonDeserializer<SyncErrorRes
 				if (JsonResourceTypeLocator.lookupType(key) != null) {
 					
 					JsonNode jn1 = jn.get(key);
-					List<SyncError> syncErrorlist = new ArrayList();
+					List<SyncError> syncErrorlist = new ArrayList<SyncError>();
 
 					
 					if (jn1.isArray()) {

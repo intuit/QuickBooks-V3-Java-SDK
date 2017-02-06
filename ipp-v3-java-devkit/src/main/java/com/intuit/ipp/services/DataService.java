@@ -1,18 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2017 Intuit
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * 	http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *******************************************************************************/
 package com.intuit.ipp.services;
 
 import java.io.InputStream;
@@ -31,21 +16,24 @@ import javax.xml.bind.JAXBElement;
 
 import com.intuit.ipp.core.Context;
 import com.intuit.ipp.core.IEntity;
-import com.intuit.ipp.core.ServiceType;
-import com.intuit.ipp.data.Invoice;
-import com.intuit.ipp.data.SalesReceipt;
-import com.intuit.ipp.data.Estimate;
 import com.intuit.ipp.data.AttachableResponse;
 import com.intuit.ipp.data.BatchItemResponse;
 import com.intuit.ipp.data.CDCResponse;
+import com.intuit.ipp.data.Estimate;
 import com.intuit.ipp.data.Fault;
 import com.intuit.ipp.data.IntuitBatchRequest;
 import com.intuit.ipp.data.IntuitEntity;
 import com.intuit.ipp.data.IntuitResponse;
+import com.intuit.ipp.data.Invoice;
 import com.intuit.ipp.data.ObjectFactory;
 import com.intuit.ipp.data.QueryResponse;
+import com.intuit.ipp.data.SalesReceipt;
 import com.intuit.ipp.exception.FMSException;
-import com.intuit.ipp.interceptors.*;
+import com.intuit.ipp.interceptors.IntuitBatchInterceptorProvider;
+import com.intuit.ipp.interceptors.IntuitInterceptorProvider;
+import com.intuit.ipp.interceptors.IntuitMessage;
+import com.intuit.ipp.interceptors.RequestElements;
+import com.intuit.ipp.interceptors.UploadRequestElements;
 import com.intuit.ipp.net.ContentTypes;
 import com.intuit.ipp.net.MethodType;
 import com.intuit.ipp.net.OperationType;
@@ -80,7 +68,6 @@ public class DataService {
     /**
      * Hiding the default constructor as Context is always required to function properly
      */
-    @SuppressWarnings("unused")
     protected DataService() {
 
     }
@@ -200,6 +187,7 @@ public class DataService {
 
     //updateAccountOnTxns used for France Locale with Minor Version >= 5.
     
+    @SuppressWarnings("unchecked")
     public <T extends IEntity> T updateAccountOnTxns(T entity) throws FMSException {
 
         IntuitMessage intuitMessage = prepareupdateAccountOnTxns(entity);
@@ -211,6 +199,7 @@ public class DataService {
     }
     
     //donotUpdateAccountOnTxns used for France Locale with Minor Version >= 5.
+    @SuppressWarnings("unchecked")
     public <T extends IEntity> T donotUpdateAccountOnTxns(T entity) throws FMSException {
 
         IntuitMessage intuitMessage = preparedonotUpdateAccountOnTxns(entity);
@@ -226,6 +215,7 @@ public class DataService {
      * @param <T>
      * @return
      */
+    @SuppressWarnings("unchecked")
     private <T extends IEntity> T retrieveEntity(IntuitMessage intuitMessage) {
         T returnEntity = null;
         IntuitResponse intuitResponse = (IntuitResponse) intuitMessage.getResponseElements().getResponse();
@@ -310,10 +300,12 @@ public class DataService {
 
         return (T) getReturnEntity(intuitMessage);
     }
+    @SuppressWarnings("unchecked")
     private <T extends IEntity> T getReturnEntity(IntuitMessage intuitMessage) {
         return (T) getReturnEntity(intuitMessage, 0);
     }
 
+    @SuppressWarnings("unchecked")
     private <T extends IEntity> T getReturnEntity(IntuitMessage intuitMessage, int idx) {
         T returnEntity = null;
         IntuitResponse intuitResponse = (IntuitResponse) intuitMessage.getResponseElements().getResponse();
@@ -367,6 +359,7 @@ public class DataService {
      * @param <T>
      * @return
      */
+    @SuppressWarnings("unchecked")
     private <T extends IEntity> List<T> getResultEntities(List<IntuitMessage> intuitMessages) {
         List<T> resultEntities = new ArrayList<T>();
         int i = 0;
@@ -483,6 +476,7 @@ public class DataService {
      * @return
      * @throws FMSException
      */
+    @SuppressWarnings("unchecked")
     public <T extends IEntity> T sendEmail(T entity, String email) throws FMSException {
         if(!isAvailableToEmail(entity)) {
             throw new FMSException("Following entity: " + entity.getClass().getSimpleName() + " cannot be send as email" );

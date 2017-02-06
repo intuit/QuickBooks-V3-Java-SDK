@@ -1,9 +1,6 @@
 com.intuit.ipp.compression
 com.intuit.ipp.core
 com.intuit.ipp.data
-com.intuit.ipp.example
-com.intuit.ipp.example.qbo.auscompany
-com.intuit.ipp.example.qbo.ukcompany
 com.intuit.ipp.exception
 com.intuit.ipp.interceptors
 com.intuit.ipp.net
