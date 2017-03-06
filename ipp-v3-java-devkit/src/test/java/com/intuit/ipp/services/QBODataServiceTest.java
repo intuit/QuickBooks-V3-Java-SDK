@@ -512,7 +512,7 @@ public class QBODataServiceTest {
 		Assert.assertNull(queryResult.getTotalCount());
 	}
 	
-	@Test
+	@Test(enabled=false)
 	public void testExecuteQuery_post() throws FMSException {
 		Customer customerIn = getCustomer();
 		Customer customer = GenerateQuery.createQueryEntity(Customer.class);
