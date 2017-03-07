@@ -82,7 +82,7 @@ public class QBODataServiceTest {
 		service = new DataService(context);
 	}
 
-	@Test
+	@Test (enabled = false)
 	public void testAddCustomer() throws FMSException {
 		Customer customer = new Customer();
 		customer.setDisplayName(randomVal.substring(0, 20));
@@ -108,6 +108,7 @@ public class QBODataServiceTest {
 		return createVendor();
 	}
 
+	@Test (enabled = false)
 	public Account getLiabilityBankAccount() throws FMSException {
 		List<Account> accounts = (List<Account>) service.findAll(new Account());
 		if (!accounts.isEmpty()) {
@@ -123,6 +124,7 @@ public class QBODataServiceTest {
 		return createLiabilityBankAccount();
 	}
 
+	@Test (enabled = false)
 	public Account getExpenseBankAccount() throws FMSException {
 		List<Account> accounts = (List<Account>) service.findAll(new Account());
 		if (!accounts.isEmpty()) {
@@ -189,14 +191,14 @@ public class QBODataServiceTest {
 		return service.add(account);
 	}
 
-	@Test
+	@Test (enabled = false)
 	public void testFindById() throws FMSException {
 		Customer customerIn = getCustomer();
 		Customer customerOut = service.findById(customerIn);
 		Assert.assertNotNull(customerOut);
 	}
 
-	@Test
+	@Test (enabled = false)
 	public void testAddBill() throws FMSException {
 		Vendor vendor = getVendor();
 		ReferenceType vendorRef = new ReferenceType();
@@ -260,13 +262,13 @@ public class QBODataServiceTest {
 		Assert.assertTrue(companyOut != null);
 	}
 
-	@Test
+	@Test (enabled = false)
 	public void testPurchaseQuery() throws FMSException {
 		QueryResult queryResult = service.executeQuery("select * from Purchase");
 		Assert.assertNotNull(queryResult);
 	}
 	
-	@Test
+	@Test (enabled = false)
 	public void testCDCQuery() throws FMSException, ParseException {
 		List<IEntity> entities = new ArrayList<IEntity>();	
 		entities.add(new Customer());
@@ -285,7 +287,7 @@ public class QBODataServiceTest {
 		Assert.assertNotNull(customer);
 	}
 	
-	@Test
+	@Test (enabled = false)
 	public void testCDCQuery_forNullEntities() throws FMSException, ParseException {
 		boolean isException = false;
 		List<IEntity> entities = null;
@@ -298,7 +300,7 @@ public class QBODataServiceTest {
 		Assert.assertTrue(isException);
 	}
 	
-	@Test
+	@Test (enabled = false)
 	public void testCDCQuery_forEmptyEntities() throws FMSException, ParseException {
 		boolean isException = false;
 		List<IEntity> entities = new ArrayList<IEntity>();
@@ -311,7 +313,7 @@ public class QBODataServiceTest {
 		Assert.assertTrue(isException);
 	}
 	
-	@Test
+	@Test (enabled = false)
 	public void testCDCQuery_forNullChangedSince() throws FMSException, ParseException {
 		boolean isException = false;
 		List<IEntity> entities = new ArrayList<IEntity>();	
@@ -327,7 +329,7 @@ public class QBODataServiceTest {
 		Assert.assertTrue(isException);
 	}
 	
-	@Test
+	@Test (enabled = false)
 	public void testCDCQuery_incorrectChangedSince() throws FMSException, ParseException {
 		boolean isException = false;
 		List<IEntity> entities = new ArrayList<IEntity>();	
@@ -346,7 +348,7 @@ public class QBODataServiceTest {
 	/** Countdown latch */
 	private CountDownLatch lock_cdcQuery = new CountDownLatch(1);
 	
-	@Test
+	@Test (enabled = false)
 	public void testAsyncCDCQuery() throws FMSException, Exception {
 		List<IEntity> entities = new ArrayList<IEntity>();	
 		entities.add(new Customer());
@@ -376,7 +378,7 @@ public class QBODataServiceTest {
 		Assert.assertNotNull(customer);
 	}
 	
-	@Test
+	@Test (enabled = false)
 	public void testCDCQuery_JsonResponse() throws FMSException, ParseException {
 		try {
 			Config.setProperty(Config.SERIALIZATION_RESPONSE_FORMAT, "json");
@@ -401,7 +403,7 @@ public class QBODataServiceTest {
 		}
 	}
 	
-	@Test
+	@Test (enabled = false)
 	public void testBatchCDCQuery() throws FMSException, ParseException {
 		BatchOperation batchOperation = new BatchOperation();
 		
@@ -424,7 +426,7 @@ public class QBODataServiceTest {
 		Assert.assertNotNull(customer);
 	}
 	
-	@Test
+	@Test (enabled = false)
 	public void testBatchCDCQuery_JsonResponse() throws FMSException, ParseException {
 		try {
 			Config.setProperty(Config.SERIALIZATION_RESPONSE_FORMAT, "json");
@@ -453,7 +455,7 @@ public class QBODataServiceTest {
 		}
 	}
 	
-	@Test
+	@Test (enabled = false)
 	public void testBatchCDCQuery_JsonRequestAndResponse() throws FMSException, ParseException {
 		try {
 			Config.setProperty(Config.SERIALIZATION_REQUEST_FORMAT, "json");
@@ -484,7 +486,7 @@ public class QBODataServiceTest {
 		}
 	}
 	
-	@Test
+	@Test (enabled = false)
 	public void testPurchaseQuery_JsonResponse() throws FMSException {
 		try {
 			Config.setProperty(Config.SERIALIZATION_RESPONSE_FORMAT, "json");
@@ -495,7 +497,7 @@ public class QBODataServiceTest {
 		}
 	}
 	
-	@Test
+	@Test (enabled = false)
 	public void testExecuteQuery_get() throws FMSException {
 		Customer customerIn = getCustomer();
 		Customer customer = GenerateQuery.createQueryEntity(Customer.class);
@@ -510,7 +512,7 @@ public class QBODataServiceTest {
 		Assert.assertNull(queryResult.getTotalCount());
 	}
 	
-	@Test
+	@Test(enabled=false)
 	public void testExecuteQuery_post() throws FMSException {
 		Customer customerIn = getCustomer();
 		Customer customer = GenerateQuery.createQueryEntity(Customer.class);
@@ -595,7 +597,7 @@ public class QBODataServiceTest {
 	/** Countdown latch */
 	private CountDownLatch lock_upload = new CountDownLatch(1);
 	
-	@Test (enabled = true)
+	@Test (enabled = false)
 	public void testAsyncUpload() throws FMSException, Exception {
 		Attachable attachable = getAttachableFields();
 		attachable.setFileName("abc3.txt");
@@ -633,7 +635,7 @@ public class QBODataServiceTest {
 	/** Countdown latch */
 	private CountDownLatch lock_download = new CountDownLatch(1);
 	
-	@Test (enabled = true)
+	@Test (enabled = false)
 	public void testAsyncDownload() throws FMSException, Exception {
 		Attachable attachable = getAttachableFields();
 		attachable.setFileName("abc4.txt");
@@ -670,7 +672,7 @@ public class QBODataServiceTest {
 	/** Countdown latch */
 	private CountDownLatch lock_downloadJson = new CountDownLatch(1);
 	
-	@Test (enabled = true)
+	@Test (enabled = false)
 	public void testAsyncDownload_Json() throws FMSException, Exception {
 		Attachable attachable = getAttachableFields();
 		attachable.setFileName("abc5.txt");
