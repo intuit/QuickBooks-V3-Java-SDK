@@ -11,11 +11,11 @@
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <outputDirectory></outputDirectory>
             <includes>
-                <include>com.intuit.code.devkit.v3:ipp-v3-java-data:jar</include>
-                <include>com.intuit.code.devkit.v3:ipp-v3-java-data:jar:javadoc</include>
-                <include>com.intuit.code.devkit.v3:ipp-v3-java-devkit:jar</include>
-                <include>com.intuit.code.devkit.v3:ipp-v3-java-devkit:jar:javadoc</include>
-                <include>com.intuit.code.devkit.v3:ipp-v3-java-devkit:jar:jar-with-dependencies</include>
+                <include>com.intuit.quickbooks-online:ipp-v3-java-data:jar</include>
+                <include>com.intuit.quickbooks-online:ipp-v3-java-data:jar:javadoc</include>
+                <include>com.intuit.quickbooks-online:ipp-v3-java-devkit:jar</include>
+                <include>com.intuit.quickbooks-online:ipp-v3-java-devkit:jar:javadoc</include>
+                <include>com.intuit.quickbooks-online:ipp-v3-java-devkit:jar:jar-with-dependencies</include>
             </includes>
         </dependencySet>
     </dependencySets>

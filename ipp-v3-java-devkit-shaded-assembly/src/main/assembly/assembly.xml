@@ -11,7 +11,7 @@
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <outputDirectory></outputDirectory>
             <includes>
-                <include>com.intuit.code.devkit.v3:ipp-v3-java-devkit:jar:shaded</include>
+                <include>com.intuit.quickbooks-online:ipp-v3-java-devkit:jar:shaded</include>
             </includes>
         </dependencySet>
     </dependencySets>
