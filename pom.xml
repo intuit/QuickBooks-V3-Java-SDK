@@ -3,18 +3,17 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.intuit.code.devkit.v3</groupId>
+    <groupId>com.intuit.quickbooks-online</groupId>
     <artifactId>ipp-v3-java-devkit-pom</artifactId>
     <version>2.9.0</version>
     <packaging>pom</packaging>
     <name>IPP V3 Java DevKit</name>
+    <url>https://github.com/intuit/QuickBooks-V3-Java-SDK</url>
     <description>IPP Java V3 DevKit Parent project for development and test projects</description>
 
     <modules>
         <module>ipp-v3-java-data</module>
         <module>ipp-v3-java-devkit</module>
-        <module>ipp-v3-java-devkit-assembly</module>
-        <module>ipp-v3-java-devkit-shaded-assembly</module>
     </modules>
     <repositories>
         <repository>
@@ -215,4 +214,25 @@
             </build>
         </profile>
     </profiles>
+
+    <developers>
+        <developer>
+            <id>IntuitDeveloper</id>
+            <name>IntuitDeveloper</name>
+            <email>IntuitDeveloperRelations&lt;at&gt;intuit.com</email>
+            <url>https://github.com/intuit/QuickBooks-V3-Java-SDK</url>
+        </developer>
+    </developers>
+    <licenses>
+        <license>
+            <name>Apache</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <url>https://github.com/intuit/QuickBooks-V3-Java-SDK</url>
+        <connection>scm:git:git://github.com/intuit/QuickBooks-V3-Java-SDK.git</connection>
+        <developerConnection>scm:git:git@github.com:intuit/QuickBooks-V3-Java-SDK.git</developerConnection>
+    </scm>
 </project>

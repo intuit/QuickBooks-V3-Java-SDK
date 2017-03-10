@@ -13,7 +13,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.intuit.code.devkit.v3</groupId>
+    <groupId>com.intuit.quickbooks-online</groupId>
     <artifactId>ipp-v3-java-devkit-pom</artifactId>
     <version>2.9.0</version>
   </parent>
@@ -30,17 +30,17 @@
   <dependencies>
     <!-- Main artifacts -->
       <dependency>
-          <groupId>com.intuit.code.devkit.v3</groupId>
+          <groupId>com.intuit.quickbooks-online</groupId>
           <artifactId>ipp-v3-java-data</artifactId>
           <version>${release.data.version}</version>
       </dependency>
       <dependency>
-          <groupId>com.intuit.code.devkit.v3</groupId>
+          <groupId>com.intuit.quickbooks-online</groupId>
           <artifactId>ipp-v3-java-devkit</artifactId>
           <version>${release.devkit.version}</version>
       </dependency>
       <dependency>
-          <groupId>com.intuit.code.devkit.v3</groupId>
+          <groupId>com.intuit.quickbooks-online</groupId>
           <artifactId>ipp-v3-java-devkit</artifactId>
           <version>${release.devkit.version}</version>
           <classifier>jar-with-dependencies</classifier>
