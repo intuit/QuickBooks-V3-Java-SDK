@@ -6,6 +6,9 @@ V3-JAVA-SDK
 <br/>
 **Continuous Integration:** [![Build Status](https://travis-ci.org/intuit/QuickBooks-V3-Java-SDK.svg?branch=develop)](https://travis-ci.org/intuit/QuickBooks-V3-Java-SDK)
 <br/>
+**Maven:** [![Maven Central](https://img.shields.io/maven-central/v/org.apache.maven/apache-maven.svg)](http://search.maven.org/#artifactdetails%7Ccom.intuit.quickbooks-online%7Cipp-v3-java-devkit%7C2.9.0%7C)
+[![Maven Central](https://img.shields.io/maven-central/v/org.apache.maven/apache-maven.svg)](http://search.maven.org/#artifactdetails%7Ccom.intuit.quickbooks-online%7Cipp-v3-java-data%7C2.9.0%7C)
+<br/>
 **License:** [![Apache 2](http://img.shields.io/badge/license-Apache%202-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0) <br/>
 
 
