@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="IAHelperTest" parallel="none">
+  <test name="IAHelperTest">
+    <packages>
+      <package name="com.intuit.ia.utils" />
+    </packages>
+    <groups>
+      <run>
+        <exclude name="ignore" />
+      </run>
+    </groups>
+  </test>
+</suite>
