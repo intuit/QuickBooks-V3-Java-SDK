@@ -34,6 +34,7 @@ The QuickBooks Online Java SDK provides a set of Java class libraries that make 
 * ipp-v3-java-devkit-assembly - builds final deployment package (zip) which includes everything
 * ipp-v3-java-devkit-shaded-assembly - builds lightweight version (some dependencies excluded)
 * ipp-v3-java-devkit-javadoc - contains javadoc for data and devkit classes
+* ipp-java-qbapihelper - contains Quickbooks API Helper methods for OAuth, Disconnect and Reconnect API
 
 ## System Requirements
 The SDK works on JDK 1.6 and above.

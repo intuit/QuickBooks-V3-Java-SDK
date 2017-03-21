@@ -14,6 +14,7 @@
     <modules>
         <module>ipp-v3-java-data</module>
         <module>ipp-v3-java-devkit</module>
+        <module>ipp-java-qbapihelper</module>
     </modules>
     <repositories>
         <repository>
