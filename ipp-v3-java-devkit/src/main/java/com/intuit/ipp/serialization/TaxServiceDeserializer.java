@@ -21,15 +21,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.AnnotationIntrospector;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.introspect.JacksonAnnotationIntrospector;
-import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 
 import com.intuit.ipp.data.Fault;
 import com.intuit.ipp.data.IntuitResponse;
@@ -61,10 +64,10 @@ public class TaxServiceDeserializer extends JsonDeserializer<TaxService>{
 		//Make the mapper JAXB annotations aware
 				AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
 				AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-				AnnotationIntrospector pair = new AnnotationIntrospector.Pair(primary, secondary);
-				mapper.getDeserializationConfig().setAnnotationIntrospector(pair);
+				AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
+				mapper.setAnnotationIntrospector(pair);
 				
-				mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+				mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		
 		//mapper.setPropertyNamingStrategy(PascalCaseStrategy);
 
@@ -72,7 +75,7 @@ public class TaxServiceDeserializer extends JsonDeserializer<TaxService>{
 		JsonNode jn = jp.readValueAsTree();
 
 		//Iterate over the field names
-		Iterator<String> ite = jn.getFieldNames();
+		Iterator<String> ite = jn.fieldNames();
 		
 		//Create the QueryResponse to be returned
 		IntuitResponse qr = new IntuitResponse();
@@ -85,14 +88,14 @@ public class TaxServiceDeserializer extends JsonDeserializer<TaxService>{
 
 			//Attributes
 			if (key.equalsIgnoreCase(FAULT)) {
-				qr.setFault(mapper.readValue(jn.get(FAULT), Fault.class));
-				taxService.setFault(mapper.readValue(jn.get(FAULT), Fault.class));
+				qr.setFault(mapper.treeToValue(jn.get(FAULT), Fault.class));
+				taxService.setFault(mapper.treeToValue(jn.get(FAULT), Fault.class));
 				continue;
 			} else if(key.equalsIgnoreCase("TaxCode")){
-				taxService.setTaxCode(mapper.readValue(jn.get(key),String.class));
+				taxService.setTaxCode(mapper.treeToValue(jn.get(key),String.class));
 			} else if(key.equalsIgnoreCase("TaxCodeId"))
 			{
-				taxService.setTaxCodeId(mapper.readValue(jn.get(key),String.class));
+				taxService.setTaxCodeId(mapper.treeToValue(jn.get(key),String.class));
 			} else if(key.equalsIgnoreCase("TaxRateDetails"))
 			{
 			//add a loop to read all tax rate details
@@ -122,31 +125,31 @@ public class TaxServiceDeserializer extends JsonDeserializer<TaxService>{
 		//Make the mapper JAXB annotations aware
 		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
 		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospector.Pair(primary, secondary);
-		mapper.getDeserializationConfig().setAnnotationIntrospector(pair);
+		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
+		mapper.setAnnotationIntrospector(pair);
 		
-		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		
-		Iterator<String> ite = jn.getFieldNames();
+		Iterator<String> ite = jn.fieldNames();
 		
 		while (ite.hasNext()) {
 			String key = ite.next();
 		
 		if(key.equalsIgnoreCase("TaxRateName")){
-		taxRateDetails.setTaxRateName(mapper.readValue(jn.get(key),String.class));
+		taxRateDetails.setTaxRateName(mapper.treeToValue(jn.get(key),String.class));
 		} else if (key.equalsIgnoreCase("RateValue"))
 		{
-		taxRateDetails.setRateValue(mapper.readValue(jn.get(key),BigDecimal.class));
+		taxRateDetails.setRateValue(mapper.treeToValue(jn.get(key),BigDecimal.class));
 		}
 		else if (key.equalsIgnoreCase("TaxAgencyId"))
 		{
-		taxRateDetails.setTaxAgencyId(mapper.readValue(jn.get(key),String.class));
+		taxRateDetails.setTaxAgencyId(mapper.treeToValue(jn.get(key),String.class));
 		} else if (key.equalsIgnoreCase("TaxApplicableOn"))
 		{
-		taxRateDetails.setTaxApplicableOn(mapper.readValue(jn.get(key),TaxRateApplicableOnEnum.class));
+		taxRateDetails.setTaxApplicableOn(mapper.treeToValue(jn.get(key),TaxRateApplicableOnEnum.class));
 		} else if (key.equalsIgnoreCase("TaxRateId"))
 		{
-		taxRateDetails.setTaxRateId(mapper.readValue(jn.get(key),String.class));
+		taxRateDetails.setTaxRateId(mapper.treeToValue(jn.get(key),String.class));
 		}
 		}
 		return taxRateDetails;

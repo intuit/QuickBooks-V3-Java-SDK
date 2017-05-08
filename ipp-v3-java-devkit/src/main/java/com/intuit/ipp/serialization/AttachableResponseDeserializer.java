@@ -18,15 +18,17 @@ package com.intuit.ipp.serialization;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.AnnotationIntrospector;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.introspect.JacksonAnnotationIntrospector;
-import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 
 import com.intuit.ipp.data.Attachable;
 import com.intuit.ipp.data.AttachableResponse;
@@ -59,9 +61,9 @@ public class AttachableResponseDeserializer extends JsonDeserializer<AttachableR
 		//Make the mapper JAXB annotations aware
 		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
 		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospector.Pair(primary, secondary);
-		mapper.getDeserializationConfig().setAnnotationIntrospector(pair);
-		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
+		mapper.setAnnotationIntrospector(pair);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		//Read the QueryResponse as a tree
 		JsonNode jn = jp.readValueAsTree();
@@ -70,16 +72,16 @@ public class AttachableResponseDeserializer extends JsonDeserializer<AttachableR
 		AttachableResponse qr = new AttachableResponse();
 
 		//Iterate over the field names
-		Iterator<String> ite = jn.getFieldNames();
+		Iterator<String> ite = jn.fieldNames();
 
 		while (ite.hasNext()) {
 			String key = ite.next();
 
 			//Attributes
 			if (key.equalsIgnoreCase(FAULT)) {
-				qr.setFault(mapper.readValue(jn.get(FAULT), Fault.class));
+				qr.setFault(mapper.treeToValue(jn.get(FAULT), Fault.class));
 			} else if (key.equalsIgnoreCase(ATTACHABLE)) {
-				qr.setAttachable(mapper.readValue(jn.get(ATTACHABLE), Attachable.class));
+				qr.setAttachable(mapper.treeToValue(jn.get(ATTACHABLE), Attachable.class));
 			}
 		}
 		return qr;

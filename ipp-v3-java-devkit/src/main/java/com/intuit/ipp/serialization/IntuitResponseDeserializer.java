@@ -16,40 +16,33 @@
 package com.intuit.ipp.serialization;
 
 import java.io.IOException;
+import java.lang.Class;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.Version;
-import org.codehaus.jackson.map.AnnotationIntrospector;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.introspect.JacksonAnnotationIntrospector;
-import org.codehaus.jackson.map.module.SimpleModule;
-import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
+import com.intuit.ipp.data.*;
+import com.intuit.ipp.util.Config;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 
-import com.intuit.ipp.data.AttachableResponse;
-import com.intuit.ipp.data.BatchItemResponse;
-import com.intuit.ipp.data.CDCResponse;
-import com.intuit.ipp.data.Columns;
-import com.intuit.ipp.data.CustomFieldDefinition;
-import com.intuit.ipp.data.Fault;
-import com.intuit.ipp.data.IntuitEntity;
-import com.intuit.ipp.data.IntuitResponse;
-import com.intuit.ipp.data.OLBStatus;
-import com.intuit.ipp.data.OLBTransaction;
-import com.intuit.ipp.data.ObjectFactory;
-import com.intuit.ipp.data.QueryResponse;
-import com.intuit.ipp.data.Report;
-import com.intuit.ipp.data.ReportHeader;
-import com.intuit.ipp.data.Rows;
-import com.intuit.ipp.data.SyncErrorResponse;
 import com.intuit.ipp.util.DateUtils;
 import com.intuit.ipp.util.Logger;
 
@@ -149,10 +142,10 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 		//Make the mapper JAXB annotations aware
 		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
 		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospector.Pair(primary, secondary);
-		mapper.getDeserializationConfig().setAnnotationIntrospector(pair);
+		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
+		mapper.setAnnotationIntrospector(pair);
 		
-		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 
         //Read the QueryResponse as a tree
@@ -166,36 +159,36 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 		List<AttachableResponse> attachableResponses = null;
 		
 		//Iterate over the field names
-		Iterator<String> ite = jn.getFieldNames();
+		Iterator<String> ite = jn.fieldNames();
 
 		while (ite.hasNext()) {
 			String key = ite.next();
 
 			//Attributes
 			if (key.equalsIgnoreCase(FAULT)) {
-				qr.setFault(mapper.readValue(jn.get(FAULT), Fault.class));
+				qr.setFault(mapper.treeToValue(jn.get(FAULT), Fault.class));
 				continue;
 			} else if (key.equalsIgnoreCase(REPORT)) {
-				qr.setReport(mapper.readValue(jn.get(REPORT), Report.class));
+				qr.setReport(mapper.treeToValue(jn.get(REPORT), Report.class));
 			} else if (key.equalsIgnoreCase(HEADER)) {
-				ReportHeader header = mapper.readValue(jn.get(HEADER), ReportHeader.class);
+				ReportHeader header = mapper.treeToValue(jn.get(HEADER), ReportHeader.class);
 				report.setHeader(header);
 			} else if (key.equalsIgnoreCase(ROWS)) {
-				Rows rows= mapper.readValue(jn.get(ROWS), Rows.class);
+				Rows rows= mapper.treeToValue(jn.get(ROWS), Rows.class);
 				report.setRows(rows);
 			} else if (key.equalsIgnoreCase(COLUMNS)) {
-				Columns columns= mapper.readValue(jn.get(COLUMNS), Columns.class);
+				Columns columns= mapper.treeToValue(jn.get(COLUMNS), Columns.class);
 				report.setColumns(columns);
 			} else if (key.equalsIgnoreCase(REQUESTID)) {
-				qr.setRequestId(jn.get(REQUESTID).getTextValue());
+				qr.setRequestId(jn.get(REQUESTID).textValue());
 			} else if (key.equals(TIME)) {
 				try {
-					qr.setTime(DateUtils.getDateFromString(jn.get(TIME).getTextValue()));
+					qr.setTime(DateUtils.getDateFromString(jn.get(TIME).textValue()));
 				} catch (Exception e) {
 					LOG.error("Exception while converting to date", e);
 				}
 			} else if (key.equals(STATUS)) {
-				qr.setStatus(jn.get(STATUS).getTextValue());
+				qr.setStatus(jn.get(STATUS).textValue());
 			} else if (key.equals(SYNC_ERROR_RESPONSE)) {
 				//qr.setSyncErrorResponse(mapper.readValue(jn.get(SYNC_ERROR_RESPONSE), SyncErrorResponse.class));
                 qr.setSyncErrorResponse(getSyncErrorResponse(jn.get(key)));
@@ -248,7 +241,7 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 				if (JsonResourceTypeLocator.lookupType(entity) != null) {
 					// set the CustomFieldDefinition deserializer
 					registerModulesForCustomFieldDef(mapper);
-					Object intuitType = mapper.readValue(jn.get(key), JsonResourceTypeLocator.lookupType(entity));
+					Object intuitType = mapper.treeToValue(jn.get(key), JsonResourceTypeLocator.lookupType(entity));
 					if (intuitType instanceof IntuitEntity) {
 
                         intuitResponseDeserializerHelper.updateBigDecimalScale((IntuitEntity) intuitType);
@@ -327,9 +320,9 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 		simpleModule.addDeserializer(QueryResponse.class, new QueryResponseDeserializer());
 
 		mapper.registerModule(simpleModule);
-		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-		return mapper.readValue(jsonNode, QueryResponse.class);
+		return mapper.treeToValue(jsonNode, QueryResponse.class);
 	}
 	
 	/**
@@ -345,9 +338,9 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 		simpleModule.addDeserializer(CDCResponse.class, new CDCQueryResponseDeserializer());
 
 		mapper.registerModule(simpleModule);
-		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-		return mapper.readValue(jsonNode, CDCResponse.class);
+		return mapper.treeToValue(jsonNode, CDCResponse.class);
 	}
 	
 	/**
@@ -363,9 +356,9 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 		simpleModule.addDeserializer(BatchItemResponse.class, new BatchItemResponseDeserializer());
 
 		mapper.registerModule(simpleModule);
-		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-		return mapper.readValue(jsonNode, BatchItemResponse.class);
+		return mapper.treeToValue(jsonNode, BatchItemResponse.class);
 	}
 	
 	/**
@@ -381,9 +374,9 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 		simpleModule.addDeserializer(AttachableResponse.class, new AttachableResponseDeserializer());
 
 		mapper.registerModule(simpleModule);
-		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-		return mapper.readValue(jsonNode, AttachableResponse.class);
+		return mapper.treeToValue(jsonNode, AttachableResponse.class);
 	}
 	
 	/**
@@ -395,7 +388,7 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 		SimpleModule simpleModule = new SimpleModule("CustomFieldDefinition", new Version(1, 0, 0, null));
 		simpleModule.addDeserializer(CustomFieldDefinition.class, new CustomFieldDefinitionDeserializer());
 		objectMapper.registerModule(simpleModule);
-		objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	}
 
     private SyncErrorResponse getSyncErrorResponse(JsonNode jsonNode) throws IOException {
@@ -405,9 +398,9 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
         simpleModule.addDeserializer(SyncErrorResponse.class, new SyncErrorResponseDeserializer());
 
         mapper.registerModule(simpleModule);
-        mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        return mapper.readValue(jsonNode, SyncErrorResponse.class);
+        return mapper.treeToValue(jsonNode, SyncErrorResponse.class);
     }
 
 

@@ -96,9 +96,16 @@ public class OAuthAuthorizer implements IAuthorizer {
 	 * @param accessTokenSecret the access token secret
 	 */
 	public OAuthAuthorizer(String consumerKey, String consumerSecret, String accessToken, String accessTokenSecret) {
-		this(consumerKey, consumerSecret);
-		oAuthConsumer.setTokenWithSecret(accessToken, accessTokenSecret);
+		this(trim(consumerKey), trim(consumerSecret));
+		oAuthConsumer.setTokenWithSecret(trim(accessToken), trim(accessTokenSecret));
 		oAuthConsumer.setSigningStrategy(new AuthorizationHeaderSigningStrategy());
+	}
+	
+	private static String trim(String key) {
+		if (key == null) {
+            return null;
+        }
+		return key.trim();
 	}
 
 }

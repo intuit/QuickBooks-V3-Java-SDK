@@ -16,6 +16,7 @@
 package com.intuit.ipp.serialization;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,24 +24,31 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.Version;
-import org.codehaus.jackson.map.AnnotationIntrospector;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.introspect.JacksonAnnotationIntrospector;
-import org.codehaus.jackson.map.module.SimpleModule;
-import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
+import javax.xml.bind.JAXBElement;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
+
+import com.intuit.ipp.data.CustomFieldDefinition;
+import com.intuit.ipp.data.Fault;
+import com.intuit.ipp.data.IntuitEntity;
+import com.intuit.ipp.data.QueryResponse;
 import com.intuit.ipp.data.SyncError;
 import com.intuit.ipp.data.SyncErrorResponse;
 
 public class SyncErrorResponseDeserializer extends JsonDeserializer<SyncErrorResponse> {
 	
-
 	
 	/**
 	 * variable STARTPOSITION
@@ -61,8 +69,7 @@ public class SyncErrorResponseDeserializer extends JsonDeserializer<SyncErrorRes
 	 * variable latestUploadTime
 	 */
 	private static final String LATESTUPLOADTIME = "latestUploadTime";
-	
-	
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public SyncErrorResponse deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
@@ -74,9 +81,9 @@ public class SyncErrorResponseDeserializer extends JsonDeserializer<SyncErrorRes
 		//Make the mapper JAXB annotations aware
 		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
 		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospector.Pair(primary, secondary);
-		mapper.getDeserializationConfig().setAnnotationIntrospector(pair);
-		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
+		mapper.setAnnotationIntrospector(pair);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		//Read the QueryResponse as a tree
 		JsonNode jn = jp.readValueAsTree();
@@ -85,21 +92,21 @@ public class SyncErrorResponseDeserializer extends JsonDeserializer<SyncErrorRes
 		SyncErrorResponse sr = new SyncErrorResponse();
 
 		//Iterate over the field names
-		Iterator<String> ite = jn.getFieldNames();
+		Iterator<String> ite = jn.fieldNames();
 
 		while (ite.hasNext()) {
 			String key = ite.next();
 
 			//Attributes
 			if (key.equals(STARTPOSITION)) {
-				sr.setStartPosition(jn.get(STARTPOSITION).getIntValue());
+				sr.setStartPosition(jn.get(STARTPOSITION).intValue());
 			} else if (key.equals(MAXRESULTS)) {
-				sr.setMaxResults(jn.get(MAXRESULTS).getIntValue());
+				sr.setMaxResults(jn.get(MAXRESULTS).intValue());
 			} else if (key.equals(TOTALCOUNT)) {
-				sr.setTotalCount(jn.get(TOTALCOUNT).getIntValue());
+				sr.setTotalCount(jn.get(TOTALCOUNT).intValue());
 			} else if (key.equals(LATESTUPLOADTIME)) {
 				try {
-				sr.setLatestUploadTime(date.parse(jn.get(LATESTUPLOADTIME).getTextValue()));
+				sr.setLatestUploadTime(date.parse(jn.get(LATESTUPLOADTIME).textValue()));
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -110,7 +117,7 @@ public class SyncErrorResponseDeserializer extends JsonDeserializer<SyncErrorRes
 				if (JsonResourceTypeLocator.lookupType(key) != null) {
 					
 					JsonNode jn1 = jn.get(key);
-					List<SyncError> syncErrorlist = new ArrayList<SyncError>();
+					List<SyncError> syncErrorlist = new ArrayList();
 
 					
 					if (jn1.isArray()) {
@@ -143,7 +150,7 @@ public class SyncErrorResponseDeserializer extends JsonDeserializer<SyncErrorRes
 
 		mapper.registerModule(simpleModule);
 
-		return mapper.readValue(jsonNode, SyncError.class);
+		return mapper.treeToValue(jsonNode, SyncError.class);
 	}
 
 }
