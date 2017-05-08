@@ -431,7 +431,8 @@ public class PrepareRequestInterceptor implements Interceptor {
                 || key.equals(RequestElements.REPORT_PARAM_QZURL)
                 || key.equals(RequestElements.REPORT_PARAM_AGING_PERIOD)
                 || key.equals(RequestElements.REPORT_PARAM_NUM_PERIOD)
-                || key.equals(RequestElements.REPORT_PARAM_REPORT_DT);
+                || key.equals(RequestElements.REPORT_PARAM_REPORT_DT)
+                || key.equals(RequestElements.REPORT_PARAM_COLUMNS);
     }
 
     /**

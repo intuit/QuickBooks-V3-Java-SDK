@@ -17,14 +17,15 @@ package com.intuit.ipp.serialization;
 
 import java.io.IOException;
 
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.map.AnnotationIntrospector;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
-import org.codehaus.jackson.map.introspect.JacksonAnnotationIntrospector;
-import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
 
 import com.intuit.ipp.data.BatchItemRequest;
 import com.intuit.ipp.data.CDCQuery;
@@ -163,10 +164,10 @@ public class BatchItemRequestSerializer extends JsonSerializer<BatchItemRequest>
 		ObjectMapper mapper = new ObjectMapper();
 		AnnotationIntrospector primary = new JacksonAnnotationIntrospector();
 		AnnotationIntrospector secondary = new JaxbAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospector.Pair(primary, secondary);
+		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
 
 		mapper.setAnnotationIntrospector(pair);
-		mapper.setSerializationInclusion(Inclusion.NON_NULL);
+		mapper.setSerializationInclusion(Include.NON_NULL);
 
 		return mapper;
 	}

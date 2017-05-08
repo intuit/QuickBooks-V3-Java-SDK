@@ -17,7 +17,7 @@ package com.intuit.ipp.data;
 
 import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Wrapper class for the webhooks payload
@@ -37,3 +37,4 @@ public class WebhooksEvent {
 	}
 	
 }
+

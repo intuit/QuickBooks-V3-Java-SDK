@@ -20,17 +20,21 @@ import java.util.Iterator;
 
 import javax.xml.bind.JAXBElement;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.AnnotationIntrospector;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.introspect.JacksonAnnotationIntrospector;
-import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 
 import com.intuit.ipp.data.Error;
 import com.intuit.ipp.data.IntuitEntity;
@@ -78,9 +82,9 @@ public class SyncErrorDeserializer extends JsonDeserializer<SyncError> {
 		//Make the mapper JAXB annotations aware
 		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
 		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospector.Pair(primary, secondary);
-		mapper.getDeserializationConfig().setAnnotationIntrospector(pair);
-		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
+		mapper.setAnnotationIntrospector(pair);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		//Read the QueryResponse as a tree
 		JsonNode jn = jp.readValueAsTree();
@@ -89,7 +93,7 @@ public class SyncErrorDeserializer extends JsonDeserializer<SyncError> {
 		SyncError se = new SyncError();
 
 		//Iterate over the field names
-		Iterator<String> ite = jn.getFieldNames();
+		Iterator<String> ite = jn.fieldNames();
 
 		
 		
@@ -100,7 +104,7 @@ public class SyncErrorDeserializer extends JsonDeserializer<SyncError> {
 			} else if (key.equals(QBVERSION)) {
 				se.setQBVersion(getSyncObject(jn.get(key)));
 			} else if(key.equals(ERROR)) {
-				se.setError(mapper.readValue(jn.get(key),Error.class));
+				se.setError(mapper.treeToValue(jn.get(key),Error.class));
 			}
 		}
 
@@ -115,11 +119,12 @@ public class SyncErrorDeserializer extends JsonDeserializer<SyncError> {
 	 */
 	private SyncObject getSyncObject(JsonNode jsonNode) {
 		
+		String name = null;
 		JsonNode jn1 =null;
 		SyncObject syncObject = new SyncObject();
 		
 		
-		Iterator<String> ite = jsonNode.getFieldNames();
+		Iterator<String> ite = jsonNode.fieldNames();
 
 		while (ite.hasNext()) {
 			String key = ite.next();
@@ -130,7 +135,7 @@ public class SyncErrorDeserializer extends JsonDeserializer<SyncError> {
 
                 try {
                     //Force the data to be casted to its type
-                    Object intuitType = mapper.readValue(jn1, JsonResourceTypeLocator.lookupType(key));
+                    Object intuitType = mapper.treeToValue(jn1, JsonResourceTypeLocator.lookupType(key));
                     //Double check
                     if (intuitType instanceof IntuitEntity) {
                         JAXBElement<? extends IntuitEntity> intuitObject = objFactory
@@ -153,5 +158,4 @@ public class SyncErrorDeserializer extends JsonDeserializer<SyncError> {
 	}
 
 }
-
 
