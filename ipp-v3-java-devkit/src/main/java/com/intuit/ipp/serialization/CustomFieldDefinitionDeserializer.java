@@ -20,15 +20,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.AnnotationIntrospector;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.introspect.JacksonAnnotationIntrospector;
-import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 
 import com.intuit.ipp.data.CustomField;
 import com.intuit.ipp.data.CustomFieldDefinition;
@@ -63,9 +65,9 @@ public class CustomFieldDefinitionDeserializer extends JsonDeserializer<CustomFi
 		//Make the mapper JAXB annotations aware
 		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
 		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospector.Pair(primary, secondary);
-		mapper.getDeserializationConfig().setAnnotationIntrospector(pair);
-		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
+		mapper.setAnnotationIntrospector(pair);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		//Read the CustomFieldDefinition as a tree
 		JsonNode jn = jp.readValueAsTree();
@@ -74,7 +76,7 @@ public class CustomFieldDefinitionDeserializer extends JsonDeserializer<CustomFi
 		CustomFieldDefinition qr = null; 
 
 		//Iterate over the field names
-		Iterator<String> ite = jn.getFieldNames();
+		Iterator<String> ite = jn.fieldNames();
 
 		while (ite.hasNext()) {
 			String key = ite.next();
@@ -89,7 +91,7 @@ public class CustomFieldDefinitionDeserializer extends JsonDeserializer<CustomFi
 					Iterator<JsonNode> iteJson = jn1.iterator();
 					while (iteJson.hasNext()) {
 						JsonNode jn2 = iteJson.next();
-						customFields.add(mapper.readValue(jn2, CustomField.class));
+						customFields.add(mapper.treeToValue(jn2, CustomField.class));
 					}
 					
 					qr.setCustomField(customFields);
@@ -111,7 +113,7 @@ public class CustomFieldDefinitionDeserializer extends JsonDeserializer<CustomFi
 	private CustomFieldDefinition getCustomFieldDefinitionType(JsonNode jn) throws IOException {
 		if (jn.isArray()) {
 			JsonNode jn1 = jn.get(0);
-			String type = jn1.get(TYPE).getTextValue();
+			String type = jn1.get(TYPE).textValue();
 			try {
 				return (CustomFieldDefinition) Class.forName("com.intuit.ipp.data." + type + "CustomFieldDefinition").newInstance();
 			} catch (Exception e) {

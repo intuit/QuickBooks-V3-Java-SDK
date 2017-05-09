@@ -6,6 +6,9 @@ V3-JAVA-SDK
 <br/>
 **Continuous Integration:** [![Build Status](https://travis-ci.org/intuit/QuickBooks-V3-Java-SDK.svg?branch=develop)](https://travis-ci.org/intuit/QuickBooks-V3-Java-SDK)
 <br/>
+**Maven:** [![Maven Central](https://img.shields.io/maven-central/v/com.intuit.quickbooks-online/ipp-v3-java-devkit.svg)](http://search.maven.org/#artifactdetails%7Ccom.intuit.quickbooks-online%7Cipp-v3-java-devkit%7C2.9.0%7C)
+[![Maven Central](https://img.shields.io/maven-central/v/com.intuit.quickbooks-online/ipp-v3-java-data.svg)](http://search.maven.org/#artifactdetails%7Ccom.intuit.quickbooks-online%7Cipp-v3-java-data%7C2.9.0%7C)
+<br/>
 **License:** [![Apache 2](http://img.shields.io/badge/license-Apache%202-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0) <br/>
 
 
@@ -31,6 +34,7 @@ The QuickBooks Online Java SDK provides a set of Java class libraries that make 
 * ipp-v3-java-devkit-assembly - builds final deployment package (zip) which includes everything
 * ipp-v3-java-devkit-shaded-assembly - builds lightweight version (some dependencies excluded)
 * ipp-v3-java-devkit-javadoc - contains javadoc for data and devkit classes
+* ipp-java-qbapihelper - contains Quickbooks API Helper methods for OAuth, Disconnect and Reconnect API
 
 ## System Requirements
 The SDK works on JDK 1.6 and above.
