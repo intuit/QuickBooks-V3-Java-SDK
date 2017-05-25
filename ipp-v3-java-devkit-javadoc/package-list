@@ -1,3 +1,6 @@
+com.intuit.ia.connection
+com.intuit.ia.exception
+com.intuit.ia.utils
 com.intuit.ipp.compression
 com.intuit.ipp.core
 com.intuit.ipp.data

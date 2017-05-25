@@ -24,7 +24,9 @@ import com.intuit.ipp.data.AttachableResponse;
 import com.intuit.ipp.data.BatchItemResponse;
 import com.intuit.ipp.data.Bill;
 import com.intuit.ipp.data.BillPayment;
+import com.intuit.ipp.data.Budget;
 import com.intuit.ipp.data.Company;
+import com.intuit.ipp.data.CompanyCurrency;
 import com.intuit.ipp.data.CompanyInfo;
 import com.intuit.ipp.data.CreditMemo;
 import com.intuit.ipp.data.Currency;
@@ -37,11 +39,13 @@ import com.intuit.ipp.data.Department;
 import com.intuit.ipp.data.Deposit;
 import com.intuit.ipp.data.Employee;
 import com.intuit.ipp.data.Estimate;
+import com.intuit.ipp.data.ExchangeRate;
 import com.intuit.ipp.data.FixedAsset;
 import com.intuit.ipp.data.InventorySite;
 import com.intuit.ipp.data.Invoice;
 import com.intuit.ipp.data.Item;
 import com.intuit.ipp.data.JobType;
+import com.intuit.ipp.data.JournalCode;
 import com.intuit.ipp.data.JournalEntry;
 import com.intuit.ipp.data.Money;
 import com.intuit.ipp.data.OLBStatus;
@@ -82,7 +86,6 @@ import com.intuit.ipp.data.UserAlert;
 import com.intuit.ipp.data.Vendor;
 import com.intuit.ipp.data.VendorCredit;
 import com.intuit.ipp.data.VendorType;
-import com.intuit.ipp.data.JournalCode;
 
 /**
  * Class to hold the resource type locators for JSON to deserialize
@@ -103,10 +106,14 @@ public final class JsonResourceTypeLocator {
 		{
 			put("Account", Account.class);
 			put("Attachable", Attachable.class);
+			put("AttachableResponse", AttachableResponse.class);
+			put("BatchItemResponse", BatchItemResponse.class);
 			put("Bill", Bill.class);
 			put("BillPayment", BillPayment.class);
+			put("Budget", Budget.class);
 			put("Class", com.intuit.ipp.data.Class.class);
 			put("Company", Company.class);
+			put("CompanyCurrency", CompanyCurrency.class);
 			put("CompanyInfo", CompanyInfo.class);
 			put("CreditMemo", CreditMemo.class);
 			put("Currency", Currency.class);
@@ -119,11 +126,13 @@ public final class JsonResourceTypeLocator {
 			put("Deposit", Deposit.class);
 			put("Employee", Employee.class);
 			put("Estimate", Estimate.class);
+			put("ExchangeRate", ExchangeRate.class);
 			put("FixedAsset", FixedAsset.class);
 			put("InventorySite", InventorySite.class);
 			put("Invoice", Invoice.class);
 			put("Item", Item.class);
 			put("JobType", JobType.class);
+			put("JournalCode", JournalCode.class);
 			put("JournalEntry", JournalEntry.class);
 			put("Money", Money.class);
 			put("Payment", Payment.class);
@@ -133,7 +142,10 @@ public final class JsonResourceTypeLocator {
 			put("PriceLevelPerItem", PriceLevelPerItem.class);
 			put("Purchase", Purchase.class);
 			put("PurchaseOrder", PurchaseOrder.class);
+			put("OLBStatus", OLBStatus.class);
+			put("OLBTransaction", OLBTransaction.class);
 			put("OtherName", OtherName.class);
+			put("QueryResponse", QueryResponse.class);
 			put("RefundReceipt", RefundReceipt.class);
 			put("SalesOrder", SalesOrder.class);
 			put("SalesReceipt", SalesReceipt.class);
@@ -143,10 +155,13 @@ public final class JsonResourceTypeLocator {
 			put("Status", Status.class);
 			put("SyncActivity", SyncActivity.class);
 			put("SyncObject", SyncObject.class);
+			put("SyncError", SyncError.class);
+			put("SyncErrorResponse", SyncErrorResponse.class);
 			put("Task", Task.class);
 			put("TaxAgency", TaxAgency.class);
 			put("TaxCode", TaxCode.class);
 			put("TaxRate", TaxRate.class);
+			put("TaxService", TaxService.class);
 			put("TemplateName", TemplateName.class);
 			put("Term", Term.class);
 			put("TimeActivity", TimeActivity.class);
@@ -158,15 +173,7 @@ public final class JsonResourceTypeLocator {
 			put("Vendor", Vendor.class);
 			put("VendorCredit", VendorCredit.class);
 			put("VendorType", VendorType.class);
-			put("JournalCode", JournalCode.class);
-			put("BatchItemResponse", BatchItemResponse.class);
-			put("QueryResponse", QueryResponse.class);
-			put("AttachableResponse", AttachableResponse.class);
-			put("OLBTransaction", OLBTransaction.class);
-			put("OLBStatus", OLBStatus.class);
-			put("SyncErrorResponse", SyncErrorResponse.class);
-			put("SyncError", SyncError.class);
-			put("TaxService", TaxService.class);
+			
 		}
 	};
 
