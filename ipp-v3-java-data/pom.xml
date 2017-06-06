@@ -78,7 +78,7 @@
 			    </executions>
 			</plugin> -->
 			<!-- commented to avoid regeneration of entities, as the same is not required everytime	-->
-  			            
+  			<!--          
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
@@ -141,7 +141,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin> 
+			</plugin>  -->
 		</plugins> 
 	</build>
 
