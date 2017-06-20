@@ -21,21 +21,13 @@
     <parent>
         <artifactId>ipp-v3-java-devkit-pom</artifactId>
         <groupId>com.intuit.quickbooks-online</groupId>
-        <version>2.9.1</version>
+        <version>2.9.3</version>
     </parent>
   <artifactId>ipp-java-qbapihelper</artifactId>
-  <version>2.9.1</version>
+  <version>2.9.3</version>
   <packaging>jar</packaging>
   <name>Quickbooks API Helper for Oauth</name>
   <description>Quickbooks API Helper Project for OAuth, Disconnect and Reconnect</description>
-  
-	<profiles>
-		<profile>
-			<properties>
-				<test.suite>testng.xml</test.suite>
-			</properties>
-		</profile>
-	</profiles>
 
 	<dependencies>
 		<dependency>
@@ -142,6 +134,51 @@
 					</execution>
 				</executions>
 			</plugin>
+
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<properties>
+				<test.suite>testng.xml</test.suite>
+			</properties>
+		</profile>
+		<profile>
+	      <id>sign</id>
+	      <build>
+	      	<plugins>
+		        <!-- build javadocs jar -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.9</version>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- build sources jar -->
+				<plugin>
+			      <groupId>org.apache.maven.plugins</groupId>
+			      <artifactId>maven-source-plugin</artifactId>
+			      <version>2.2.1</version>
+			      <executions>
+			        <execution>
+			          <id>attach-sources</id>
+			          <goals>
+			            <goal>jar-no-fork</goal>
+			          </goals>
+			        </execution>
+			      </executions>
+			    </plugin>
+			</plugins>
+	      </build>
+	    </profile>
+	</profiles>
 </project>

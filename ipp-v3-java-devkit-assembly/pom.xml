@@ -15,17 +15,17 @@
   <parent>
     <groupId>com.intuit.quickbooks-online</groupId>
     <artifactId>ipp-v3-java-devkit-pom</artifactId>
-    <version>2.9.1</version>
+    <version>2.9.3</version>
   </parent>
 
   <artifactId>ipp-v3-java-devkit-assembly</artifactId>
   <packaging>pom</packaging>
   <name>IPP Java Devkit Assembly (${project.version})</name>
   <description>IPP Java V3 DevKit assembly</description>
-  <version>2.9.1</version>
+  <version>2.9.3</version>
   <properties>
-      <release.devkit.version>2.9.1</release.devkit.version>
-      <release.data.version>2.9.1</release.data.version>
+      <release.devkit.version>2.9.3</release.devkit.version>
+      <release.data.version>2.9.3</release.data.version>
   </properties>
   <dependencies>
     <!-- Main artifacts -->

@@ -218,9 +218,15 @@ public class PrepareRequestInterceptor implements Interceptor {
      *
      * @return URL
      */
-    protected String getBaseUrlQBO()
-    {
-      return Config.getProperty(Config.BASE_URL_QBO);
+    protected String getBaseUrlQBO() {
+    	String url = Config.getProperty(Config.BASE_URL_QBO);
+    	if (url.endsWith("/")) {
+    	    return url.substring(0, url.length() - 1);
+    	}
+    	else {
+    	    return url;
+    	}
+    	
     }
 
 	/**
@@ -266,7 +272,7 @@ public class PrepareRequestInterceptor implements Interceptor {
 		
 		if(context.getMinorVersion() == null)
 		{
-		context.setMinorVersion("8");
+		context.setMinorVersion("11");
 		}
 		
 		uri.append("minorversion").append("=").append(context.getMinorVersion()).append("&");
