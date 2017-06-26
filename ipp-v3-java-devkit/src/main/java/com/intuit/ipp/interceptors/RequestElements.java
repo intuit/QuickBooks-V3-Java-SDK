@@ -119,11 +119,11 @@ public class RequestElements {
     /**
      * variable REPORT_PARAM_END_CREATED_DT
      */
-    public static final String REPORT_PARAM_END_CREATED_DT = "end_createddate";
+    public static final String REPORT_PARAM_END_CREATED_DT = "end_createdate";
     /**
      * variable REPORT_PARAM_START_CREATED_DT
      */
-    public static final String REPORT_PARAM_START_CREATED_DT = "start_createddate";
+    public static final String REPORT_PARAM_START_CREATED_DT = "start_createdate";
 
     /**
 	 * variable REPORT_PARAM_DT_MACRO
@@ -347,6 +347,22 @@ public class RequestElements {
      * Vendor,Employee,Location,Payment Method,Day,Week,Month,Quarter,Year,None
      */
     public static final String REPORT_PARAM_GROUP_BY = "group_by";
+    
+    public static final String REPORT_PARAM_JOURNAL_CODE = "journal_code";
+    
+    public static final String REPORT_PARAM_EMPLOYEE = "employee";
+    
+    public static final String REPORT_PARAM_AGENCY_ID = "agency_id";
+    
+    public static final String REPORT_PARAM_CUSTOM1 = "custom1";
+    
+    public static final String REPORT_PARAM_CUSTOM2 = "custom2";
+    
+    public static final String REPORT_PARAM_CUSTOM3 = "custom3";
+    
+    public static final String REPORT_PARAM_SHIPVIA = "shipvia";
+    
+    public static final String REPORT_PARAM_ACCOUNT_STATUS = "account_status";
 
     /**
 	 * variable REQ_PARAM_ENTITIES

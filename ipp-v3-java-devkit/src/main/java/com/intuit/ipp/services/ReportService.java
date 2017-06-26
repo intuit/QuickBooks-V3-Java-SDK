@@ -242,6 +242,22 @@ public class ReportService {
      * variable doc_num
      */
     private  String doc_num = null;
+    
+    private  String journal_code = null;
+    
+    private  String employee = null;
+    
+    private  String agency_id = null;
+    
+    private  String custom1 = null;
+    
+    private  String custom2 = null;
+    
+    private  String custom3 = null;
+    
+    private  String shipvia = null;
+    
+    private  String account_status = null;
 
 
 
@@ -482,6 +498,38 @@ public class ReportService {
         if (getDoc_num() != null)
         {
             requestParameters.put(RequestElements.REPORT_PARAM_DOC_NUM, getDoc_num());
+        }
+        if (getJournal_code() != null)
+        {
+            requestParameters.put(RequestElements.REPORT_PARAM_JOURNAL_CODE, getJournal_code());
+        }
+        if (getEmployee() != null)
+        {
+            requestParameters.put(RequestElements.REPORT_PARAM_EMPLOYEE, getEmployee());
+        }
+        if (getAgency_id() != null)
+        {
+            requestParameters.put(RequestElements.REPORT_PARAM_AGENCY_ID, getAgency_id());
+        }
+        if (getCustom1() != null)
+        {
+            requestParameters.put(RequestElements.REPORT_PARAM_CUSTOM1, getCustom1());
+        }
+        if (getCustom2() != null)
+        {
+            requestParameters.put(RequestElements.REPORT_PARAM_CUSTOM2, getCustom2());
+        }
+        if (getCustom3() != null)
+        {
+            requestParameters.put(RequestElements.REPORT_PARAM_CUSTOM3, getCustom3());
+        }
+        if (getShipvia() != null)
+        {
+            requestParameters.put(RequestElements.REPORT_PARAM_SHIPVIA, getShipvia());
+        }
+        if (getAccount_status() != null)
+        {
+            requestParameters.put(RequestElements.REPORT_PARAM_ACCOUNT_STATUS, getAccount_status());
         }
 
 			
@@ -1059,4 +1107,70 @@ public class ReportService {
     public void setDoc_num(String doc_num) {
         this.doc_num = doc_num;
     }
+
+	public String getJournal_code() {
+		return journal_code;
+	}
+
+	public void setJournal_code(String journal_code) {
+		this.journal_code = journal_code;
+	}
+
+	public String getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(String employee) {
+		this.employee = employee;
+	}
+
+	public String getAgency_id() {
+		return agency_id;
+	}
+
+	public void setAgency_id(String agency_id) {
+		this.agency_id = agency_id;
+	}
+
+	public String getCustom1() {
+		return custom1;
+	}
+
+	public void setCustom1(String custom1) {
+		this.custom1 = custom1;
+	}
+
+	public String getCustom2() {
+		return custom2;
+	}
+
+	public void setCustom2(String custom2) {
+		this.custom2 = custom2;
+	}
+
+	public String getCustom3() {
+		return custom3;
+	}
+
+	public void setCustom3(String custom3) {
+		this.custom3 = custom3;
+	}
+
+	public String getShipvia() {
+		return shipvia;
+	}
+
+	public void setShipvia(String shipvia) {
+		this.shipvia = shipvia;
+	}
+
+	public String getAccount_status() {
+		return account_status;
+	}
+
+	public void setAccount_status(String account_status) {
+		this.account_status = account_status;
+	}
+    
+    
 }
