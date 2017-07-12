@@ -6,8 +6,8 @@ V3-JAVA-SDK
 <br/>
 **Continuous Integration:** [![Build Status](https://travis-ci.org/intuit/QuickBooks-V3-Java-SDK.svg?branch=develop)](https://travis-ci.org/intuit/QuickBooks-V3-Java-SDK)
 <br/>
-**Maven:** [![Maven Central](https://img.shields.io/maven-central/v/com.intuit.quickbooks-online/ipp-v3-java-devkit.svg)](http://search.maven.org/#artifactdetails%7Ccom.intuit.quickbooks-online%7Cipp-v3-java-devkit%7C2.9.0%7C)
-[![Maven Central](https://img.shields.io/maven-central/v/com.intuit.quickbooks-online/ipp-v3-java-data.svg)](http://search.maven.org/#artifactdetails%7Ccom.intuit.quickbooks-online%7Cipp-v3-java-data%7C2.9.0%7C)
+**Maven:** [![Data](https://maven-badges.herokuapp.com/maven-central/com.intuit.quickbooks-online/ipp-v3-java-data/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.intuit.quickbooks-online/ipp-v3-java-data) 
+[![Devkit](https://maven-badges.herokuapp.com/maven-central/com.intuit.quickbooks-online/ipp-v3-java-devkit/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.intuit.quickbooks-online/ipp-v3-java-devkit) 
 <br/>
 **License:** [![Apache 2](http://img.shields.io/badge/license-Apache%202-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0) <br/>
 
@@ -35,6 +35,7 @@ The QuickBooks Online Java SDK provides a set of Java class libraries that make 
 * ipp-v3-java-devkit-shaded-assembly - builds lightweight version (some dependencies excluded)
 * ipp-v3-java-devkit-javadoc - contains javadoc for data and devkit classes
 * ipp-java-qbapihelper - contains Quickbooks API Helper methods for OAuth, Disconnect and Reconnect API
+* oauth2-platform-api - contains Quickbooks API Helper methods for obtaining OAuth2 tokens, Disconnect and Reconnect API for OAuth2 apps
 
 ## System Requirements
 The SDK works on JDK 1.6 and above.
@@ -47,10 +48,8 @@ The SDK works on JDK 1.6 and above.
 
 To test the code locally, follow the steps below:
 
-1. Update keys and tokens in [ippdevkit.properties](https://github.com/intuit/QuickBooks-V3-Java-SDK/blob/master/ipp-v3-java-devkit/src/test/resources/ippdevkit.properties) (Not sure how to get the tokens? Refer this [blog](https://developer.intuit.com/hub/blog/2016/04/25/quick-start-to-quickbooks-online-rest-api-with-oauth1-0) post to get on boarded with OAuth1 quickly.)
-
-2. cd to the project directory
-3. Run the command: `mvn install` - this will run the unit test, build the project and generate data & devkit jars
+1. cd to the project directory
+2. Run the command: `mvn install` - this will run the unit test, build the project and generate data, devkit, qbapihelper(OAuth1.0a), oauth2-platform(OAuth2) jars
 
 Note: To build out individual components such as ipp-v3-java-data.jar or ipp-v3-java-devkit.jar, remove parent dependency from the pom.xml of the respective projects and run maven install on the individual project folders.
 
