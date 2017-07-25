@@ -22,7 +22,6 @@ The QuickBooks Online Java SDK provides a set of Java class libraries that make 
 * Support for Gzip and Deflate compression formats to improve performance of Service calls to QuickBooks Online.
 * Retry policy constructors to help apps handle transient errors.
 * Logging mechanisms for trace and request/response logging.
-* Sync APIs that assist with data synchronization between QuickBooks Desktop (Windows) and Intuit's cloud.
 * Query Filters that enable you to write Intuit queries to retrieve QuickBooks Online entities whose properties meet a specified criteria.
 * Queries for accessing QuickBooks Reports.
 * Sparse Update to update writable properties specified in a request and leave the others unchanged.
