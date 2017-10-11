@@ -5,7 +5,7 @@
 
     <groupId>com.intuit.quickbooks-online</groupId>
     <artifactId>ipp-v3-java-devkit-pom</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
     <packaging>pom</packaging>
     <name>IPP V3 Java DevKit</name>
     <url>https://github.com/intuit/QuickBooks-V3-Java-SDK</url>
@@ -97,9 +97,15 @@
             <version>2.8.1</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>1.7</version>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>cglib</groupId>
