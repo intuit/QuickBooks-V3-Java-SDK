@@ -15,9 +15,12 @@
  *******************************************************************************/
 package com.intuit.ipp.query;
 
+import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
 
+import net.sf.cglib.proxy.Callback;
+import net.sf.cglib.proxy.CallbackFilter;
 import net.sf.cglib.proxy.Enhancer;
 
 import com.intuit.ipp.core.IEntity;
@@ -27,6 +30,7 @@ import com.intuit.ipp.query.expr.EnumPath;
 import com.intuit.ipp.query.expr.NumberPath;
 import com.intuit.ipp.query.expr.StringPath;
 import com.intuit.ipp.util.Logger;
+import net.sf.cglib.proxy.NoOp;
 
 /**
  * Class used to generate the query string
@@ -76,7 +80,8 @@ public final class GenerateQuery {
 		} else {
 			enhancer.setSuperclass(cl);
 		}
-		enhancer.setCallback(new MyMethodInterceptor());
+		enhancer.setCallbackFilter(CALLBACK_FILTER);
+		enhancer.setCallbacks(new Callback[] {NoOp.INSTANCE, new MyMethodInterceptor()});
 		return (T) enhancer.create();
 	}
 
@@ -96,7 +101,8 @@ public final class GenerateQuery {
 			//enhancer.setCallback(new MyMethodInterceptor());
 		} else {
 			enhancer.setSuperclass(cl);
-			enhancer.setCallback(new MyMethodInterceptor());
+			enhancer.setCallbackFilter(CALLBACK_FILTER);
+			enhancer.setCallbacks(new Callback[] {NoOp.INSTANCE, new MyMethodInterceptor()});
 		}
 		return (T) enhancer.create();
 	}
@@ -256,5 +262,66 @@ public final class GenerateQuery {
 	public static void resetQueryMessage() {
 		setMessage(new QueryMessage());
 	}
+
+	/**
+	 * Callback filter which will filter out callback triggers for several {@link Object} methods.
+	 */
+	private static final CallbackFilter CALLBACK_FILTER = new CallbackFilter() {
+
+		@Override
+		public int accept(Method method) {
+			if (isFinalizeMethod(method) || isCloneMethod(method) || isEqualsMethod(method)
+					|| isHashCodeMethod(method) || isToStringMethod(method)) {
+				return 0;
+			}
+			return 1;
+		}
+
+		/**
+		 * Determine whether the given method is a "finalize" method.
+		 * @see java.lang.Object#finalize()
+		 */
+		private boolean isFinalizeMethod(Method method) {
+			return (method != null && method.getName().equals("finalize") &&
+					method.getParameterTypes().length == 0);
+		}
+
+		/**
+		 * Determine whether the given method is a "finalize" method.
+		 * @see java.lang.Object#finalize()
+		 */
+		private boolean isCloneMethod(Method method) {
+			return (method != null && method.getName().equals("clone") &&
+					method.getParameterTypes().length == 0);
+		}
+
+		/**
+		 * Determine whether the given method is an "equals" method.
+		 * @see java.lang.Object#equals(Object)
+		 */
+		private boolean isEqualsMethod(Method method) {
+			if (method == null || !method.getName().equals("equals")) {
+				return false;
+			}
+			Class<?>[] paramTypes = method.getParameterTypes();
+			return (paramTypes.length == 1 && paramTypes[0] == Object.class);
+		}
+
+		/**
+		 * Determine whether the given method is a "hashCode" method.
+		 * @see java.lang.Object#hashCode()
+		 */
+		private boolean isHashCodeMethod(Method method) {
+			return (method != null && method.getName().equals("hashCode") && method.getParameterTypes().length == 0);
+		}
+
+		/**
+		 * Determine whether the given method is a "toString" method.
+		 * @see java.lang.Object#toString()
+		 */
+		private boolean isToStringMethod(Method method) {
+			return (method != null && method.getName().equals("toString") && method.getParameterTypes().length == 0);
+		}
+	};
 
 }
