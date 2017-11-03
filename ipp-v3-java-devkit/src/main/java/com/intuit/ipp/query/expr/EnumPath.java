@@ -15,7 +15,6 @@
  *******************************************************************************/
 package com.intuit.ipp.query.expr;
 
-import com.intuit.ipp.data.AccountTypeEnum;
 import com.intuit.ipp.query.Operation;
 import com.intuit.ipp.query.Path;
 
