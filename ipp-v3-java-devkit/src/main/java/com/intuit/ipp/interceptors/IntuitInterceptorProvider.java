@@ -27,6 +27,7 @@ import com.intuit.ipp.services.CallbackMessage;
 import com.intuit.ipp.util.Config;
 import com.intuit.ipp.util.Logger;
 import com.intuit.ipp.util.StringUtils;
+import org.apache.commons.configuration.Configuration;
 
 /**
  * Class to provide the provision to add interceptors in the order those have to be executed. 
@@ -53,6 +54,11 @@ public class IntuitInterceptorProvider implements Callable<Void> {
 	 * variable intuitMessage
 	 */
 	private IntuitMessage intuitMessage = null;
+
+	/**
+	 * Manual configuration properties to be used while executing the interceptors in async mode.
+	 */
+	private Configuration configuration = null;
 	
 	/**
 	 * Constructor IntuitInterceptorProvider
@@ -116,6 +122,7 @@ public class IntuitInterceptorProvider implements Callable<Void> {
 	 */
 	public void executeAsyncInterceptors(final IntuitMessage intuitMessage) {
 		this.intuitMessage = intuitMessage;
+		this.configuration = Config.cloneConfigurationOverrides();
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		executorService.submit(this);
 	}
@@ -138,6 +145,8 @@ public class IntuitInterceptorProvider implements Callable<Void> {
 	public Void call() throws FMSException {
 		CallbackMessage callbackMessage = new CallbackMessage();
 		try {
+			// add configuration properties from the caller thread
+			Config.addConfigurationOverrides(configuration);
 			executeInterceptors(intuitMessage);
 		} catch (FMSException e) {
 			callbackMessage.setFMSException(e);

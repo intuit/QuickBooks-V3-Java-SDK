@@ -16,6 +16,8 @@
 package com.intuit.ipp.util;
 
 import org.apache.commons.configuration.CompositeConfiguration;
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationUtils;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.EnvironmentConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
@@ -272,5 +274,25 @@ public final class Config {
         }
         return Boolean.parseBoolean(value);
     }
+
+	/**
+	 * Returns a copy of manual configuration overrides. This implementation will create a deep
+	 * clone, i.e. all manual configurations contained in this composite will also be
+	 * cloned.
+	 *
+	 * @return the copy
+	 */
+    public static Configuration cloneConfigurationOverrides(){
+		return ConfigurationUtils
+				.cloneConfiguration(local.get().cc.getInMemoryConfiguration());
+	}
+
+	/**
+	 * Adds given manual configuration overrides to the {@link CompositeConfiguration} stored in ThreadLocal.
+	 * @param configuration The configuration to add.
+	 */
+	public static void addConfigurationOverrides(Configuration configuration){
+		ConfigurationUtils.copy(configuration, local.get().cc);
+	}
 
 }
