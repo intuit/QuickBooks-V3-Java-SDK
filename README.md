@@ -30,9 +30,6 @@ The QuickBooks Online Java SDK provides a set of Java class libraries that make 
 ## Project Structure
 * ipp-v3-java-data - contains all entities and entity dependencies that are used in data services operations
 * ipp-v3-java-devkit - core component, contains rest API support
-* ipp-v3-java-devkit-assembly - builds final deployment package (zip) which includes everything
-* ipp-v3-java-devkit-shaded-assembly - builds lightweight version (some dependencies excluded)
-* ipp-v3-java-devkit-javadoc - contains javadoc for data and devkit classes
 * ipp-java-qbapihelper - contains Quickbooks API Helper methods for OAuth, Disconnect and Reconnect API
 * oauth2-platform-api - contains Quickbooks API Helper methods for obtaining OAuth2 tokens, Disconnect and Reconnect API for OAuth2 apps
 

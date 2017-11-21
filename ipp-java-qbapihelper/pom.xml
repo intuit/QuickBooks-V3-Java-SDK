@@ -21,10 +21,10 @@
     <parent>
         <artifactId>ipp-v3-java-devkit-pom</artifactId>
         <groupId>com.intuit.quickbooks-online</groupId>
-        <version>3.0.2</version>
+        <version>3.0.3</version>
     </parent>
   <artifactId>ipp-java-qbapihelper</artifactId>
-  <version>3.0.2</version>
+  <version>3.0.3</version>
   <packaging>jar</packaging>
   <name>Quickbooks API Helper for Oauth</name>
   <description>Quickbooks API Helper Project for OAuth, Disconnect and Reconnect</description>
