@@ -59,7 +59,7 @@ public class QueryTest {
 				$(data.getFloatData()).eq((float) 10), $(data.getDoubleData()).eq((double) 10), $(data.getCalendarData()).eq(calendar),
 				$(data.isBooleanData()).eq(true), $(data.getDateData()).eq(calendar.getTime()), $(data.getEnumData()).eq(EntityStatusEnum.PENDING))
 				.generate();
-		String expectedQuery = "SELECT StringData, IntData, ByteData, ShortData, LongData, FloatData, DoubleData, CalendarData, BooleanData, DateData, EnumData FROM Data WHERE StringData = 'StringValue' AND IntData = '10' AND ByteData = '10' AND ShortData = '10' AND LongData = '10' AND FloatData = '10.0' AND DoubleData = '10.0' AND CalendarData = '" + dateString + "' AND BooleanData = true AND DateData = '" + dateString + "' AND EnumData = 'PENDING'";
+		String expectedQuery = "SELECT StringData, IntData, ByteData, ShortData, LongData, FloatData, DoubleData, CalendarData, BooleanData, DateData, EnumData FROM Data WHERE StringData = 'StringValue' AND IntData = '10' AND ByteData = '10' AND ShortData = '10' AND LongData = '10' AND FloatData = '10.0' AND DoubleData = '10.0' AND CalendarData = '" + dateString + "' AND BooleanData = true AND DateData = '" + dateString + "' AND EnumData = 'Pending'";
 		Assert.assertEquals(expectedQuery, query);
 	}
 
@@ -71,7 +71,7 @@ public class QueryTest {
 				$(data.getFloatData()).eq((float) 10), $(data.getDoubleData()).eq((double) 10), $(data.getCalendarData()).eq(calendar),
 				$(data.isBooleanData()).eq(true), $(data.getDateData()).eq(calendar.getTime()), $(data.getEnumData()).eq(EntityStatusEnum.PENDING))
 				.generate();
-		String expectedQuery = "SELECT * FROM Data WHERE StringData = 'StringValue' AND IntData = '10' AND ByteData = '10' AND ShortData = '10' AND LongData = '10' AND FloatData = '10.0' AND DoubleData = '10.0' AND CalendarData = '" + dateString + "' AND BooleanData = true AND DateData = '" + dateString + "' AND EnumData = 'PENDING'";
+		String expectedQuery = "SELECT * FROM Data WHERE StringData = 'StringValue' AND IntData = '10' AND ByteData = '10' AND ShortData = '10' AND LongData = '10' AND FloatData = '10.0' AND DoubleData = '10.0' AND CalendarData = '" + dateString + "' AND BooleanData = true AND DateData = '" + dateString + "' AND EnumData = 'Pending'";
 
 		Assert.assertEquals(expectedQuery, query);
 	}
@@ -84,7 +84,7 @@ public class QueryTest {
 						$(data.getShortData()).neq((short) 10), $(data.getLongData()).neq((long) 10), $(data.getFloatData()).neq((float) 10),
 						$(data.getDoubleData()).neq((double) 10), $(data.getCalendarData()).neq(calendar), $(data.isBooleanData()).neq(true),
 						$(data.getDateData()).neq(calendar.getTime()), $(data.getEnumData()).neq(EntityStatusEnum.PENDING)).generate();
-		String expectedQuery = "SELECT * FROM Data WHERE StringData != 'StringValue' AND IntData != '10' AND ByteData != '10' AND ShortData != '10' AND LongData != '10' AND FloatData != '10.0' AND DoubleData != '10.0' AND CalendarData != '" + dateString + "' AND BooleanData != true AND DateData != '" + dateString + "' AND EnumData != 'PENDING'";
+		String expectedQuery = "SELECT * FROM Data WHERE StringData != 'StringValue' AND IntData != '10' AND ByteData != '10' AND ShortData != '10' AND LongData != '10' AND FloatData != '10.0' AND DoubleData != '10.0' AND CalendarData != '" + dateString + "' AND BooleanData != true AND DateData != '" + dateString + "' AND EnumData != 'Pending'";
 		LOG.debug(query);
 		Assert.assertEquals(expectedQuery, query);
 	}
@@ -96,7 +96,7 @@ public class QueryTest {
 				$(data.getByteData()).lt((byte) 10), $(data.getShortData()).lt((short) 10), $(data.getLongData()).lt((long) 10),
 				$(data.getFloatData()).lt((float) 10), $(data.getDoubleData()).lt((double) 10), $(data.getCalendarData()).lt(calendar),
 				$(data.getDateData()).lt(calendar.getTime()), $(data.getEnumData()).lt(EntityStatusEnum.PENDING)).generate();
-		String expectedQuery = "SELECT * FROM Data WHERE StringData < 'StringValue' AND IntData < '10' AND ByteData < '10' AND ShortData < '10' AND LongData < '10' AND FloatData < '10.0' AND DoubleData < '10.0' AND CalendarData < '" + dateString + "' AND DateData < '" + dateString + "' AND EnumData < 'PENDING'";
+		String expectedQuery = "SELECT * FROM Data WHERE StringData < 'StringValue' AND IntData < '10' AND ByteData < '10' AND ShortData < '10' AND LongData < '10' AND FloatData < '10.0' AND DoubleData < '10.0' AND CalendarData < '" + dateString + "' AND DateData < '" + dateString + "' AND EnumData < 'Pending'";
 		LOG.debug(query);
 		Assert.assertEquals(expectedQuery, query);
 	}
@@ -108,7 +108,7 @@ public class QueryTest {
 				$(data.getByteData()).lte((byte) 10), $(data.getShortData()).lte((short) 10), $(data.getLongData()).lte((long) 10),
 				$(data.getFloatData()).lte((float) 10), $(data.getDoubleData()).lte((double) 10), $(data.getCalendarData()).lte(calendar),
 				$(data.getDateData()).lte(calendar.getTime()), $(data.getEnumData()).lte(EntityStatusEnum.PENDING)).generate();
-		String expectedQuery = "SELECT * FROM Data WHERE StringData <= 'StringValue' AND IntData <= '10' AND ByteData <= '10' AND ShortData <= '10' AND LongData <= '10' AND FloatData <= '10.0' AND DoubleData <= '10.0' AND CalendarData <= '" + dateString + "' AND DateData <= '" + dateString + "' AND EnumData <= 'PENDING'";
+		String expectedQuery = "SELECT * FROM Data WHERE StringData <= 'StringValue' AND IntData <= '10' AND ByteData <= '10' AND ShortData <= '10' AND LongData <= '10' AND FloatData <= '10.0' AND DoubleData <= '10.0' AND CalendarData <= '" + dateString + "' AND DateData <= '" + dateString + "' AND EnumData <= 'Pending'";
 		LOG.debug(query);
 		Assert.assertEquals(expectedQuery, query);
 	}
@@ -120,7 +120,7 @@ public class QueryTest {
 				$(data.getByteData()).gt((byte) 10), $(data.getShortData()).gt((short) 10), $(data.getLongData()).gt((long) 10),
 				$(data.getFloatData()).gt((float) 10), $(data.getDoubleData()).gt((double) 10), $(data.getCalendarData()).gt(calendar),
 				$(data.getDateData()).gt(calendar.getTime()), $(data.getEnumData()).gt(EntityStatusEnum.PENDING)).generate();
-		String expectedQuery = "SELECT * FROM Data WHERE StringData > 'StringValue' AND IntData > '10' AND ByteData > '10' AND ShortData > '10' AND LongData > '10' AND FloatData > '10.0' AND DoubleData > '10.0' AND CalendarData > '" + dateString + "' AND DateData > '" + dateString + "' AND EnumData > 'PENDING'";
+		String expectedQuery = "SELECT * FROM Data WHERE StringData > 'StringValue' AND IntData > '10' AND ByteData > '10' AND ShortData > '10' AND LongData > '10' AND FloatData > '10.0' AND DoubleData > '10.0' AND CalendarData > '" + dateString + "' AND DateData > '" + dateString + "' AND EnumData > 'Pending'";
 		LOG.debug(query);
 		Assert.assertEquals(expectedQuery, query);
 	}
@@ -132,7 +132,7 @@ public class QueryTest {
 				$(data.getByteData()).gte((byte) 10), $(data.getShortData()).gte((short) 10), $(data.getLongData()).gte((long) 10),
 				$(data.getFloatData()).gte((float) 10), $(data.getDoubleData()).gte((double) 10), $(data.getCalendarData()).gte(calendar),
 				$(data.getDateData()).gte(calendar.getTime()), $(data.getEnumData()).gte(EntityStatusEnum.PENDING)).generate();
-		String expectedQuery = "SELECT * FROM Data WHERE StringData >= 'StringValue' AND IntData >= '10' AND ByteData >= '10' AND ShortData >= '10' AND LongData >= '10' AND FloatData >= '10.0' AND DoubleData >= '10.0' AND CalendarData >= '" + dateString + "' AND DateData >= '" + dateString + "' AND EnumData >= 'PENDING'";
+		String expectedQuery = "SELECT * FROM Data WHERE StringData >= 'StringValue' AND IntData >= '10' AND ByteData >= '10' AND ShortData >= '10' AND LongData >= '10' AND FloatData >= '10.0' AND DoubleData >= '10.0' AND CalendarData >= '" + dateString + "' AND DateData >= '" + dateString + "' AND EnumData >= 'Pending'";
 		LOG.debug(query);
 		Assert.assertEquals(expectedQuery, query);
 	}
@@ -147,7 +147,7 @@ public class QueryTest {
 				$(data.isBooleanData()).in(new Boolean[] { true, false }), $(data.getCalendarData()).in(new Calendar[] { calendar, calendar }),
 				$(data.getDateData()).in(new Date[] { calendar.getTime(), calendar.getTime() }),
 				$(data.getEnumData()).in(new EntityStatusEnum[] { EntityStatusEnum.PENDING, EntityStatusEnum.DELETED })).generate();
-		String expectedQuery = "SELECT * FROM Data WHERE StringData IN ('StringValue1', 'StringValue2') AND IntData IN ('10', '20') AND ByteData IN ('10', '20') AND ShortData IN ('10', '20') AND LongData IN ('10', '20') AND FloatData IN ('10.0', '20.0') AND DoubleData IN ('10.0', '20.0') AND BooleanData IN (true, false) AND CalendarData IN ('" + dateString + "', '" + dateString + "') AND DateData IN ('" + dateString + "', '" + dateString + "') AND EnumData IN ('PENDING', 'DELETED')";
+		String expectedQuery = "SELECT * FROM Data WHERE StringData IN ('StringValue1', 'StringValue2') AND IntData IN ('10', '20') AND ByteData IN ('10', '20') AND ShortData IN ('10', '20') AND LongData IN ('10', '20') AND FloatData IN ('10.0', '20.0') AND DoubleData IN ('10.0', '20.0') AND BooleanData IN (true, false) AND CalendarData IN ('" + dateString + "', '" + dateString + "') AND DateData IN ('" + dateString + "', '" + dateString + "') AND EnumData IN ('Pending', 'Deleted')";
 		LOG.debug(query);
 		Assert.assertEquals(expectedQuery, query);
 	}

@@ -98,13 +98,13 @@ public class OAuth2ConfigTest {
 		assertEquals("com.intuit.quickbooks.accounting", scope);
 		
 		scope = oauth2Config.getScopeValue(Scope.Payments);
-		assertEquals("com.intuit.quickbooks.payments", scope);
+		assertEquals("com.intuit.quickbooks.payment", scope);
 		
 		scope = oauth2Config.getScopeValue(Scope.AccountingPayments);
-		assertEquals("com.intuit.quickbooks.accounting com.intuit.quickbooks.payments", scope);
+		assertEquals("com.intuit.quickbooks.accounting com.intuit.quickbooks.payment", scope);
 		
 		scope = oauth2Config.getScopeValue(Scope.All);
-		assertEquals("openid profile email phone address com.intuit.quickbooks.accounting com.intuit.quickbooks.payments", scope);
+		assertEquals("openid profile email phone address com.intuit.quickbooks.accounting com.intuit.quickbooks.payment", scope);
 		
 		scope = oauth2Config.getScopeValue(Scope.OpenIdAll);
 		assertEquals("openid profile phone address email", scope);

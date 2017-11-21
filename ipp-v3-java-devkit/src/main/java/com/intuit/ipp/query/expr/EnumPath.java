@@ -18,6 +18,9 @@ package com.intuit.ipp.query.expr;
 import com.intuit.ipp.query.Operation;
 import com.intuit.ipp.query.Path;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 /**
  * Class to generate the query string for enum value
  *
@@ -41,7 +44,7 @@ public class EnumPath extends Path<Enum<?>> {
 	 * @return Expression
 	 */
 	public Expression<Enum<?>> eq(Enum<?> value) {
-		String valueString = "'" + value + "'";
+		String valueString = "'" + EnumPath.getValue(value) + "'";
 		return new Expression<Enum<?>>(this, Operation.eq, valueString);
 	}
 
@@ -52,7 +55,7 @@ public class EnumPath extends Path<Enum<?>> {
 	 * @return Expression
 	 */
 	public Expression<Enum<?>> neq(Enum<?> value) {
-		String valueString = "'" + value + "'";
+		String valueString = "'" + EnumPath.getValue(value) + "'";
 		return new Expression<Enum<?>>(this, Operation.neq, valueString);
 	}
 
@@ -63,7 +66,7 @@ public class EnumPath extends Path<Enum<?>> {
 	 * @return Expression
 	 */
 	public Expression<Enum<?>> lt(Enum<?> value) {
-		String valueString = "'" + value + "'";
+		String valueString = "'" + EnumPath.getValue(value) + "'";
 		return new Expression<Enum<?>>(this, Operation.lt, valueString);
 	}
 
@@ -74,7 +77,7 @@ public class EnumPath extends Path<Enum<?>> {
 	 * @return Expression
 	 */
 	public Expression<Enum<?>> lte(Enum<?> value) {
-		String valueString = "'" + value + "'";
+		String valueString = "'" + EnumPath.getValue(value) + "'";
 		return new Expression<Enum<?>>(this, Operation.lte, valueString);
 	}
 
@@ -85,7 +88,7 @@ public class EnumPath extends Path<Enum<?>> {
 	 * @return Expression
 	 */
 	public Expression<Enum<?>> gt(Enum<?> value) {
-		String valueString = "'" + value + "'";
+		String valueString = "'" + EnumPath.getValue(value) + "'";
 		return new Expression<Enum<?>>(this, Operation.gt, valueString);
 	}
 
@@ -96,7 +99,7 @@ public class EnumPath extends Path<Enum<?>> {
 	 * @return Expression
 	 */
 	public Expression<Enum<?>> gte(Enum<?> value) {
-		String valueString = "'" + value + "'";
+		String valueString = "'" + EnumPath.getValue(value) + "'";
 		return new Expression<Enum<?>>(this, Operation.gte, valueString);
 	}
 
@@ -111,13 +114,30 @@ public class EnumPath extends Path<Enum<?>> {
 		Boolean firstString = true;
 		for (Enum<?> v : value) {
 			if (firstString) {
-				listString = listString.concat("('").concat(v.toString()).concat("'");
+				listString = listString.concat("('").concat(EnumPath.getValue(v)).concat("'");
 				firstString = false;
 			} else {
-				listString = listString.concat(", '").concat(v.toString()).concat("'");
+				listString = listString.concat(", '").concat(EnumPath.getValue(v)).concat("'");
 			}
 		}
 		listString = listString.concat(")");
 		return new Expression<Enum<?>>(this, Operation.in, listString);
 	}
+
+	/**
+	 * Intuit data enumerations have a value property which should be used in queries instead of enum names.
+	 * @param value The enumeration for which to get the query value.
+	 * @return The query value based on the given enumeration.
+	 */
+	private static String getValue(Enum<?> value){
+		try{
+			Method m = value.getClass().getDeclaredMethod("value");
+			return (String) m.invoke(value);
+		} catch (NoSuchMethodException ex){
+		} catch (IllegalAccessException ex){
+		} catch (InvocationTargetException ex){
+		}
+		return value.toString();
+	}
+
 }
