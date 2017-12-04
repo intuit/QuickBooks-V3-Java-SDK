@@ -17,7 +17,7 @@ The QuickBooks Online Java SDK provides a set of Java class libraries that make 
 
 * Ability to perform single and batch processing of CRUD operations on all QuickBooks Online entities.
 * A common interface to the Request and Response Handler with two implemented classes to handle both synchronous and asynchronous requests.
-* Support for both XML and JSON Request and Response format.
+* Support for both XML and JSON Request and Response formats.
 * Ability to configure app settings in the configuration file requiring no additional code change.
 * Support for Gzip and Deflate compression formats to improve performance of Service calls to QuickBooks Online.
 * Retry policy constructors to help apps handle transient errors.
@@ -29,9 +29,9 @@ The QuickBooks Online Java SDK provides a set of Java class libraries that make 
 
 ## Project Structure
 * ipp-v3-java-data - contains all entities and entity dependencies that are used in data services operations
-* ipp-v3-java-devkit - core component, contains rest API support
-* ipp-java-qbapihelper - contains Quickbooks API Helper methods for OAuth, Disconnect and Reconnect API
-* oauth2-platform-api - contains Quickbooks API Helper methods for obtaining OAuth2 tokens, Disconnect and Reconnect API for OAuth2 apps
+* ipp-v3-java-devkit - core component, contains REST API support
+* ipp-java-qbapihelper - contains Quickbooks Online API Helper methods for OAuth, Disconnect and Reconnect API
+* oauth2-platform-api - contains Quickbooks Online API Helper methods for obtaining OAuth2 tokens, Disconnect and Reconnect API for OAuth2 apps
 
 ## System Requirements
 The SDK works on JDK 1.6 and above.
@@ -68,7 +68,7 @@ Steps to contribute:
 5. Create a pull request for review to request merge
 6. Obtain approval before your changes can be merged
 
-Note: Before you submit the pull request, make sure to remove the keys and tokens from [ippdevkit.properties](https://github.com/intuit/QuickBooks-V3-Java-SDK/blob/master/ipp-v3-java-devkit/src/test/resources/ippdevkit.properties) that you might have added for testing purpose.
+Note: Before you submit the pull request, make sure to remove the keys and tokens from [ippdevkit.properties](https://github.com/intuit/QuickBooks-V3-Java-SDK/blob/master/ipp-v3-java-devkit/src/test/resources/ippdevkit.properties) that you might have added for testing.
 
 Thank you for your contribution!
 
