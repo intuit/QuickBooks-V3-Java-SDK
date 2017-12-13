@@ -42,6 +42,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 
 import com.intuit.ipp.util.DateUtils;
 import com.intuit.ipp.util.Logger;
@@ -166,10 +167,11 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 
 			//Attributes
 			if (key.equalsIgnoreCase(FAULT)) {
-				qr.setFault(mapper.treeToValue(jn.get(FAULT), Fault.class));
+				mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+				qr.setFault(mapper.treeToValue(jn.get(key), Fault.class));
 				continue;
 			} else if (key.equalsIgnoreCase(REPORT)) {
-				qr.setReport(mapper.treeToValue(jn.get(REPORT), Report.class));
+				qr.setReport(mapper.treeToValue(jn.get(key), Report.class));
 			} else if (key.equalsIgnoreCase(HEADER)) {
 				ReportHeader header = mapper.treeToValue(jn.get(HEADER), ReportHeader.class);
 				report.setHeader(header);
@@ -185,7 +187,7 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 				try {
 					qr.setTime(DateUtils.getDateFromString(jn.get(TIME).textValue()));
 				} catch (Exception e) {
-					LOG.error("Exception while converting to date", e);
+					//LOG.error("Exception while converting to date", e);
 				}
 			} else if (key.equals(STATUS)) {
 				qr.setStatus(jn.get(STATUS).textValue());
