@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.intuit.oauth2.config.Environment;
+import com.intuit.oauth2.config.ProxyConfig;
 import com.intuit.oauth2.data.DiscoveryAPIResponse;
 import com.intuit.oauth2.exception.ConnectionException;
 import com.intuit.oauth2.http.HttpRequestClient;
@@ -42,6 +43,12 @@ public class DiscoveryAPIClient {
 	private ObjectMapper mapper  = MapperImpl.getInstance();
 	private static final Logger logger = LoggerImpl.getInstance();
 	
+	private ProxyConfig proxyConfig;
+	
+	public DiscoveryAPIClient(ProxyConfig proxyConfig) {
+		this.proxyConfig = proxyConfig;
+	}
+	
 	/**
 	 * Calls the Discovery Document API based on the the Environment provided and
 	 * returns an object with url’s for all the endpoints
@@ -56,7 +63,7 @@ public class DiscoveryAPIClient {
 		
 		try {
 
-			HttpRequestClient client = new HttpRequestClient();
+			HttpRequestClient client = new HttpRequestClient(proxyConfig);
 			Request request = new Request.RequestBuilder(MethodType.GET, getDiscoveryAPIHost(environment))
 											.requiresAuthentication(false)
 											.build(); 

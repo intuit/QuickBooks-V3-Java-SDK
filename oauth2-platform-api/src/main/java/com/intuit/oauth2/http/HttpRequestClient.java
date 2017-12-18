@@ -54,6 +54,7 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeader;
 import org.slf4j.Logger;
 
+import com.intuit.oauth2.config.ProxyConfig;
 import com.intuit.oauth2.exception.InvalidRequestException;
 import com.intuit.oauth2.utils.LoggerImpl;
 import com.intuit.oauth2.utils.PropertiesConfig;
@@ -77,7 +78,7 @@ public class HttpRequestClient {
      * Build the HttpClient
      *
      */
-    public HttpRequestClient() {
+    public HttpRequestClient(ProxyConfig proxyConfig) {
         RequestConfig config = RequestConfig.custom()
                 .setConnectTimeout(CONNECTION_TIMEOUT)
                 .setSocketTimeout(SOCKET_TIMEOUT).build();
@@ -94,13 +95,13 @@ public class HttpRequestClient {
             .setDefaultRequestConfig(config)
             .setDefaultHeaders(headers)
             .setMaxConnPerRoute(10)
-            .setDefaultCredentialsProvider(setProxyAuthentication());
+            .setDefaultCredentialsProvider(setProxyAuthentication(proxyConfig));
 
         // getting proxy from Config file.
-        HttpHost proxy = getProxy();
+        HttpHost proxy = getProxy(proxyConfig);
 
         if (proxy != null) {
-            hcBuilder.setDefaultCredentialsProvider(setProxyAuthentication())
+            hcBuilder.setDefaultCredentialsProvider(setProxyAuthentication(proxyConfig))
             .setProxy(proxy)
             .setSSLSocketFactory(prepareClientSSL());
         }
@@ -163,13 +164,17 @@ public class HttpRequestClient {
      * 
      * @return 
      */
-    public CredentialsProvider setProxyAuthentication() {
-        String username = PropertiesConfig.getInstance().getProperty("PROXY_USERNAME");
-        String password = PropertiesConfig.getInstance().getProperty("PROXY_PASSWORD");
+    public CredentialsProvider setProxyAuthentication(ProxyConfig proxyConfig) {
+        
+        if(proxyConfig == null) {
+            return null;
+        }
+        String username = proxyConfig.getUsername();
+        String password = proxyConfig.getPassword();
         
         if (!username.isEmpty() && !password.isEmpty()) {
-            String host = PropertiesConfig.getInstance().getProperty("PROXY_HOST");
-            String port = PropertiesConfig.getInstance().getProperty("PROXY_PORT");
+            String host = proxyConfig.getHost();
+            String port = proxyConfig.getPort();
             if (!host.isEmpty() && !port.isEmpty()) {
                 CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
                 credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new UsernamePasswordCredentials(username, password));
@@ -199,9 +204,12 @@ public class HttpRequestClient {
      * 
      * @return returns HttpHost
      */
-    public HttpHost getProxy() {
-        String host = PropertiesConfig.getInstance().getProperty("PROXY_HOST");
-        String port = PropertiesConfig.getInstance().getProperty("PROXY_PORT");
+    public HttpHost getProxy(ProxyConfig proxyConfig) {
+        if(proxyConfig == null) {
+            return null;
+        }
+        String host = proxyConfig.getHost();
+        String port = proxyConfig.getPort();
         HttpHost proxy = null;
         if (!host.isEmpty() && !port.isEmpty()) {
             proxy = new HttpHost(host, Integer.parseInt(port));
