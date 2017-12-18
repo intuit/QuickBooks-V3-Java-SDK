@@ -45,8 +45,14 @@ public class DiscoveryAPIClient {
 	
 	private ProxyConfig proxyConfig;
 	
+	//use this constructor to apply proxy configs
 	public DiscoveryAPIClient(ProxyConfig proxyConfig) {
 		this.proxyConfig = proxyConfig;
+	}
+	
+	//for non proxy call, use this constructor
+	public DiscoveryAPIClient() {
+		this.proxyConfig = null;
 	}
 	
 	/**
