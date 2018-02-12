@@ -17,47 +17,50 @@ package com.intuit.oauth2.http;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
-import java.security.KeyStore;
+
 import javax.net.ssl.SSLContext;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
+import org.apache.http.NameValuePair;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContexts;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
-
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpVersion;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeader;
 import org.slf4j.Logger;
 
 import com.intuit.oauth2.config.ProxyConfig;
+import com.intuit.oauth2.data.OAuthMigrationRequest;
 import com.intuit.oauth2.exception.InvalidRequestException;
 import com.intuit.oauth2.utils.LoggerImpl;
 import com.intuit.oauth2.utils.PropertiesConfig;
+
+import oauth.signpost.OAuthConsumer;
+import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
+import oauth.signpost.exception.OAuthCommunicationException;
+import oauth.signpost.exception.OAuthExpectationFailedException;
+import oauth.signpost.exception.OAuthMessageSignerException;
 
 /**
  * Client class to make http request calls
@@ -159,6 +162,65 @@ public class HttpRequestClient {
         
     }
 
+    /**
+     * Method to make the HTTP POST request using the request attributes supplied
+     * 
+     * @param request
+     * @return
+     * @throws InvalidRequestException
+     */
+    public Response makeJsonRequest(Request request, OAuthMigrationRequest migrationRequest) throws InvalidRequestException {
+        
+    	logger.debug("Enter HttpRequestClient::makeJsonRequest"); 
+        //create oauth consumer using tokens
+	    OAuthConsumer consumer = new CommonsHttpOAuthConsumer(migrationRequest.getConsumerKey(), migrationRequest.getConsumerSecret());
+		consumer.setTokenWithSecret(migrationRequest.getAccessToken(), migrationRequest.getAccessSecret());
+
+	    HttpPost post = new HttpPost(request.constructURL().toString());
+		    
+		//sign
+	    try {
+			consumer.sign(post);
+		} catch (OAuthMessageSignerException e) {
+			logger.error("Exception while making httpRequest", e);
+            throw new InvalidRequestException(e.getMessage());
+		} catch (OAuthExpectationFailedException e) {
+			logger.error("Exception while making httpRequest", e);
+            throw new InvalidRequestException(e.getMessage());
+		} catch (OAuthCommunicationException e) {
+			logger.error("Exception while making httpRequest", e);
+            throw new InvalidRequestException(e.getMessage());
+		}
+	    
+	    //add headers
+	    post.setHeader("Accept", "application/json");
+	    post.setHeader("Content-Type", "application/json");
+	    
+	    // add post data
+	    HttpEntity entity = new StringEntity(request.getPostJson(), "UTF-8");
+	    post.setEntity(entity);
+	    
+	    CloseableHttpResponse httpResponse = null;
+	    try {
+	    	//make the call
+			httpResponse = client.execute(post);
+			 //prepare response
+			return new Response(
+					httpResponse.getEntity() == null ? null : httpResponse.getEntity().getContent(),
+							httpResponse.getStatusLine().getStatusCode()
+	            );
+			
+			
+		} catch (ClientProtocolException e) {
+			logger.error("Exception while making httpRequest", e);
+            throw new InvalidRequestException(e.getMessage());
+		} catch (IOException e) {
+			logger.error("Exception while making httpRequest", e);
+            throw new InvalidRequestException(e.getMessage());
+		} 
+        
+    }
+    
     /**
      * Method to set proxy authentication
      * 
