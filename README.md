@@ -28,19 +28,19 @@ The QuickBooks Online Java SDK provides a set of Java class libraries that make 
 * Change data that enables you to retrieve a list of entities modified during specified time points.
 
 ## Project Structure
-* ipp-v3-java-data - contains all entities and entity dependencies that are used in data services operations
-* ipp-v3-java-devkit - core component, contains REST API support
-* ipp-java-qbapihelper - contains Quickbooks Online API Helper methods for OAuth, Disconnect and Reconnect API
-* oauth2-platform-api - contains Quickbooks Online API Helper methods for obtaining OAuth2 tokens, Disconnect and Reconnect API for OAuth2 apps
+* ipp-v3-java-data - contains all entities and entity dependencies that are used in data services operations.
+* ipp-v3-java-devkit - core component, contains REST API support.
+* ipp-java-qbapihelper - contains QuickBooks Online API Helper methods for OAuth, Disconnect and Reconnect API.
+* oauth2-platform-api - contains QuickBooks Online API Helper methods for obtaining OAuth2 tokens, Disconnect and Reconnect API for OAuth2 apps.
 
 ## System Requirements
 The SDK works on JDK 1.6 and above.
 
 ## First Use Instructions
-1. Clone the GitHub repo to your computer
-2. Import it to the IDE of your choice
+1. Clone the GitHub repo to your computer.
+2. Import it to the IDE of your choice.
 
-## Testing the code & building artifacts
+## Testing the Code & Building Artifacts
 
 To test the code locally, follow the steps below:
 
@@ -49,10 +49,10 @@ To test the code locally, follow the steps below:
 
 Note: To build out individual components such as ipp-v3-java-data.jar or ipp-v3-java-devkit.jar, remove parent dependency from the pom.xml of the respective projects and run maven install on the individual project folders.
 
-## Release Notes:
-Refer [Java SDK Release Notes](https://developer.intuit.com/docs/0100_quickbooks_online/0400_tools/0005_sdks/0200_java/0080_quickbooks_java_sdk_release_notes)
+## Release Notes
+Refer to [Java SDK Release Notes](https://developer.intuit.com/docs/0100_quickbooks_online/0400_tools/0005_sdks/0200_java/0080_quickbooks_java_sdk_release_notes).
 
-## Contribute:
+## Contribute
 We greatly encourage contributions! You can add new features, report and fix existing bugs, write docs and
 tutorials, or any of the above. Feel free to open issues and/or send pull requests.
 
@@ -61,12 +61,12 @@ article for more details about how to contribute.
 
 Steps to contribute:
 
-1. Fork this repository into your account on Github
-2. Clone *your forked repository* (not our original one) to your hard drive with `git clone https://github.com/YOURUSERNAME/QuickBooks-V3-Java-SDK.git`
-3. Design and develop your changes
-4. Add/update unit tests
-5. Create a pull request for review to request merge
-6. Obtain approval before your changes can be merged
+1. Fork this repository into your account on GitHub.
+2. Clone *your forked repository* (not our original one) to your hard drive with `git clone https://github.com/YOURUSERNAME/QuickBooks-V3-Java-SDK.git`.
+3. Design and develop your changes.
+4. Add/update unit tests.
+5. Create a pull request for review to request merge.
+6. Obtain approval before your changes can be merged.
 
 Note: Before you submit the pull request, make sure to remove the keys and tokens from [ippdevkit.properties](https://github.com/intuit/QuickBooks-V3-Java-SDK/blob/master/ipp-v3-java-devkit/src/test/resources/ippdevkit.properties) that you might have added for testing.
 
