@@ -38,6 +38,7 @@ public class Request {
     private final List<NameValuePair> postParams;
     private final boolean requiresAuthentication;
     private final String authString;
+    private final String postJson;
     
     private Request(RequestBuilder builder) {
         this.method = builder.method;
@@ -45,6 +46,7 @@ public class Request {
         this.requiresAuthentication = builder.requiresAuthentication;
         this.authString = builder.authString;
         this.postParams = builder.postParams;
+        this.postJson = builder.postJson;
 	}
 
 
@@ -67,6 +69,10 @@ public class Request {
 	
 	public List<NameValuePair> getPostParams() {
 		return postParams;
+	}
+	
+	public String getPostJson() {
+		return postJson;
 	}
 
 
@@ -97,6 +103,7 @@ public class Request {
 	    private List<NameValuePair> postParams;
 	    private boolean requiresAuthentication;
 	    private String authString;
+	    private String postJson;
 
 		public RequestBuilder(MethodType method, String url) {
 			this.method = method;
@@ -115,6 +122,11 @@ public class Request {
 		
 		public RequestBuilder authString(String authString) {
 			this.authString = authString;
+			return this;
+		}
+		
+		public RequestBuilder postJson(String postJson) {
+			this.postJson = postJson;
 			return this;
 		}
 
