@@ -1,4 +1,4 @@
-![SDK Banner](views/SDK.png)
+[![SDK Banner](views/SDK.png)][ss1]
 
 V3-JAVA-SDK
 ===========
@@ -74,6 +74,6 @@ Note: Before you submit the pull request, make sure to remove the keys and token
 
 Thank you for your contribution!
 
-
+[ss1]: https://help.developer.intuit.com/s/SDKFeedback
 
 
