@@ -1,4 +1,4 @@
-[![SDK Banner](views/SDK.png)][ss1]
+![SDK Banner](views/SDK.png)
 
 V3-JAVA-SDK
 ===========
