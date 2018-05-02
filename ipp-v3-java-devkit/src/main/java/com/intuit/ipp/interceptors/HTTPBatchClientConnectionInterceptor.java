@@ -55,6 +55,7 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.client.config.CookieSpecs;
 
 import com.intuit.ipp.core.Context;
 import com.intuit.ipp.exception.CompressionException;
@@ -511,6 +512,7 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
                 .setSocketTimeout(socketTimeout)
                 .setConnectTimeout(connectionTimeout)
                 .setConnectionRequestTimeout(connectionTimeout)
+                .setCookieSpec(CookieSpecs.IGNORE_COOKIES)
                 .build();
         return defaultRequestConfig;
 

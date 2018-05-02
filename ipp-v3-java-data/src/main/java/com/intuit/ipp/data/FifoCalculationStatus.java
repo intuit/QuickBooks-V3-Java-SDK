@@ -14,37 +14,37 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for EmployeeTypeEnum.
+ * <p>Java class for FifoCalculationStatus.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="EmployeeTypeEnum">
+ * &lt;simpleType name="FifoCalculationStatus">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="Officer"/>
- *     &lt;enumeration value="Owner"/>
- *     &lt;enumeration value="Regular"/>
- *     &lt;enumeration value="Statutory"/>
+ *     &lt;enumeration value="None"/>
+ *     &lt;enumeration value="InProgress"/>
+ *     &lt;enumeration value="Completed"/>
+ *     &lt;enumeration value="Error"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
-@XmlType(name = "EmployeeTypeEnum")
+@XmlType(name = "FifoCalculationStatus")
 @XmlEnum
-public enum EmployeeTypeEnum {
+public enum FifoCalculationStatus {
 
-    @XmlEnumValue("Officer")
-    OFFICER("Officer"),
-    @XmlEnumValue("Owner")
-    OWNER("Owner"),
-    @XmlEnumValue("Regular")
-    REGULAR("Regular"),
-    @XmlEnumValue("Statutory")
-    STATUTORY("Statutory");
+    @XmlEnumValue("None")
+    NONE("None"),
+    @XmlEnumValue("InProgress")
+    IN_PROGRESS("InProgress"),
+    @XmlEnumValue("Completed")
+    COMPLETED("Completed"),
+    @XmlEnumValue("Error")
+    ERROR("Error");
     private final String value;
 
-    EmployeeTypeEnum(String v) {
+    FifoCalculationStatus(String v) {
         value = v;
     }
 
@@ -52,8 +52,8 @@ public enum EmployeeTypeEnum {
         return value;
     }
 
-    public static EmployeeTypeEnum fromValue(String v) {
-        for (EmployeeTypeEnum c: EmployeeTypeEnum.values()) {
+    public static FifoCalculationStatus fromValue(String v) {
+        for (FifoCalculationStatus c: FifoCalculationStatus.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

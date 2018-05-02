@@ -9,50 +9,43 @@
 package com.intuit.ipp.data;
 
 import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for gender.
+ * <p>Java class for AgencyPaymentMethodEnum.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="gender">
+ * &lt;simpleType name="AgencyPaymentMethodEnum">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="Male"/>
- *     &lt;enumeration value="Female"/>
+ *     &lt;enumeration value="ACH_CREDIT"/>
+ *     &lt;enumeration value="ACH_DEBIT"/>
+ *     &lt;enumeration value="CHECK"/>
+ *     &lt;enumeration value="WIRE"/>
+ *     &lt;enumeration value="OTHER"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
-@XmlType(name = "gender")
+@XmlType(name = "AgencyPaymentMethodEnum")
 @XmlEnum
-public enum Gender {
+public enum AgencyPaymentMethodEnum {
 
-    @XmlEnumValue("Male")
-    MALE("Male"),
-    @XmlEnumValue("Female")
-    FEMALE("Female");
-    private final String value;
-
-    Gender(String v) {
-        value = v;
-    }
+    ACH_CREDIT,
+    ACH_DEBIT,
+    CHECK,
+    WIRE,
+    OTHER;
 
     public String value() {
-        return value;
+        return name();
     }
 
-    public static Gender fromValue(String v) {
-        for (Gender c: Gender.values()) {
-            if (c.value.equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
+    public static AgencyPaymentMethodEnum fromValue(String v) {
+        return valueOf(v);
     }
 
 }
