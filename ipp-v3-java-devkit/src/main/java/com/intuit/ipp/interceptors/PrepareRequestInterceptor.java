@@ -272,7 +272,7 @@ public class PrepareRequestInterceptor implements Interceptor {
 		
 		if(context.getMinorVersion() == null)
 		{
-		context.setMinorVersion("24");
+		context.setMinorVersion("26");
 		}
 		
 		uri.append("minorversion").append("=").append(context.getMinorVersion()).append("&");

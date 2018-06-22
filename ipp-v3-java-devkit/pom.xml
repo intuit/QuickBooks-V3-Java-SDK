@@ -6,11 +6,11 @@
     <parent>
         <artifactId>ipp-v3-java-devkit-pom</artifactId>
         <groupId>com.intuit.quickbooks-online</groupId>
-        <version>4.0.4</version>
+        <version>4.0.5</version>
     </parent>
 
 	<artifactId>ipp-v3-java-devkit</artifactId>
-	<version>4.0.4</version>
+	<version>4.0.5</version>
 	<packaging>jar</packaging>
 	<name>IPP V3 Java Devkit - Development Project</name>
 	<description>IPP Java V3 DevKit Project - Core</description>
@@ -25,7 +25,7 @@
 		<dependency>
 			<groupId>com.intuit.quickbooks-online</groupId>
 			<artifactId>ipp-v3-java-data</artifactId>
-			<version>4.0.3</version>
+			<version>4.0.5</version>
 		</dependency>
 	</dependencies>
 
