@@ -76,6 +76,11 @@ public enum ReportName {
 	 * Trial Balance report
 	 */
 	TRIALBALANCE("TrialBalance"),
+
+	/**
+	 * Trial Balance report for France
+	 */
+	TRIALBALANCE_FR("TrialBalanceFR"),
 	
 	/**
 	 * Vendor Balance report
@@ -107,6 +112,11 @@ public enum ReportName {
      * General Ledger report
      */
     GENERALLEDGER( "GeneralLedger"),
+
+    /**
+     * General Ledger report for France
+     */
+    GENERALLEDGER_FR( "GeneralLedgerFR"),
 
     /**
      * Aged Payable Detail report
