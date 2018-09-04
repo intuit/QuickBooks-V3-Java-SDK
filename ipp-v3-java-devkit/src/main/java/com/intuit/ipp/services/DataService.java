@@ -34,6 +34,7 @@ import com.intuit.ipp.core.IEntity;
 import com.intuit.ipp.data.AttachableResponse;
 import com.intuit.ipp.data.BatchItemResponse;
 import com.intuit.ipp.data.CDCResponse;
+import com.intuit.ipp.data.EntitlementsResponse;
 import com.intuit.ipp.data.Estimate;
 import com.intuit.ipp.data.Fault;
 import com.intuit.ipp.data.IntuitBatchRequest;
@@ -924,6 +925,19 @@ public class DataService {
         //execute async interceptors
         executeAsyncInterceptors(intuitMessage);
     }
+    
+    public EntitlementsResponse getEntitlements() throws FMSException {
+    	
+    	//prepare request
+    	IntuitMessage intuitMessage = prepareEntitlementsRequest();
+
+        //execute interceptors
+        executeInterceptors(intuitMessage);
+
+        //return response
+        EntitlementsResponse entitlementsResponse = (EntitlementsResponse) intuitMessage.getResponseElements().getResponse();
+        return entitlementsResponse;
+    }
 
     /**
      * Method to cancel the operation for the corresponding entity in asynchronous fashion
@@ -1089,6 +1103,21 @@ public class DataService {
 
         requestElements.setContext(context);
         requestElements.setEntity(entity);
+
+        return intuitMessage;
+    }
+    
+    private <T extends IEntity> IntuitMessage prepareEntitlementsRequest() throws FMSException {
+        
+        IntuitMessage intuitMessage = new IntuitMessage();
+        RequestElements requestElements = intuitMessage.getRequestElements();
+
+        //set the request params
+        Map<String, String> requestParameters = requestElements.getRequestParameters();
+        requestParameters.put(RequestElements.REQ_PARAM_METHOD_TYPE, MethodType.GET.toString());
+
+        requestElements.setContext(context);
+        intuitMessage.setEntitlementService(true);
 
         return intuitMessage;
     }

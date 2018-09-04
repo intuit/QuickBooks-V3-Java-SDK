@@ -60,7 +60,9 @@ public class PrepareRequestInterceptor implements Interceptor {
 
 		if (intuitMessage.isPlatformService()) {
 			requestParameters.put(RequestElements.REQ_PARAM_RESOURCE_URL, prepareIPSUri(action, requestElements.getContext()));
-		} else {
+		} else if (intuitMessage.isEntitlementService()) {
+			prepareEntitlementsRequest(intuitMessage, requestElements, requestParameters);
+		}else {
 			prepareDataServiceRequest(intuitMessage, requestElements, requestParameters, action);
 		}
 
@@ -86,7 +88,7 @@ public class PrepareRequestInterceptor implements Interceptor {
 	private void prepareDataServiceRequest(IntuitMessage intuitMessage, RequestElements requestElements, Map<String, String> requestParameters,
 			String action) throws FMSException {
 		requestParameters.put(RequestElements.REQ_PARAM_RESOURCE_URL,
-				getUri(intuitMessage.isPlatformService(), action, requestElements.getContext(), requestParameters));
+				getUri(intuitMessage.isPlatformService(), action, requestElements.getContext(), requestParameters, intuitMessage.isEntitlementService()));
 
 		Map<String, String> requestHeaders = requestElements.getRequestHeaders();
 
@@ -121,6 +123,33 @@ public class PrepareRequestInterceptor implements Interceptor {
 		}
 	}
 
+	private void prepareEntitlementsRequest(IntuitMessage intuitMessage, RequestElements requestElements, Map<String, String> requestParameters) throws FMSException {
+		requestParameters.put(RequestElements.REQ_PARAM_RESOURCE_URL,
+				getUri(intuitMessage.isPlatformService(), null, requestElements.getContext(), requestParameters, intuitMessage.isEntitlementService()));
+
+		Map<String, String> requestHeaders = requestElements.getRequestHeaders();
+
+		//set content type to xml since Entitlement API supports only XML
+		requestHeaders.put(RequestElements.HEADER_PARAM_CONTENT_TYPE, ContentTypes.XML.toString());
+		requestHeaders.put(RequestElements.HEADER_PARAM_ACCEPT, ContentTypes.XML.toString());
+
+		// validates whether to add headers for content-encoding for compression
+		String compressFormat = Config.getProperty(Config.COMPRESSION_REQUEST_FORMAT);
+		if (StringUtils.hasText(compressFormat) && CompressorFactory.isValidCompressFormat(compressFormat)) {
+			requestHeaders.put(RequestElements.HEADER_PARAM_CONTENT_ENCODING, compressFormat);
+		}
+
+        setupAcceptEncoding(requestHeaders);
+        //setupAcceptHeader(null, requestHeaders, requestParameters);
+
+
+        UUID trackingID = requestElements.getContext().getTrackingID();
+		if(!(trackingID==null))
+		{
+			requestHeaders.put(RequestElements.HEADER_INTUIT_TID, trackingID.toString());
+		}
+	}
+	
     /**
      * Setup accept encoding header from configuration
      * @param requestHeaders
@@ -194,12 +223,16 @@ public class PrepareRequestInterceptor implements Interceptor {
 	 *            the request params
 	 * @return returns URI
 	 */
-	private <T extends IEntity> String getUri(Boolean platformService, String action, Context context, Map<String, String> requestParameters)
+	private <T extends IEntity> String getUri(Boolean platformService, String action, Context context, Map<String, String> requestParameters, Boolean entitlementService)
 			throws FMSException {
 		String uri = null;
 		if (!platformService) {
+			
 			ServiceType serviceType = context.getIntuitServiceType();
-			if (ServiceType.QBO == serviceType) {
+			if (entitlementService) {
+				uri = prepareEntitlementUri(context);
+			}
+			else if (ServiceType.QBO == serviceType) {
 				uri = prepareQBOUri(action, context, requestParameters);
 			} else if (ServiceType.QBOPremier == serviceType) {
 				uri = prepareQBOPremierUri(action, context, requestParameters);
@@ -218,8 +251,7 @@ public class PrepareRequestInterceptor implements Interceptor {
      *
      * @return URL
      */
-    protected String getBaseUrlQBO() {
-    	String url = Config.getProperty(Config.BASE_URL_QBO);
+    protected String getBaseUrl(String url) {
     	if (url.endsWith("/")) {
     	    return url.substring(0, url.length() - 1);
     	}
@@ -252,7 +284,7 @@ public class PrepareRequestInterceptor implements Interceptor {
 				}
 		
 		// constructs request URI
-		uri.append(getBaseUrlQBO()).append("/").append(context.getRealmID()).append("/").append(entityName);
+		uri.append(getBaseUrl(Config.getProperty(Config.BASE_URL_QBO))).append("/").append(context.getRealmID()).append("/").append(entityName);
         addEntityID(requestParameters, uri);
         addEntitySelector(requestParameters, uri);
 
@@ -370,6 +402,13 @@ public class PrepareRequestInterceptor implements Interceptor {
 		StringBuilder uri = new StringBuilder();
 		uri.append(Config.getProperty(Config.BASE_URL_PLATFORMSERVICE)).append("/").append(context.getAppDBID())
 			.append("?act=").append(action).append("&token=").append(context.getAppToken());
+		return uri.toString();
+	}
+	
+	private String prepareEntitlementUri(Context context) throws FMSException {
+		StringBuilder uri = new StringBuilder();
+		uri.append(getBaseUrl(Config.getProperty(Config.BASE_URL_ENTITLEMENTSERVICE))).append("/").
+		append("entitlements").append("/").append("v3").append("/").append(context.getRealmID());
 		return uri.toString();
 	}
 

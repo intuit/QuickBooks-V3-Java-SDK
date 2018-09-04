@@ -52,6 +52,7 @@ import com.intuit.ipp.data.DayOfWeekEnum;
 import com.intuit.ipp.data.EmailAddressTypeEnum;
 import com.intuit.ipp.data.EmailStatusEnum;
 import com.intuit.ipp.data.EmployeeTypeEnum;
+import com.intuit.ipp.data.EntitlementsResponse;
 import com.intuit.ipp.data.EntityStatusEnum;
 import com.intuit.ipp.data.EntityTypeEnum;
 import com.intuit.ipp.data.EstimateStatusEnum;
@@ -534,5 +535,12 @@ public class JSONSerializer implements IEntitySerializer {
 	    module = new SimpleModule("TaxApplicableOnEnum", new Version(1, 0, 0, null));
 	    module.addSerializer(TaxApplicableOnEnum.class, new TaxApplicableOnEnumJsonSerializer());
 	    objectMapper.registerModule(module);
+	}
+
+	@Override
+	public Response deserializeEntitlements(String decompressedData, Class<EntitlementsResponse> cl)
+			throws SerializationException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
