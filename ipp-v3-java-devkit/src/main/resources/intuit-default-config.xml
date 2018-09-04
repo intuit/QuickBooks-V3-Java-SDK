@@ -3,6 +3,7 @@
 	<baseURL>
 		<qbo>https://quickbooks.api.intuit.com/v3/company</qbo> 
 		<platformService>https://appcenter.intuit.com/db</platformService>
+		<entitlementService>https://quickbooks.api.intuit.com/manage</entitlementService>
 	</baseURL>
 	
 	<retry>

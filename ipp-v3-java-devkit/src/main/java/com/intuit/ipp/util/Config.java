@@ -54,6 +54,7 @@ public final class Config {
 	 * variable BASE_URL_PLATFORMSERVICE
 	 */
 	public static final String BASE_URL_PLATFORMSERVICE = "baseURL.platformService";
+	public static final String BASE_URL_ENTITLEMENTSERVICE = "baseURL.entitlementService";
 
 	/**
 	 * variable PROXY_HOST
