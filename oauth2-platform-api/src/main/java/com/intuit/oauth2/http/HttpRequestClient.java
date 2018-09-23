@@ -98,15 +98,14 @@ public class HttpRequestClient {
             .setDefaultRequestConfig(config)
             .setDefaultHeaders(headers)
             .setMaxConnPerRoute(10)
-            .setDefaultCredentialsProvider(setProxyAuthentication(proxyConfig));
+            .setDefaultCredentialsProvider(setProxyAuthentication(proxyConfig))
+            .setSSLSocketFactory(prepareClientSSL());
 
         // getting proxy from Config file.
         HttpHost proxy = getProxy(proxyConfig);
 
         if (proxy != null) {
-            hcBuilder.setDefaultCredentialsProvider(setProxyAuthentication(proxyConfig))
-            .setProxy(proxy)
-            .setSSLSocketFactory(prepareClientSSL());
+            hcBuilder.setProxy(proxy);
         }
         client = hcBuilder.build();
     }
@@ -251,9 +250,8 @@ public class HttpRequestClient {
             KeyStore trustStore = null;
             SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(trustStore, new TrustSelfSignedStrategy()).build();
             
-            SSLConnectionSocketFactory sslConnectionFactory = 
-                    new SSLConnectionSocketFactory(sslContext.getSocketFactory(), 
-                            new NoopHostnameVerifier());
+            String tlsVersion = PropertiesConfig.getInstance().getProperty("TLS_VERSION");
+            SSLConnectionSocketFactory sslConnectionFactory = new SSLConnectionSocketFactory(sslContext, new String[]{tlsVersion}, null, new NoopHostnameVerifier());
             return sslConnectionFactory;
         } catch (Exception ex) {
             logger.error("couldn't create httpClient!! {}", ex.getMessage(), ex);

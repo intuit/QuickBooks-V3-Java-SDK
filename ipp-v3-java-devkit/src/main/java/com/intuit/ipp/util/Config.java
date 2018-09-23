@@ -175,6 +175,8 @@ public final class Config {
 	 * Set to HTTP_URL_CONNECTION if required. Default is Apache HTTP Client if not set. In XML config you can set as <httpTransport>HTTP_URL_CONNECTION</httpTransport>
 	 */
 	public static final String HTTP_TRANSPORT = "httpTransport";
+	
+	public static final String TLS_VERSION = "tls.version";
 
 
     public static final String BIGDECIMAL_SCALE_SHIFT = "feature.bigDecimalScaleShift";

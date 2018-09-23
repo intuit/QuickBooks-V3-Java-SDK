@@ -6,6 +6,10 @@
 		<entitlementService>https://quickbooks.api.intuit.com/manage</entitlementService>
 	</baseURL>
 	
+	<tls>
+		<version>TLSv1.2</version>
+	</tls>
+	
 	<retry>
 		<mode>fixed</mode>
 		<fixed>
