@@ -37,6 +37,9 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContexts;
@@ -93,13 +96,15 @@ public class HttpRequestClient {
         headers.add(new BasicHeader(HttpHeaders.USER_AGENT, "V3JavaSDK-OAuth2-" + PropertiesConfig.getInstance().getProperty("version")));
      
         //build the client
+        Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory> create().register("https", prepareClientSSL()).build();
+        PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager(
+                socketFactoryRegistry);
         HttpClientBuilder hcBuilder = HttpClients.custom()
-            .setConnectionManager(new PoolingHttpClientConnectionManager())
+            .setConnectionManager(cm)
             .setDefaultRequestConfig(config)
             .setDefaultHeaders(headers)
             .setMaxConnPerRoute(10)
-            .setDefaultCredentialsProvider(setProxyAuthentication(proxyConfig))
-            .setSSLSocketFactory(prepareClientSSL());
+            .setDefaultCredentialsProvider(setProxyAuthentication(proxyConfig));
 
         // getting proxy from Config file.
         HttpHost proxy = getProxy(proxyConfig);
