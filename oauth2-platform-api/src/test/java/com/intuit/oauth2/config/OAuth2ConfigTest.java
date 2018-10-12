@@ -124,6 +124,15 @@ public class OAuth2ConfigTest {
 		scope = oauth2Config.getScopeValue(Scope.OpenId);
 		assertEquals("openid", scope);
 		
+		scope = oauth2Config.getScopeValue(Scope.Payroll);
+		assertEquals("com.intuit.quickbooks.payroll", scope);
+		
+		scope = oauth2Config.getScopeValue(Scope.Timetracking);
+		assertEquals("com.intuit.quickbooks.payroll.timetracking", scope);
+		
+		scope = oauth2Config.getScopeValue(Scope.Benefits);
+		assertEquals("com.intuit.quickbooks.payroll.benefits", scope);
+		
 		
 	}
 
