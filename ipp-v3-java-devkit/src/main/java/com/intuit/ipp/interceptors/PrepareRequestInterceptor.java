@@ -287,6 +287,7 @@ public class PrepareRequestInterceptor implements Interceptor {
 		uri.append(getBaseUrl(Config.getProperty(Config.BASE_URL_QBO))).append("/").append(context.getRealmID()).append("/").append(entityName);
         addEntityID(requestParameters, uri);
         addEntitySelector(requestParameters, uri);
+        addParentID(requestParameters, uri);
 
         // adds the built request param
       /*  if(requestParameters.equals("updateaccountontxns"))
@@ -304,7 +305,7 @@ public class PrepareRequestInterceptor implements Interceptor {
 		
 		if(context.getMinorVersion() == null)
 		{
-		context.setMinorVersion("33");
+		context.setMinorVersion("34");
 		}
 		
 		uri.append("minorversion").append("=").append(context.getMinorVersion()).append("&");
@@ -344,6 +345,12 @@ public class PrepareRequestInterceptor implements Interceptor {
     private void addEntitySelector(Map<String, String> requestParameters, StringBuilder uri) {
         if (StringUtils.hasText(requestParameters.get(RequestElements.REQ_PARAM_ENTITY_SELECTOR))) {
             uri.append("/").append(requestParameters.get(RequestElements.REQ_PARAM_ENTITY_SELECTOR));
+        }
+    }
+    
+    private void addParentID(Map<String, String> requestParameters, StringBuilder uri) {
+        if (StringUtils.hasText(requestParameters.get(RequestElements.REQ_PARAM_PARENT_ID))) {
+            uri.append("/").append(requestParameters.get(RequestElements.REQ_PARAM_PARENT_ID)).append("/children");
         }
     }
 
@@ -463,6 +470,7 @@ public class PrepareRequestInterceptor implements Interceptor {
                 || key.equals(RequestElements.REQ_PARAM_START_POS)
                 || key.equals(RequestElements.REQ_PARAM_MAX_RESULTS)
                 || key.equals(RequestElements.REQ_PARAM_SENDTO)
+                || key.equals(RequestElements.REQ_PARAM_LEVEL)
                 || key.equals(RequestElements.REPORT_PARAM_START_DT)
                 || key.equals(RequestElements.REPORT_PARAM_END_DT)
                 || key.equals(RequestElements.REPORT_PARAM_DT_MACRO)

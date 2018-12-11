@@ -85,6 +85,10 @@ public class RequestElements {
      * variable REQ_PARAM_ENTITY_SELECTOR
      */
     public static final String REQ_PARAM_ENTITY_SELECTOR = "selector";
+    
+    public static final String REQ_PARAM_PARENT_ID = "parentid";
+    
+    public static final String REQ_PARAM_LEVEL = "level";
 
 	/**
 	 * variable REQ_PARAM_QUERY
