@@ -4,13 +4,13 @@
 	<parent>
 		<groupId>com.intuit.quickbooks-online</groupId>
 		<artifactId>ipp-v3-java-devkit-pom</artifactId>
-		<version>4.1.0</version>
+		<version>4.1.1</version>
 	</parent>
 
 	<artifactId>ipp-v3-java-data</artifactId>
 	<name>QuickBooks V3 Java - Data Project</name>
 	<description>QuickBooks Java V3 DevKit Data - Entities generation</description>
-    <version>4.1.0</version>
+    <version>4.1.1</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
