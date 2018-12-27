@@ -35,7 +35,7 @@ public class ContentTypesTest {
 	@Test
 	public void testGetContentType_values() {
 		ContentTypes[] contentTypes = ContentTypes.values();
-		Assert.assertEquals(contentTypes.length, 6);
+		Assert.assertEquals(contentTypes.length, 7);
 	}
 	
 	@Test

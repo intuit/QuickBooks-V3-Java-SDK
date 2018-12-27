@@ -103,6 +103,9 @@ public class PrepareRequestInterceptor implements Interceptor {
             // add content type, except POST queries with email ("<entity>/id/send?...") - it has no POST body
 			if (StringUtils.hasText(serializeFormat) && !isSendEmail(requestParameters)) {
 				requestHeaders.put(RequestElements.HEADER_PARAM_CONTENT_TYPE, ContentTypes.getContentType(serializeFormat));
+			} 
+			else if (StringUtils.hasText(serializeFormat) && isSendEmail(requestParameters)) {
+				requestHeaders.put(RequestElements.HEADER_PARAM_CONTENT_TYPE, ContentTypes.OCTECT_STREAM.toString());
 			}
 		}
 
