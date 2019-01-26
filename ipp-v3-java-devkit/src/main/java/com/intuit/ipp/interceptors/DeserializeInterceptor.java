@@ -79,7 +79,7 @@ public class DeserializeInterceptor implements Interceptor {
                         } else {
                             response = serializer.deserialize(responseElements.getDecompressedData(), IntuitResponse.class);
                         }
-                    } else if (serializeFormat.equalsIgnoreCase(ContentTypes.PDF.name()) || serializeFormat.equalsIgnoreCase("plain")) {
+                    } else if (serializeFormat.equalsIgnoreCase(ContentTypes.PDF.name()) || serializeFormat.equalsIgnoreCase("plain") || serializeFormat.equalsIgnoreCase("octet-stream")) {
                         LOG.info("PDF or plain content has been received");
                         // do nothing, since we will use binary of the response as is
 

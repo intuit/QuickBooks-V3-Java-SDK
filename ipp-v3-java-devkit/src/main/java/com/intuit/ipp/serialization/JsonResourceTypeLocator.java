@@ -72,6 +72,7 @@ import com.intuit.ipp.data.SyncErrorResponse;
 import com.intuit.ipp.data.SyncObject;
 import com.intuit.ipp.data.Task;
 import com.intuit.ipp.data.TaxAgency;
+import com.intuit.ipp.data.TaxClassification;
 import com.intuit.ipp.data.TaxCode;
 import com.intuit.ipp.data.TaxRate;
 import com.intuit.ipp.data.TaxService;
@@ -159,6 +160,7 @@ public final class JsonResourceTypeLocator {
 			put("SyncErrorResponse", SyncErrorResponse.class);
 			put("Task", Task.class);
 			put("TaxAgency", TaxAgency.class);
+			put("TaxClassification", TaxClassification.class);
 			put("TaxCode", TaxCode.class);
 			put("TaxRate", TaxRate.class);
 			put("TaxService", TaxService.class);
