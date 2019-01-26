@@ -103,6 +103,6 @@ token.getRequestId();
 
 ## Sample
 For more samples on how to create other entities and operation, take a look at the sample application below :  
-[sample](https://github.com/IntuitDeveloper/SampleApp-Payments-Java)
+[sample](https://github.com/IntuitDeveloper/SampleApp-Payments-Java/tree/master/src/main/java/com/intuit/sample/paymentsdk)
 
 
