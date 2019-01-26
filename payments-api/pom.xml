@@ -20,10 +20,9 @@
     <groupId>com.intuit.quickbooks-online</groupId>
     <version>5.0.0</version>
   </parent>
-  <artifactId>oauth2-platform-api</artifactId>
-  <version>5.0.0</version>
-  <name>Quickbooks API Helper for OAuth2</name>
-  <description>Quickbooks API Helper Project for OAuth2</description>
+  <artifactId>payments-api</artifactId>
+  <name>Payments API SDK</name>
+  <description>Payments API SDK</description>
 	<dependencies>
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -31,33 +30,11 @@
 			<version>2.6</version>
 		</dependency>
 		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20160810</version>
-		</dependency>
-		 <dependency>
-            <groupId>oauth.signpost</groupId>
-            <artifactId>signpost-core</artifactId>
-            <version>1.2.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>oauth.signpost</groupId>
-            <artifactId>signpost-commonshttp4</artifactId>
-            <version>1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-jaxb-annotations</artifactId>
             <version>2.9.6</version>
         </dependency>
-        <dependency>
-		    <groupId>commons-codec</groupId>
-		    <artifactId>commons-codec</artifactId>
-		    <version>1.11</version>
-		</dependency>
-
 	</dependencies>
-
 	<build>
 		<testResources>
 			<testResource>
@@ -103,7 +80,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<id>oauth2-platform-api</id>
+						<id>payments-api</id>
 						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
