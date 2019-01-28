@@ -4,7 +4,7 @@ JAVA-PAYMENTS-SDK
 **Help:** [Support](https://developer.intuit.com/help), [Samples](https://developer.intuit.com/docs/0100_quickbooks_online/0400_tools/0005_sdks/0200_java/0004_sample_code_and_sample_apps) <br/>
 **Documentation:** [User Guide](https://developer.intuit.com/app/developer/qbpayments/docs/develop/using-an-sdk-to-integrate-with-the-payments-api#java) <br/>
 **Continuous Integration:** [![Build Status](https://travis-ci.org/intuit/QuickBooks-V3-Java-SDK.svg?branch=develop)](https://travis-ci.org/intuit/QuickBooks-V3-Java-SDK) <br/>
-**Maven:** [![Data](https://maven-badges.herokuapp.com/maven-central/com.intuit.quickbooks-online/ipayments-api/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.intuit.quickbooks-online/payments-api) <br/>
+**Maven:** [![Data](https://maven-badges.herokuapp.com/maven-central/com.intuit.quickbooks-online/payments-api/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.intuit.quickbooks-online/payments-api) <br/>
 **License:** [![Apache 2](https://img.shields.io/badge/license-Apache%202-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0) <br/>
 
 
