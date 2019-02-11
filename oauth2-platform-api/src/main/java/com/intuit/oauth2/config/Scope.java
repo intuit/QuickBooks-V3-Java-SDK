@@ -35,7 +35,8 @@ public enum Scope {
 	All("ALL"),									// openid profile email phone address accounting payments
 	Payroll("PAYROLL"),
 	Timetracking("TIMETRACKING"),
-	Benefits("BENEFITS");
+	Benefits("BENEFITS"),
+	IntuitName("INTUIT_NAME");
 	
 	private final String value;
 

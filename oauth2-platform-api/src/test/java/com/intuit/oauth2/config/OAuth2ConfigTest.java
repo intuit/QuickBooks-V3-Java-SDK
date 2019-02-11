@@ -132,6 +132,9 @@ public class OAuth2ConfigTest {
 		
 		scope = oauth2Config.getScopeValue(Scope.Benefits);
 		assertEquals("com.intuit.quickbooks.payroll.benefits", scope);
+
+		scope = oauth2Config.getScopeValue(Scope.IntuitName);
+		assertEquals("intuit_name", scope);
 		
 		
 	}
