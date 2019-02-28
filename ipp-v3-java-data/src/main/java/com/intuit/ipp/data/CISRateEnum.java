@@ -14,34 +14,34 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for CCAVSMatchEnum.
+ * <p>Java class for CISRateEnum.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="CCAVSMatchEnum">
+ * &lt;simpleType name="CISRateEnum">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="Fail"/>
- *     &lt;enumeration value="NotAvailable"/>
- *     &lt;enumeration value="Pass"/>
+ *     &lt;enumeration value="CIS gross rate (0%)"/>
+ *     &lt;enumeration value="CIS standard rate (20%)"/>
+ *     &lt;enumeration value="CIS higher rate (30%)"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
-@XmlType(name = "CCAVSMatchEnum")
+@XmlType(name = "CISRateEnum")
 @XmlEnum
-public enum CCAVSMatchEnum {
+public enum CISRateEnum {
 
-    @XmlEnumValue("Fail")
-    FAIL("Fail"),
-    @XmlEnumValue("NotAvailable")
-    NOT_AVAILABLE("NotAvailable"),
-    @XmlEnumValue("Pass")
-    PASS("Pass");
+    @XmlEnumValue("CIS gross rate (0%)")
+    CIS_GROSS_RATE_0("CIS gross rate (0%)"),
+    @XmlEnumValue("CIS standard rate (20%)")
+    CIS_STANDARD_RATE_20("CIS standard rate (20%)"),
+    @XmlEnumValue("CIS higher rate (30%)")
+    CIS_HIGHER_RATE_30("CIS higher rate (30%)");
     private final String value;
 
-    CCAVSMatchEnum(String v) {
+    CISRateEnum(String v) {
         value = v;
     }
 
@@ -49,8 +49,8 @@ public enum CCAVSMatchEnum {
         return value;
     }
 
-    public static CCAVSMatchEnum fromValue(String v) {
-        for (CCAVSMatchEnum c: CCAVSMatchEnum.values()) {
+    public static CISRateEnum fromValue(String v) {
+        for (CISRateEnum c: CISRateEnum.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

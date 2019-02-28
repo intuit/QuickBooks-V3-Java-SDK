@@ -14,34 +14,37 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for CCAVSMatchEnum.
+ * <p>Java class for SubcontractorTypeEnum.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="CCAVSMatchEnum">
+ * &lt;simpleType name="SubcontractorTypeEnum">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="Fail"/>
- *     &lt;enumeration value="NotAvailable"/>
- *     &lt;enumeration value="Pass"/>
+ *     &lt;enumeration value="Individual"/>
+ *     &lt;enumeration value="Company"/>
+ *     &lt;enumeration value="Partnership"/>
+ *     &lt;enumeration value="Trust"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
-@XmlType(name = "CCAVSMatchEnum")
+@XmlType(name = "SubcontractorTypeEnum")
 @XmlEnum
-public enum CCAVSMatchEnum {
+public enum SubcontractorTypeEnum {
 
-    @XmlEnumValue("Fail")
-    FAIL("Fail"),
-    @XmlEnumValue("NotAvailable")
-    NOT_AVAILABLE("NotAvailable"),
-    @XmlEnumValue("Pass")
-    PASS("Pass");
+    @XmlEnumValue("Individual")
+    INDIVIDUAL("Individual"),
+    @XmlEnumValue("Company")
+    COMPANY("Company"),
+    @XmlEnumValue("Partnership")
+    PARTNERSHIP("Partnership"),
+    @XmlEnumValue("Trust")
+    TRUST("Trust");
     private final String value;
 
-    CCAVSMatchEnum(String v) {
+    SubcontractorTypeEnum(String v) {
         value = v;
     }
 
@@ -49,8 +52,8 @@ public enum CCAVSMatchEnum {
         return value;
     }
 
-    public static CCAVSMatchEnum fromValue(String v) {
-        for (CCAVSMatchEnum c: CCAVSMatchEnum.values()) {
+    public static SubcontractorTypeEnum fromValue(String v) {
+        for (SubcontractorTypeEnum c: SubcontractorTypeEnum.values()) {
             if (c.value.equals(v)) {
                 return c;
             }
