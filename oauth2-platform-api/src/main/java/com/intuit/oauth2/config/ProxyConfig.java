@@ -17,9 +17,8 @@ package com.intuit.oauth2.config;
 
 /**
  * Config class to hold the proxy properties
- * 
- * @author dderose
  *
+ * @author dderose
  */
 public class ProxyConfig {
 
@@ -27,15 +26,16 @@ public class ProxyConfig {
 	private String port;
 	private String username;
 	private String password;
-	
+	private String domain;
+
 	private ProxyConfig(ProxyConfigBuilder builder) {
-        this.host = builder.host;
-        this.port = builder.port;
-        this.username = builder.username;
-        this.password = builder.password;
-        
+		this.host = builder.host;
+		this.port = builder.port;
+		this.username = builder.username;
+		this.password = builder.password;
+		this.domain = builder.domain;
 	}
-	
+
 	public String getHost() {
 		return host;
 	}
@@ -52,33 +52,43 @@ public class ProxyConfig {
 		return password;
 	}
 
+	public String getDomain() {
+		return domain;
+	}
+
 	public static class ProxyConfigBuilder {
-		
+
 		private String host;
 		private String port;
 		private String username;
 		private String password;
+		private String domain;
 
 		public ProxyConfigBuilder(String host, String port) {
 			this.host = host;
 			this.port = port;
 		}
-		
+
 		public ProxyConfigBuilder username(String username) {
 			this.username = username;
 			return this;
 		}
-		
+
 		public ProxyConfigBuilder password(String password) {
 			this.password = password;
+			return this;
+		}
+
+		public ProxyConfigBuilder domain(String domain) {
+			this.domain = domain;
 			return this;
 		}
 
 		public ProxyConfig buildConfig() {
 			return new ProxyConfig(this);
 		}
-		
+
 	}
 
-	   
+
 }
