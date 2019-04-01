@@ -35,6 +35,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.NTCredentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
@@ -321,7 +322,12 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 			String port = Config.getProperty(Config.PROXY_PORT);
 			if (StringUtils.hasText(host) && StringUtils.hasText(port)) {
 				CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-				credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new UsernamePasswordCredentials(username, password));
+				String domain = Config.getProperty(Config.PROXY_DOMAIN);
+				if (StringUtils.hasText(domain)) {
+					credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new NTCredentials(username, password, host, domain));
+				} else {
+					credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new UsernamePasswordCredentials(username, password));
+				}
 				return credentialsProvider;
 			}
 		}

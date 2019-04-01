@@ -27,55 +27,43 @@ public class ProxyConfig {
 	private String port;
 	private String username;
 	private String password;
+	private String domain;
 
 	private ProxyConfig(ProxyConfigBuilder builder) {
 		this.host = builder.host;
 		this.port = builder.port;
 		this.username = builder.username;
 		this.password = builder.password;
-
+		this.domain = builder.domain;
 	}
 
-	/**
-	 * @return
-	 */
 	public String getHost() {
 		return host;
 	}
 
-	/**
-	 * @return
-	 */
 	public String getPort() {
 		return port;
 	}
 
-	/**
-	 * @return
-	 */
 	public String getUsername() {
 		return username;
 	}
 
-	/**
-	 * @return
-	 */
 	public String getPassword() {
 		return password;
 	}
 
-	/**
-	 * Builder class for ProxyConfig
-	 * 
-	 * @author dderose
-	 *
-	 */
+	public String getDomain() {
+		return domain;
+	}
+
 	public static class ProxyConfigBuilder {
 
 		private String host;
 		private String port;
 		private String username;
 		private String password;
+		private String domain;
 
 		public ProxyConfigBuilder(String host, String port) {
 			this.host = host;
@@ -92,10 +80,16 @@ public class ProxyConfig {
 			return this;
 		}
 
+		public ProxyConfigBuilder domain(String domain) {
+			this.domain = domain;
+			return this;
+		}
+
 		public ProxyConfig buildConfig() {
 			return new ProxyConfig(this);
 		}
 
 	}
+
 
 }

@@ -129,7 +129,7 @@ public class HttpRequestClient {
 			String port = proxyConfig.getPort();
 			if (!host.isEmpty() && !port.isEmpty()) {
 				CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-				String domain=proxyConfig.getDomain();
+				String domain = proxyConfig.getDomain();
 				if (!domain.isEmpty()) {
 					credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new NTCredentials(username, password, host, domain));
 				} else {

@@ -76,6 +76,8 @@ public final class Config {
 	 */
 	public static final String PROXY_PASSWORD = "proxy.password";
 	
+	public static final String PROXY_DOMAIN = "proxy.domain";
+	
 	/**
 	 * variable PROXY_KEYSTORE_PATH
 	 */

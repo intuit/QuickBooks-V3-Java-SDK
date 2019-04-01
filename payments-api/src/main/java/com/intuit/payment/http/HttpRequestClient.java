@@ -31,6 +31,7 @@ import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.NTCredentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
@@ -39,6 +40,7 @@ import org.apache.http.client.utils.HttpClientUtils;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContexts;
@@ -89,8 +91,7 @@ public class HttpRequestClient {
 				"V3JavaSDK-payments-" + PropertiesConfig.getInstance().getProperty("version")));
 
 		// build the client
-		Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory> create()
-				.register("https", prepareClientSSL()).build();
+		Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create().register("https", prepareClientSSL()).register("http", new PlainConnectionSocketFactory()).build();
 		PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
 		HttpClientBuilder hcBuilder = HttpClients.custom().setConnectionManager(cm).setDefaultRequestConfig(config)
 				.setDefaultHeaders(headers).setMaxConnPerRoute(10)
@@ -173,8 +174,12 @@ public class HttpRequestClient {
 			String port = proxyConfig.getPort();
 			if (!host.isEmpty() && !port.isEmpty()) {
 				CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-				credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)),
-						new UsernamePasswordCredentials(username, password));
+				String domain = proxyConfig.getDomain();
+				if (!domain.isEmpty()) {
+					credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new NTCredentials(username, password, host, domain));
+				} else {
+					credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new UsernamePasswordCredentials(username, password));
+				}
 				return credentialsProvider;
 			}
 		}
