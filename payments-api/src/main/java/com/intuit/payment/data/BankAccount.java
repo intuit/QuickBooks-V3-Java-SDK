@@ -19,12 +19,14 @@ import java.util.Date;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author dderose
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BankAccount extends Entity {
 
 	private static final long serialVersionUID = 1L;
@@ -54,6 +56,10 @@ public class BankAccount extends Entity {
 
 	private String country = null;
 	private String bankCode = null;
+	
+	private String entityId = null;
+	private String entityType = null;
+	private String entityVersion = null;
 
 	public BankAccount() {
 	}
@@ -71,6 +77,9 @@ public class BankAccount extends Entity {
 		this.defaultValue = builder.defaultValue;
 		this.country = builder.country;
 		this.bankCode = builder.bankCode;
+		this.entityId = builder.entityId;
+		this.entityType = builder.entityType;
+		this.entityVersion = builder.entityVersion;
 	}
 
 	/**
@@ -250,6 +259,30 @@ public class BankAccount extends Entity {
 	public void setDefaultValue(Boolean defaultValue) {
 		this.defaultValue = defaultValue;
 	}
+	
+	public String getEntityId() {
+		return entityId;
+	}
+
+	public void setEntityId(String entityId) {
+		this.entityId = entityId;
+	}
+
+	public String getEntityType() {
+		return entityType;
+	}
+
+	public void setEntityType(String entityType) {
+		this.entityType = entityType;
+	}
+
+	public String getEntityVersion() {
+		return entityVersion;
+	}
+
+	public void setEntityVersion(String entityVersion) {
+		this.entityVersion = entityVersion;
+	}
 
 	@Override
 	public String toString() {
@@ -276,6 +309,9 @@ public class BankAccount extends Entity {
 		private Boolean defaultValue = null;
 		private String country = null;
 		private String bankCode = null;
+		private String entityId = null;
+		private String entityType = null;
+		private String entityVersion = null;
 
 		public Builder() {
 		}
@@ -337,6 +373,21 @@ public class BankAccount extends Entity {
 
 		public Builder bankCode(String bankCode) {
 			this.bankCode = bankCode;
+			return this;
+		}
+		
+		public Builder entityId(String entityId) {
+			this.entityId = entityId;
+			return this;
+		}
+		
+		public Builder entityType(String entityType) {
+			this.entityType = entityType;
+			return this;
+		}
+		
+		public Builder entityVersion(String entityVersion) {
+			this.entityVersion = entityVersion;
 			return this;
 		}
 

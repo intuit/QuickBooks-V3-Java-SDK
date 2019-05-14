@@ -20,10 +20,13 @@ import java.util.Date;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author dderose
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Capture extends Entity {
 
 	private static final long serialVersionUID = 1L;

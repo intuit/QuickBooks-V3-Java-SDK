@@ -17,10 +17,13 @@ package com.intuit.payment.data;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author dderose
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CheckContext extends Entity {
 
 	private static final long serialVersionUID = 1L;

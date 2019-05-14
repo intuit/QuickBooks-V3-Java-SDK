@@ -19,10 +19,13 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author dderose
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentContext extends Entity {
 
 	private static final long serialVersionUID = 1L;

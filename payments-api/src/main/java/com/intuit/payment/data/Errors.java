@@ -20,12 +20,14 @@ import java.util.List;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author dderose
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Errors extends Entity {
 
 	private static final long serialVersionUID = 1L;

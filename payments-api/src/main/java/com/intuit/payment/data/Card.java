@@ -19,12 +19,14 @@ import java.util.Date;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author dderose
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Card extends Entity {
 
 	private static final long serialVersionUID = 1L;
@@ -48,6 +50,10 @@ public class Card extends Entity {
 
 	private String cvc = null;
 	
+	private String entityId = null;
+	private String entityType = null;
+	private String entityVersion = null;
+	
 
 	public Card() {
 	}
@@ -68,6 +74,9 @@ public class Card extends Entity {
 		this.isLevel3Eligible = builder.isLevel3Eligible;
 		this.defaultValue = builder.defaultValue;
 		this.cvc = builder.cvc;
+		this.entityId = builder.entityId;
+		this.entityType = builder.entityType;
+		this.entityVersion = builder.entityVersion;
 	}
 
 	/**
@@ -325,6 +334,30 @@ public class Card extends Entity {
 	public void setDefaultValue(Boolean defaultValue) {
 		this.defaultValue = defaultValue;
 	}
+	
+	public String getEntityId() {
+		return entityId;
+	}
+
+	public void setEntityId(String entityId) {
+		this.entityId = entityId;
+	}
+
+	public String getEntityType() {
+		return entityType;
+	}
+
+	public void setEntityType(String entityType) {
+		this.entityType = entityType;
+	}
+
+	public String getEntityVersion() {
+		return entityVersion;
+	}
+
+	public void setEntityVersion(String entityVersion) {
+		this.entityVersion = entityVersion;
+	}
 
 	@Override
 	public String toString() {
@@ -354,6 +387,9 @@ public class Card extends Entity {
 		private Boolean isLevel3Eligible = null;
 		private Boolean defaultValue = null;
 		private String cvc = null;
+		private String entityId = null;
+		private String entityType = null;
+		private String entityVersion = null;
 
 		public Builder() {
 		}
@@ -430,6 +466,21 @@ public class Card extends Entity {
 
 		public Builder cvc(String cvc) {
 			this.cvc = cvc;
+			return this;
+		}
+		
+		public Builder entityId(String entityId) {
+			this.entityId = entityId;
+			return this;
+		}
+		
+		public Builder entityType(String entityType) {
+			this.entityType = entityType;
+			return this;
+		}
+		
+		public Builder entityVersion(String entityVersion) {
+			this.entityVersion = entityVersion;
 			return this;
 		}
 
