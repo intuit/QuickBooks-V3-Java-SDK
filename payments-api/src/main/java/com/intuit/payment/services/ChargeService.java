@@ -262,5 +262,46 @@ public class ChargeService extends ServiceBase {
 		prepareResponse(request, response, refundResponse);
 		return refundResponse;
 	}
+	
+	/**
+	 * Method to void a Charge
+	 * 
+	 * @param chargeId
+	 * @param refund
+	 * @return
+	 * @throws BaseException
+	 */
+	public Refund voidTransaction(String chargeRequestId) throws BaseException {
+
+		logger.debug("Enter ChargeService::refund");
+		
+		if (StringUtils.isBlank(chargeRequestId)) {
+			logger.error("IllegalArgumentException {}", chargeRequestId);
+			throw new IllegalArgumentException("chargeRequestId cannot be empty or null");
+		}
+
+		// prepare API url
+		String apiUrl = requestContext.getBaseUrl()
+				+ "txn-requests/{id}/void".replaceAll("\\{format\\}", "json").replaceAll("\\{" + "id" + "\\}", chargeRequestId);
+		logger.info("apiUrl - " + apiUrl);
+		
+		// assign TypeReference for deserialization
+		TypeReference<Refund> typeReference = new TypeReference<Refund>() {
+		};
+
+		// prepare service request
+		Request request = new Request.RequestBuilder(MethodType.POST, apiUrl)
+				.typeReference(typeReference).context(requestContext).build();
+
+		// make API call
+		Response response = sendRequest(request);
+
+		// retrieve response
+		Refund refundResponse = (Refund) response.getResponseObject();
+
+		// set additional attributes
+		prepareResponse(request, response, refundResponse);
+		return refundResponse;
+	}
 
 }

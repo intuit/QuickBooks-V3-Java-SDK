@@ -130,7 +130,7 @@ public class HttpRequestClient {
 		}
 
 		MethodType method = serviceRequest.getMethod();
-		if (method == MethodType.POST) {
+		if (method == MethodType.POST && serviceRequest.getPostJson() != null) {
 			// add post json
 			HttpEntity entity = new StringEntity(serviceRequest.getPostJson(), "UTF-8");
 			builder.setEntity(entity);
