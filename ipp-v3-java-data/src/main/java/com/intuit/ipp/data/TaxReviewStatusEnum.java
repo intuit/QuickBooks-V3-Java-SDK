@@ -9,50 +9,37 @@
 package com.intuit.ipp.data;
 
 import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for SyncType.
+ * <p>Java class for TaxReviewStatusEnum.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="SyncType">
+ * &lt;simpleType name="TaxReviewStatusEnum">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="Upload"/>
- *     &lt;enumeration value="Writeback"/>
+ *     &lt;enumeration value="NON_AST_TAX"/>
+ *     &lt;enumeration value="AST_TAX_OVERRIDE"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
-@XmlType(name = "SyncType")
+@XmlType(name = "TaxReviewStatusEnum")
 @XmlEnum
-public enum SyncType {
+public enum TaxReviewStatusEnum {
 
-    @XmlEnumValue("Upload")
-    UPLOAD("Upload"),
-    @XmlEnumValue("Writeback")
-    WRITEBACK("Writeback");
-    private final String value;
-
-    SyncType(String v) {
-        value = v;
-    }
+    NON_AST_TAX,
+    AST_TAX_OVERRIDE;
 
     public String value() {
-        return value;
+        return name();
     }
 
-    public static SyncType fromValue(String v) {
-        for (SyncType c: SyncType.values()) {
-            if (c.value.equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
+    public static TaxReviewStatusEnum fromValue(String v) {
+        return valueOf(v);
     }
 
 }
