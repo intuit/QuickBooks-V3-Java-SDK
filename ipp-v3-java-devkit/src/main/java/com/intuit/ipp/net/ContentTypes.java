@@ -47,6 +47,8 @@ public enum ContentTypes {
 	 * content type MULTIPART_FORMDATA
 	 */
 	MULTIPART_FORMDATA("multipart/form-data"),
+	
+	OCTECT_STREAM("application/octet-stream"),
 
 
     /**

@@ -292,7 +292,7 @@ public class ReportService {
 		IntuitMessage intuitMessage = prepareReport(reportName);
 
 		// execute interceptors
-		new IntuitInterceptorProvider().executeInterceptors(intuitMessage);
+		executeInterceptors(intuitMessage);
 
 		Report report = null;
 
@@ -303,7 +303,17 @@ public class ReportService {
 		}
 		return report;
 	}
-	
+
+    /**
+     * Invokes interceptors, which perform networking operations (serialization, compression, connection etc)
+     * @param intuitMessage
+     * @throws FMSException
+     */
+    protected void executeInterceptors(IntuitMessage intuitMessage) throws FMSException {
+      new IntuitInterceptorProvider().executeInterceptors(intuitMessage);
+    }
+
+
 	/**
 	 * Common method to prepare the request params for Reports and for both sync and async calls
 	 * 

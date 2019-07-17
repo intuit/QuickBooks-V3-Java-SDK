@@ -21,10 +21,9 @@
     <parent>
         <artifactId>ipp-v3-java-devkit-pom</artifactId>
         <groupId>com.intuit.quickbooks-online</groupId>
-        <version>3.0.3</version>
+        <version>5.0.5</version>
     </parent>
   <artifactId>ipp-java-qbapihelper</artifactId>
-  <version>3.0.3</version>
   <packaging>jar</packaging>
   <name>Quickbooks API Helper for Oauth</name>
   <description>Quickbooks API Helper Project for OAuth, Disconnect and Reconnect</description>
@@ -33,7 +32,22 @@
 			<groupId>org.openid4java</groupId>
 			<artifactId>openid4java</artifactId>
 			<version>0.9.8</version>
-		</dependency>		
+		</dependency>
+		<dependency>
+            <groupId>net.sf.kxml</groupId>
+            <artifactId>kxml2</artifactId>
+            <version>2.2.2</version>
+        </dependency>	
+        <dependency>
+            <groupId>oauth.signpost</groupId>
+            <artifactId>signpost-core</artifactId>
+            <version>1.2.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>oauth.signpost</groupId>
+            <artifactId>signpost-commonshttp4</artifactId>
+            <version>1.2</version>
+        </dependency>	
 	</dependencies>
 
 	<build>

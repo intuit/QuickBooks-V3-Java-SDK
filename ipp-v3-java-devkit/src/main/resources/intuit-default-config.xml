@@ -3,7 +3,12 @@
 	<baseURL>
 		<qbo>https://quickbooks.api.intuit.com/v3/company</qbo> 
 		<platformService>https://appcenter.intuit.com/db</platformService>
+		<entitlementService>https://quickbooks.api.intuit.com/manage</entitlementService>
 	</baseURL>
+	
+	<tls>
+		<version>TLSv1.2</version>
+	</tls>
 	
 	<retry>
 		<mode>fixed</mode>

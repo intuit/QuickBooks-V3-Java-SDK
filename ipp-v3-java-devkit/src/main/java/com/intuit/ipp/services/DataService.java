@@ -34,6 +34,7 @@ import com.intuit.ipp.core.IEntity;
 import com.intuit.ipp.data.AttachableResponse;
 import com.intuit.ipp.data.BatchItemResponse;
 import com.intuit.ipp.data.CDCResponse;
+import com.intuit.ipp.data.EntitlementsResponse;
 import com.intuit.ipp.data.Estimate;
 import com.intuit.ipp.data.Fault;
 import com.intuit.ipp.data.IntuitBatchRequest;
@@ -114,6 +115,14 @@ public class DataService {
         String intuitQuery = "SELECT * FROM " + entity.getClass().getSimpleName();
         QueryResult result = executeQuery(intuitQuery);
         return (List<T>) result.getEntities();
+    }
+    
+    @SuppressWarnings("unchecked")
+    public QueryResult findAllTaxClassification() throws FMSException {
+
+        String intuitQuery = "SELECT * FROM TaxClassification";
+        QueryResult result = executeQuery(intuitQuery);
+        return result;
     }
 
     /**
@@ -278,6 +287,63 @@ public class DataService {
         }
         return returnEntity;
     }
+    
+    /**
+     * Method to find the record for the given id for the corresponding entity
+     *
+     * @param entity
+     * @return returns the entity
+     * @throws FMSException
+     */
+    @SuppressWarnings("unchecked")
+    public QueryResult findTaxClassificationByParentId(IEntity entity) throws FMSException {
+
+        IntuitMessage intuitMessage = prepareFindByParentId(entity);
+
+        //execute interceptors
+        executeInterceptors(intuitMessage);
+
+        QueryResult queryResult = null;
+
+        // Iterate the IntuitObjects list in QueryResponse and convert to <T> entity
+        IntuitResponse intuitResponse = (IntuitResponse) intuitMessage.getResponseElements().getResponse();
+        if (intuitResponse != null) {
+            QueryResponse queryResponse = intuitResponse.getQueryResponse();
+            if (queryResponse != null) {
+                queryResult = getQueryResult(queryResponse);
+            }
+        }
+        return queryResult;
+    }
+    
+    /**
+     * Method to find the record for the given id for the corresponding entity
+     *
+     * @param entity
+     * @return returns the entity
+     * @throws FMSException
+     */
+    @SuppressWarnings("unchecked")
+    public QueryResult findTaxClassificationByLevel(IEntity entity) throws FMSException {
+
+        IntuitMessage intuitMessage = prepareFindByLevel(entity);
+ 
+        //execute interceptors
+        executeInterceptors(intuitMessage);
+        
+        QueryResult queryResult = null;
+
+        // Iterate the IntuitObjects list in QueryResponse and convert to <T> entity
+        IntuitResponse intuitResponse = (IntuitResponse) intuitMessage.getResponseElements().getResponse();
+        if (intuitResponse != null) {
+            QueryResponse queryResponse = intuitResponse.getQueryResponse();
+            if (queryResponse != null) {
+                queryResult = getQueryResult(queryResponse);
+            }
+        }
+        return queryResult;
+    }
+    
 
 
     /**
@@ -924,6 +990,19 @@ public class DataService {
         //execute async interceptors
         executeAsyncInterceptors(intuitMessage);
     }
+    
+    public EntitlementsResponse getEntitlements() throws FMSException {
+    	
+    	//prepare request
+    	IntuitMessage intuitMessage = prepareEntitlementsRequest();
+
+        //execute interceptors
+        executeInterceptors(intuitMessage);
+
+        //return response
+        EntitlementsResponse entitlementsResponse = (EntitlementsResponse) intuitMessage.getResponseElements().getResponse();
+        return entitlementsResponse;
+    }
 
     /**
      * Method to cancel the operation for the corresponding entity in asynchronous fashion
@@ -1089,6 +1168,88 @@ public class DataService {
 
         requestElements.setContext(context);
         requestElements.setEntity(entity);
+
+        return intuitMessage;
+    }
+    
+    private <T extends IEntity> IntuitMessage prepareFindByLevel(T entity) throws FMSException {
+        Class<?> objectClass = entity.getClass();
+        Object level = null;
+        Method m;
+
+        try {
+            m = objectClass.getMethod("getLevel");
+            level = m.invoke(entity);
+        } catch (Exception e) {
+            throw new FMSException("Unable to read the method getId", e);
+        }
+
+        // The preferences/companyInfo check is to skip the Id null validation as it is not required for Preferences/CompanyInfo Read operation
+        if (level == null) {
+            throw new FMSException("level is required.");
+        }
+
+        IntuitMessage intuitMessage = new IntuitMessage();
+        RequestElements requestElements = intuitMessage.getRequestElements();
+
+        //set the request params
+        Map<String, String> requestParameters = requestElements.getRequestParameters();
+        requestParameters.put(RequestElements.REQ_PARAM_METHOD_TYPE, MethodType.GET.toString());
+        requestParameters.put(RequestElements.REQ_PARAM_LEVEL, level.toString());
+
+        requestElements.setContext(context);
+        requestElements.setEntity(entity);
+
+        return intuitMessage;
+    }
+    
+    private <T extends IEntity> IntuitMessage prepareFindByParentId(T entity) throws FMSException {
+        Class<?> objectClass = entity.getClass();
+        Class<?> parentClass;
+        Object parentRef = null;
+        Object parentId = null;
+        Method m;
+
+        try {
+            m = objectClass.getMethod("getParentRef");
+            parentRef = m.invoke(entity);
+            parentClass = parentRef.getClass();
+            m = parentClass.getMethod("getValue");
+            parentId = m.invoke(parentRef);
+        } catch (Exception e) {
+            throw new FMSException("Unable to read the method getId", e);
+        }
+
+        // The preferences/companyInfo check is to skip the Id null validation as it is not required for Preferences/CompanyInfo Read operation
+        if (parentId == null) {
+            throw new FMSException("parentId is required.");
+        }
+
+        IntuitMessage intuitMessage = new IntuitMessage();
+        RequestElements requestElements = intuitMessage.getRequestElements();
+
+        //set the request params
+        Map<String, String> requestParameters = requestElements.getRequestParameters();
+        requestParameters.put(RequestElements.REQ_PARAM_METHOD_TYPE, MethodType.GET.toString());
+        requestParameters.put(RequestElements.REQ_PARAM_PARENT_ID, parentId.toString());
+
+        requestElements.setContext(context);
+        requestElements.setEntity(entity);
+
+        return intuitMessage;
+    }
+    
+    private <T extends IEntity> IntuitMessage prepareEntitlementsRequest() throws FMSException {
+        
+        IntuitMessage intuitMessage = new IntuitMessage();
+        RequestElements requestElements = intuitMessage.getRequestElements();
+
+        //set the request params
+        Map<String, String> requestParameters = requestElements.getRequestParameters();
+        requestParameters.put(RequestElements.REQ_PARAM_METHOD_TYPE, MethodType.GET.toString());
+
+        requestElements.setContext(context);
+        intuitMessage.setEntitlementService(true);
 
         return intuitMessage;
     }

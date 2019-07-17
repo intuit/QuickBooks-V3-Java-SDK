@@ -54,6 +54,7 @@ public final class Config {
 	 * variable BASE_URL_PLATFORMSERVICE
 	 */
 	public static final String BASE_URL_PLATFORMSERVICE = "baseURL.platformService";
+	public static final String BASE_URL_ENTITLEMENTSERVICE = "baseURL.entitlementService";
 
 	/**
 	 * variable PROXY_HOST
@@ -74,6 +75,8 @@ public final class Config {
 	 * variable PROXY_PASSWORD
 	 */
 	public static final String PROXY_PASSWORD = "proxy.password";
+	
+	public static final String PROXY_DOMAIN = "proxy.domain";
 	
 	/**
 	 * variable PROXY_KEYSTORE_PATH
@@ -174,6 +177,8 @@ public final class Config {
 	 * Set to HTTP_URL_CONNECTION if required. Default is Apache HTTP Client if not set. In XML config you can set as <httpTransport>HTTP_URL_CONNECTION</httpTransport>
 	 */
 	public static final String HTTP_TRANSPORT = "httpTransport";
+	
+	public static final String TLS_VERSION = "tls.version";
 
 
     public static final String BIGDECIMAL_SCALE_SHIFT = "feature.bigDecimalScaleShift";

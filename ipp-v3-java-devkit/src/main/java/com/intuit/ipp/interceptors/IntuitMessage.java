@@ -26,6 +26,7 @@ public class IntuitMessage {
 	 * variable platformService
 	 */
 	private boolean platformService = false;
+	private boolean entitlementService = false;
 	
 	/**
 	 * variable requestElements
@@ -63,6 +64,15 @@ public class IntuitMessage {
 	public void setPlatformService(boolean platformService) {
 		this.platformService = platformService;
 	}
+	
+	public boolean isEntitlementService() {
+		return entitlementService;
+	}
+
+	public void setEntitlementService(boolean entitlementService) {
+		this.entitlementService = entitlementService;
+	}
+
 	public TaxService getTaxService() {
 		return taxService;
 	}

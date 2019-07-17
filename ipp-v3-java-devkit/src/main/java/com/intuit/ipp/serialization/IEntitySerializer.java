@@ -16,6 +16,7 @@
 package com.intuit.ipp.serialization;
 
 import com.intuit.ipp.core.Response;
+import com.intuit.ipp.data.EntitlementsResponse;
 import com.intuit.ipp.exception.SerializationException;
 
 /**
@@ -41,4 +42,6 @@ public interface IEntitySerializer {
 	 */
 
 	Response deserialize(String data, Class<?> cl) throws SerializationException;
+
+	Response deserializeEntitlements(String decompressedData, Class<EntitlementsResponse> cl) throws SerializationException;
 }

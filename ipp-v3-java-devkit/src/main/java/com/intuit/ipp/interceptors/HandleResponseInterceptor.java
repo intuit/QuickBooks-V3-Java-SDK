@@ -17,6 +17,7 @@ package com.intuit.ipp.interceptors;
 
 import org.apache.http.StatusLine;
 
+import com.intuit.ipp.data.EntitlementsResponse;
 import com.intuit.ipp.data.Fault;
 import com.intuit.ipp.data.IntuitResponse;
 import com.intuit.ipp.data.TaxService;
@@ -91,9 +92,11 @@ public class HandleResponseInterceptor implements Interceptor {
 		ResponseElements responseElements = intuitMessage.getResponseElements();
 		if(responseElements.getResponse() instanceof TaxService)
 		{
-		LOG.debug("Tax Service Response" );
-		}else
+			LOG.debug("Tax Service Response" );
+		} else if(responseElements.getResponse() instanceof EntitlementsResponse)
 		{
+			LOG.debug("Entitlements Response" );
+		} else{
 		intuitResponse = (IntuitResponse) responseElements.getResponse();
 		}
 

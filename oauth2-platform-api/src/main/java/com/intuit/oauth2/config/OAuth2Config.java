@@ -51,6 +51,9 @@ public class OAuth2Config {
 	private String intuitJwksURI;
 	private String userProfileEndpoint;
 	
+	//proxy config
+	private ProxyConfig proxyConfig;
+	
 	private static final Logger logger = LoggerImpl.getInstance();
 	
 	
@@ -63,6 +66,7 @@ public class OAuth2Config {
         this.intuitRevokeTokenEndpoint = builder.intuitRevokeTokenEndpoint;
         this.intuitJwksURI = builder.intuitJwksURI;
         this.userProfileEndpoint = builder.userProfileEndpoint;
+        this.proxyConfig = builder.proxyConfig;
 	}
 	
 	
@@ -98,6 +102,10 @@ public class OAuth2Config {
 		return clientSecret;
 	}
 	
+	public ProxyConfig getProxyConfig() {
+		return proxyConfig;
+	}
+
 	public static class OAuth2ConfigBuilder {
 		
 		private String clientId;
@@ -109,6 +117,8 @@ public class OAuth2Config {
 		private String intuitRevokeTokenEndpoint;
 		private String intuitJwksURI;
 		private String userProfileEndpoint;
+		
+		private ProxyConfig proxyConfig;
 
 		public OAuth2ConfigBuilder(String clientId, String clientSecret) {
 			this.clientId = clientId;
@@ -118,7 +128,7 @@ public class OAuth2Config {
 		public OAuth2ConfigBuilder callDiscoveryAPI(Environment environment) {
 		
 			try {
-				DiscoveryAPIResponse discoveryAPIResponse = new DiscoveryAPIClient().callDiscoveryAPI(environment);
+				DiscoveryAPIResponse discoveryAPIResponse = new DiscoveryAPIClient(proxyConfig).callDiscoveryAPI(environment);
 			
 				if (discoveryAPIResponse != null) {
 					this.intuitIdTokenIssuer = discoveryAPIResponse.getIssuer();
@@ -131,6 +141,11 @@ public class OAuth2Config {
 			} catch (ConnectionException e) {
 				logger.error("Exception while preparing url for redirect ", e);
 			}
+			return this;
+		}
+		
+		public OAuth2ConfigBuilder proxyConfig(ProxyConfig proxyConfig) {		
+			this.proxyConfig = proxyConfig;
 			return this;
 		}
 

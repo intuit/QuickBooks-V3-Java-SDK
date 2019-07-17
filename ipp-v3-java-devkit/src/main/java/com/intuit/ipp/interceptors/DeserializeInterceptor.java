@@ -16,6 +16,7 @@
 package com.intuit.ipp.interceptors;
 
 import com.intuit.ipp.core.Response;
+import com.intuit.ipp.data.EntitlementsResponse;
 import com.intuit.ipp.data.IntuitResponse;
 import com.intuit.ipp.data.TaxService;
 import com.intuit.ipp.exception.FMSException;
@@ -69,10 +70,16 @@ public class DeserializeInterceptor implements Interceptor {
                         IEntitySerializer serializer = SerializerFactory.getSerializer(serializeFormat);
                         if (intuitMessage.getRequestElements().getObjectToSerialize() instanceof TaxService && serializeFormat.equalsIgnoreCase(ContentTypes.JSON.name())) {
                             response = serializer.deserialize(responseElements.getDecompressedData(), TaxService.class);
+                        } else if (intuitMessage.isEntitlementService()) {
+                        	if (StringUtils.hasText(responseElements.getDecompressedData())) {
+                            response = serializer.deserializeEntitlements(responseElements.getDecompressedData(), EntitlementsResponse.class);
+                        	} else {
+                        		response = responseElements.getResponse();
+                        	}
                         } else {
                             response = serializer.deserialize(responseElements.getDecompressedData(), IntuitResponse.class);
                         }
-                    } else if (serializeFormat.equalsIgnoreCase(ContentTypes.PDF.name()) || serializeFormat.equalsIgnoreCase("plain")) {
+                    } else if (serializeFormat.equalsIgnoreCase(ContentTypes.PDF.name()) || serializeFormat.equalsIgnoreCase("plain") || serializeFormat.equalsIgnoreCase("octet-stream")) {
                         LOG.info("PDF or plain content has been received");
                         // do nothing, since we will use binary of the response as is
 

@@ -25,6 +25,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import com.intuit.ipp.core.Response;
+import com.intuit.ipp.data.EntitlementsResponse;
 import com.intuit.ipp.exception.SerializationException;
 import com.intuit.ipp.util.Logger;
 import com.intuit.ipp.util.MessageUtils;
@@ -67,14 +68,14 @@ public class XMLSerializer implements IEntitySerializer {
 	 */
 	@SuppressWarnings("unchecked")
 	public Response deserialize(String str, Class<?> cl) throws SerializationException {
-        String xml10pattern = "[^"
-                + "\u0009\r\n"
-                + "\u0020-\uD7FF"
-                + "\uE000-\uFFFD"
-                + "\ud800\udc00-\udbff\udfff"
-                + "]";
+		Object unmarshalledObject = deserializeData(str, cl);
+		return ((JAXBElement<Response>) unmarshalledObject).getValue();
+	}
+	
 
-        String validXmlString = str.replaceAll(xml10pattern,"");
+
+	private Object deserializeData(String str, Class<?> cl) throws SerializationException {
+		String validXmlString = getValidatedXmlString(str);
         LOG.trace("valid : " + validXmlString);
 		Object unmarshalledObject;
 		try {
@@ -84,7 +85,39 @@ public class XMLSerializer implements IEntitySerializer {
 			LOG.error("unable to unmarshall in XML deserializer s 1", e);
 			throw new SerializationException(e);
 		}
-		return ((JAXBElement<Response>) unmarshalledObject).getValue();
+		return unmarshalledObject;
+	}
+
+	private String getValidatedXmlString(String str) {
+		String xml10pattern = "[^"
+                + "\u0009\r\n"
+                + "\u0020-\uD7FF"
+                + "\uE000-\uFFFD"
+                + "\ud800\udc00-\udbff\udfff"
+                + "]";
+
+        String validXmlString = str.replaceAll(xml10pattern,"");
+		return validXmlString;
+	}
+
+	@Override
+	public Response deserializeEntitlements(String decompressedData, Class<EntitlementsResponse> cl)
+			throws SerializationException {
+		
+		String validXmlString = getValidatedXmlString(decompressedData);
+        LOG.trace("valid : " + validXmlString);
+		EntitlementsResponse response;
+		try {
+		    //create the jaxbcontext 
+			Unmarshaller unmarshaller = JAXBContext.newInstance(EntitlementsResponse.class).createUnmarshaller();
+		    //call the unmarshall method
+		    response=(EntitlementsResponse) unmarshaller.unmarshal(new StringReader(new String(validXmlString.getBytes(), "UTF-8")));
+		    		    
+		} catch (Exception e) {
+			LOG.error("unable to unmarshall in XML deserializer s 1", e);
+			throw new SerializationException(e);
+		}
+        return response;
 	}
 
 }

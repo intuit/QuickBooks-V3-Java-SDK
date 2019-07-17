@@ -15,17 +15,16 @@
  *******************************************************************************/
 package com.intuit.ipp.interceptors;
 
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import com.intuit.ipp.core.Context;
 import com.intuit.ipp.core.ServiceType;
 import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.security.OAuthAuthorizer;
 import com.intuit.ipp.util.Config;
-import com.intuit.ipp.util.StringUtils;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 
 public class PrepareRequestInterceptorTest {
@@ -54,10 +53,8 @@ public class PrepareRequestInterceptorTest {
     public void testExecute_QBO_URI() throws FMSException  {
         instance.execute(message);
         String actual = message.getRequestElements().getRequestParameters().get("uri");
-        Assert.assertEquals(actual, Config.getProperty(Config.BASE_URL_QBO) + "/fakeRealm/fakeAction?requestid=anyRequestID&minorversion=12&");
-        //change by nidhi for testing 
-        //Assert.assertEquals(actual, Config.getProperty(Config.BASE_URL_QBO) + "/fakeRealm/fakeAction?requestid=anyRequestID&include=updateaccountontxnsminorversion=5&");
-    }
+        Assert.assertEquals(actual, Config.getProperty(Config.BASE_URL_QBO) + "/fakeRealm/fakeAction?requestid=anyRequestID&minorversion=38&");
+     }
 
 
     @Test

@@ -31,6 +31,7 @@
     <xs:element name="Class" type="Class" substitutionGroup="IntuitObject"/>
     <xs:element name="TimeActivity" type="TimeActivity" substitutionGroup="IntuitObject"/>
     <xs:element name="Item" type="Item" substitutionGroup="IntuitObject"/>
+    <xs:element name="TaxClassification" type="TaxClassification" substitutionGroup="IntuitObject"/>
     <xs:element name="TaxCode" type="TaxCode" substitutionGroup="IntuitObject"/>
     <xs:element name="TaxReturn" type="TaxReturn" substitutionGroup="IntuitObject"/>
     <xs:element name="TaxRate" type="TaxRate" substitutionGroup="IntuitObject"/>
@@ -139,6 +140,11 @@
             <xs:element name="Detail" type="xs:string" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Detailed error localized or unlocalized error that is thrown by the business logic backend that caused the error</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="DetailLink" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Link to get more details about error like common cause, remedy etc</xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>

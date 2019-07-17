@@ -34,7 +34,7 @@ public class DiscoveryAPIClientTest {
 	@Test
 	public void testCallDiscoverAPIForProduction() throws ConnectionException {
 		
-		DiscoveryAPIResponse discoveryAPIResponse = new DiscoveryAPIClient().callDiscoveryAPI(Environment.PRODUCTION);
+		DiscoveryAPIResponse discoveryAPIResponse = new DiscoveryAPIClient(null).callDiscoveryAPI(Environment.PRODUCTION);
 		assertNotNull(discoveryAPIResponse);
 		assertEquals("https://oauth.platform.intuit.com/op/v1", discoveryAPIResponse.getIssuer());
 		
@@ -43,7 +43,7 @@ public class DiscoveryAPIClientTest {
 	@Test
 	public void testCallDiscoverAPIForSandbox() throws ConnectionException {
 		
-		DiscoveryAPIResponse discoveryAPIResponse = new DiscoveryAPIClient().callDiscoveryAPI(Environment.SANDBOX);
+		DiscoveryAPIResponse discoveryAPIResponse = new DiscoveryAPIClient(null).callDiscoveryAPI(Environment.SANDBOX);
 		assertNotNull(discoveryAPIResponse);
 		assertEquals("https://sandbox-accounts.platform.intuit.com/v1/openid_connect/userinfo", discoveryAPIResponse.getUserinfoEndpoint());
 		

@@ -32,7 +32,11 @@ public enum Scope {
 	Address("ADDRESS"),				
 	Email("EMAIL"),					
 	OpenIdAll("OPENID_ALL"), 					// openid profile phone address email
-	All("ALL");									// openid profile email phone address accounting payments
+	All("ALL"),									// openid profile email phone address accounting payments
+	Payroll("PAYROLL"),
+	Timetracking("TIMETRACKING"),
+	Benefits("BENEFITS"),
+	IntuitName("INTUIT_NAME");
 	
 	private final String value;
 

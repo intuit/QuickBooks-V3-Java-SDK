@@ -17,6 +17,8 @@ package com.intuit.ipp.interceptors;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -37,6 +39,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.NTCredentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
@@ -55,6 +58,7 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.client.config.CookieSpecs;
 
 import com.intuit.ipp.core.Context;
 import com.intuit.ipp.exception.CompressionException;
@@ -104,15 +108,14 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
         HttpClientBuilder hcBuilder = HttpClients.custom()
                 .setRetryHandler(handler)
                 .setDefaultRequestConfig(setTimeout(intuitRequest.getContext()))
-                .setDefaultCredentialsProvider(setProxyAuthentication());
+                .setDefaultCredentialsProvider(setProxyAuthentication())
+                .setSSLSocketFactory(prepareClientSSL());
         
         entitiesManager.reset();
         HttpHost proxy = getProxy();
 
         if (proxy != null) {
-            hcBuilder.setDefaultCredentialsProvider(setProxyAuthentication())
-            .setProxy(proxy)
-            .setSSLSocketFactory(prepareClientSSL());
+            hcBuilder.setProxy(proxy);
         }
 
         CloseableHttpClient client = hcBuilder.build();
@@ -173,12 +176,22 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
      */
     public SSLConnectionSocketFactory prepareClientSSL() {
         try {
-            KeyStore trustStore = null;
-            SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(trustStore, new TrustSelfSignedStrategy()).build();
-            
-            SSLConnectionSocketFactory sslConnectionFactory = 
-                    new SSLConnectionSocketFactory(sslContext.getSocketFactory(), 
-                            new NoopHostnameVerifier());
+        	String path = Config.getProperty(Config.PROXY_KEYSTORE_PATH);
+			String pass = Config.getProperty(Config.PROXY_KEYSTORE_PASSWORD);
+			KeyStore trustStore = null;
+			if (path != null && pass != null) {
+
+				trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+				FileInputStream	instream = new FileInputStream(new File(path));
+				try {
+		            trustStore.load(instream, pass.toCharArray());
+		        } finally {
+		            instream.close();
+		        }
+			}
+			SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(trustStore, new TrustSelfSignedStrategy()).build();
+	        String tlsVersion = Config.getProperty(Config.TLS_VERSION);
+	        SSLConnectionSocketFactory sslConnectionFactory = new SSLConnectionSocketFactory(sslContext, new String[]{tlsVersion}, null, new NoopHostnameVerifier());
             return sslConnectionFactory;
         } catch (Exception ex) {
             LOG.error("couldn't create httpClient!! {}", ex.getMessage(), ex);
@@ -195,7 +208,12 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
             String port = Config.getProperty(Config.PROXY_PORT);
             if (StringUtils.hasText(host) && StringUtils.hasText(port)) {
                 CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-                credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new UsernamePasswordCredentials(username, password));
+                String domain = Config.getProperty(Config.PROXY_DOMAIN);
+				if (StringUtils.hasText(domain)) {
+					credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new NTCredentials(username, password, host, domain));
+				} else {
+					credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new UsernamePasswordCredentials(username, password));
+				}
                 return credentialsProvider;
             }
         }
@@ -511,6 +529,7 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
                 .setSocketTimeout(socketTimeout)
                 .setConnectTimeout(connectionTimeout)
                 .setConnectionRequestTimeout(connectionTimeout)
+                .setCookieSpec(CookieSpecs.IGNORE_COOKIES)
                 .build();
         return defaultRequestConfig;
 
