@@ -19,8 +19,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.intuit.ipp.core.IEntity;
+import com.intuit.ipp.util.Logger;
 
 public class Data implements IEntity{
+	private static final org.slf4j.Logger LOG = Logger.getLogger();
+
 	private String stringData;
 	private int intData;
 	private byte byteData;
