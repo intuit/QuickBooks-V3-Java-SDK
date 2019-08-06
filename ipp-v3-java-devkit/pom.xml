@@ -91,12 +91,6 @@
             <version>1.25</version>
             <scope>test</scope>
         </dependency>
-       <!-- <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency> -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -204,7 +198,7 @@
                 <test.suite>testng.xml</test.suite>
             </properties>
         </profile>
-        <!--<profile>
+        <profile>
             <id>noTest</id>
             <build>
                 <plugins>
@@ -218,7 +212,7 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile> -->
+        </profile>
         <profile>
             <id>intTest</id>
             <build>
