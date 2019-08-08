@@ -37,7 +37,7 @@ The QuickBooks Online Java SDK provides a set of Java class libraries that make 
 * payments-api - Payments SDK for V2 API, contains methods for charge, echeck, token, card and bank account APIs.
 
 ## System Requirements
-The SDK works on JDK 1.6 and above.
+The SDK works on JDK 1.7 and above.
 
 ## First Use Instructions
 1. Clone the GitHub repo to your computer.
