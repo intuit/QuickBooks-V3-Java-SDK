@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.xml.bind.DatatypeConverter;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -222,7 +220,8 @@ public class OAuth2PlatformClient {
      * @return
      */
     private String getAuthHeader() {
-        String base64ClientIdSec = DatatypeConverter.printBase64Binary((oauth2Config.getClientId() + ":" + oauth2Config.getClientSecret()).getBytes());
+        byte[] bytesEncoded = Base64.encodeBase64((oauth2Config.getClientId() + ":" + oauth2Config.getClientSecret()).getBytes());
+        String base64ClientIdSec = new String(bytesEncoded);
         return "Basic " + base64ClientIdSec;
     }
     
