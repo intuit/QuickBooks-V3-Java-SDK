@@ -1,9 +1,10 @@
 dist: trusty
 language: java
+sudo: true
 jdk:
   - oraclejdk11
   - oraclejdk9
   - oraclejdk8
-  - openjdk7
-sudo: true
 script: mvn clean verify
+  - jdk_switcher use openjdk7
+  - mvn clean verify -DskipTests=true
