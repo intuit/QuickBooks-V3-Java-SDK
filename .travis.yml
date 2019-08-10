@@ -2,7 +2,12 @@ dist: trusty
 language: java
 sudo: true
 jdk:
+  - openjdk12
   - oraclejdk11
   - oraclejdk9
   - oraclejdk8
+  - openjdk7
+matrix:
+  allow_failures:
+    - jdk: openjdk7
 script: mvn clean verify
