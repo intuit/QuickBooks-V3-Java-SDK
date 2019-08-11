@@ -50,9 +50,7 @@ To test the code locally, follow the steps below:
 1. cd to the project directory
 2. Run the command: `mvn install` - this will run the unit test, build the project and generate data, devkit, qbapihelper(OAuth1.0a), oauth2-platform(OAuth2) jars
 
-Note: 
-- To build out individual components such as ipp-v3-java-data.jar or ipp-v3-java-devkit.jar, remove parent dependency from the pom.xml of the respective projects and run maven install on the individual project folders.
-- As of version 6.0.0 test classes for ipp-v3-java-devkit won't compile with Java7. 
+Note: To build out individual components such as ipp-v3-java-data.jar or ipp-v3-java-devkit.jar, remove parent dependency from the pom.xml of the respective projects and run maven install on the individual project folders.
 
 ## Release Notes
 Refer to [Java SDK Release Notes](https://developer.intuit.com/docs/0100_quickbooks_online/0400_tools/0005_sdks/0200_java/0080_quickbooks_java_sdk_release_notes).
