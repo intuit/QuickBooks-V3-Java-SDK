@@ -53,7 +53,7 @@ public class PrepareRequestInterceptorTest {
     public void testExecute_QBO_URI() throws FMSException  {
         instance.execute(message);
         String actual = message.getRequestElements().getRequestParameters().get("uri");
-        Assert.assertEquals(actual, Config.getProperty(Config.BASE_URL_QBO) + "/fakeRealm/fakeAction?requestid=anyRequestID&minorversion=38&");
+        Assert.assertEquals(actual, Config.getProperty(Config.BASE_URL_QBO) + "/fakeRealm/fakeAction?requestid=anyRequestID&minorversion=40&");
      }
 
 
