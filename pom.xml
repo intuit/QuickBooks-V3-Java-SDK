@@ -5,7 +5,7 @@
 
     <groupId>com.intuit.quickbooks-online</groupId>
     <artifactId>ipp-v3-java-devkit-pom</artifactId>
-    <version>5.0.5</version>
+    <version>6.0.0-beta</version>
     <packaging>pom</packaging>
     <name>IPP V3 Java DevKit</name>
     <url>https://github.com/intuit/QuickBooks-V3-Java-SDK</url>
@@ -14,7 +14,6 @@
     <modules>
         <module>ipp-v3-java-data</module>
         <module>ipp-v3-java-devkit</module>
-        <module>ipp-java-qbapihelper</module>
         <module>oauth2-platform-api</module>
         <module>payments-api</module>
     </modules>
@@ -46,7 +45,7 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.11</version>
+            <version>6.9.8</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -61,9 +60,11 @@
             <version>1.2.17</version>
             <scope>test</scope>
         </dependency>
-
-
-        
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>1.10.6</version>
+        </dependency>
     </dependencies>
 
     <!-- distributionManagement -->
@@ -71,131 +72,131 @@
       <snapshotRepository>
         <id>ossrh</id>
         <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-      </snapshotRepository>
-      <repository>
+    </snapshotRepository>
+    <repository>
         <id>ossrh</id>
         <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-      </repository>
-    </distributionManagement>
+    </repository>
+</distributionManagement>
 
-    <build>
-        <plugins>
-            <!-- Force Java 6 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
+<build>
+    <plugins>
+        <!-- Force Java 6 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>2.4</version>
+            <configuration>
+                <source>1.7</source>
+                <target>1.7</target>
+            </configuration>
 
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <configuration>
+                <skip>true</skip>
+            </configuration>
+        </plugin>
 
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.4.1</version>
-            </plugin>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.6</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-release-plugin</artifactId>
+            <version>2.4.1</version>
+        </plugin>
+        <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.6</version>
+            <extensions>true</extensions>
+            <configuration>
+                <serverId>ossrh</serverId>
+                <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                <autoReleaseAfterClose>false</autoReleaseAfterClose>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
 
-    <profiles>
-        <profile>
-            <id>doclint-java8-disable</id>
-            <activation>
-                <jdk>[1.8,)</jdk>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <configuration>
-                            <additionalparam>-Xdoclint:none</additionalparam>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>sign</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <!-- build javadocs jar -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9.1</version>
-                        <configuration>
-                            <excludePackageNames>com.intuit.ipp.internal.*</excludePackageNames>
-                            <skip>false</skip>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>aggregate-jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+<profiles>
+    <profile>
+        <id>doclint-java8-disable</id>
+        <activation>
+            <jdk>[1.8,)</jdk>
+        </activation>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <configuration>
+                        <additionalJOption>-Xdoclint:none</additionalJOption>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+    <profile>
+        <id>sign</id>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.6</version>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- build javadocs jar -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.9.1</version>
+                    <configuration>
+                        <excludePackageNames>com.intuit.ipp.internal.*</excludePackageNames>
+                        <skip>false</skip>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>aggregate-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+</profiles>
 
-    <developers>
-        <developer>
-            <id>IntuitDeveloper</id>
-            <name>IntuitDeveloper</name>
-            <email>IntuitDeveloperRelations&lt;at&gt;intuit.com</email>
-            <url>https://github.com/intuit/QuickBooks-V3-Java-SDK</url>
-        </developer>
-    </developers>
-    <licenses>
-        <license>
-            <name>Apache</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-    <scm>
+<developers>
+    <developer>
+        <id>IntuitDeveloper</id>
+        <name>IntuitDeveloper</name>
+        <email>IntuitDeveloperRelations&lt;at&gt;intuit.com</email>
         <url>https://github.com/intuit/QuickBooks-V3-Java-SDK</url>
-        <connection>scm:git:git://github.com/intuit/QuickBooks-V3-Java-SDK.git</connection>
-        <developerConnection>scm:git:git@github.com:intuit/QuickBooks-V3-Java-SDK.git</developerConnection>
-    </scm>
+    </developer>
+</developers>
+<licenses>
+    <license>
+        <name>Apache</name>
+        <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        <distribution>repo</distribution>
+    </license>
+</licenses>
+<scm>
+    <url>https://github.com/intuit/QuickBooks-V3-Java-SDK</url>
+    <connection>scm:git:git://github.com/intuit/QuickBooks-V3-Java-SDK.git</connection>
+    <developerConnection>scm:git:git@github.com:intuit/QuickBooks-V3-Java-SDK.git</developerConnection>
+</scm>
 </project>

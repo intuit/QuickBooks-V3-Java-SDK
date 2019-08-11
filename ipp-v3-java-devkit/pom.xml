@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-	<modelVersion>4.0.0</modelVersion>
-
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>ipp-v3-java-devkit-pom</artifactId>
         <groupId>com.intuit.quickbooks-online</groupId>
-        <version>5.0.5</version>
+        <version>6.0.0-beta</version>
     </parent>
 
 	<artifactId>ipp-v3-java-devkit</artifactId>
@@ -24,12 +22,12 @@
 		<dependency>
 			<groupId>com.intuit.quickbooks-online</groupId>
 			<artifactId>ipp-v3-java-data</artifactId>
-			<version>5.0.5</version>
+			<version>6.0.0-beta</version>
 		</dependency>
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
-            <version>2.2.2</version>
+            <version>3.2.12</version>
         </dependency>
         <dependency>
             <groupId>asm</groupId>
@@ -87,28 +85,28 @@
             <artifactId>jackson-jaxrs-json-provider</artifactId>
             <version>2.9.6</version>
         </dependency>
-		<dependency>
+        <dependency>
             <groupId>org.jmockit</groupId>
             <artifactId>jmockit</artifactId>
-            <version>1.16</version>
+            <version>1.25</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-	</dependencies>
 
-	<build>
-		<resources>
-			<resource>
-				<directory>${basedir}/src/main/resources</directory>
-			</resource>
-		</resources>
-		<!-- <finalName>ipp-v3-java-devkit</finalName> -->
-		<plugins>
+    </dependencies>
+
+    <build>
+        <testResources>
+            <testResource>
+                <directory>${basedir}/src/test/resources</directory>
+            </testResource>
+        </testResources>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+            </resource>
+        </resources>
+        <!-- <finalName>ipp-v3-java-devkit</finalName> -->
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
@@ -116,44 +114,40 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-			<!-- build jar with dependencies -->
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<finalName>${project.artifactId}-${project.version}</finalName>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-				</configuration>
-				<executions>
-				    <execution>
-        				<id>dist-assembly</id>
-        				<phase>package</phase>
-        				<goals>
-            					<goal>single</goal>
-        				</goals>
-    				    </execution>
-				</executions>
-			</plugin>
-			
-			<!-- Surefire plugin before 2.9 version is buggy -->
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.12</version>
-				<configuration>
-					<suiteXmlFiles>
-						<suiteXmlFile>testng-devkit.xml</suiteXmlFile>
-					</suiteXmlFiles>
-				</configuration>
-			</plugin>
-			
-			
-			
+            <!-- build jar with dependencies -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <finalName>${project.artifactId}-${project.version}</finalName>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>dist-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Surefire plugin before 2.9 version is buggy -->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>testng-devkit.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <!-- <version>0.7.6-SNAPSHOT</version> -->
-                <version>0.7.6.201602180812</version>
+                <version>0.8.4</version>
                 <executions>
                     <execution>
                         <id>default-prepare-agent</id>
@@ -190,77 +184,83 @@
                     </execution>
                 </executions>
             </plugin>
-		</plugins>
-	</build>
-
-	<profiles>
-		<profile>
-	      <id>noTest</id>
-	      <build>
-	        <plugins>
-	          <plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-surefire-plugin</artifactId>
-	            <version>2.4.2</version>
-	            <configuration>
-	              <skipTests>true</skipTests>
-	            </configuration>
-	          </plugin>
-	        </plugins>
-	      </build>
-	    </profile>
-	    <profile>
-	      <id>intTest</id>
-	      <build>
-	        <plugins>
-	          <plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-surefire-plugin</artifactId>
-	            <version>2.4.2</version>
-	            <configuration>
-	              <suiteXmlFiles>
-                        <suiteXmlFile>testng.xml</suiteXmlFile>
-                  </suiteXmlFiles>
-	            </configuration>
-	          </plugin>
-	        </plugins>
-	      </build>
-	    </profile>
-	    <profile>
-	      <id>sign</id>
-	      <build>
-	      	<plugins>
-		        <!-- build javadocs jar -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>2.9</version>
-					<executions>
-						<execution>
-							<id>attach-javadocs</id>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
-				<!-- build sources jar -->
-				<plugin>
-			      <groupId>org.apache.maven.plugins</groupId>
-			      <artifactId>maven-source-plugin</artifactId>
-			      <version>2.2.1</version>
-			      <executions>
-			        <execution>
-			          <id>attach-sources</id>
-			          <goals>
-			            <goal>jar-no-fork</goal>
-			          </goals>
-			        </execution>
-			      </executions>
-			    </plugin>
-			</plugins>
-	      </build>
-	    </profile>
-  </profiles>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <properties>
+                <test.suite>testng.xml</test.suite>
+            </properties>
+        </profile>
+        <profile>
+            <id>noTest</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>3.0.0-M3</version>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>intTest</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>3.0.0-M3</version>
+                        <configuration>
+                            <argLine>
+                                -Djdk.attach.allowAttachSelf <!-- required to run test with jmockit on JDK 9 -->
+                            </argLine>
+                            <suiteXmlFiles>
+                                <suiteXmlFile>testng.xml</suiteXmlFile>
+                            </suiteXmlFiles>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>sign</id>
+            <build>
+                <plugins>
+                    <!-- build javadocs jar -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- build sources jar -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
