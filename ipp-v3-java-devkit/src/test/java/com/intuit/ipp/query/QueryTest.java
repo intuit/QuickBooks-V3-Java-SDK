@@ -26,7 +26,8 @@ import java.util.TimeZone;
 
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.testng.Assert;
 
 
 
@@ -64,7 +65,7 @@ public class QueryTest {
 				$(data.isBooleanData()).eq(true), $(data.getDateData()).eq(calendar.getTime()), $(data.getEnumData()).eq(EntityStatusEnum.PENDING))
 				.generate();
 		String expectedQuery = "SELECT StringData, IntData, ByteData, ShortData, LongData, FloatData, DoubleData, CalendarData, BooleanData, DateData, EnumData FROM Data WHERE StringData = 'StringValue' AND IntData = '10' AND ByteData = '10' AND ShortData = '10' AND LongData = '10' AND FloatData = '10.0' AND DoubleData = '10.0' AND CalendarData = '" + dateString + "' AND BooleanData = true AND DateData = '" + dateString + "' AND EnumData = 'Pending'";
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 	}
 
 	@Test
@@ -77,7 +78,7 @@ public class QueryTest {
 				.generate();
 		String expectedQuery = "SELECT * FROM Data WHERE StringData = 'StringValue' AND IntData = '10' AND ByteData = '10' AND ShortData = '10' AND LongData = '10' AND FloatData = '10.0' AND DoubleData = '10.0' AND CalendarData = '" + dateString + "' AND BooleanData = true AND DateData = '" + dateString + "' AND EnumData = 'Pending'";
 
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 	}
 
 	@Test
@@ -90,7 +91,7 @@ public class QueryTest {
 						$(data.getDateData()).neq(calendar.getTime()), $(data.getEnumData()).neq(EntityStatusEnum.PENDING)).generate();
 		String expectedQuery = "SELECT * FROM Data WHERE StringData != 'StringValue' AND IntData != '10' AND ByteData != '10' AND ShortData != '10' AND LongData != '10' AND FloatData != '10.0' AND DoubleData != '10.0' AND CalendarData != '" + dateString + "' AND BooleanData != true AND DateData != '" + dateString + "' AND EnumData != 'Pending'";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 	}
 
 	@Test
@@ -102,7 +103,7 @@ public class QueryTest {
 				$(data.getDateData()).lt(calendar.getTime()), $(data.getEnumData()).lt(EntityStatusEnum.PENDING)).generate();
 		String expectedQuery = "SELECT * FROM Data WHERE StringData < 'StringValue' AND IntData < '10' AND ByteData < '10' AND ShortData < '10' AND LongData < '10' AND FloatData < '10.0' AND DoubleData < '10.0' AND CalendarData < '" + dateString + "' AND DateData < '" + dateString + "' AND EnumData < 'Pending'";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 	}
 
 	@Test
@@ -114,7 +115,7 @@ public class QueryTest {
 				$(data.getDateData()).lte(calendar.getTime()), $(data.getEnumData()).lte(EntityStatusEnum.PENDING)).generate();
 		String expectedQuery = "SELECT * FROM Data WHERE StringData <= 'StringValue' AND IntData <= '10' AND ByteData <= '10' AND ShortData <= '10' AND LongData <= '10' AND FloatData <= '10.0' AND DoubleData <= '10.0' AND CalendarData <= '" + dateString + "' AND DateData <= '" + dateString + "' AND EnumData <= 'Pending'";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 	}
 
 	@Test
@@ -126,7 +127,7 @@ public class QueryTest {
 				$(data.getDateData()).gt(calendar.getTime()), $(data.getEnumData()).gt(EntityStatusEnum.PENDING)).generate();
 		String expectedQuery = "SELECT * FROM Data WHERE StringData > 'StringValue' AND IntData > '10' AND ByteData > '10' AND ShortData > '10' AND LongData > '10' AND FloatData > '10.0' AND DoubleData > '10.0' AND CalendarData > '" + dateString + "' AND DateData > '" + dateString + "' AND EnumData > 'Pending'";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 	}
 
 	@Test
@@ -138,7 +139,7 @@ public class QueryTest {
 				$(data.getDateData()).gte(calendar.getTime()), $(data.getEnumData()).gte(EntityStatusEnum.PENDING)).generate();
 		String expectedQuery = "SELECT * FROM Data WHERE StringData >= 'StringValue' AND IntData >= '10' AND ByteData >= '10' AND ShortData >= '10' AND LongData >= '10' AND FloatData >= '10.0' AND DoubleData >= '10.0' AND CalendarData >= '" + dateString + "' AND DateData >= '" + dateString + "' AND EnumData >= 'Pending'";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 	}
 
 	@Test
@@ -153,7 +154,7 @@ public class QueryTest {
 				$(data.getEnumData()).in(new EntityStatusEnum[] { EntityStatusEnum.PENDING, EntityStatusEnum.DELETED })).generate();
 		String expectedQuery = "SELECT * FROM Data WHERE StringData IN ('StringValue1', 'StringValue2') AND IntData IN ('10', '20') AND ByteData IN ('10', '20') AND ShortData IN ('10', '20') AND LongData IN ('10', '20') AND FloatData IN ('10.0', '20.0') AND DoubleData IN ('10.0', '20.0') AND BooleanData IN (true, false) AND CalendarData IN ('" + dateString + "', '" + dateString + "') AND DateData IN ('" + dateString + "', '" + dateString + "') AND EnumData IN ('Pending', 'Deleted')";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 	}
 
 	@Test
@@ -172,7 +173,7 @@ public class QueryTest {
 		).generate();
 		LOG.debug(query);
 		String expectedQuery = "SELECT * FROM Data WHERE StringData BETWEEN 'StringValue1' AND 'StringValue2' AND IntData BETWEEN '10' AND '20' AND ByteData BETWEEN '10' AND '20' AND ShortData BETWEEN '10' AND '20' AND LongData BETWEEN '10' AND '20' AND FloatData BETWEEN '10.0' AND '20.0' AND DoubleData BETWEEN '10.0' AND '20.0' AND CalendarData BETWEEN '" + dateString + "Z' AND '" + dateString + "' AND DateData BETWEEN '" + dateString + "' AND '" + dateString.substring(0, dateString.length() - 1) + "'";
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 	}
 
 	@Test
@@ -181,17 +182,17 @@ public class QueryTest {
 		String query = select($(data)).where($(data.getStringData()).startsWith("StringValue")).generate();
 		String expectedQuery = "SELECT * FROM Data WHERE StringData LIKE 'StringValue%'";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 
 		query = select($(data)).where($(data.getStringData()).endsWith("StringValue")).generate();
 		expectedQuery = "SELECT * FROM Data WHERE StringData LIKE '%StringValue'";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 
 		query = select($(data)).where($(data.getStringData()).contains("StringValue")).generate();
 		expectedQuery = "SELECT * FROM Data WHERE StringData LIKE '%StringValue%'";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 	}
 
 	@Test
@@ -200,7 +201,7 @@ public class QueryTest {
 		String query = select($(data.getSubData())).generate();
 		String expectedQuery = "SELECT SubData.* FROM Data";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 	}
 
 	@Test
@@ -208,14 +209,14 @@ public class QueryTest {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 		String query = select($(data)).orderByAscending($(data.getStringData()), $(data.getIntData())).generate();
 		String expectedQuery = "SELECT * FROM Data ORDERBY StringData, IntData ASC";
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 		query = select($(data)).orderByDescending($(data.getStringData()), $(data.getIntData())).generate();
 		expectedQuery = "SELECT * FROM Data ORDERBY StringData, IntData DESC";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 		query = select($(data)).orderBy($(data.getStringData()), $(data.getIntData())).generate();
 		expectedQuery = "SELECT * FROM Data ORDERBY StringData, IntData";
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 
 	}
 
@@ -225,7 +226,7 @@ public class QueryTest {
 		String query = select($(data)).where($(data.getIntData()).eq(10).negate()).generate();
 		String expectedQuery = "SELECT * FROM Data WHERE NOT IntData = '10'";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 	}
 
 	@Test
@@ -234,17 +235,17 @@ public class QueryTest {
 		String query = select($(data)).skip(10).generate();
 		String expectedQuery = "SELECT * FROM Data STARTPOSITION 11";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 
 		query = select($(data)).take(10).generate();
 		expectedQuery = "SELECT * FROM Data MAXRESULTS 10";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 
 		query = select($(data)).skip(10).take(10).generate();
 		expectedQuery = "SELECT * FROM Data STARTPOSITION 11 MAXRESULTS 10";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 	}
 
 	@Test
@@ -253,7 +254,7 @@ public class QueryTest {
 		String query = selectCount(data).generate();
 		String expectedQuery = "SELECT count(*) FROM Data";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 	}
 
 	@Test
@@ -274,7 +275,7 @@ public class QueryTest {
 				$(data.getCalendarData()).between(date, date)).generate();
 		String expectedQuery = "SELECT * FROM Data WHERE CalendarData = '" + date + "' AND CalendarData != '" + date + "' AND CalendarData > '" + date + "' AND CalendarData >= '" + date + "' AND CalendarData IN ('" + date + "', '" + date + "') AND CalendarData < '" + date + "' AND CalendarData <= '" + date + "' AND CalendarData BETWEEN '" + date + "Z' AND '" + date + "'";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 	}
 
 	@Test
@@ -283,7 +284,7 @@ public class QueryTest {
 		String query = select($(data.getLine())).generate();
 		String expectedQuery = "SELECT Line.* FROM Invoice";
 		LOG.debug(query);
-		assertEquals(expectedQuery, query);
+		Assert.assertEquals(expectedQuery, query);
 	}
 
 	private String getCalendarAsString(Calendar cal) {

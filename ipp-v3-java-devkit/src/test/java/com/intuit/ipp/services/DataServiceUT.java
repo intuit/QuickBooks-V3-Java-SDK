@@ -21,7 +21,6 @@ import com.intuit.ipp.interceptors.IntuitMessage;
 import com.intuit.ipp.interceptors.RequestElements;
 import com.intuit.ipp.net.OperationType;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 import mockit.Mock;
 import mockit.MockUp;
