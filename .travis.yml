@@ -4,7 +4,7 @@ sudo: true
 jdk:
   - openjdk12
   - oraclejdk11
-  - oraclejdk10
+  - openjdk10
   - oraclejdk9
   - oraclejdk8
   - openjdk7
