@@ -9,3 +9,5 @@ jdk:
   - oraclejdk8
   - openjdk7
 script: mvn clean verify
+after_success:
+  - mvn clean test org.jacoco:jacoco-maven-plugin:report org.eluder.coveralls:coveralls-maven-plugin:report
