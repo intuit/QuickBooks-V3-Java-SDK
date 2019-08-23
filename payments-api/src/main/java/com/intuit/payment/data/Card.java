@@ -54,6 +54,8 @@ public class Card extends Entity {
 	private String entityType = null;
 	private String entityVersion = null;
 	
+	private CardPresent cardPresent = null;
+	
 
 	public Card() {
 	}
@@ -77,6 +79,7 @@ public class Card extends Entity {
 		this.entityId = builder.entityId;
 		this.entityType = builder.entityType;
 		this.entityVersion = builder.entityVersion;
+		this.cardPresent = builder.cardPresent;
 	}
 
 	/**
@@ -359,6 +362,14 @@ public class Card extends Entity {
 		this.entityVersion = entityVersion;
 	}
 
+	public CardPresent getCardPresent() {
+		return cardPresent;
+	}
+
+	public void setCardPresent(CardPresent cardPresent) {
+		this.cardPresent = cardPresent;
+	}
+
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this);
@@ -390,6 +401,7 @@ public class Card extends Entity {
 		private String entityId = null;
 		private String entityType = null;
 		private String entityVersion = null;
+		private CardPresent cardPresent = null;	
 
 		public Builder() {
 		}
@@ -481,6 +493,11 @@ public class Card extends Entity {
 		
 		public Builder entityVersion(String entityVersion) {
 			this.entityVersion = entityVersion;
+			return this;
+		}
+		
+		public Builder cardPresent(CardPresent cardPresent) {
+			this.cardPresent = cardPresent;
 			return this;
 		}
 
