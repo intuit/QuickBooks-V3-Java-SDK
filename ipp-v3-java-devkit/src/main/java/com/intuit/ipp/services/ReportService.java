@@ -258,6 +258,10 @@ public class ReportService {
     private  String shipvia = null;
     
     private  String account_status = null;
+    
+    private  String subcol_pct_inc = null;
+    
+    private  String subcol_pct_exp = null;
 
 
 
@@ -540,6 +544,14 @@ public class ReportService {
         if (getAccount_status() != null)
         {
             requestParameters.put(RequestElements.REPORT_PARAM_ACCOUNT_STATUS, getAccount_status());
+        }
+        if (getSubcol_pct_inc() != null)
+        {
+            requestParameters.put(RequestElements.REPORT_PARAM_SUBCOL_PCT_INC, getSubcol_pct_inc());
+        }
+        if (getSubcol_pct_exp() != null)
+        {
+            requestParameters.put(RequestElements.REPORT_PARAM_SUBCOL_PCT_EXP, getSubcol_pct_exp());
         }
 
 			
@@ -1181,6 +1193,21 @@ public class ReportService {
 	public void setAccount_status(String account_status) {
 		this.account_status = account_status;
 	}
-    
+
+	public String getSubcol_pct_inc() {
+		return subcol_pct_inc;
+	}
+
+	public void setSubcol_pct_inc(String subcol_pct_inc) {
+		this.subcol_pct_inc = subcol_pct_inc;
+	}
+
+	public String getSubcol_pct_exp() {
+		return subcol_pct_exp;
+	}
+
+	public void setSubcol_pct_exp(String subcol_pct_exp) {
+		this.subcol_pct_exp = subcol_pct_exp;
+	}
     
 }

@@ -367,6 +367,10 @@ public class RequestElements {
     public static final String REPORT_PARAM_SHIPVIA = "shipvia";
     
     public static final String REPORT_PARAM_ACCOUNT_STATUS = "account_status";
+    
+    public static final String REPORT_PARAM_SUBCOL_PCT_INC = "subcol_pct_inc";
+    
+    public static final String REPORT_PARAM_SUBCOL_PCT_EXP = "subcol_pct_exp";
 
     /**
 	 * variable REQ_PARAM_ENTITIES

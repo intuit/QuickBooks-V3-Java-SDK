@@ -526,7 +526,9 @@ public class PrepareRequestInterceptor implements Interceptor {
         		|| key.equals(RequestElements.REPORT_PARAM_CUSTOM2)
         		|| key.equals(RequestElements.REPORT_PARAM_CUSTOM3)
         		|| key.equals(RequestElements.REPORT_PARAM_SHIPVIA)
-        		|| key.equals(RequestElements.REPORT_PARAM_ACCOUNT_STATUS);
+        		|| key.equals(RequestElements.REPORT_PARAM_ACCOUNT_STATUS)
+        		|| key.equals(RequestElements.REPORT_PARAM_SUBCOL_PCT_INC)
+        		|| key.equals(RequestElements.REPORT_PARAM_SUBCOL_PCT_EXP);
     }
 
     /**
