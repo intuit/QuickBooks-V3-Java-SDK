@@ -33,7 +33,9 @@ import com.intuit.ipp.core.Context;
 import com.intuit.ipp.core.IEntity;
 import com.intuit.ipp.data.AttachableResponse;
 import com.intuit.ipp.data.BatchItemResponse;
+import com.intuit.ipp.data.Bill;
 import com.intuit.ipp.data.CDCResponse;
+import com.intuit.ipp.data.CreditMemo;
 import com.intuit.ipp.data.EntitlementsResponse;
 import com.intuit.ipp.data.Estimate;
 import com.intuit.ipp.data.Fault;
@@ -42,7 +44,10 @@ import com.intuit.ipp.data.IntuitEntity;
 import com.intuit.ipp.data.IntuitResponse;
 import com.intuit.ipp.data.Invoice;
 import com.intuit.ipp.data.ObjectFactory;
+import com.intuit.ipp.data.Payment;
+import com.intuit.ipp.data.PurchaseOrder;
 import com.intuit.ipp.data.QueryResponse;
+import com.intuit.ipp.data.RefundReceipt;
 import com.intuit.ipp.data.SalesReceipt;
 import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.interceptors.IntuitBatchInterceptorProvider;
@@ -579,7 +584,11 @@ public class DataService {
     private <T extends IEntity> boolean isSpecialEntity(T entity) {
         return (entity instanceof Estimate)
                 || (entity instanceof Invoice)
-                || (entity instanceof SalesReceipt);
+                || (entity instanceof SalesReceipt)
+                || (entity instanceof CreditMemo)
+                || (entity instanceof Payment)
+                || (entity instanceof RefundReceipt)
+                || (entity instanceof PurchaseOrder);
     }
 
     /**
