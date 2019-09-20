@@ -17,6 +17,7 @@ package com.intuit.oauth2.config;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertFalse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -136,6 +137,25 @@ public class OAuth2ConfigTest {
 		scope = oauth2Config.getScopeValue(Scope.IntuitName);
 		assertEquals("intuit_name", scope);
 		
+		
+	}
+	
+	@Test
+	public void testPrepareUrlWithClaimId() throws InvalidRequestException {
+		List<Scope> scopes = new ArrayList<Scope>();
+		scopes.add(Scope.OpenId);
+		String url = oauth2Config.prepareUrl(scopes, "https://4f4390eb.ngrok.io/oauth2redirect", oauth2Config.generateCSRFToken(), true);
+		assertNotNull(url);
+		
+		Map<String, String> params = prepareQueryParamMap(url);
+		assertNotNull(params.containsKey("claims"));
+		assertEquals("%7B%22id_token%22%3A%7B%22realmId%22%3Anull%7D%7D", params.get("claims"));
+		
+		//test without claims
+		url = oauth2Config.prepareUrl(scopes, "https://4f4390eb.ngrok.io/oauth2redirect", oauth2Config.generateCSRFToken(), false);
+		assertNotNull(url);
+		params = prepareQueryParamMap(url);
+		assertFalse(params.containsKey("claims"));
 		
 	}
 

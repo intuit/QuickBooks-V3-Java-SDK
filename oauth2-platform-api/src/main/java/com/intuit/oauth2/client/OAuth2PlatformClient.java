@@ -346,6 +346,40 @@ public class OAuth2PlatformClient {
         }
 
     }
+    
+    /**
+     * Method to retrieve realmId from IdToken
+     * RealmId will only be available when claim is passed in the request
+     * @param idToken
+     * @return
+     * @throws OpenIdException
+     */
+    public String getRealmIdFromIdToken(String idToken) throws OpenIdException  {
+        
+        logger.debug("Enter OAuth2PlatformClient::validateIDToken");
+        
+        String[] idTokenParts = idToken.split("\\.");
+        
+        if (idTokenParts.length < 3) {
+            logger.debug("invalid idTokenParts length");
+            return null;
+        }
+        
+        try {
+            String idTokenPayload = base64UrlDecode(idTokenParts[1]);
+            JSONObject idTokenHeaderPayload = new JSONObject(idTokenPayload);   
+            //Retrieve realmid from paylod
+            if (idTokenHeaderPayload.has("realmid")) {
+                return idTokenHeaderPayload.getString("realmid");
+            }
+        } catch (Exception e) {
+            logger.error("Exception while validating ID token ", e);
+            throw new OpenIdException(e.getMessage(), e);
+        }
+        return null;
+
+       
+    }
 
     /**
      * Build JWKS keymap

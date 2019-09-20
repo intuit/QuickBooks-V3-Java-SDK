@@ -205,6 +205,60 @@ public class OAuth2Config {
 		
 	}
 	
+	/**
+	 * Prepares URL to call the OAuth2 authorization endpoint using Scope, CSRF,  redirectURL and claimId
+	 * 
+	 * @param scopes
+	 * @param redirectUri
+	 * @param csrfToken
+	 * @param addClaimId
+	 * @return
+	 * @throws InvalidRequestException
+	 */
+	public String prepareUrl(List<Scope> scopes, String redirectUri, String csrfToken, boolean addClaimId) throws InvalidRequestException  {
+		
+		logger.debug("Enter OAuth2config::prepareUrl");
+		if(scopes == null || scopes.isEmpty() || redirectUri.isEmpty() || csrfToken.isEmpty()) {
+			logger.error("Invalid request for prepareUrl ");
+			throw new InvalidRequestException("Invalid request for prepareUrl");
+		}
+		try {
+			if(addClaimId) {
+				return addRealmIdClaim(prepareUrl(scopes, redirectUri, csrfToken));
+			} else {
+				return prepareUrl(scopes, redirectUri, csrfToken);
+			}
+		} catch (Exception e) {
+			logger.error("Exception while preparing url for redirect ", e);
+			throw new InvalidRequestException(e.getMessage(), e);
+		}
+		
+	}
+	
+	/**
+	 * Method to append realmIdClaim to the authorization request url
+	 * 
+	 * @param requestUrl
+	 * @return
+	 * @throws InvalidRequestException
+	 */
+	public String addRealmIdClaim(String requestUrl) throws InvalidRequestException  {
+		
+		logger.debug("Enter OAuth2config::prepareUrl");
+		if( requestUrl.isEmpty()) {
+			logger.error("Invalid request for addClaim ");
+			throw new InvalidRequestException("Invalid request for prepareUrl");
+		}
+		try {
+			String claims = "{\"id_token\":{\"realmId\":null}}";
+			return requestUrl + "&claims=" + URLEncoder.encode(claims, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			logger.error("Exception while preparing url for redirect ", e);
+			throw new InvalidRequestException(e.getMessage(), e);
+		}
+		
+	}
+	
 	private String buildScopeString(List<Scope> scopes) {
 		StringBuilder sb = new StringBuilder();
 		for (Scope scope: scopes) {
