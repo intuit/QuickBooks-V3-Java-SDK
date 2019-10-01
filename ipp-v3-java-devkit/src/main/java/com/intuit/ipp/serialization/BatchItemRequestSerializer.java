@@ -163,7 +163,7 @@ public class BatchItemRequestSerializer extends JsonSerializer<BatchItemRequest>
 	private ObjectMapper getObjectMapper() {
 		ObjectMapper mapper = new ObjectMapper();
 		AnnotationIntrospector primary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector secondary = new JaxbAnnotationIntrospector();
+		AnnotationIntrospector secondary = new JaxbAnnotationIntrospector(mapper.getTypeFactory());
 		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
 
 		mapper.setAnnotationIntrospector(pair);

@@ -16,9 +16,10 @@
 package com.intuit.ipp.net;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import java.net.ConnectException;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -41,7 +42,7 @@ public class RetryPolicyHandlerTest {
 
 	private int deltaBackoff = 10;
 
-	DefaultHttpClient client;
+	HttpClient client;
 
 	HttpGet httpget;
 
@@ -59,7 +60,6 @@ public class RetryPolicyHandlerTest {
 	@BeforeClass
 	protected void setUp() throws Exception {
 		LOG.debug("in setup");
-		client = new DefaultHttpClient();
 		httpget = new HttpGet("http://localhost:2020");
 	}
 
@@ -71,7 +71,7 @@ public class RetryPolicyHandlerTest {
 	@Test(expectedExceptions = ConnectException.class)
 	public void testFixedRetry() throws Exception {
 		handler = new IntuitRetryPolicyHandler(retryCount, retryInterval);
-		client.setHttpRequestRetryHandler(handler);
+		client = HttpClientBuilder.create().setRetryHandler(handler).build();
 		HttpResponse x = client.execute(httpget);
 		LOG.debug(x.getStatusLine().toString());
 	}
@@ -85,7 +85,7 @@ public class RetryPolicyHandlerTest {
 	public void testIncrementalRetry() throws Exception {
 		LOG.debug("in incremental");
 		handler = new IntuitRetryPolicyHandler(retryCount, retryInterval, increment);
-		client.setHttpRequestRetryHandler(handler);
+		client = HttpClientBuilder.create().setRetryHandler(handler).build();
 		HttpResponse resp = client.execute(httpget);
 		LOG.debug(resp.getStatusLine().toString());
 	}
@@ -100,7 +100,7 @@ public class RetryPolicyHandlerTest {
 	public void testExponentialRetry() throws Exception {
 		LOG.debug("in exponential");
 		handler = new IntuitRetryPolicyHandler(retryCount, minBackoff, maxBackoff, deltaBackoff);
-		client.setHttpRequestRetryHandler(handler);
+		client = HttpClientBuilder.create().setRetryHandler(handler).build();
 		HttpResponse resp = client.execute(httpget);
 		LOG.debug(resp.getStatusLine().toString());
 	}
