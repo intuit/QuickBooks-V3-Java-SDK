@@ -123,7 +123,7 @@ public class TaxServiceDeserializer extends JsonDeserializer<TaxService>{
 		ObjectMapper mapper = new ObjectMapper();
 		
 		//Make the mapper JAXB annotations aware
-		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
+		AnnotationIntrospector primary = new JaxbAnnotationIntrospector(mapper.getTypeFactory());
 		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
 		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
 		mapper.setAnnotationIntrospector(pair);
