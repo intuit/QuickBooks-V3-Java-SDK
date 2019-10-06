@@ -15,11 +15,13 @@
  *******************************************************************************/
 package com.intuit.ipp.query.expr;
 
-import com.intuit.ipp.query.Operation;
-import com.intuit.ipp.query.Path;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
+
+import com.intuit.ipp.query.Operation;
+import com.intuit.ipp.query.Path;
+import com.intuit.ipp.util.MessageUtils;
 
 /**
  * Class to generate the query string for enum value
@@ -131,13 +133,24 @@ public class EnumPath extends Path<Enum<?>> {
 	 */
 	private static String getValue(Enum<?> value){
 		try{
-			Method m = value.getClass().getDeclaredMethod("value");
+			String methodName = validateClass(value) ? "value":"name";
+			Method m = value.getClass().getDeclaredMethod(methodName);
 			return (String) m.invoke(value);
 		} catch (NoSuchMethodException ex){
 		} catch (IllegalAccessException ex){
 		} catch (InvocationTargetException ex){
 		}
 		return value.toString();
+	}
+	
+	/**
+	 * Validates if the Enum class is in the Intuit whitelisted list
+	 * @param value
+	 * @return
+	 */
+	private static boolean validateClass(Enum<?> value) {
+		List<Object> enumList = MessageUtils.getWhitelistedEnums();
+		return enumList.contains(value.getClass());
 	}
 
 }

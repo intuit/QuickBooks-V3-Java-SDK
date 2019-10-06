@@ -80,6 +80,19 @@ public class QueryTest {
 
 		Assert.assertEquals(expectedQuery, query);
 	}
+	
+	@Test
+	public void testQuery_eqUsingInvalidEnum() {
+		Data data = GenerateQuery.createQueryEntity(Data.class);
+		String query = select($(data)).where($(data.getStringData()).eq("StringValue"), $(data.getIntData()).eq(10),
+				$(data.getByteData()).eq((byte) 10), $(data.getShortData()).eq((short) 10), $(data.getLongData()).eq((long) 10),
+				$(data.getFloatData()).eq((float) 10), $(data.getDoubleData()).eq((double) 10), $(data.getCalendarData()).eq(calendar),
+				$(data.isBooleanData()).eq(true), $(data.getDateData()).eq(calendar.getTime()), $(data.getEnumData()).eq(Planet.MERCURY))
+				.generate();
+		String expectedQuery = "SELECT * FROM Data WHERE StringData = 'StringValue' AND IntData = '10' AND ByteData = '10' AND ShortData = '10' AND LongData = '10' AND FloatData = '10.0' AND DoubleData = '10.0' AND CalendarData = '" + dateString + "' AND BooleanData = true AND DateData = '" + dateString + "' AND EnumData = 'MERCURY'";
+
+		Assert.assertEquals(expectedQuery, query);
+	}
 
 	@Test
 	public void testQuery_neq() {
