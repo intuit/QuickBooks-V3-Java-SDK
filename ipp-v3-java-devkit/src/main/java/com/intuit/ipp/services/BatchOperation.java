@@ -39,7 +39,7 @@ import com.intuit.ipp.util.Logger;
 import com.intuit.ipp.util.StringUtils;
 
 /**
- * Class to prepare the BatchItemrequets and get the responses for the corresponding bIds.
+ * Class to prepare the BatchItemrequests and get the responses for the corresponding bIds.
  * The response is segregated to corresponding result types so that user can validate the corresponding batch item using the bId.
  *
  */
