@@ -77,8 +77,14 @@
 		</resources>
 
 		<plugins>
+			<plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.3.0</version>
+        	</plugin>
 			<!-- This plug-in instructs to use the mentioned JDK for compilation Reference:- 
 			http://maven.apache.org/plugins/maven-compiler-plugin/examples/compile-using-different-jdk.html -->
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
