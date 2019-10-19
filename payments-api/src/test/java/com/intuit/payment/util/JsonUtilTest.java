@@ -51,7 +51,7 @@ public class JsonUtilTest {
 	}
 
 	@Test
-	public void testNullSerialization() throws SerializationException {
+	public void testNullSerialize() throws SerializationException {
 		String cardStr = JsonUtil.serialize(null);
 		Assert.assertNull(cardStr);
 	}
