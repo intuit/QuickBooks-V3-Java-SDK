@@ -42,26 +42,12 @@ public class JsonUtilTest {
 	}
 
 	@Test
-	public void testSerialize() throws SerializationException{			
+	public void testSerialize() throws SerializationException {
 		Card card = new Card.Builder().number("12345").build();
 		String cardStr = JsonUtil.serialize(card);
 		Assert.assertNotNull(cardStr);
 		String result = "{\n  \"number\" : \"12345\"\n}";
 		Assert.assertEquals(cardStr, result);
-	}
-
-	@Test
-    public void testDeserialize() throws SerializationException {
-        String cardStr = "{\"number\":\"12345\"}";
-        Card card = (Card) JsonUtil.deserialize(cardStr,  new TypeReference<Card>() {} );
-        Assert.assertEquals(card.getNumber(), "12345");
-    }
-
-    @Test(expectedExceptions = SerializationException.class)
-	public void testErrorSerialize() throws SerializationException{
-		// Serializing this causes a InvalidDefinitionException to be thrown
-		ClassWithPrivateFields classWithPrivateFields = new ClassWithPrivateFields(1, "John");
-		JsonUtil.serialize(classWithPrivateFields);
 	}
 
 	@Test
@@ -71,11 +57,25 @@ public class JsonUtilTest {
 	}
 
 	@Test(expectedExceptions = SerializationException.class)
-	public void testErrorDeserialize() throws SerializationException{
+	public void testErrorSerialize() throws SerializationException {
+		// Serializing this causes a InvalidDefinitionException to be thrown
+		ClassWithPrivateFields classWithPrivateFields = new ClassWithPrivateFields(1, "John");
+		JsonUtil.serialize(classWithPrivateFields);
+	}
+
+	@Test
+    public void testDeserialize() throws SerializationException {
+        String cardStr = "{\"number\":\"12345\"}";
+        Card card = (Card) JsonUtil.deserialize(cardStr,  new TypeReference<Card>() {} );
+        Assert.assertEquals(card.getNumber(), "12345");
+    }
+
+	@Test(expectedExceptions = SerializationException.class)
+	public void testErrorDeserialize() throws SerializationException {
 		String cardStr = "{\"number\":\"12345\"\"}";
 		JsonUtil.deserialize(cardStr,  new TypeReference<Card>() {} );
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Test
     public void testDeserializeList() throws SerializationException {
