@@ -53,6 +53,25 @@ public class CallbackHandlerInterceptorCDCTest extends CallbackHandlerBase {
     }
 
 
+    /**
+     * Illustrates https://github.com/intuit/QuickBooks-V3-Java-SDK/issues/75
+     * Error is expected in result, but it gives empty result.
+     *
+     * @throws FMSException
+     */
+    @Test
+    public void  errorNoResponse() throws FMSException {
+        final CDCResponse o = new CDCResponse();
+        final Fault fault = new Fault();
+        final Error error = new Error();
+        fault.setError(Collections.singletonList(error));
+        error.setDetail("My custom error");
+        o.setFault(fault);
+        o.setQueryResponse(null);
+
+        assertEmptyResult(invokeCDC(Collections.singletonList(o)));
+    }
+
     @Test
     public void  error() throws FMSException {
         final CDCResponse o = new CDCResponse();
@@ -67,6 +86,23 @@ public class CallbackHandlerInterceptorCDCTest extends CallbackHandlerBase {
         new ResultChecker( assertAndGetFirst(invokeCDC(Collections.singletonList(o))))
                 .assertErrorsDetails("My custom error");
 
+    }
+
+    @Test
+    public void  partialError() throws FMSException {
+        final CDCResponse o = new CDCResponse();
+        final QueryResponse queryResponse = new QueryResponse();
+        final Fault fault = new Fault();
+        final Error error = new Error();
+        fault.setError(Collections.singletonList(error));
+        error.setDetail("My custom error");
+        queryResponse.setFault(fault);
+        queryResponse.setIntuitObject(Collections.<JAXBElement<? extends IntuitEntity>>singletonList(getDummyTestEntity()));
+
+        o.setQueryResponse(Collections.singletonList(queryResponse));
+        new ResultChecker( assertAndGetFirst(invokeCDC(Collections.singletonList(o))))
+                .assertErrorsDetails("My custom error")
+                .assertQueryKeys("IntuitTestEntity");
     }
 
 
