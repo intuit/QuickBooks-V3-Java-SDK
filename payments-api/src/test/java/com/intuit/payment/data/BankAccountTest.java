@@ -1,5 +1,6 @@
 package com.intuit.payment.data;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -143,8 +144,8 @@ public class BankAccountTest {
 
     @Test
     public void testToString() {
-        // Since we cant mock ReflectionToStringBuilder without powermock, just check if it includes below
-        String expectedResult = "[id=id,name=name,created=Wed Jan 14 19:57:07 MST 1970,updated=Wed Jan 14 20:07:12 MST 1970,inputType=KEYED,routingNumber=12311,accountNumber=123123123,accountType=PERSONAL_CHECKING,phone=5871231234,defaultValue=true,country=country,bankCode=1221,entityId=entityId,entityType=entityType,entityVersion=entityVersion,intuit_tid=<null>,requestId=<null>]";
+        // Since we cant mock ReflectionToStringBuilder without powermock
+        String expectedResult = ReflectionToStringBuilder.toString(bankAccount);
         String actualResult = bankAccount.toString();
         Assert.assertTrue(actualResult.contains(expectedResult));
     }
