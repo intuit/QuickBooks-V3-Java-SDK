@@ -227,7 +227,7 @@ public class CallbackHandlerInterceptor implements Interceptor {
 	private CDCQueryResult getCDCQueryResult(CDCResponse cdcResponse) {
 		CDCQueryResult cdcQueryResult = new CDCQueryResult();
 		List<QueryResponse> queryResponses = cdcResponse.getQueryResponse();
-		if (queryResponses != null) {
+		if (!queryResponses.isEmpty()) {
 			Map<String, QueryResult> queryResults = new HashMap<String, QueryResult>();
 			Iterator<QueryResponse> queryResponseItr = queryResponses.iterator();
 			while (queryResponseItr.hasNext()) {
