@@ -73,14 +73,20 @@ public class PrepareRequestInterceptorTest {
 
     @Test
     public void testExecuteWithEntitlementService() throws FMSException {
-        message.setEntitlementService(true);
-        instance.execute(message);
+        String originalCompression = Config.getProperty(COMPRESSION_REQUEST_FORMAT);
+        try {
+            Config.setProperty(COMPRESSION_REQUEST_FORMAT, CompressorFactory.GZIP_COMPRESS_FORMAT);
+            message.setEntitlementService(true);
+            instance.execute(message);
 
-        Assert.assertEquals(message.getRequestElements().getRequestParameters().get(RequestElements.REQ_PARAM_RESOURCE_URL), Config.getProperty(Config.BASE_URL_ENTITLEMENTSERVICE) + "/entitlements/v3/fakeRealm");
-        Assert.assertEquals(message.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_PARAM_CONTENT_TYPE), "application/xml");
-        Assert.assertEquals(message.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_PARAM_ACCEPT), "application/xml");
-        Assert.assertNull(message.getRequestElements().getRequestHeaders().get(Config.COMPRESSION_REQUEST_FORMAT));
-        Assert.assertEquals(message.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_PARAM_CONTENT_ENCODING), Config.getProperty(Config.COMPRESSION_REQUEST_FORMAT));
+            Assert.assertEquals(message.getRequestElements().getRequestParameters().get(RequestElements.REQ_PARAM_RESOURCE_URL), Config.getProperty(Config.BASE_URL_ENTITLEMENTSERVICE) + "/entitlements/v3/fakeRealm");
+            Assert.assertEquals(message.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_PARAM_CONTENT_TYPE), "application/xml");
+            Assert.assertEquals(message.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_PARAM_ACCEPT), "application/xml");
+            Assert.assertNull(message.getRequestElements().getRequestHeaders().get(Config.COMPRESSION_REQUEST_FORMAT));
+            Assert.assertEquals(message.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_PARAM_CONTENT_ENCODING), Config.getProperty(Config.COMPRESSION_REQUEST_FORMAT));
+        } finally {
+            Config.setProperty(COMPRESSION_REQUEST_FORMAT, originalCompression);
+        }
     }
 
     @Test
