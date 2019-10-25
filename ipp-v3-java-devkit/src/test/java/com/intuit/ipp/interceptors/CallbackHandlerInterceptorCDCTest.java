@@ -65,11 +65,12 @@ public class CallbackHandlerInterceptorCDCTest extends CallbackHandlerBase {
         final Fault fault = new Fault();
         final Error error = new Error();
         fault.setError(Collections.singletonList(error));
-        error.setDetail("My custom error");
+        error.setDetail("My custom request error");
         o.setFault(fault);
         o.setQueryResponse(null);
 
-        assertEmptyResult(invokeCDC(Collections.singletonList(o)));
+        new ResultChecker( assertAndGetFirst(invokeCDC(Collections.singletonList(o))))
+                .assertErrorsDetails("My custom request error");
     }
 
     @Test
