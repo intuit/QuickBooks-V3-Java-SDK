@@ -189,7 +189,7 @@ public class ServiceBaseTest {
         .typeReference(new TypeReference<ECheck>() {})
         .build();
 
-    // Since AuthorizationException is a custom exception and we need to assert the Errors
+    // Since BadRequestException is a custom exception and we need to assert the Errors
     // inside the exception object, we're not using "expectedExceptions"
     try {
       serviceBase.sendRequest(serviceRequest);
@@ -225,7 +225,7 @@ public class ServiceBaseTest {
         .typeReference(new TypeReference<ECheck>() {})
         .build();
 
-    // Since AuthorizationException is a custom exception and we need to assert the Errors
+    // Since BadRequestException is a custom exception and we need to assert the Errors
     // inside the exception object, we're not using "expectedExceptions"
     try {
       serviceBase.sendRequest(serviceRequest);
@@ -282,7 +282,7 @@ public class ServiceBaseTest {
         .typeReference(new TypeReference<ECheck>() {})
         .build();
 
-    // Since AuthorizationException is a custom exception and we need to assert the Errors
+    // Since BadRequestException is a custom exception and we need to assert the Errors
     // inside the exception object, we're not using "expectedExceptions"
     try {
       serviceBase.sendRequest(serviceRequest);
@@ -311,7 +311,7 @@ public class ServiceBaseTest {
         .typeReference(new TypeReference<ECheck>() {})
         .build();
 
-    // Since AuthorizationException is a custom exception and we need to assert the Errors
+    // Since ServiceException is a custom exception and we need to assert the Errors
     // inside the exception object, we're not using "expectedExceptions"
     try {
       serviceBase.sendRequest(serviceRequest);
@@ -340,7 +340,7 @@ public class ServiceBaseTest {
         .typeReference(new TypeReference<ECheck>() {})
         .build();
 
-    // Since AuthorizationException is a custom exception and we need to assert the Errors
+    // Since BaseException is a custom exception and we need to assert the Errors
     // inside the exception object, we're not using "expectedExceptions"
     try {
       serviceBase.sendRequest(serviceRequest);
