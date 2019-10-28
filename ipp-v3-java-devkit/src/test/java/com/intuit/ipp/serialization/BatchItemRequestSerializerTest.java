@@ -17,6 +17,8 @@ package com.intuit.ipp.serialization;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.intuit.ipp.data.BatchItemRequest;
 import com.intuit.ipp.data.CDCQuery;
 import com.intuit.ipp.data.Customer;
@@ -45,11 +47,13 @@ public class BatchItemRequestSerializerTest {
 
     private BatchItemRequestSerializer serializer;
     private JsonFactory factory;
+    private Gson gson;
 
     @BeforeClass
     public void setUp() {
         serializer = new BatchItemRequestSerializer();
         factory = new JsonFactory();
+        gson = new Gson();
     }
 
     @Test
@@ -163,7 +167,13 @@ public class BatchItemRequestSerializerTest {
 
         generator.flush();
         String output = outputStream.toString();
-        Assert.assertEquals(output, "{\"bId\":\"bID6\",\"CDCQuery\":{\"Entities\":\"Customer\",\"ChangedSince\":\"2019-01-01T05:30:00.666+05:30\"}}");
+        JsonObject jsonObject = gson.fromJson(output, JsonObject.class);
+        Assert.assertNotNull(output);
+        Assert.assertEquals(jsonObject.get("bId").getAsString(), "bID6");
+        JsonObject cdcQueryJson = jsonObject.get("CDCQuery").getAsJsonObject();
+        Assert.assertNotNull(cdcQueryJson);
+        Assert.assertEquals(cdcQueryJson.get("Entities").getAsString(), "Customer");
+        Assert.assertEquals(cdcQueryJson.get("ChangedSince").getAsString().split("T")[0], "2019-01-01");
     }
 
     @Test
