@@ -3,13 +3,22 @@ package com.intuit.ipp.interceptors;
 import com.intuit.ipp.data.Attachable;
 import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.util.Config;
+import mockit.Expectations;
+
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import javax.imageio.ImageIO;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
+import java.awt.image.RenderedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,16 +33,28 @@ import static org.testng.Assert.assertTrue;
 
 public class SerializeInterceptorTest {
 
-    private SerializeInterceptor serializeInterceptor = new SerializeInterceptor();
+    private SerializeInterceptor serializeInterceptor;
+    private IntuitMessage message;
+    Map<String, String> requestParams;
+    JAXBElement jaxbElement;
+
+    @BeforeTest
+    public void setUp() {
+        TestJson json = new TestJson();
+        json.setFoo("bar");
+        jaxbElement = new JAXBElement(new QName(TestJson.class.getSimpleName()), TestJson.class, json);
+        serializeInterceptor = new SerializeInterceptor();
+    }
+
+    @BeforeMethod
+    public void beforeEach() {
+        message = new IntuitMessage();
+        requestParams = new HashMap<>();
+    }
 
     @Test(description = "Given a POST request with object for serialization, " +
             "the serialized data should be present in the serializedData object")
     public void execute_positiveCase1() throws FMSException {
-        IntuitMessage message = new IntuitMessage();
-        TestJson json = new TestJson();
-        json.setFoo("bar");
-        JAXBElement<TestJson> jaxbElement = new JAXBElement(new QName(TestJson.class.getSimpleName()), TestJson.class, json);
-        Map<String, String> requestParams = new HashMap<>();
         requestParams.put(REQ_PARAM_METHOD_TYPE, "POST");
         message.getRequestElements().setRequestParameters(requestParams);
         message.getRequestElements().setObjectToSerialize(jaxbElement);
@@ -44,8 +65,6 @@ public class SerializeInterceptorTest {
     @Test(description = "Given a POST request with post body for serialization, " +
             "the serialized data should be present in the serializedData object")
     public void execute_positiveCase2() throws FMSException {
-        IntuitMessage message = new IntuitMessage();
-        Map<String, String> requestParams = new HashMap<>();
         requestParams.put(REQ_PARAM_METHOD_TYPE, "POST");
         message.getRequestElements().setRequestParameters(requestParams);
         String jsonInput = "{\"foo\":\"bar\"}";
@@ -56,8 +75,6 @@ public class SerializeInterceptorTest {
 
     @Test(description = "Given a GET request for serialization, the serialized data should be null")
     public void execute_positiveCase3() throws FMSException {
-        IntuitMessage message = new IntuitMessage();
-        Map<String, String> requestParams = new HashMap<>();
         requestParams.put(REQ_PARAM_METHOD_TYPE, "GET");
         message.getRequestElements().setRequestParameters(requestParams);
         serializeInterceptor.execute(message);
@@ -69,17 +86,14 @@ public class SerializeInterceptorTest {
             "a file to be uploaded. The serialized data should be present in the " +
             "serializedData object along with the file that would be uploaded.")
     public void execute_positiveCase4() throws FMSException {
-        IntuitMessage message = new IntuitMessage();
-        TestJson json = new TestJson();
-        json.setFoo("bar");
-        JAXBElement<TestJson> jaxbElement = new JAXBElement(new QName(TestJson.class.getSimpleName()), TestJson.class, json);
-        Map<String, String> requestParams = new HashMap<>();
         requestParams.put(REQ_PARAM_METHOD_TYPE, "POST");
         message.getRequestElements().setRequestParameters(requestParams);
         message.getRequestElements().setObjectToSerialize(jaxbElement);
+
         message.getRequestElements().setAction(UPLOAD.toString());
         message.getRequestElements().getUploadRequestElements().setBoundaryForEntity("Entity");
         message.getRequestElements().getUploadRequestElements().setBoundaryForContent("Content");
+
         Attachable attachable = new Attachable();
         attachable.setFileName("test.txt");
         message.getRequestElements().setEntity(attachable);
@@ -110,6 +124,53 @@ public class SerializeInterceptorTest {
         assertEquals(message.getRequestElements().getSerializedData(), "{\"foo\":\"bar\"}");
     }
 
+    @Test(description = "Given a POST request with an image file upload, " +
+            "the serializeData object should return the boundaries with the serialized data")
+    public void execute_uploadFileImageContent() throws FMSException, IOException {
+        requestParams.put(REQ_PARAM_METHOD_TYPE, "POST");
+        message.getRequestElements().setRequestParameters(requestParams);
+
+        InputStream mockedStream = new ByteArrayInputStream("test data".getBytes());
+        setTestUploadRequestElements(mockedStream);
+
+        Attachable attachable = new Attachable();
+        attachable.setContentType("something/jpeg");
+        message.getRequestElements().setEntity(attachable);
+        message.getRequestElements().setObjectToSerialize(jaxbElement);
+
+        new Expectations(ImageIO.class) {{
+            ImageIO.write((RenderedImage) any, anyString, (ByteArrayOutputStream) any);
+        }};
+
+        serializeInterceptor.execute(message);
+        Assert.assertEquals(message.getRequestElements().getSerializedData(), "EntityBoundary{\"foo\":\"bar\"}ContentBoundary");
+    }
+
+    @Test(description = "Given a POST request with image file upload, " +
+            "an exception thrown when an internal IO error occurs",
+        expectedExceptions = FMSException.class
+    )
+    public void execute_uploadFileImageContent_exception() throws FMSException, IOException {
+        requestParams.put(REQ_PARAM_METHOD_TYPE, "POST");
+        message.getRequestElements().setRequestParameters(requestParams);
+
+        InputStream mockedStream = new ByteArrayInputStream("test data".getBytes());
+        setTestUploadRequestElements(mockedStream);
+
+        Attachable attachable = new Attachable();
+        attachable.setContentType("something/jpeg");
+        message.getRequestElements().setEntity(attachable);
+        message.getRequestElements().setObjectToSerialize(jaxbElement);
+
+        new Expectations(ImageIO.class) {{
+            ImageIO.write((RenderedImage) any, anyString, (ByteArrayOutputStream) any);
+            result = new IOException("IOException thrown");
+        }};
+
+        serializeInterceptor.execute(message);
+        Assert.assertEquals(message.getRequestElements().getSerializedData(), "EntityBoundary{\"foo\":\"bar\"}ContentBoundary");
+    }
+
     @Test(description = "Serialization request format returned should be of " +
             "the form: message.request.serialization")
     public void getSerializationRequestFormat() {
@@ -117,6 +178,13 @@ public class SerializeInterceptorTest {
         assertTrue(interceptor
                 .getSerializationRequestFormat()
                 .equalsIgnoreCase(Config.getProperty(SERIALIZATION_REQUEST_FORMAT)));
+    }
+
+    private void setTestUploadRequestElements(InputStream docContent) {
+        message.getRequestElements().setAction("upload");
+        message.getRequestElements().getUploadRequestElements().setDocContent(docContent);
+        message.getRequestElements().getUploadRequestElements().setBoundaryForContent("ContentBoundary");
+        message.getRequestElements().getUploadRequestElements().setBoundaryForEntity("EntityBoundary");
     }
 
     @XmlRootElement

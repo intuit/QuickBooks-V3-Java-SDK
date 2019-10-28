@@ -202,7 +202,7 @@ public class SerializeInterceptor implements Interceptor {
 	 */
 	private String getMime(String name, String delimiter) {
 		if (StringUtils.hasText(name)) {
-			return name.substring(name.lastIndexOf(delimiter), name.length());
+			return name.substring(name.lastIndexOf(delimiter) + 1, name.length());
 		}
 		return null;
 	}
