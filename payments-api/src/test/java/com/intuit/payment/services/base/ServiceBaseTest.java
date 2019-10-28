@@ -41,7 +41,6 @@ import java.math.BigDecimal;
 import static org.testng.Assert.fail;
 
 public class ServiceBaseTest {
-
   private ServiceBase serviceBase;
   private MockHttpRequestClient mockHttpRequestClient;
 
