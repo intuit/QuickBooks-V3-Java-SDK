@@ -36,8 +36,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class BatchItemRequestSerializerTest {
 
@@ -153,7 +155,7 @@ public class BatchItemRequestSerializerTest {
 
         CDCQuery cdcQuery = new CDCQuery();
         cdcQuery.setEntities("Customer");
-        cdcQuery.setChangedSince(new Date(1546281000000L));
+        cdcQuery.setChangedSince(getDate());
         request.setBId("bID6");
         request.setCDCQuery(cdcQuery);
 
@@ -161,7 +163,7 @@ public class BatchItemRequestSerializerTest {
 
         generator.flush();
         String output = outputStream.toString();
-        Assert.assertEquals(output, "{\"bId\":\"bID6\",\"CDCQuery\":{\"Entities\":\"Customer\",\"ChangedSince\":\"2019-01-01T00:00:00+05:30\"}}");
+        Assert.assertEquals(output, "{\"bId\":\"bID6\",\"CDCQuery\":{\"Entities\":\"Customer\",\"ChangedSince\":\"2019-01-01T05:30:00.666+05:30\"}}");
     }
 
     @Test
@@ -205,7 +207,7 @@ public class BatchItemRequestSerializerTest {
     private Invoice getInvoiceObject() {
         Invoice invoice = new Invoice();
         invoice.setDocNumber("1001");
-        invoice.setTxnDate(new Date(1546281000000L));
+        invoice.setTxnDate(getDate());
         ReferenceType customerRef = new ReferenceType();
         customerRef.setType("Customer");
         customerRef.setName("Mary");
@@ -224,6 +226,12 @@ public class BatchItemRequestSerializerTest {
         invoice.setLine(Collections.singletonList(invLine));
 
         return invoice;
+    }
+
+    private Date getDate() {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar.setTimeInMillis(1546300800666L);
+        return calendar.getTime();
     }
 
     @SuppressWarnings("unchecked")
