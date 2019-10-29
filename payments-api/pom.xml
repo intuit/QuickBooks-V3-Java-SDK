@@ -122,9 +122,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0-M3</version>
 				<configuration>
-                    <argLine>
-                        -Djdk.attach.allowAttachSelf
-                    </argLine>
+                    <argLine>${argLine} -Djdk.attach.allowAttachSelf </argLine>
 					<suiteXmlFiles>
 						<suiteXmlFile>testng-payments.xml</suiteXmlFile>
 					</suiteXmlFiles>
