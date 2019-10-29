@@ -35,12 +35,14 @@
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
 			<version>2.9.6</version>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>org.jmockit</groupId>
 			<artifactId>jmockit</artifactId>
-			<version>1.39</version>
+			<version>1.25</version>
 			<scope>test</scope>
 		</dependency>
+	-->
 	</dependencies>
 	<build>
 		<testResources>
@@ -60,6 +62,32 @@
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>4.3.0</version>
         	</plugin>
+        	<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<finalName>${project.artifactId}-${project.version}</finalName>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>payments-api</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- This plug-in instructs to use the mentioned JDK for compilation Reference:-
 			http://maven.apache.org/plugins/maven-compiler-plugin/examples/compile-using-different-jdk.html -->
 			<plugin>
@@ -83,24 +111,16 @@
 					</archive>
 				</configuration>
 			</plugin>
+			<!--
 			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M3</version>
 				<configuration>
-					<finalName>${project.artifactId}-${project.version}</finalName>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-				</configuration>
-				<executions>
-					<execution>
-						<id>payments-api</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+                    <argLine>
+                        -Djdk.attach.allowAttachSelf 
+                    </argLine>
+			</plugin> -->
 			<plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -142,16 +162,6 @@
                     </execution>
                 </executions>
             </plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M3</version>
-				<configuration>
-					<argLine>
-						-Djdk.attach.allowAttachSelf <!-- required to run test with jmockit on JDK 9 -->
-					</argLine>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 

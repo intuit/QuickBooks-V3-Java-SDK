@@ -38,6 +38,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -239,8 +241,17 @@ public class BatchItemRequestSerializerTest {
     }
 
     private Date getDate() {
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        calendar.setTimeInMillis(1546300800666L);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        String dateInString = "01-01-2019 00:00:00";
+        Date date;
+         Calendar calendar = Calendar.getInstance();
+        try {
+            date = sdf.parse(dateInString);
+            calendar.setTime(date);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return calendar.getTime();
     }
 
