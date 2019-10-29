@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="MainSuite">
     <suite-files>
-        <suite-file path="testng-devkit.xml" />
+        <suite-file path="testng-payments.xml" />
     </suite-files>
 </suite>

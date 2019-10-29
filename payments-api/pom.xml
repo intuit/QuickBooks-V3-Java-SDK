@@ -35,14 +35,13 @@
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
 			<version>2.9.6</version>
 		</dependency>
-		<!--
+
 		<dependency>
 			<groupId>org.jmockit</groupId>
 			<artifactId>jmockit</artifactId>
 			<version>1.25</version>
 			<scope>test</scope>
 		</dependency>
-	-->
 	</dependencies>
 	<build>
 		<testResources>
@@ -61,6 +60,13 @@
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>4.3.0</version>
+				<dependencies>
+					<dependency>
+						<groupId>javax.xml.bind</groupId>
+						<artifactId>jaxb-api</artifactId>
+						<version>2.2.3</version>
+					</dependency>
+				</dependencies>
         	</plugin>
         	<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -120,7 +126,7 @@
                         -Djdk.attach.allowAttachSelf
                     </argLine>
 					<suiteXmlFiles>
-						<suiteXmlFile>testng-devkit.xml</suiteXmlFile>
+						<suiteXmlFile>testng-payments.xml</suiteXmlFile>
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>
