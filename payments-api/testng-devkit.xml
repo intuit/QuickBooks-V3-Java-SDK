@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Payments" parallel="false">
+    <test name="Payments">
+        <packages>
+            <package name="com.intuit.payment.config" />
+            <package name="com.intuit.payment.data" />
+            <package name="com.intuit.payment.exception" />
+            <package name="com.intuit.payment.http" />
+            <package name="com.intuit.payment.services.base" />
+            <package name="com.intuit.payment.util" />
+        </packages>
+    </test>
+</suite>
