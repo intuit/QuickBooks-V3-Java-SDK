@@ -48,6 +48,12 @@ public class CardServiceTest {
     }
 	
 	@Test(expectedExceptions = IllegalArgumentException.class)
+    public void testgetAllCardCountCustomerNull() throws BaseException {
+       CardService cardService = new CardService();
+	   cardService.getAllCards(null, 0);
+    }
+	
+	@Test(expectedExceptions = IllegalArgumentException.class)
     public void testcreateFromTokenCustomerBlank() throws BaseException {
        CardService cardService = new CardService();
 	   cardService.createFromToken(new Token(), "");
