@@ -3,8 +3,9 @@ package com.intuit.ipp.interceptors;
 import com.intuit.ipp.data.Attachable;
 import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.util.Config;
-import mockit.Expectations;
 
+import mockit.Mock;
+import mockit.MockUp;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -17,9 +18,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -138,9 +139,12 @@ public class SerializeInterceptorTest {
         message.getRequestElements().setEntity(attachable);
         message.getRequestElements().setObjectToSerialize(jaxbElement);
 
-        new Expectations(ImageIO.class) {{
-            ImageIO.write((RenderedImage) any, anyString, (ByteArrayOutputStream) any);
-        }};
+        new MockUp<ImageIO>() {
+            @Mock
+            public boolean write(RenderedImage image, String formatName, OutputStream output) {
+                return true;
+            }
+        };
 
         serializeInterceptor.execute(message);
         Assert.assertEquals(message.getRequestElements().getSerializedData(), "EntityBoundary{\"foo\":\"bar\"}ContentBoundary");
@@ -162,10 +166,12 @@ public class SerializeInterceptorTest {
         message.getRequestElements().setEntity(attachable);
         message.getRequestElements().setObjectToSerialize(jaxbElement);
 
-        new Expectations(ImageIO.class) {{
-            ImageIO.write((RenderedImage) any, anyString, (ByteArrayOutputStream) any);
-            result = new IOException("IOException thrown");
-        }};
+        new MockUp<ImageIO>() {
+            @Mock
+            public boolean write(RenderedImage image, String formatName, OutputStream output) throws IOException {
+                throw new IOException("IOException thrown");
+            }
+        };
 
         serializeInterceptor.execute(message);
         Assert.assertEquals(message.getRequestElements().getSerializedData(), "EntityBoundary{\"foo\":\"bar\"}ContentBoundary");
