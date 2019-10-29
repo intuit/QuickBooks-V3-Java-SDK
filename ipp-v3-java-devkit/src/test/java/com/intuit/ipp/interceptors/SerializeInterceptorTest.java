@@ -4,8 +4,6 @@ import com.intuit.ipp.data.Attachable;
 import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.util.Config;
 
-import mockit.Mock;
-import mockit.MockUp;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -16,11 +14,12 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
-import java.awt.image.RenderedImage;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -131,47 +130,22 @@ public class SerializeInterceptorTest {
         requestParams.put(REQ_PARAM_METHOD_TYPE, "POST");
         message.getRequestElements().setRequestParameters(requestParams);
 
-        InputStream mockedStream = new ByteArrayInputStream("test data".getBytes());
-        setTestUploadRequestElements(mockedStream);
+        // Generate an image byte array
+        BufferedImage image = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, "jpg", baos);
+        InputStream mockedStream = new ByteArrayInputStream(baos.toByteArray());
+
+        // set message request elements
+        message.getRequestElements().setAction("upload");
+        message.getRequestElements().getUploadRequestElements().setDocContent(mockedStream);
+        message.getRequestElements().getUploadRequestElements().setBoundaryForContent("ContentBoundary");
+        message.getRequestElements().getUploadRequestElements().setBoundaryForEntity("EntityBoundary");
 
         Attachable attachable = new Attachable();
         attachable.setContentType("something/jpeg");
         message.getRequestElements().setEntity(attachable);
         message.getRequestElements().setObjectToSerialize(jaxbElement);
-
-        new MockUp<ImageIO>() {
-            @Mock
-            public boolean write(RenderedImage image, String formatName, OutputStream output) {
-                return true;
-            }
-        };
-
-        serializeInterceptor.execute(message);
-        Assert.assertEquals(message.getRequestElements().getSerializedData(), "EntityBoundary{\"foo\":\"bar\"}ContentBoundary");
-    }
-
-    @Test(description = "Given a POST request with image file upload, " +
-            "an exception thrown when an internal IO error occurs",
-        expectedExceptions = FMSException.class
-    )
-    public void execute_uploadFileImageContent_exception() throws FMSException, IOException {
-        requestParams.put(REQ_PARAM_METHOD_TYPE, "POST");
-        message.getRequestElements().setRequestParameters(requestParams);
-
-        InputStream mockedStream = new ByteArrayInputStream("test data".getBytes());
-        setTestUploadRequestElements(mockedStream);
-
-        Attachable attachable = new Attachable();
-        attachable.setContentType("something/jpeg");
-        message.getRequestElements().setEntity(attachable);
-        message.getRequestElements().setObjectToSerialize(jaxbElement);
-
-        new MockUp<ImageIO>() {
-            @Mock
-            public boolean write(RenderedImage image, String formatName, OutputStream output) throws IOException {
-                throw new IOException("IOException thrown");
-            }
-        };
 
         serializeInterceptor.execute(message);
         Assert.assertEquals(message.getRequestElements().getSerializedData(), "EntityBoundary{\"foo\":\"bar\"}ContentBoundary");
@@ -180,17 +154,9 @@ public class SerializeInterceptorTest {
     @Test(description = "Serialization request format returned should be of " +
             "the form: message.request.serialization")
     public void getSerializationRequestFormat() {
-        SerializeInterceptor interceptor = new SerializeInterceptor();
-        assertTrue(interceptor
+        assertTrue(serializeInterceptor
                 .getSerializationRequestFormat()
                 .equalsIgnoreCase(Config.getProperty(SERIALIZATION_REQUEST_FORMAT)));
-    }
-
-    private void setTestUploadRequestElements(InputStream docContent) {
-        message.getRequestElements().setAction("upload");
-        message.getRequestElements().getUploadRequestElements().setDocContent(docContent);
-        message.getRequestElements().getUploadRequestElements().setBoundaryForContent("ContentBoundary");
-        message.getRequestElements().getUploadRequestElements().setBoundaryForEntity("EntityBoundary");
     }
 
     @XmlRootElement
@@ -207,4 +173,5 @@ public class SerializeInterceptorTest {
             this.foo = foo;
         }
     }
+
 }
