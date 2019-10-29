@@ -15,7 +15,32 @@
  *******************************************************************************/
 package com.intuit.payment.services.base;
 
-public class ServiceBaseTest {/*
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.intuit.payment.config.RequestContext;
+import com.intuit.payment.data.ECheck;
+import com.intuit.payment.data.Entity;
+import com.intuit.payment.data.Error;
+import com.intuit.payment.data.Errors;
+import com.intuit.payment.exception.AuthorizationException;
+import com.intuit.payment.exception.BadRequestException;
+import com.intuit.payment.exception.BaseException;
+import com.intuit.payment.exception.ServiceException;
+import com.intuit.payment.http.HttpRequestClient;
+import com.intuit.payment.http.MethodType;
+import com.intuit.payment.http.Request;
+import com.intuit.payment.http.Response;
+import mockit.Mock;
+import mockit.MockUp;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.math.BigDecimal;
+
+import static org.testng.Assert.fail;
+
+public class ServiceBaseTest {
   private ServiceBase serviceBase;
   private MockHttpRequestClient mockHttpRequestClient;
 
@@ -75,10 +100,10 @@ public class ServiceBaseTest {/*
     Assert.assertEquals(actualResponse.getIntuit_tid(), tid);
   }
 
-  *//**
+  /**
    * Tests that the "sendRequest" function is able to serialize the Response content to the expected object (ECheck in this test)
    * during a GET request
-   *//*
+   */
   @Test
   public void testSendRequest_successGetRequest() throws BaseException {
     String eCheckId = "5";
@@ -106,9 +131,9 @@ public class ServiceBaseTest {/*
     Assert.assertEquals(actualResponse.getIntuit_tid(), tid);
   }
 
-  *//**
+  /**
    * Tests the case where response payload is empty
-   *//*
+   */
   @Test
   public void testSendRequest_successEmptyResponsePayload() throws BaseException {
     int httpStatusCode = 200;
@@ -129,9 +154,9 @@ public class ServiceBaseTest {/*
     Assert.assertEquals(actualResponse.getIntuit_tid(), tid);
   }
 
-  *//**
+  /**
    * Tests that a BaseException is thrown when the response is null for the service request
-   *//*
+   */
   @Test(expectedExceptions = BaseException.class,
       expectedExceptionsMessageRegExp = "Unexpected Error , service response object was null ")
   public void testSendRequest_nullResponse() throws BaseException {
@@ -145,10 +170,10 @@ public class ServiceBaseTest {/*
     serviceBase.sendRequest(serviceRequest);
   }
 
-  *//**
+  /**
    * Tests the case where the HTTP status code is 404 and the call to httpRequestClient.makeRequest()
    * sets the errors in the response content and deserialization of the error goes through fine
-   *//*
+   */
   @Test
   public void testSendRequest_errorPageNotFound() throws BaseException {
     int httpStatusCode = 404;
@@ -180,10 +205,10 @@ public class ServiceBaseTest {/*
     }
   }
 
-  *//**
+  /**
    * Tests the case where the HTTP status code is 404 and the call to httpRequestClient.makeRequest()
    * sets the errors in the response content but the deserialization of the response error content fails
-   *//*
+   */
   @Test
   public void testSendRequest_errorDeserializingErrorResponse() throws BaseException {
     int httpStatusCode = 404;
@@ -211,10 +236,10 @@ public class ServiceBaseTest {/*
     }
   }
 
-  *//**
+  /**
    * Tests the case where the HTTP status code is 401 but there is no Error set in the response content from the
    * call to httpRequestClient.makeRequest()
-   *//*
+   */
   @Test
   public void testSendRequest_errorUnauthorized() throws BaseException {
     int httpStatusCode = 401;
@@ -239,10 +264,10 @@ public class ServiceBaseTest {/*
       assertErrorsInException(errors, httpStatusCode, mockResponseContent);}
   }
 
-  *//**
+  /**
    * Tests the case where the HTTP status code is 400 but there is no Error set in the response content from the
    * call to httpRequestClient.makeRequest()
-   *//*
+   */
   @Test
   public void testSendRequest_errorBadRequest() throws BaseException {
     int httpStatusCode = 400;
@@ -268,10 +293,10 @@ public class ServiceBaseTest {/*
     }
   }
 
-  *//**
+  /**
    * Tests the case where the HTTP status code is 500 but there is no Error set in the response content from the
    * call to httpRequestClient.makeRequest()
-   *//*
+   */
   @Test
   public void testSendRequest_errorInternalServerError() throws BaseException {
     int httpStatusCode = 500;
@@ -297,10 +322,10 @@ public class ServiceBaseTest {/*
     }
   }
 
-  *//**
+  /**
    * Tests the case where the HTTP status code is 301 but there is no Error set in the response content from the
    * call to httpRequestClient.makeRequest()
-   *//*
+   */
   @Test
   public void testSendRequest_errorMovedPermanently() {
     int httpStatusCode = 301;
@@ -326,9 +351,9 @@ public class ServiceBaseTest {/*
     }
   }
 
-  *//**
+  /**
    * Tests that intuit_tid and requestId is being set on the entity
-   *//*
+   */
   @Test
   public void testPrepareResponse_success() {
     String expectedRequestId = "146-request-id";
@@ -360,10 +385,10 @@ public class ServiceBaseTest {/*
     Assert.assertEquals(error.getDetail(), "ResponsePayload: " + expectedErrorContent);
   }
 
-  *//**
+  /**
    * This is a mock implementation of the HttpRequestClient to mock the response from this class
    * Only the "makeRequest()" method is mocked. Other methods can be mocked if necessary.
-   *//*
+   */
   private final class MockHttpRequestClient extends MockUp<HttpRequestClient> {
 
     private Response mockResponse;
@@ -384,4 +409,4 @@ public class ServiceBaseTest {/*
       return this.mockResponse;
     }
   }
-*/}
+}
