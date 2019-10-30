@@ -70,7 +70,10 @@ public class CardTest {
 			.postalCode("A1A2B2")
 			.build();
 		commercialCardCode = "test card code";
-		// cvcVerification = 
+		cvcVerification = new CvcVerification.Builder()
+			.result("test result")
+			.date(created)
+			.build();
 		cardType = "test card type";
 		expMonth = "JANUARY";
 		expYear = "2019";
@@ -81,7 +84,13 @@ public class CardTest {
 		entityId = "123";
 		entityType = "test type";
 		entityVersion = "v1";
-		// cardPresent = 
+		cardPresent = new CardPresent.Builder()
+			.track1("test track 1")
+			.track2("test track 2")
+			.ksn("ksn 1")
+			.ksn("ksn 2")
+			.pinBlock("pb 1")
+			.build();
 
 		// values for testing setters
 		idNew = "testid new";
@@ -97,7 +106,10 @@ public class CardTest {
 			.postalCode("B2BA1A")
 			.build();
 		commercialCardCodeNew = "test card code new";
-		// cvcVerification = 
+		cvcVerificationNew = new CvcVerification.Builder()
+			.result("test result new")
+			.date(createdNew)
+			.build();
 		cardTypeNew = "test card type new";
 		expMonthNew = "DECEMBER";
 		expYearNew = "2020";
@@ -108,7 +120,13 @@ public class CardTest {
 		entityIdNew = "456";
 		entityTypeNew = "test type new";
 		entityVersionNew = "v2";
-		// cardPresent = 
+		cardPresentNew = new CardPresent.Builder()
+			.track1("test track 3")
+			.track2("test track 4")
+			.ksn("ksn 3")
+			.ksn("ksn 4")
+			.pinBlock("pb 2")
+			.build();
 	}
 
 	@BeforeMethod
@@ -121,6 +139,7 @@ public class CardTest {
 			.updatedDate(updated)
 			.address(address)
 			.commercialCardCode(commercialCardCode)
+			.cvcVerification(cvcVerification)
 			.cardType(cardType)
 			.expMonth(expMonth)
 			.expYear(expYear)
@@ -131,6 +150,7 @@ public class CardTest {
 			.entityId(entityId)
 			.entityType(entityType)
 			.entityVersion(entityVersion)
+			.cardPresent(cardPresent)
 			.build();
 	}
 
@@ -143,6 +163,7 @@ public class CardTest {
 		Assert.assertEquals(card.getUpdated(), updated);
 		Assert.assertEquals(card.getAddress(), address);
 		Assert.assertEquals(card.getCommercialCardCode(), commercialCardCode);
+		Assert.assertEquals(card.getCvcVerification(), cvcVerification);
 		Assert.assertEquals(card.getCardType(), cardType);
 		Assert.assertEquals(card.getExpMonth(), expMonth);
 		Assert.assertEquals(card.getExpYear(), expYear);
@@ -153,6 +174,7 @@ public class CardTest {
 		Assert.assertEquals(card.getEntityId(), entityId);
 		Assert.assertEquals(card.getEntityType(), entityType);
 		Assert.assertEquals(card.getEntityVersion(), entityVersion);
+		Assert.assertEquals(card.getCardPresent(), cardPresent);
 	}
 
 	@Test
@@ -164,6 +186,7 @@ public class CardTest {
 		card.setUpdated(updatedNew);
 		card.setAddress(addressNew);
 		card.setCommercialCardCode(commercialCardCodeNew);
+		card.setCvcVerification(cvcVerificationNew);
 		card.setCardType(cardTypeNew);
 		card.setExpMonth(expMonthNew);
 		card.setExpYear(expYearNew);
@@ -174,6 +197,7 @@ public class CardTest {
 		card.setEntityId(entityIdNew);
 		card.setEntityType(entityTypeNew);
 		card.setEntityVersion(entityVersionNew);
+		card.setCardPresent(cardPresentNew);
 
 		Assert.assertEquals(card.getId(), idNew);
 		Assert.assertEquals(card.getNumber(), numberNew);
@@ -182,6 +206,7 @@ public class CardTest {
 		Assert.assertEquals(card.getUpdated(), updatedNew);
 		Assert.assertEquals(card.getAddress(), addressNew);
 		Assert.assertEquals(card.getCommercialCardCode(), commercialCardCodeNew);
+		Assert.assertEquals(card.getCvcVerification(), cvcVerificationNew);
 		Assert.assertEquals(card.getCardType(), cardTypeNew);
 		Assert.assertEquals(card.getExpMonth(), expMonthNew);
 		Assert.assertEquals(card.getExpYear(), expYearNew);
@@ -192,6 +217,7 @@ public class CardTest {
 		Assert.assertEquals(card.getEntityId(), entityIdNew);
 		Assert.assertEquals(card.getEntityType(), entityTypeNew);
 		Assert.assertEquals(card.getEntityVersion(), entityVersionNew);
+		Assert.assertEquals(card.getCardPresent(), cardPresentNew);
 	}
 
 
