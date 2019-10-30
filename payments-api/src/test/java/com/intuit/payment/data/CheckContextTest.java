@@ -26,43 +26,43 @@ import org.testng.annotations.Test;
  */
 public class CheckContextTest {
 
-  private DeviceInfo deviceInfo;
+    private DeviceInfo deviceInfo;
 
-  private CheckContext checkContext;
+    private CheckContext checkContext;
 
-  @BeforeTest
-  public void init() {
-    deviceInfo = new DeviceInfo();
-  }
+    @BeforeTest
+    public void init() {
+        deviceInfo = new DeviceInfo();
+    }
 
-  @BeforeMethod
-  public void setUpWith() {
-    checkContext = new CheckContext.Builder(deviceInfo).build();
-  }
+    @BeforeMethod
+    public void setUpWithBuilder() {
+        checkContext = new CheckContext.Builder(deviceInfo).build();
+    }
 
-  @Test
-  public void testConstructor() {
-    CheckContext newCheckContext = new CheckContext();
-    Assert.assertNotNull(newCheckContext);
-  }
+    @Test
+    public void testConstructor() {
+        CheckContext newCheckContext = new CheckContext();
+        Assert.assertNotNull(newCheckContext);
+    }
 
-  @Test
-  public void testAllGetters() {
-    Assert.assertEquals(checkContext.getDeviceInfo(), deviceInfo);
-  }
+    @Test
+    public void testAllGetters() {
+        Assert.assertEquals(checkContext.getDeviceInfo(), deviceInfo);
+    }
 
-  @Test
-  public void testAllSetters() {
-    DeviceInfo newDeviceInfo = new DeviceInfo();
-    checkContext.setDeviceInfo(newDeviceInfo);
+    @Test
+    public void testAllSetters() {
+        DeviceInfo newDeviceInfo = new DeviceInfo();
+        checkContext.setDeviceInfo(newDeviceInfo);
 
-    Assert.assertEquals(checkContext.getDeviceInfo(), newDeviceInfo);
-  }
+        Assert.assertEquals(checkContext.getDeviceInfo(), newDeviceInfo);
+    }
 
-  @Test
-  public void testToString() {
-    String expectedResult = ReflectionToStringBuilder.toString(checkContext);
-    String actualResult = checkContext.toString();
-    Assert.assertTrue(actualResult.contains(expectedResult));
-  }
+    @Test
+    public void testToString() {
+        String expectedResult = ReflectionToStringBuilder.toString(checkContext);
+        String actualResult = checkContext.toString();
+        Assert.assertTrue(actualResult.contains(expectedResult));
+    }
 }
