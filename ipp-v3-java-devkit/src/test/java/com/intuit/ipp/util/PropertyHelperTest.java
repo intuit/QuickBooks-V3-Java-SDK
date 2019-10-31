@@ -39,4 +39,11 @@ public class PropertyHelperTest {
 		String requestSource = propertyHelper.getRequestSource();
 		Assert.assertNotNull(requestSource);
 	}
+
+	@Test
+	public void testPropertyRequestSourceHeader() {
+		PropertyHelper propertyHelper = PropertyHelper.getInstance();
+		String requestSource = propertyHelper.getRequestSourceHeader();
+		Assert.assertNotNull(requestSource);
+	}
 }
