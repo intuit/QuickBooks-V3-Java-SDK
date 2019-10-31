@@ -88,7 +88,7 @@
         <dependency>
             <groupId>org.jmockit</groupId>
             <artifactId>jmockit</artifactId>
-            <version>1.48</version>
+            <version>1.25</version>
             <scope>test</scope>
         </dependency>
 
@@ -144,6 +144,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M3</version>
                 <configuration>
+                    <argLine>${argLine} -Djdk.attach.allowAttachSelf</argLine>
                     <suiteXmlFiles>
                         <suiteXmlFile>testng-devkit.xml</suiteXmlFile>
                     </suiteXmlFiles>
