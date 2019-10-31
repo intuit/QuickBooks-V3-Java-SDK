@@ -96,7 +96,7 @@ public class ChargeServiceTest {
     }
 
     @Test(expectedExceptions = BaseException.class)
-    public void testCreateCharge_Exception() throws BaseException {
+    public void testCreateChargeServiceFailure() throws BaseException {
 
         // Build response object
         Charge expectedCharge = new Charge.Builder()
@@ -157,7 +157,7 @@ public class ChargeServiceTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testRetrieveCharge_Failure() throws BaseException {
+    public void testRetrieveChargeInvalidChargeId() throws BaseException {
 
         RequestContext requestContext = new RequestContext();
         requestContext.setBaseUrl("SomeBaseUrl");
@@ -206,7 +206,7 @@ public class ChargeServiceTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testCaptureCharge_Failure() throws BaseException {
+    public void testCaptureChargeInvalidChargeId() throws BaseException {
 
         Charge expectedCharge = new Charge.Builder()
                 .amount(new BigDecimal(1234))
@@ -286,7 +286,7 @@ public class ChargeServiceTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testRefundCharge_Failure() throws BaseException {
+    public void testRefundChargeInvalidChargeId() throws BaseException {
 
         Charge expectedCharge = new Charge.Builder()
                 .amount(new BigDecimal(1234))
@@ -360,7 +360,7 @@ public class ChargeServiceTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testGetRefund_Failure_InvalidChargeId() throws BaseException {
+    public void testGetRefundInvalidChargeId() throws BaseException {
 
         RequestContext requestContext = new RequestContext();
         requestContext.setBaseUrl("SomeBaseUrl");
@@ -373,7 +373,7 @@ public class ChargeServiceTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testGetRefund_Failure_InvalidRefundId() throws BaseException {
+    public void testGetRefundInvalidRefundId() throws BaseException {
 
         RequestContext requestContext = new RequestContext();
         requestContext.setBaseUrl("SomeBaseUrl");
@@ -437,7 +437,7 @@ public class ChargeServiceTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testVoidTransaction_Failure() throws BaseException {
+    public void testVoidTransactionInvalidChargeId() throws BaseException {
 
         RequestContext requestContext = new RequestContext();
         requestContext.setBaseUrl("SomeBaseUrl");
