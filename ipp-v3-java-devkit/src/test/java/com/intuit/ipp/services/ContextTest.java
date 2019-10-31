@@ -15,20 +15,16 @@
  *******************************************************************************/
 package com.intuit.ipp.services;
 
-import com.intuit.ipp.security.IAuthorizer;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import com.intuit.ipp.services.IPPHelper;
 import com.intuit.ipp.core.Context;
 import com.intuit.ipp.core.ServiceType;
 import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.security.OAuthAuthorizer;
 import com.intuit.ipp.util.Config;
 
-import javax.xml.ws.Service;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
