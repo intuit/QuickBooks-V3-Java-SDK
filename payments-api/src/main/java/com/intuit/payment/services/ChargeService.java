@@ -266,8 +266,8 @@ public class ChargeService extends ServiceBase {
 	/**
 	 * Method to void a Charge
 	 * 
-	 * @param chargeId
-	 * @param refund
+	 * @param chargeRequestId
+	 *
 	 * @return
 	 * @throws BaseException
 	 */
