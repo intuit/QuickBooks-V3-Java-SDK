@@ -41,28 +41,28 @@ public class BankAccountServiceTest {
 
     @Test
     public void testBankAccountServiceCreation() {
-        BankAccountService chargeService = new BankAccountService();
-        Assert.assertNull(chargeService.getRequestContext());
+        BankAccountService bankService = new BankAccountService();
+        Assert.assertNull(bankService.getRequestContext());
     }
 
     @Test
     public void testBankAccountServiceRequestContext() {
         RequestContext requestContext = new RequestContext();
         requestContext.setBaseUrl("fakeBaseUrl");
-        BankAccountService chargeService = new BankAccountService(requestContext);
-        Assert.assertEquals(requestContext, chargeService.getRequestContext());
+        BankAccountService bankService = new BankAccountService(requestContext);
+        Assert.assertEquals(requestContext, bankService.getRequestContext());
 
         RequestContext secondRequestContext = new RequestContext();
         secondRequestContext.setBaseUrl("secondBaseUrl");
-        chargeService.setRequestContext(secondRequestContext);
-        Assert.assertEquals(secondRequestContext, chargeService.getRequestContext());
+        bankService.setRequestContext(secondRequestContext);
+        Assert.assertEquals(secondRequestContext, bankService.getRequestContext());
     }
 
     @Test
     public void testCreateBankAccount() throws BaseException {
         BankAccount expectedBankAccount = new BankAccount.Builder().build();
-        final String chargeString = JsonUtil.serialize(expectedBankAccount);
-        final Response mockedResponse = new Response(200, chargeString, "fjkdlsfd");
+        final String bankAccountString = JsonUtil.serialize(expectedBankAccount);
+        final Response mockedResponse = new Response(200, bankAccountString, "fjkdlsfd");
         mockedResponse.setResponseObject(expectedBankAccount);
 
         new Expectations() {{
@@ -72,12 +72,12 @@ public class BankAccountServiceTest {
 
         RequestContext requestContext = new RequestContext();
         requestContext.setBaseUrl("fakeBaseUrl");
-        BankAccountService chargeService = new BankAccountService(requestContext);
+        BankAccountService bankService = new BankAccountService(requestContext);
 
         try {
             BankAccount bankAccount = new BankAccount();
-            BankAccount chargeGenerated = chargeService.create(bankAccount, "customerId");
-            Assert.assertEquals(expectedBankAccount, chargeGenerated);
+            BankAccount bankAccountGenerated = bankService.create(bankAccount, "customerId");
+            Assert.assertEquals(expectedBankAccount, bankAccountGenerated);
 
         } catch (BaseException e) {
             Assert.fail("Unexpected BaseException thrown " + e.getMessage());
@@ -86,9 +86,9 @@ public class BankAccountServiceTest {
 
     @Test
     public void testCreateBankAccountNullBankAccountId() {
-        BankAccountService chargeService = new BankAccountService();
+        BankAccountService bankService = new BankAccountService();
         try {
-            chargeService.create(null, null);
+            bankService.create(null, null);
             Assert.fail("Expected IllegalArgumentException thrown");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(true, "Expected IllegalArgumentException was thrown");
@@ -96,7 +96,7 @@ public class BankAccountServiceTest {
             Assert.fail("Unexpected BaseException thrown " + e.getMessage());
         }
         try {
-            chargeService.create(null, "");
+            bankService.create(null, "");
             Assert.fail("Expected IllegalArgumentException thrown");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(true, "Expected IllegalArgumentException was thrown");
@@ -109,8 +109,8 @@ public class BankAccountServiceTest {
     @Test
     public void testCreateFromTokenBankAccount() throws BaseException {
         BankAccount expectedBankAccount = new BankAccount.Builder().build();
-        final String chargeString = JsonUtil.serialize(expectedBankAccount);
-        final Response mockedResponse = new Response(200, chargeString, "fjkdlsfd");
+        final String bankAccountGeneratedString = JsonUtil.serialize(expectedBankAccount);
+        final Response mockedResponse = new Response(200, bankAccountGeneratedString, "fjkdlsfd");
         mockedResponse.setResponseObject(expectedBankAccount);
 
         new Expectations() {{
@@ -120,12 +120,12 @@ public class BankAccountServiceTest {
 
         RequestContext requestContext = new RequestContext();
         requestContext.setBaseUrl("fakeBaseUrl");
-        BankAccountService chargeService = new BankAccountService(requestContext);
+        BankAccountService bankService = new BankAccountService(requestContext);
 
         try {
             Token token = new Token();
-            BankAccount chargeGenerated = chargeService.createFromToken(token, "customerId");
-            Assert.assertEquals(expectedBankAccount, chargeGenerated);
+            BankAccount bankAccountGenerated = bankService.createFromToken(token, "customerId");
+            Assert.assertEquals(expectedBankAccount, bankAccountGenerated);
 
         } catch (BaseException e) {
             Assert.fail("Unexpected BaseException thrown " + e.getMessage());
@@ -134,9 +134,9 @@ public class BankAccountServiceTest {
 
     @Test
     public void testCreateFromTokenBankAccountNullBankAccountId() {
-        BankAccountService chargeService = new BankAccountService();
+        BankAccountService bankService = new BankAccountService();
         try {
-            chargeService.createFromToken(null, null);
+            bankService.createFromToken(null, null);
             Assert.fail("Expected IllegalArgumentException thrown");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(true, "Expected IllegalArgumentException was thrown");
@@ -144,7 +144,7 @@ public class BankAccountServiceTest {
             Assert.fail("Unexpected BaseException thrown " + e.getMessage());
         }
         try {
-            chargeService.createFromToken(null, "");
+            bankService.createFromToken(null, "");
             Assert.fail("Expected IllegalArgumentException thrown");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(true, "Expected IllegalArgumentException was thrown");
@@ -156,8 +156,8 @@ public class BankAccountServiceTest {
     @Test
     public void testRetrieveBankAccount() throws BaseException {
         BankAccount expectedBankAccount = new BankAccount.Builder().id("ijids").accountNumber("accountId").build();
-        final String chargeString = JsonUtil.serialize(expectedBankAccount);
-        final Response mockedResponse = new Response(200, chargeString, "fjkdlsfd");
+        final String bankAccountGeneratedString = JsonUtil.serialize(expectedBankAccount);
+        final Response mockedResponse = new Response(200, bankAccountGeneratedString, "fjkdlsfd");
         mockedResponse.setResponseObject(expectedBankAccount);
 
         new Expectations() {{
@@ -180,9 +180,9 @@ public class BankAccountServiceTest {
 
     @Test
     public void testRetrieveBankAccountNullBankAccountId() {
-        BankAccountService chargeService = new BankAccountService();
+        BankAccountService bankService = new BankAccountService();
         try {
-            chargeService.getBankAccount(null, null);
+            bankService.getBankAccount(null, null);
             Assert.fail("Expected IllegalArgumentException thrown");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(true, "Expected IllegalArgumentException was thrown");
@@ -190,7 +190,7 @@ public class BankAccountServiceTest {
             Assert.fail("Unexpected BaseException thrown " + e.getMessage());
         }
         try {
-            chargeService.getBankAccount("customerId", null);
+            bankService.getBankAccount("customerId", null);
             Assert.fail("Expected IllegalArgumentException thrown");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(true, "Expected IllegalArgumentException was thrown");
@@ -198,7 +198,7 @@ public class BankAccountServiceTest {
             Assert.fail("Unexpected BaseException thrown " + e.getMessage());
         }
         try {
-            chargeService.getBankAccount("customerId", "");
+            bankService.getBankAccount("customerId", "");
             Assert.fail("Expected IllegalArgumentException thrown");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(true, "Expected IllegalArgumentException was thrown");
@@ -206,7 +206,7 @@ public class BankAccountServiceTest {
             Assert.fail("Unexpected BaseException thrown " + e.getMessage());
         }
         try {
-            chargeService.getBankAccount("", "");
+            bankService.getBankAccount("", "");
             Assert.fail("Expected IllegalArgumentException thrown");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(true, "Expected IllegalArgumentException was thrown");
@@ -225,8 +225,8 @@ public class BankAccountServiceTest {
         bankAccount2.setAccountNumber("accountNumber2");
         bankAccounts.add(bankAccount2);
         QueryResponse expectedQueryResponse = new QueryResponse.Builder().bankAccounts(bankAccounts).build();
-        final String chargeString = JsonUtil.serialize(expectedQueryResponse);
-        final Response mockedResponse = new Response(200, chargeString, "fjkdlsfd");
+        final String bankAccountString = JsonUtil.serialize(expectedQueryResponse);
+        final Response mockedResponse = new Response(200, bankAccountString, "fjkdlsfd");
         mockedResponse.setResponseObject(bankAccounts);
 
         new Expectations() {{
@@ -249,9 +249,9 @@ public class BankAccountServiceTest {
 
     @Test
     public void testRetrieveAllBankAccountNullBankAccountId() {
-        BankAccountService chargeService = new BankAccountService();
+        BankAccountService bankService = new BankAccountService();
         try {
-            chargeService.getAllBankAccounts(null);
+            bankService.getAllBankAccounts(null);
             Assert.fail("Expected IllegalArgumentException thrown");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(true, "Expected IllegalArgumentException was thrown");
@@ -259,7 +259,7 @@ public class BankAccountServiceTest {
             Assert.fail("Unexpected BaseException thrown " + e.getMessage());
         }
         try {
-            chargeService.getAllBankAccounts("");
+            bankService.getAllBankAccounts("");
             Assert.fail("Expected IllegalArgumentException thrown");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(true, "Expected IllegalArgumentException was thrown");
@@ -279,8 +279,8 @@ public class BankAccountServiceTest {
         bankAccount2.setAccountNumber("accountNumber2");
         bankAccounts.add(bankAccount2);
         QueryResponse expectedQueryResponse = new QueryResponse.Builder().bankAccounts(bankAccounts).build();
-        final String chargeString = JsonUtil.serialize(expectedQueryResponse);
-        final Response mockedResponse = new Response(200, chargeString, "fjkdlsfd");
+        final String bankAccountString = JsonUtil.serialize(expectedQueryResponse);
+        final Response mockedResponse = new Response(200, bankAccountString, "fjkdlsfd");
         mockedResponse.setResponseObject(bankAccounts);
 
         new Expectations() {{
@@ -303,9 +303,9 @@ public class BankAccountServiceTest {
 
     @Test
     public void testRetrieveAllBankAccountNullBankAccountIdWithCount() {
-        BankAccountService chargeService = new BankAccountService();
+        BankAccountService bankService = new BankAccountService();
         try {
-            chargeService.getAllBankAccounts(null, 0);
+            bankService.getAllBankAccounts(null, 0);
             Assert.fail("Expected IllegalArgumentException thrown");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(true, "Expected IllegalArgumentException was thrown");
@@ -313,7 +313,7 @@ public class BankAccountServiceTest {
             Assert.fail("Unexpected BaseException thrown " + e.getMessage());
         }
         try {
-            chargeService.getAllBankAccounts("", 0);
+            bankService.getAllBankAccounts("", 0);
             Assert.fail("Expected IllegalArgumentException thrown");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(true, "Expected IllegalArgumentException was thrown");
@@ -325,8 +325,8 @@ public class BankAccountServiceTest {
     @Test
     public void testDeleteBankAccount() throws BaseException {
         BankAccount expectedBankAccount = new BankAccount.Builder().accountNumber("accountId").build();
-        final String chargeString = JsonUtil.serialize(expectedBankAccount);
-        final Response mockedResponse = new Response(200, chargeString, "fjkdlsfd");
+        final String bankAccountString = JsonUtil.serialize(expectedBankAccount);
+        final Response mockedResponse = new Response(200, bankAccountString, "fjkdlsfd");
         mockedResponse.setResponseObject(expectedBankAccount);
 
         new Expectations() {{
@@ -336,11 +336,11 @@ public class BankAccountServiceTest {
 
         RequestContext requestContext = new RequestContext();
         requestContext.setBaseUrl("fakeBaseUrl");
-        BankAccountService chargeService = new BankAccountService(requestContext);
+        BankAccountService bankService = new BankAccountService(requestContext);
 
         try {
             BankAccount bankAccount = new BankAccount();
-            BankAccount chargeGenerated = chargeService.delete("customerId", "bankAccountId");
+            BankAccount bankAccountGenerated = bankService.delete("customerId", "bankAccountId");
             // NOTE: No asserts required as a dummy response is being sent by delete API
         } catch (BaseException e) {
             Assert.fail("Unexpected BaseException thrown " + e.getMessage());
@@ -350,9 +350,9 @@ public class BankAccountServiceTest {
 
     @Test
     public void testDeleteBankAccountNullBankAccountId() {
-        BankAccountService chargeService = new BankAccountService();
+        BankAccountService bankService = new BankAccountService();
         try {
-            chargeService.delete(null, null);
+            bankService.delete(null, null);
             Assert.fail("Expected IllegalArgumentException thrown");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(true, "Expected IllegalArgumentException was thrown");
@@ -360,7 +360,7 @@ public class BankAccountServiceTest {
             Assert.fail("Unexpected BaseException thrown " + e.getMessage());
         }
         try {
-            chargeService.delete("customerId", null);
+            bankService.delete("customerId", null);
             Assert.fail("Expected IllegalArgumentException thrown");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(true, "Expected IllegalArgumentException was thrown");
@@ -368,7 +368,7 @@ public class BankAccountServiceTest {
             Assert.fail("Unexpected BaseException thrown " + e.getMessage());
         }
         try {
-            chargeService.delete("customerId", "");
+            bankService.delete("customerId", "");
             Assert.fail("Expected IllegalArgumentException thrown");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(true, "Expected IllegalArgumentException was thrown");
@@ -376,7 +376,7 @@ public class BankAccountServiceTest {
             Assert.fail("Unexpected BaseException thrown " + e.getMessage());
         }
         try {
-            chargeService.delete("", "");
+            bankService.delete("", "");
             Assert.fail("Expected IllegalArgumentException thrown");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(true, "Expected IllegalArgumentException was thrown");
