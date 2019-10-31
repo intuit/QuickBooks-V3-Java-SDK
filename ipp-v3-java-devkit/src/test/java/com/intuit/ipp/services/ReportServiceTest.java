@@ -103,12 +103,11 @@ public class ReportServiceTest {
 
         return reportService;
     }
-}
+    private static final class MockIntuitInterceptorProvider extends MockUp<IntuitInterceptorProvider> {
 
-class MockIntuitInterceptorProvider extends MockUp<IntuitInterceptorProvider> {
-
-    @Mock
-    public void executeInterceptors(final IntuitMessage intuitMessage) throws FMSException {
-        // mocked executeInterceptors
+        @Mock
+        public void executeInterceptors(final IntuitMessage intuitMessage) throws FMSException {
+            // mocked executeInterceptors
+        }
     }
 }
