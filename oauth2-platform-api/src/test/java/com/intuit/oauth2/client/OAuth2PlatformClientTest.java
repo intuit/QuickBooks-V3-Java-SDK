@@ -217,25 +217,4 @@ public class OAuth2PlatformClientTest {
         + "6cQQWNiDpWOl_lxXjQEvQ";
     assertFalse(oAuth2PlatformClient.validateIDToken(idToken));
   }
-
-  private static final class MockedHttpRequestClient extends MockUp<HttpRequestClient> {
-
-    private Response mockResponse;
-    private Request serviceRequestReceived; // Used for asserting the request that was received
-
-    void setMockResponse(Response mockResponse) {
-      this.mockResponse = mockResponse;
-    }
-
-    Request getServiceRequestReceived() {
-      return serviceRequestReceived;
-    }
-
-    @Mock
-    public Response makeRequest(Request request) throws InvalidRequestException {
-      serviceRequestReceived = request;
-      return mockResponse;
-    }
-  }
-
 }
