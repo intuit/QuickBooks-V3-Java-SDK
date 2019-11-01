@@ -61,8 +61,7 @@ public class OAuthMigrationClient {
 	/**
 	 * Calls the migrate API based on the the request provided and
 	 * returns an object with oauth2 tokens
-	 * 
-	 * @param environment
+	 *
 	 * @return
 	 * @throws ConnectionException 
 	 */
