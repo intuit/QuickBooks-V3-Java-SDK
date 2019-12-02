@@ -64,9 +64,9 @@ public class ServiceBaseTest {
     int httpStatusCode = 200;
     String tid = "test-tid-123";
 
-    String expectedPostJsonContent = "{\n" +
-        "  \"amount\" : " + eCheckAmount + ",\n" +
-        "  \"checkNumber\" : \"" + eCheckNumber + "\"\n" +
+    String expectedPostJsonContent = "{" + System.lineSeparator() +
+        "  \"amount\" : " + eCheckAmount + "," + System.lineSeparator() +
+        "  \"checkNumber\" : \"" + eCheckNumber + "\"" + System.lineSeparator() +
         "}";
 
     String mockResponseContent = "{\"id\":\"" + eCheckId + "\",\"amount\":\"" + eCheckAmount + "\",\"checkNumber\":\"" + eCheckNumber + "\"}";
