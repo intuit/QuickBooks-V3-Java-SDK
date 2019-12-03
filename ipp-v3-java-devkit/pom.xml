@@ -70,10 +70,24 @@
             <artifactId>signpost-commonshttp4</artifactId>
             <version>1.2</version>
         </dependency>
+        <!-- Exclude commons-collection 3.2.1 due to security vulnerability and bring in 3.2.2 below that has the fix -->
         <dependency>
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
             <version>1.6</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/commons-collections/commons-collections -->
+        <!-- As per 3.2.2 fixes the vulnerability https://commons.apache.org/proper/commons-collections/security-reports.html -->
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.2</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
