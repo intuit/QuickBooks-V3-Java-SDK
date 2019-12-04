@@ -46,7 +46,7 @@ public class JsonUtilTest {
 		Card card = new Card.Builder().number("12345").build();
 		String cardStr = JsonUtil.serialize(card);
 		Assert.assertNotNull(cardStr);
-		String result = "{\n  \"number\" : \"12345\"\n}";
+		String result = "{" + System.lineSeparator() + "  \"number\" : \"12345\"" + System.lineSeparator() + "}";
 		Assert.assertEquals(cardStr, result);
 	}
 
