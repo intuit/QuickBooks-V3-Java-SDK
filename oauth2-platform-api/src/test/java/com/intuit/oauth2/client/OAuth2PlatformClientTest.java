@@ -22,6 +22,13 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
+import java.nio.charset.StandardCharsets;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.http.message.BasicNameValuePair;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -30,26 +37,17 @@ import com.intuit.oauth2.config.ProxyConfig;
 import com.intuit.oauth2.data.BearerTokenResponse;
 import com.intuit.oauth2.data.PlatformResponse;
 import com.intuit.oauth2.data.UserInfoResponse;
-import com.intuit.oauth2.exception.InvalidRequestException;
 import com.intuit.oauth2.exception.OAuthException;
 import com.intuit.oauth2.exception.OpenIdException;
-import com.intuit.oauth2.http.HttpRequestClient;
-import com.intuit.oauth2.http.Request;
 import com.intuit.oauth2.http.Response;
 import com.intuit.oauth2.utils.MapperImpl;
-import java.nio.charset.StandardCharsets;
-import mockit.Mock;
-import mockit.MockUp;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.message.BasicNameValuePair;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 public class OAuth2PlatformClientTest {
 
   public static final ObjectMapper mapper = MapperImpl.getInstance();
   public static final String AUTH_CODE = "authCode";
   public static final String REDIRECT_URI = "https://4f4390eb.ngrok.io/oauth2redirect";
+  public static final String intuit_tid = "abcd-123-xyz";
 
   private MockedHttpRequestClient mockedHttpRequestClient;
   private OAuth2PlatformClient oAuth2PlatformClient;
@@ -75,6 +73,7 @@ public class OAuth2PlatformClientTest {
   @Test
   public void canRetrieveBearerTokensTest() throws Exception {
     ObjectWriter writer = mapper.writerFor(BearerTokenResponse.class);
+    
 
     BearerTokenResponse mockBTResponse = new BearerTokenResponse();
     mockBTResponse.setAccessToken("access-token");
@@ -82,7 +81,7 @@ public class OAuth2PlatformClientTest {
     mockBTResponse.setExpiresIn(200L);
     mockBTResponse.setTokenType("bearer-token");
     Response mockResponse = new Response(
-        IOUtils.toInputStream(writer.writeValueAsString(mockBTResponse), StandardCharsets.UTF_8), 200);
+        IOUtils.toInputStream(writer.writeValueAsString(mockBTResponse), StandardCharsets.UTF_8), 200, intuit_tid);
     mockedHttpRequestClient.setMockResponse(mockResponse);
 
     BearerTokenResponse bearerTokenResponse = oAuth2PlatformClient.retrieveBearerTokens(AUTH_CODE, REDIRECT_URI);
@@ -100,7 +99,7 @@ public class OAuth2PlatformClientTest {
   public void retrieveBearerTokensThrowsOAuthExceptionOnErrorStatus() throws JsonProcessingException, OAuthException {
     ObjectWriter writer = mapper.writerFor(BearerTokenResponse.class);
     Response mockResponse = new Response(
-        IOUtils.toInputStream(writer.writeValueAsString(new BearerTokenResponse()), StandardCharsets.UTF_8), 500);
+        IOUtils.toInputStream(writer.writeValueAsString(new BearerTokenResponse()), StandardCharsets.UTF_8), 500, intuit_tid);
     mockedHttpRequestClient.setMockResponse(mockResponse);
 
     oAuth2PlatformClient.retrieveBearerTokens(AUTH_CODE, REDIRECT_URI);
@@ -116,7 +115,7 @@ public class OAuth2PlatformClientTest {
     mockBTResponse.setExpiresIn(200L);
     mockBTResponse.setTokenType("bearer-token");
     Response mockResponse = new Response(
-        IOUtils.toInputStream(writer.writeValueAsString(mockBTResponse), StandardCharsets.UTF_8), 200);
+        IOUtils.toInputStream(writer.writeValueAsString(mockBTResponse), StandardCharsets.UTF_8), 200, intuit_tid);
     mockedHttpRequestClient.setMockResponse(mockResponse);
 
     BearerTokenResponse bearerTokenResponse = oAuth2PlatformClient.refreshToken("test-token");
@@ -134,7 +133,7 @@ public class OAuth2PlatformClientTest {
   public void refreshTokenThrowsOAuthExceptionOnErrorStatus() throws JsonProcessingException, OAuthException {
     ObjectWriter writer = mapper.writerFor(BearerTokenResponse.class);
     Response mockResponse = new Response(
-        IOUtils.toInputStream(writer.writeValueAsString(new BearerTokenResponse()), StandardCharsets.UTF_8), 500);
+        IOUtils.toInputStream(writer.writeValueAsString(new BearerTokenResponse()), StandardCharsets.UTF_8), 500, intuit_tid);
     mockedHttpRequestClient.setMockResponse(mockResponse);
 
     oAuth2PlatformClient.retrieveBearerTokens(AUTH_CODE, REDIRECT_URI);
@@ -143,7 +142,7 @@ public class OAuth2PlatformClientTest {
   @Test
   public void canRevokeTokenTest() throws Exception {
 
-    Response mockResponse = new Response(null, 200);
+    Response mockResponse = new Response(null, 200, intuit_tid);
     mockedHttpRequestClient.setMockResponse(mockResponse);
 
     PlatformResponse platformResponse = oAuth2PlatformClient.revokeToken("revoke-token");
@@ -157,7 +156,7 @@ public class OAuth2PlatformClientTest {
   @Test
   public void returnsErrorStatusOnRevokeTokenFailureTest() throws Exception {
 
-    Response mockResponse = new Response(null, 500);
+    Response mockResponse = new Response(null, 500, intuit_tid);
     mockedHttpRequestClient.setMockResponse(mockResponse);
 
     PlatformResponse platformResponse = oAuth2PlatformClient.revokeToken("revoke-token");
@@ -178,7 +177,7 @@ public class OAuth2PlatformClientTest {
     mockUserInfoResponse.setEmail("abc@xyz.com");
 
     Response mockResponse = new Response(
-        IOUtils.toInputStream(writer.writeValueAsString(mockUserInfoResponse), StandardCharsets.UTF_8), 200);
+        IOUtils.toInputStream(writer.writeValueAsString(mockUserInfoResponse), StandardCharsets.UTF_8), 200, intuit_tid);
     mockedHttpRequestClient.setMockResponse(mockResponse);
 
     UserInfoResponse userInfoResponse = oAuth2PlatformClient.getUserInfo("test-token");
@@ -192,7 +191,7 @@ public class OAuth2PlatformClientTest {
   public void getUserInfoThrowsOpenIdExceptionOnErrorStatus() throws JsonProcessingException, OpenIdException {
     ObjectWriter writer = mapper.writerFor(UserInfoResponse.class);
     Response mockResponse = new Response(
-        IOUtils.toInputStream(writer.writeValueAsString(new UserInfoResponse()), StandardCharsets.UTF_8), 500);
+        IOUtils.toInputStream(writer.writeValueAsString(new UserInfoResponse()), StandardCharsets.UTF_8), 500, intuit_tid);
     mockedHttpRequestClient.setMockResponse(mockResponse);
 
     oAuth2PlatformClient.getUserInfo("test-token");

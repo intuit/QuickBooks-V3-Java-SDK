@@ -92,6 +92,7 @@ public class OAuthMigrationClient {
 			if (response.getStatusCode() == 200) {
 				ObjectReader reader = mapper.readerFor(OAuthMigrationResponse.class);
 				OAuthMigrationResponse oAuthMigrationResponse = reader.readValue(response.getContent());
+				oAuthMigrationResponse.setIntuit_tid(response.getIntuit_tid());
 				return oAuthMigrationResponse;
 
 			} else {

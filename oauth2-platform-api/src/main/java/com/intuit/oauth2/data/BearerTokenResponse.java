@@ -69,6 +69,8 @@ public class BearerTokenResponse {
     
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    
+    private String intuit_tid = null;
 
     /**
      *
@@ -199,5 +201,13 @@ public class BearerTokenResponse {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+    
+	public String getIntuit_tid() {
+		return intuit_tid;
+	}
+
+	public void setIntuit_tid(String intuit_tid) {
+		this.intuit_tid = intuit_tid;
+	}
 
 }

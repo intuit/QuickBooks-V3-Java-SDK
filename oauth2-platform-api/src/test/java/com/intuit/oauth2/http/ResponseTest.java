@@ -34,10 +34,11 @@ public class ResponseTest {
         
         String content = "frobozz";
         InputStream istream = new ByteArrayInputStream(content.getBytes("UTF-8"));
-        Response response = new Response(istream, 200);
+        String intuit_tid = "abcd-123-xyz";
+        Response response = new Response(istream, 200, intuit_tid);
         assertEquals(istream, response.getStream());
         assertEquals(content, response.getContent());
-
+        assertEquals(intuit_tid, response.getIntuit_tid());
     }
 
 }

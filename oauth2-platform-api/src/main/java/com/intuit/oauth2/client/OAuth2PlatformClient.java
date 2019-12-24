@@ -106,6 +106,7 @@ public class OAuth2PlatformClient {
     
             ObjectReader reader = mapper.readerFor(BearerTokenResponse.class);
             BearerTokenResponse bearerTokenResponse = reader.readValue(response.getContent());
+            bearerTokenResponse.setIntuit_tid(response.getIntuit_tid());
             return bearerTokenResponse;
             
         } catch (Exception ex) {
@@ -141,6 +142,7 @@ public class OAuth2PlatformClient {
  
             ObjectReader reader = mapper.readerFor(BearerTokenResponse.class);
             BearerTokenResponse bearerTokenResponse = reader.readValue(response.getContent());
+            bearerTokenResponse.setIntuit_tid(response.getIntuit_tid());
             return bearerTokenResponse;
         }
         catch (Exception ex) {
@@ -250,6 +252,7 @@ public class OAuth2PlatformClient {
             if (response.getStatusCode() == 200) {                             
                 ObjectReader reader = mapper.readerFor(UserInfoResponse.class);
                 UserInfoResponse userInfoResponse = reader.readValue(response.getContent());
+                userInfoResponse.setIntuit_tid(response.getIntuit_tid());
                 return userInfoResponse;
             } else {
                 logger.debug("failed getting user info");

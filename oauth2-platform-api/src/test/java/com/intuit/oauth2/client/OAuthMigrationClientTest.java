@@ -36,6 +36,7 @@ import static org.testng.Assert.assertEquals;
 public class OAuthMigrationClientTest {
 
     public static final ObjectMapper mapper = MapperImpl.getInstance();
+    public static final String intuit_tid = "abcd-123-xyz";
     private ProxyConfig proxyConfig;
 
     private OAuthMigrationClient oAuth2MigrationClient;
@@ -79,7 +80,7 @@ public class OAuthMigrationClientTest {
         expectedOAuthMigrationResponse.setXRefreshTokenExpiresIn(8726400L);
 
         Response mockResponse = new Response(
-                IOUtils.toInputStream(writer.writeValueAsString(expectedOAuthMigrationResponse), StandardCharsets.UTF_8), 200);
+                IOUtils.toInputStream(writer.writeValueAsString(expectedOAuthMigrationResponse), StandardCharsets.UTF_8), 200, intuit_tid);
 
         // Set the mocked response against the mocked HTTP Client
         mockedHttpRequestClient.setMockResponse(mockResponse);
@@ -100,7 +101,7 @@ public class OAuthMigrationClientTest {
         ObjectWriter writer = mapper.writerFor(OAuthMigrationResponse.class);
 
         Response mockResponse = new Response(
-                IOUtils.toInputStream(writer.writeValueAsString(new OAuthMigrationResponse()), StandardCharsets.UTF_8), 500);
+                IOUtils.toInputStream(writer.writeValueAsString(new OAuthMigrationResponse()), StandardCharsets.UTF_8), 500, intuit_tid);
 
         // Set the mocked response against the mocked HTTP Client
         mockedHttpRequestClient.setMockResponse(mockResponse);

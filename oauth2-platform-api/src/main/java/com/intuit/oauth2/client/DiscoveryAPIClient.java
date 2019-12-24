@@ -79,6 +79,7 @@ public class DiscoveryAPIClient {
 			if (response.getStatusCode() == 200) {
 				ObjectReader reader = mapper.readerFor(DiscoveryAPIResponse.class);
 				DiscoveryAPIResponse discoveryAPIResponse = reader.readValue(response.getContent());
+				discoveryAPIResponse.setIntuit_tid(response.getIntuit_tid());
 				return discoveryAPIResponse;
 
 			} else {

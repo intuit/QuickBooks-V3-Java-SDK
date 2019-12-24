@@ -15,17 +15,20 @@
  *******************************************************************************/
 package com.intuit.oauth2.http;
 
-import com.intuit.oauth2.config.ProxyConfig;
-import com.intuit.oauth2.data.OAuthMigrationRequest;
-import com.intuit.oauth2.exception.InvalidRequestException;
-import com.intuit.oauth2.utils.LoggerImpl;
-import com.intuit.oauth2.utils.PropertiesConfig;
-import oauth.signpost.OAuthConsumer;
-import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
-import oauth.signpost.exception.OAuthCommunicationException;
-import oauth.signpost.exception.OAuthExpectationFailedException;
-import oauth.signpost.exception.OAuthMessageSignerException;
-import org.apache.http.*;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyStore;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.net.ssl.SSLContext;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
+import org.apache.http.NameValuePair;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -52,12 +55,17 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.ssl.SSLContexts;
 import org.slf4j.Logger;
 
-import javax.net.ssl.SSLContext;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.KeyStore;
-import java.util.ArrayList;
-import java.util.List;
+import com.intuit.oauth2.config.ProxyConfig;
+import com.intuit.oauth2.data.OAuthMigrationRequest;
+import com.intuit.oauth2.exception.InvalidRequestException;
+import com.intuit.oauth2.utils.LoggerImpl;
+import com.intuit.oauth2.utils.PropertiesConfig;
+
+import oauth.signpost.OAuthConsumer;
+import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
+import oauth.signpost.exception.OAuthCommunicationException;
+import oauth.signpost.exception.OAuthExpectationFailedException;
+import oauth.signpost.exception.OAuthMessageSignerException;
 
 /**
  * Client class to make http request calls
@@ -191,13 +199,18 @@ public class HttpRequestClient {
 		}
 
 		logger.debug("Request URI : " + builder.getUri());
-		logger.debug("Http Method : " + builder.getMethod());
 
 		try {
 			//make the call
 			HttpResponse response = client.execute(builder.build());
+			
+			int httpStatusCode = response.getStatusLine().getStatusCode();
+			logger.info("httpStatusCode : " + httpStatusCode);
+			String intuit_tid = getIntuitTid(response);
+			logger.debug("intuit_tid : " + intuit_tid);
+			
 			//prepare response
-			return new Response(response.getEntity() == null ? null : response.getEntity().getContent(), response.getStatusLine().getStatusCode());
+			return new Response(response.getEntity() == null ? null : response.getEntity().getContent(), httpStatusCode, intuit_tid);
 		} catch (IOException e) {
 			logger.error("Exception while making httpRequest", e);
 			throw new InvalidRequestException(e.getMessage());
@@ -238,6 +251,9 @@ public class HttpRequestClient {
 		//add headers
 		post.setHeader("Accept", "application/json");
 		post.setHeader("Content-Type", "application/json");
+		
+		logger.debug("Request URI : " + request.constructURL().toString());
+		logger.debug("request payload : " + request.getPostJson());
 
 		// add post data
 		HttpEntity entity = new StringEntity(request.getPostJson(), "UTF-8");
@@ -247,8 +263,14 @@ public class HttpRequestClient {
 		try {
 			//make the call
 			httpResponse = client.execute(post);
+			
+			int httpStatusCode = httpResponse.getStatusLine().getStatusCode();
+			logger.info("httpStatusCode : " + httpStatusCode);
+			String intuit_tid = getIntuitTid(httpResponse);
+			logger.debug("intuit_tid : " + intuit_tid);
+			
 			//prepare response
-			return new Response(httpResponse.getEntity() == null ? null : httpResponse.getEntity().getContent(), httpResponse.getStatusLine().getStatusCode());
+			return new Response(httpResponse.getEntity() == null ? null : httpResponse.getEntity().getContent(), httpStatusCode, intuit_tid);
 
 
 		} catch (ClientProtocolException e) {
@@ -259,6 +281,18 @@ public class HttpRequestClient {
 			throw new InvalidRequestException(e.getMessage());
 		}
 
+	}
+
+
+	/**
+	 * Parses the response headers and returns value for intuit_tid parameter
+	 * 
+	 * @param response
+	 * @return String
+	 * @throws IOException
+	 */
+	public static String getIntuitTid(HttpResponse response) throws IOException {
+		return response.getFirstHeader("intuit_tid").getValue();
 	}
 
 }

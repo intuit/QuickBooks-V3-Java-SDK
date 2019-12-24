@@ -49,5 +49,11 @@ public class DiscoveryAPIClientTest {
 		
 	}
 	
+	public static void main (String[] args) throws ConnectionException {
+		
+		DiscoveryAPIResponse discoveryAPIResponse = new DiscoveryAPIClient(null).callDiscoveryAPI(Environment.PRODUCTION);
+		
+	}
+	
 	
 }

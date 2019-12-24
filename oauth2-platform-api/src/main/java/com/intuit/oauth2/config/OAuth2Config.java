@@ -106,6 +106,34 @@ public class OAuth2Config {
 		return proxyConfig;
 	}
 
+//Allow overriding urls, if not using Discovery endpoint	
+
+	public void setIntuitAuthorizationEndpoint(String intuitAuthorizationEndpoint) {
+		this.intuitAuthorizationEndpoint = intuitAuthorizationEndpoint;
+	}
+
+	public void setIntuitBearerTokenEndpoint(String intuitBearerTokenEndpoint) {
+		this.intuitBearerTokenEndpoint = intuitBearerTokenEndpoint;
+	}
+
+	public void setIntuitRevokeTokenEndpoint(String intuitRevokeTokenEndpoint) {
+		this.intuitRevokeTokenEndpoint = intuitRevokeTokenEndpoint;
+	}
+
+	public void setUserProfileEndpoint(String userProfileEndpoint) {
+		this.userProfileEndpoint = userProfileEndpoint;
+	}
+
+	public void setIntuitIdTokenIssuer(String intuitIdTokenIssuer) {
+		this.intuitIdTokenIssuer = intuitIdTokenIssuer;
+	}
+
+	public void setIntuitJwksURI(String intuitJwksURI) {
+		this.intuitJwksURI = intuitJwksURI;
+	}
+
+
+
 	public static class OAuth2ConfigBuilder {
 		
 		private String clientId;
