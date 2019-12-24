@@ -59,7 +59,7 @@ public class PrepareRequestInterceptorTest {
     public void testExecute_QBO_URI() throws FMSException  {
         instance.execute(message);
         String actual = message.getRequestElements().getRequestParameters().get("uri");
-        Assert.assertEquals(actual, Config.getProperty(Config.BASE_URL_QBO) + "/fakeRealm/fakeAction?requestid=anyRequestID&minorversion=41&");
+        Assert.assertEquals(actual, Config.getProperty(Config.BASE_URL_QBO) + "/fakeRealm/fakeAction?requestid=anyRequestID&minorversion=43&");
      }
 
     @Test
@@ -79,7 +79,7 @@ public class PrepareRequestInterceptorTest {
             message.setEntitlementService(true);
             instance.execute(message);
 
-            Assert.assertEquals(message.getRequestElements().getRequestParameters().get(RequestElements.REQ_PARAM_RESOURCE_URL), Config.getProperty(Config.BASE_URL_ENTITLEMENTSERVICE) + "/entitlements/v3/fakeRealm");
+            Assert.assertEquals(message.getRequestElements().getRequestParameters().get(RequestElements.REQ_PARAM_RESOURCE_URL), Config.getProperty(Config.BASE_URL_ENTITLEMENTSERVICE) + "/entitlements/v3/fakeRealm?requestid=anyRequestID&minorversion=43&");
             Assert.assertEquals(message.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_PARAM_CONTENT_TYPE), "application/xml");
             Assert.assertEquals(message.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_PARAM_ACCEPT), "application/xml");
             Assert.assertNull(message.getRequestElements().getRequestHeaders().get(Config.COMPRESSION_REQUEST_FORMAT));

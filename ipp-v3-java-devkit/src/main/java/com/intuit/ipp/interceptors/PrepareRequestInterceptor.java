@@ -308,7 +308,7 @@ public class PrepareRequestInterceptor implements Interceptor {
 		
 		if(context.getMinorVersion() == null)
 		{
-		context.setMinorVersion("41");
+		context.setMinorVersion("43");
 		}
 		
 		uri.append("minorversion").append("=").append(context.getMinorVersion()).append("&");
@@ -419,6 +419,17 @@ public class PrepareRequestInterceptor implements Interceptor {
 		StringBuilder uri = new StringBuilder();
 		uri.append(getBaseUrl(Config.getProperty(Config.BASE_URL_ENTITLEMENTSERVICE))).append("/").
 		append("entitlements").append("/").append("v3").append("/").append(context.getRealmID());
+		// adds the generated request id as a parameter
+		uri.append("?").append("requestid").append("=").append(context.getRequestID()).append("&");
+		//set RequestId to null once appended, so the next random num can be generated
+		context.setRequestID(null);
+		
+		if(context.getMinorVersion() == null)
+		{
+		context.setMinorVersion("43");
+		}
+		
+		uri.append("minorversion").append("=").append(context.getMinorVersion()).append("&");
 		return uri.toString();
 	}
 
