@@ -15,7 +15,6 @@
  *******************************************************************************/
 package com.intuit.ipp.util;
 
-import java.lang.Class;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -182,6 +181,7 @@ public final class MessageUtils {
 				entityList.add(CompanyCurrency.class);
 				entityList.add(CompanyInfo.class);
 				entityList.add(ConvenienceFeeDetail.class);
+				entityList.add(CreditCardPaymentTxn.class);
 				entityList.add(CreditMemo.class);
 				entityList.add(Currency.class);
 				entityList.add(Customer.class);
@@ -235,6 +235,7 @@ public final class MessageUtils {
 				entityList.add(TaxAgency.class);
 				entityList.add(TaxClassification.class);
 				entityList.add(TaxCode.class);
+				entityList.add(TaxPayment.class);
 				entityList.add(TaxRate.class);
 				entityList.add(TaxReturn.class);
 				entityList.add(TaxService.class);

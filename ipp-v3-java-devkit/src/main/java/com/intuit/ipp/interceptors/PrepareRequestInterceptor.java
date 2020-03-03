@@ -281,10 +281,12 @@ public class PrepareRequestInterceptor implements Interceptor {
 			Map<String, String> requestParameters) throws FMSException {
 
 		StringBuilder uri = new StringBuilder();
-		if(entityName.equalsIgnoreCase("Taxservice"))
-				{
+		if(entityName.equalsIgnoreCase("Taxservice")) {
 					entityName = entityName + "/" + "taxcode";
-				}
+		}
+		if(entityName.equalsIgnoreCase("CreditCardPaymentTxn")) {
+			entityName = "creditcardpayment";
+		}
 		
 		// constructs request URI
 		uri.append(getBaseUrl(Config.getProperty(Config.BASE_URL_QBO))).append("/").append(context.getRealmID()).append("/").append(entityName);
@@ -308,7 +310,7 @@ public class PrepareRequestInterceptor implements Interceptor {
 		
 		if(context.getMinorVersion() == null)
 		{
-		context.setMinorVersion("43");
+		context.setMinorVersion("47");
 		}
 		
 		uri.append("minorversion").append("=").append(context.getMinorVersion()).append("&");
