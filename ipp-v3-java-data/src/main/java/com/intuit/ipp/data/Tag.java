@@ -26,22 +26,19 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 /**
  * 
  * 				Product: ALL
- * 				Description: Describes a method of
- * 				shipping for the company
+ * 				Description: A Tag applied to a transaction
  * 			
  * 
- * <p>Java class for ShipMethod complex type.
+ * <p>Java class for Tag complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="ShipMethod">
+ * &lt;complexType name="Tag">
  *   &lt;complexContent>
  *     &lt;extension base="{http://schema.intuit.com/finance/v3}IntuitEntity">
  *       &lt;sequence>
  *         &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="Active" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="ShipMethodEx" type="{http://schema.intuit.com/finance/v3}IntuitAnyType" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -51,12 +48,10 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ShipMethod", propOrder = {
-    "name",
-    "active",
-    "shipMethodEx"
+@XmlType(name = "Tag", propOrder = {
+    "name"
 })
-public class ShipMethod
+public class Tag
     extends IntuitEntity
     implements Serializable, Equals2, HashCode2
 {
@@ -64,10 +59,6 @@ public class ShipMethod
     private final static long serialVersionUID = 1L;
     @XmlElement(name = "Name")
     protected String name;
-    @XmlElement(name = "Active")
-    protected boolean active;
-    @XmlElement(name = "ShipMethodEx")
-    protected IntuitAnyType shipMethodEx;
 
     /**
      * Gets the value of the name property.
@@ -93,46 +84,6 @@ public class ShipMethod
         this.name = value;
     }
 
-    /**
-     * Gets the value of the active property.
-     * 
-     */
-    public boolean isActive() {
-        return active;
-    }
-
-    /**
-     * Sets the value of the active property.
-     * 
-     */
-    public void setActive(boolean value) {
-        this.active = value;
-    }
-
-    /**
-     * Gets the value of the shipMethodEx property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link IntuitAnyType }
-     *     
-     */
-    public IntuitAnyType getShipMethodEx() {
-        return shipMethodEx;
-    }
-
-    /**
-     * Sets the value of the shipMethodEx property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link IntuitAnyType }
-     *     
-     */
-    public void setShipMethodEx(IntuitAnyType value) {
-        this.shipMethodEx = value;
-    }
-
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy2 strategy) {
         if ((object == null)||(this.getClass()!= object.getClass())) {
             return false;
@@ -143,31 +94,13 @@ public class ShipMethod
         if (!super.equals(thisLocator, thatLocator, object, strategy)) {
             return false;
         }
-        final ShipMethod that = ((ShipMethod) object);
+        final Tag that = ((Tag) object);
         {
             String lhsName;
             lhsName = this.getName();
             String rhsName;
             rhsName = that.getName();
             if (!strategy.equals(LocatorUtils.property(thisLocator, "name", lhsName), LocatorUtils.property(thatLocator, "name", rhsName), lhsName, rhsName, (this.name!= null), (that.name!= null))) {
-                return false;
-            }
-        }
-        {
-            boolean lhsActive;
-            lhsActive = this.isActive();
-            boolean rhsActive;
-            rhsActive = that.isActive();
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "active", lhsActive), LocatorUtils.property(thatLocator, "active", rhsActive), lhsActive, rhsActive, true, true)) {
-                return false;
-            }
-        }
-        {
-            IntuitAnyType lhsShipMethodEx;
-            lhsShipMethodEx = this.getShipMethodEx();
-            IntuitAnyType rhsShipMethodEx;
-            rhsShipMethodEx = that.getShipMethodEx();
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "shipMethodEx", lhsShipMethodEx), LocatorUtils.property(thatLocator, "shipMethodEx", rhsShipMethodEx), lhsShipMethodEx, rhsShipMethodEx, (this.shipMethodEx!= null), (that.shipMethodEx!= null))) {
                 return false;
             }
         }
@@ -185,16 +118,6 @@ public class ShipMethod
             String theName;
             theName = this.getName();
             currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "name", theName), currentHashCode, theName, (this.name!= null));
-        }
-        {
-            boolean theActive;
-            theActive = this.isActive();
-            currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "active", theActive), currentHashCode, theActive, true);
-        }
-        {
-            IntuitAnyType theShipMethodEx;
-            theShipMethodEx = this.getShipMethodEx();
-            currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "shipMethodEx", theShipMethodEx), currentHashCode, theShipMethodEx, (this.shipMethodEx!= null));
         }
         return currentHashCode;
     }
