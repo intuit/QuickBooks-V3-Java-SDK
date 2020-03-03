@@ -46,7 +46,7 @@ public class BankAccount extends Entity {
 	private AccountType accountType = null;
 
 	public enum AccountType {
-		PERSONAL_CHECKING, PERSONAL_SAVINGS
+		PERSONAL_CHECKING, PERSONAL_SAVINGS, BUSINESS_CHECKING, BUSINESS_SAVINGS
 	};
 
 	private String phone = null;
