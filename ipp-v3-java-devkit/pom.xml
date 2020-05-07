@@ -4,7 +4,7 @@
     <parent>
         <artifactId>ipp-v3-java-devkit-pom</artifactId>
         <groupId>com.intuit.quickbooks-online</groupId>
-        <version>6.0.4</version>
+        <version>6.0.5</version>
     </parent>
 
 	<artifactId>ipp-v3-java-devkit</artifactId>
@@ -22,7 +22,7 @@
 		<dependency>
 			<groupId>com.intuit.quickbooks-online</groupId>
 			<artifactId>ipp-v3-java-data</artifactId>
-			<version>6.0.4</version>
+			<version>6.0.5</version>
 		</dependency>
         <dependency>
             <groupId>cglib</groupId>
