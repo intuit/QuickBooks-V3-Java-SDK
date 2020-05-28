@@ -36,6 +36,18 @@ public class DeserializeInterceptorTest {
         message.getResponseElements().setResponse(response);
         instance.execute(message);
         Assert.assertEquals(message.getResponseElements().getResponse(), null);
+    }
+
+    @Test
+    public void testCheckEntitlementsExecution() throws FMSException  {
+
+        message.getResponseElements().setContentTypeHeader("application/json");
+        IntuitResponse response = new IntuitResponse();
+        response.setStatus("example");
+        message.setEntitlementService(true);
+        message.getResponseElements().setResponse(response);
+        instance.execute(message);
+        Assert.assertEquals(message.getResponseElements().getResponse().getClass(), IntuitResponse.class);
 
     }
 
