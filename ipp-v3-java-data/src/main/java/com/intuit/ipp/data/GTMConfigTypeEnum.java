@@ -9,50 +9,41 @@
 package com.intuit.ipp.data;
 
 import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for AcquiredAsEnum.
+ * <p>Java class for GTMConfigTypeEnum.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="AcquiredAsEnum"&gt;
+ * &lt;simpleType name="GTMConfigTypeEnum"&gt;
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
- *     &lt;enumeration value="New"/&gt;
- *     &lt;enumeration value="Used"/&gt;
+ *     &lt;enumeration value="SYSTEM_GENERATED"/&gt;
+ *     &lt;enumeration value="USER_DEFINED"/&gt;
+ *     &lt;enumeration value="SCRA_DEFINED"/&gt;
+ *     &lt;enumeration value="HIDDEN_AGENCY"/&gt;
  *   &lt;/restriction&gt;
  * &lt;/simpleType&gt;
  * </pre>
  * 
  */
-@XmlType(name = "AcquiredAsEnum")
+@XmlType(name = "GTMConfigTypeEnum")
 @XmlEnum
-public enum AcquiredAsEnum {
+public enum GTMConfigTypeEnum {
 
-    @XmlEnumValue("New")
-    NEW("New"),
-    @XmlEnumValue("Used")
-    USED("Used");
-    private final String value;
-
-    AcquiredAsEnum(String v) {
-        value = v;
-    }
+    SYSTEM_GENERATED,
+    USER_DEFINED,
+    SCRA_DEFINED,
+    HIDDEN_AGENCY;
 
     public String value() {
-        return value;
+        return name();
     }
 
-    public static AcquiredAsEnum fromValue(String v) {
-        for (AcquiredAsEnum c: AcquiredAsEnum.values()) {
-            if (c.value.equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
+    public static GTMConfigTypeEnum fromValue(String v) {
+        return valueOf(v);
     }
 
 }
