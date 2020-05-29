@@ -36,8 +36,8 @@ public class DeserializeInterceptorTest {
         message.getResponseElements().setResponse(response);
         instance.execute(message);
         Assert.assertEquals(message.getResponseElements().getResponse(), null);
-
     }
+
 
 
 }
