@@ -108,6 +108,7 @@ public final class MessageUtils {
 				enumList.add(FaultTypeEnum.class);
 				enumList.add(Gender.class);
 				enumList.add(GlobalTaxCalculationEnum.class);
+				enumList.add(GTMConfigTypeEnum.class);
 				enumList.add(IdDomainEnum.class);
 				enumList.add(ItemCategoryTypeEnum.class);
 				enumList.add(ItemTypeEnum.class);
