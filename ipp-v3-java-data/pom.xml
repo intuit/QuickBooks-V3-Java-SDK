@@ -82,6 +82,10 @@
 						<goals>
 							<goal>shade</goal>
 						</goals>
+						<configuration>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<shadedClassifierName>ipp-v3-java-data-shaded</shadedClassifierName>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
