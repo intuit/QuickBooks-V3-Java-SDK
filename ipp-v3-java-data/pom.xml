@@ -37,7 +37,7 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>2.9.10</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
@@ -61,7 +61,7 @@
 	</dependencies>
 
 	<build>
-		<plugins> 
+		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
@@ -70,25 +70,28 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
-			
-		<!-- <plugin>
-		    <groupId>org.apache.maven.plugins</groupId>
-		    <artifactId>maven-javadoc-plugin</artifactId>
-		    <version>2.9.1</version>
-		    <executions>
-		        <execution>
-		            <id>attach-javadocs</id>
-		            <goals>
-		                <goal>jar</goal>
-		            </goals>
-		            <configuration>
-		                <additionalparam>-Xdoclint:none</additionalparam>
-		            </configuration>
-		        </execution>
-		    </executions>
-		</plugin> -->
-		<!-- commented to avoid regeneration of entities, as the same is not required everytime	-->
 
+			<!-- maven shade plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.4</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<shadedClassifierName>shaded</shadedClassifierName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- end of maven shade plugin -->
+
+		<!-- commented to avoid regeneration of entities, as the same is not required everytime	-->
 			<!--
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
@@ -153,7 +156,7 @@
 				</execution>
 			</executions>
 		</plugin> -->
-	</plugins> 
+	</plugins>
 </build>
 
 <profiles>
