@@ -5,7 +5,7 @@
 
     <groupId>com.intuit.quickbooks-online</groupId>
     <artifactId>ipp-v3-java-devkit-pom</artifactId>
-    <version>6.0.5</version>
+    <version>6.0.6</version>
     <packaging>pom</packaging>
     <name>IPP V3 Java DevKit</name>
     <url>https://github.com/intuit/QuickBooks-V3-Java-SDK</url>
@@ -25,7 +25,7 @@
     </repositories>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javadocExecutable>${java.home}/../bin/javadoc</javadocExecutable>
+        <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
     </properties>
     <dependencies>
         <dependency>
@@ -134,6 +134,7 @@
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.1.1</version>
                     <configuration>
+                        <source>8</source>
                         <additionalJOption>-Xdoclint:none</additionalJOption>
                     </configuration>
                 </plugin>
