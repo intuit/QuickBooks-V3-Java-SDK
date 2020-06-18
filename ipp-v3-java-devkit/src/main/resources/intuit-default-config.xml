@@ -45,4 +45,9 @@
 		<connectionTimeout></connectionTimeout>
 		<requestTimeout></requestTimeout>
 	</timeout>
+
+	<minorVersion>
+		<latestMinorVersion>51</latestMinorVersion>
+	</minorVersion>
+
 </intuit-config>
