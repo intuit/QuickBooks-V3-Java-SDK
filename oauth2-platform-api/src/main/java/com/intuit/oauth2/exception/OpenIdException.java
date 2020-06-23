@@ -15,6 +15,8 @@
  *******************************************************************************/
 package com.intuit.oauth2.exception;
 
+import com.intuit.oauth2.http.Response;
+
 /**
  * Exception class to handle OpenId exceptions
  * 
@@ -37,7 +39,10 @@ public class OpenIdException extends PlatformException {
 	public OpenIdException(String errorMessage,Throwable e){
 		super(errorMessage,e);
 	}
-	
+
+	public OpenIdException(final String errorMessage, final String statusCode, final String intuit_tid, final Response response){
+		super(errorMessage, statusCode, intuit_tid, response);
+	}
 	
 	
 }

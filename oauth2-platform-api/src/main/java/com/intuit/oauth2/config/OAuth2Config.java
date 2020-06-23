@@ -145,6 +145,10 @@ public class OAuth2Config {
 		private String intuitRevokeTokenEndpoint;
 		private String intuitJwksURI;
 		private String userProfileEndpoint;
+
+		private String intuit_tid;
+		private String statusCode;
+		private String errorMessage;
 		
 		private ProxyConfig proxyConfig;
 
@@ -152,24 +156,55 @@ public class OAuth2Config {
 			this.clientId = clientId;
 			this.clientSecret = clientSecret;
 		}
-		
-		public OAuth2ConfigBuilder callDiscoveryAPI(Environment environment) {
+
+		private void setFields (DiscoveryAPIResponse discoveryAPIResponse) {
+            this.intuitIdTokenIssuer = discoveryAPIResponse.getIssuer();
+            this.intuitAuthorizationEndpoint = discoveryAPIResponse.getAuthorizationEndpoint();
+            this.intuitBearerTokenEndpoint = discoveryAPIResponse.getTokenEndpoint();
+            this.intuitRevokeTokenEndpoint = discoveryAPIResponse.getRevocationEndpoint();
+            this.intuitJwksURI = discoveryAPIResponse.getJwksUri();
+            this.userProfileEndpoint = discoveryAPIResponse.getUserinfoEndpoint();
+        }
+
+
+		public OAuth2ConfigBuilder callDiscoveryAPI (Environment environment) {
 		
 			try {
 				DiscoveryAPIResponse discoveryAPIResponse = new DiscoveryAPIClient(proxyConfig).callDiscoveryAPI(environment);
 			
 				if (discoveryAPIResponse != null) {
-					this.intuitIdTokenIssuer = discoveryAPIResponse.getIssuer();
-					this.intuitAuthorizationEndpoint = discoveryAPIResponse.getAuthorizationEndpoint();
-					this.intuitBearerTokenEndpoint = discoveryAPIResponse.getTokenEndpoint();
-					this.intuitRevokeTokenEndpoint = discoveryAPIResponse.getRevocationEndpoint();
-					this.intuitJwksURI = discoveryAPIResponse.getJwksUri();
-					this.userProfileEndpoint = discoveryAPIResponse.getUserinfoEndpoint();
+					this.setFields(discoveryAPIResponse);
 				}
+
+
 			} catch (ConnectionException e) {
 				logger.error("Exception while preparing url for redirect ", e);
+				this.intuit_tid = e.getIntuit_tid();
+				this.statusCode = e.getStatusCode();
+				this.errorMessage = e.getErrorMessage();
 			}
 			return this;
+		}
+
+
+
+		public OAuth2ConfigBuilder callDiscoveryAPI (String discoveryEndpoint) {
+
+			try {
+				DiscoveryAPIResponse discoveryAPIResponse = new DiscoveryAPIClient(proxyConfig).callDiscoveryAPI(discoveryEndpoint);
+
+				if (discoveryAPIResponse != null) {
+                    this.setFields(discoveryAPIResponse);
+				}
+
+
+			} catch (ConnectionException e) {
+				logger.error("Exception while preparing url for redirect ", e);
+                this.intuit_tid = e.getIntuit_tid();
+                this.statusCode = e.getStatusCode();
+                this.errorMessage = e.getErrorMessage();
+			}
+            return this;
 		}
 		
 		public OAuth2ConfigBuilder proxyConfig(ProxyConfig proxyConfig) {		

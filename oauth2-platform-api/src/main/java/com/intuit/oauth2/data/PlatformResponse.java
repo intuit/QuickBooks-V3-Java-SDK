@@ -29,6 +29,8 @@ public class PlatformResponse {
     
     private String status;
 
+	private String intuit_tid = null;
+
 	public String getErrorCode() {
 		return errorCode;
 	}
@@ -52,7 +54,14 @@ public class PlatformResponse {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-   
+
+	public String getIntuit_tid() {
+		return intuit_tid;
+	}
+
+	public void setIntuit_tid(String intuit_tid) {
+		this.intuit_tid = intuit_tid;
+	}
     
     
 
