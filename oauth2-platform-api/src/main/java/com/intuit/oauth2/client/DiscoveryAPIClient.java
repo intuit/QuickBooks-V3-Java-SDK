@@ -87,6 +87,9 @@ public class DiscoveryAPIClient {
 				logger.debug("failed calling discovery document API");
 				throw new ConnectionException("Failed calling discovery document API", response.getStatusCode() + "", response.getIntuit_tid(), response);
 			}
+		} catch (ConnectionException ex) {
+			logger.error("ConnectionException while calling discovery document " + ex.getResponseContent() + ex.getResponseContent(), ex);
+			throw new ConnectionException("Failed calling discovery document API", ex.getStatusCode() + "", ex.getIntuit_tid(), ex.getResponse());
 		} catch (Exception ex) {
 			logger.error("Exception while calling discovery document", ex);
 			throw new ConnectionException(ex.getMessage(), ex);
@@ -123,8 +126,10 @@ public class DiscoveryAPIClient {
 
 			} else {
 				logger.debug("failed calling discovery document API");
+				logger.debug("Response content: " + response.getContent());
 				throw new ConnectionException("Failed calling discovery document API", response.getStatusCode() + "", response.getIntuit_tid(), response);
 			}
+			throw new ConnectionException("Failed calling discovery document API", ex.getStatusCode() + "", ex.getIntuit_tid(), ex.getResponse());
 		} catch (Exception ex) {
 			logger.error("Exception while calling discovery document", ex);
 			throw new ConnectionException(ex.getMessage(), ex);

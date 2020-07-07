@@ -40,7 +40,7 @@ public class OAuthException extends PlatformException {
 		super(errorMessage,e);
 	}
 
-	public OAuthException(final String errorMessage, final String statusCode, final String intuit_tid, final Response response){
+	public OAuthException( String errorMessage,  String statusCode,  String intuit_tid, Response response){
 		super(errorMessage, statusCode, intuit_tid, response);
 	}
 

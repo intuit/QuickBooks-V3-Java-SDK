@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.intuit.oauth2.exception.InvalidRequestException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -68,7 +69,7 @@ public class OAuth2PlatformClient {
         this.oauth2Config = oauth2Config;
     }
 
-    /**
+    /** `
      * Hiding the default constructor as OAuth2PlatformClient is always required to function properly
      */
     protected OAuth2PlatformClient() {
@@ -102,6 +103,7 @@ public class OAuth2PlatformClient {
             logger.debug("intuit_tid : "+ response.getIntuit_tid());
             if (response.getStatusCode() != 200) {
                 logger.debug("failed getting access token");
+                logger.debug("Response content : "+ response.getContent());
                 throw new OAuthException("Failed getting access token", response.getStatusCode() + "", response.getIntuit_tid(), response);
             }
 
@@ -111,7 +113,10 @@ public class OAuth2PlatformClient {
 
             return bearerTokenResponse;
 
-        } catch (Exception ex) {
+        } catch (OAuthException ex) {
+            logger.error("OAuthException while retrieving bearer tokens: " + ex.getResponseContent());
+            throw new OAuthException("Failed getting access token", ex.getStatusCode() + "", ex.getIntuit_tid(), ex.getResponse());
+        }  catch (Exception ex) {
             logger.error("Exception while retrieving bearer tokens", ex);
             throw new OAuthException(ex.getMessage(), ex);
         }
@@ -139,19 +144,20 @@ public class OAuth2PlatformClient {
             logger.debug("Response Code : "+ response.getStatusCode());
             logger.debug("intuit_tid : "+ response.getIntuit_tid());
             if (response.getStatusCode() != 200) {
-                logger.debug("Failed getting access token");
-                logger.debug("Response Code : "+ response.getStatusCode());
-                logger.debug("intuit_tid : "+ response.getIntuit_tid());
-                throw new OAuthException("Failed getting access token", response.getStatusCode() + "", response.getIntuit_tid(), response);
+                logger.debug("Failed to refresh token");
+                logger.debug("Response content : "+ response.getContent());
+                throw new OAuthException("Failed to refresh token", response.getStatusCode() + "", response.getIntuit_tid(), response);
             }
 
             ObjectReader reader = mapper.readerFor(BearerTokenResponse.class);
             BearerTokenResponse bearerTokenResponse = reader.readValue(response.getContent());
             bearerTokenResponse.setIntuit_tid(response.getIntuit_tid());
             return bearerTokenResponse;
-        }
-        catch (Exception ex) {
-            logger.error("Exception while calling refreshToken ", ex);
+        } catch (OAuthException ex) {
+            logger.error("OAuthException while calling refreshToken:  " + ex.getResponseContent());
+            throw new OAuthException(ex.getMessage(), ex.getStatusCode() + "", ex.getIntuit_tid(), ex.getResponse());
+        } catch (Exception ex) {
+            logger.error("Exception while calling refreshToken ");
             throw new OAuthException(ex.getMessage(), ex);
         }
     }
@@ -207,12 +213,11 @@ public class OAuth2PlatformClient {
             logger.debug("intuit_tid: " + response.getIntuit_tid());
             if (response.getStatusCode() != 200) {
                 logger.debug("failed to revoke token");
+
                 platformResponse.setStatus("ERROR");
                 platformResponse.setErrorCode(response.getStatusCode() + "");
                 platformResponse.setErrorMessage("Failed to revoke token");
                 return platformResponse;
-
-                //throw new ConnectionException("Failed to revoke token", response.getStatusCode() + "", response.getIntuit_tid(), response);
             }
 
             platformResponse.setStatus("SUCCESS");
@@ -268,6 +273,10 @@ public class OAuth2PlatformClient {
                 logger.debug("failed getting user info");
                 throw new OpenIdException("failed getting user info", response.getStatusCode() + "", response.getIntuit_tid(), response);
             }
+        }
+        catch (OpenIdException ex) {
+            logger.error("OpenIdException while retrieving user info: " + ex.getResponseContent());
+            throw new OpenIdException("failed getting user info", ex.getStatusCode() + "", ex.getIntuit_tid(), ex.getResponse());
         }
         catch (Exception ex) {
             logger.error("Exception while retrieving user info ", ex);
