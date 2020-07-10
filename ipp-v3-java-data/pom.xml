@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.intuit.quickbooks-online</groupId>
 		<artifactId>ipp-v3-java-devkit-pom</artifactId>
-		<version>6.0.6</version>
+		<version>6.0.7</version>
 	</parent>
 
 	<artifactId>ipp-v3-java-data</artifactId>
@@ -91,111 +91,112 @@
 			</plugin>
 			<!-- end of maven shade plugin -->
 
-		<!-- commented to avoid regeneration of entities, as the same is not required everytime	-->
-			<!--
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-clean-plugin</artifactId>
-			<version>2.5</version>
-			<configuration>
-				<filesets>
-					<fileset>
-						<directory>src/main/java/com/intuit/ipp/data</directory>
-					</fileset>
-				</filesets>
-			</configuration>
-		</plugin>
-		<plugin>
-			<groupId>org.jvnet.jaxb2.maven2</groupId>
-			<artifactId>maven-jaxb2-plugin</artifactId>
-			<version>0.14.0</version>
-			<configuration>
-				<extension>true</extension>
-				<cleanPackageDirectories>false</cleanPackageDirectories>
-				<generateDirectory>src/main/java</generateDirectory>
-				<bindingDirectory>src/main/xsd/</bindingDirectory>
-				<forceRegenerate>true</forceRegenerate>
-				<args>
-					<arg>-Xcollection-setter-injector</arg>
-					<arg>-Xequals</arg>
-					<arg>-XhashCode</arg>
-					<arg>-Xinheritance</arg>
-				</args>
-				<writeCode>true</writeCode>
+			<!-- commented to avoid regeneration of entities, as the same is not required everytime	-->
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>src/main/java/com/intuit/ipp/data</directory>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.14.0</version>
+				<configuration>
+					<extension>true</extension>
+					<cleanPackageDirectories>false</cleanPackageDirectories>
+					<generateDirectory>src/main/java</generateDirectory>
+					<bindingDirectory>src/main/xsd/</bindingDirectory>
+					<forceRegenerate>true</forceRegenerate>
+					<args>
+						<arg>-Xcollection-setter-injector</arg>
+						<arg>-Xequals</arg>
+						<arg>-XhashCode</arg>
+						<arg>-Xinheritance</arg>
+					</args>
+					<writeCode>true</writeCode>
+					<plugins>
+						<plugin>
+							<groupId>org.andromda.thirdparty.jaxb2_commons</groupId>
+							<artifactId>collection-setter-injector</artifactId>
+							<version>1.0</version>
+						</plugin>
+						<plugin>
+							<groupId>org.jvnet.jaxb2_commons</groupId>
+							<artifactId>jaxb2-basics</artifactId>
+							<version>1.11.1</version>
+						</plugin>
+					</plugins>
+				</configuration>
+				<executions>
+					<execution>
+						<id>fmsdata</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<generatePackage>com.intuit.ipp.data</generatePackage>
+							<schemaDirectory>src/main/xsd/</schemaDirectory>
+							<schemaIncludes>
+								<include>Finance.xsd</include>
+								<include>IntuitBaseTypes.xsd</include>
+								<include>IntuitNamesTypes.xsd</include>
+								<include>IntuitRestServiceDef.xsd</include>
+								<include>Report.xsd</include>
+								<include>SalesTax.xsd</include>
+							</schemaIncludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin> -->
+			<!-- end of regeneration code block -->
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>sign</id>
+			<build>
 				<plugins>
+					<!-- build javadocs jar -->
 					<plugin>
-						<groupId>org.andromda.thirdparty.jaxb2_commons</groupId>
-						<artifactId>collection-setter-injector</artifactId>
-						<version>1.0</version>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.9</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
 					</plugin>
+
+					<!-- build sources jar -->
 					<plugin>
-						<groupId>org.jvnet.jaxb2_commons</groupId>
-						<artifactId>jaxb2-basics</artifactId>
-						<version>1.11.1</version>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.2.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
-			</configuration>
-			<executions>
-				<execution>
-					<id>fmsdata</id>
-					<goals>
-						<goal>generate</goal>
-					</goals>
-					<configuration>
-						<generatePackage>com.intuit.ipp.data</generatePackage>
-						<schemaDirectory>src/main/xsd/</schemaDirectory>
-						<schemaIncludes>
-							<include>Finance.xsd</include>
-							<include>IntuitBaseTypes.xsd</include>
-							<include>IntuitNamesTypes.xsd</include>
-							<include>IntuitRestServiceDef.xsd</include>
-							<include>Report.xsd</include>
-							<include>SalesTax.xsd</include>
-						</schemaIncludes>
-					</configuration>
-				</execution>
-			</executions>
-		</plugin> -->
-	</plugins>
-</build>
-
-<profiles>
-	<profile>
-		<id>sign</id>
-		<build>
-			<plugins>
-				<!-- build javadocs jar -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>2.9</version>
-					<executions>
-						<execution>
-							<id>attach-javadocs</id>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
-				<!-- build sources jar -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>2.2.1</version>
-					<executions>
-						<execution>
-							<id>attach-sources</id>
-							<goals>
-								<goal>jar-no-fork</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
-		</build>
-	</profile>
-</profiles>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
