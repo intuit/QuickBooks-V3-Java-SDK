@@ -76,6 +76,7 @@ public class DiscoveryAPIClient {
 			Response response = client.makeRequest(request);
 
 			logger.debug("Response Code : " + response.getStatusCode());
+			logger.debug("intuit_tid : "+ response.getIntuit_tid());
 			if (response.getStatusCode() == 200) {
 				ObjectReader reader = mapper.readerFor(DiscoveryAPIResponse.class);
 				DiscoveryAPIResponse discoveryAPIResponse = reader.readValue(response.getContent());
@@ -84,14 +85,60 @@ public class DiscoveryAPIClient {
 
 			} else {
 				logger.debug("failed calling discovery document API");
-				throw new ConnectionException("failed calling discovery document API", response.getStatusCode() + "");
+				logger.debug("Response content: " + response.getContent());
+				throw new ConnectionException("Failed calling discovery document API", response.getStatusCode() + "", response.getIntuit_tid(), response);
 			}
+		} catch (ConnectionException ex) {
+			logger.error("ConnectionException while calling discovery document " + ex.getResponseContent() + ex.getResponseContent(), ex);
+			throw new ConnectionException("Failed calling discovery document API", ex.getStatusCode() + "", ex.getIntuit_tid(), ex.getResponse());
 		} catch (Exception ex) {
 			logger.error("Exception while calling discovery document", ex);
 			throw new ConnectionException(ex.getMessage(), ex);
 		}
 	}
-	
+
+	/**
+	 * Calls the Discovery Document API based on the static URL provided and
+	 * returns an object with URLs for all the endpoints
+	 *
+	 * @param discoveryEndpoint
+	 * @return
+	 * @throws ConnectionException
+	 */
+	public DiscoveryAPIResponse callDiscoveryAPI(String discoveryEndpoint) throws ConnectionException {
+
+		logger.debug("Enter DiscoveryAPIClient::callDiscoveryAPI");
+
+		try {
+
+			HttpRequestClient client = new HttpRequestClient(proxyConfig);
+			Request request = new Request.RequestBuilder(MethodType.GET, discoveryEndpoint)
+					.requiresAuthentication(false)
+					.build();
+			Response response = client.makeRequest(request);
+
+			logger.debug("Response Code : " + response.getStatusCode());
+			logger.debug("intuit_tid : "+ response.getIntuit_tid());
+			if (response.getStatusCode() == 200) {
+				ObjectReader reader = mapper.readerFor(DiscoveryAPIResponse.class);
+				DiscoveryAPIResponse discoveryAPIResponse = reader.readValue(response.getContent());
+				discoveryAPIResponse.setIntuit_tid(response.getIntuit_tid());
+				return discoveryAPIResponse;
+
+			} else {
+				logger.debug("failed calling discovery document API");
+				logger.debug("Response content: " + response.getContent());
+				throw new ConnectionException("Failed calling discovery document API", response.getStatusCode() + "", response.getIntuit_tid(), response);
+			}
+		} catch (ConnectionException ex) {
+			logger.error("ConnectionException while calling discovery document: " + ex.getResponseContent(), ex);
+			throw new ConnectionException("Failed calling discovery document API", ex.getStatusCode() + "", ex.getIntuit_tid(), ex.getResponse());
+		} catch (Exception ex) {
+			logger.error("Exception while calling discovery document", ex);
+			throw new ConnectionException(ex.getMessage(), ex);
+		}
+	}
+
 	private static String getDiscoveryAPIHost(Environment environment) {
 		return PropertiesConfig.getInstance().getProperty("DISCOVERY_API_HOST_" + environment.value()); 
 	}

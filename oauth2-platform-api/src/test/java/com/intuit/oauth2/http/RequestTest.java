@@ -21,6 +21,7 @@ import static org.testng.Assert.assertNotNull;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.intuit.oauth2.exception.ConnectionException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -31,8 +32,8 @@ import com.intuit.oauth2.exception.PlatformException;
 public class RequestTest {
 	
 	OAuth2Config oauth2Config;
-	private static final String clientId = "Q05MIy6oCjARUBablYbLLth6D7xh3dpMwWxOLnHYKM4WIqWBDP"; 
-	private static final String clientSecret = "8dFUOx16fwJ4ZLNN7onJQ0vFG8ybkHf05uaz6T4b";
+	private static final String clientId = "client_id";
+	private static final String clientSecret = "client_secret";
 	
 	
 	@BeforeClass

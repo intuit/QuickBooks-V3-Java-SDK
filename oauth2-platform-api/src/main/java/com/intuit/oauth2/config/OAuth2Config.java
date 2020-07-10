@@ -33,7 +33,7 @@ import com.intuit.oauth2.utils.PropertiesConfig;
 /**
  * Config class to hold the clientId and clientSecret
  * and the endpoint URLs retrieved from the Discovery document
- * 
+ *
  * @author dderose
  *
  */
@@ -42,7 +42,7 @@ public class OAuth2Config {
 	//client id, secret
 	private String clientId;
 	private String clientSecret;
-	
+
 	//endpoint URLs
 	private String intuitIdTokenIssuer;
 	private String intuitAuthorizationEndpoint;
@@ -50,58 +50,58 @@ public class OAuth2Config {
 	private String intuitRevokeTokenEndpoint;
 	private String intuitJwksURI;
 	private String userProfileEndpoint;
-	
+
 	//proxy config
 	private ProxyConfig proxyConfig;
-	
+
 	private static final Logger logger = LoggerImpl.getInstance();
-	
-	
+
+
 	private OAuth2Config(OAuth2ConfigBuilder builder) {
-        this.clientId = builder.clientId;
-        this.clientSecret = builder.clientSecret;
-        this.intuitIdTokenIssuer = builder.intuitIdTokenIssuer;
-        this.intuitAuthorizationEndpoint = builder.intuitAuthorizationEndpoint;
-        this.intuitBearerTokenEndpoint = builder.intuitBearerTokenEndpoint;
-        this.intuitRevokeTokenEndpoint = builder.intuitRevokeTokenEndpoint;
-        this.intuitJwksURI = builder.intuitJwksURI;
-        this.userProfileEndpoint = builder.userProfileEndpoint;
-        this.proxyConfig = builder.proxyConfig;
+		this.clientId = builder.clientId;
+		this.clientSecret = builder.clientSecret;
+		this.intuitIdTokenIssuer = builder.intuitIdTokenIssuer;
+		this.intuitAuthorizationEndpoint = builder.intuitAuthorizationEndpoint;
+		this.intuitBearerTokenEndpoint = builder.intuitBearerTokenEndpoint;
+		this.intuitRevokeTokenEndpoint = builder.intuitRevokeTokenEndpoint;
+		this.intuitJwksURI = builder.intuitJwksURI;
+		this.userProfileEndpoint = builder.userProfileEndpoint;
+		this.proxyConfig = builder.proxyConfig;
 	}
-	
-	
-    public String getIntuitIdTokenIssuer() {
-        return intuitIdTokenIssuer;
-    }
 
-    public String getIntuitAuthorizationEndpoint() {
-        return intuitAuthorizationEndpoint;
-    }
-    
-    public String getIntuitBearerTokenEndpoint() {
-        return intuitBearerTokenEndpoint;
-    }
-    
-    public String getIntuitRevokeTokenEndpoint() {
+
+	public String getIntuitIdTokenIssuer() {
+		return intuitIdTokenIssuer;
+	}
+
+	public String getIntuitAuthorizationEndpoint() {
+		return intuitAuthorizationEndpoint;
+	}
+
+	public String getIntuitBearerTokenEndpoint() {
+		return intuitBearerTokenEndpoint;
+	}
+
+	public String getIntuitRevokeTokenEndpoint() {
 		return intuitRevokeTokenEndpoint;
-	} 
+	}
 
-    public String getIntuitJwksURI() {
-        return intuitJwksURI;
-    }
-    
-    public String getUserProfileEndpoint() {
+	public String getIntuitJwksURI() {
+		return intuitJwksURI;
+	}
+
+	public String getUserProfileEndpoint() {
 		return userProfileEndpoint;
 	}
-	
+
 	public String getClientId() {
 		return clientId;
 	}
-	
+
 	public String getClientSecret() {
 		return clientSecret;
 	}
-	
+
 	public ProxyConfig getProxyConfig() {
 		return proxyConfig;
 	}
@@ -135,44 +135,79 @@ public class OAuth2Config {
 
 
 	public static class OAuth2ConfigBuilder {
-		
+
 		private String clientId;
 		private String clientSecret;
-		
+
 		private String intuitIdTokenIssuer;
 		private String intuitAuthorizationEndpoint;
 		private String intuitBearerTokenEndpoint;
 		private String intuitRevokeTokenEndpoint;
 		private String intuitJwksURI;
 		private String userProfileEndpoint;
-		
+
+		private String intuit_tid;
+		private String statusCode;
+		private String errorMessage;
+
 		private ProxyConfig proxyConfig;
 
 		public OAuth2ConfigBuilder(String clientId, String clientSecret) {
 			this.clientId = clientId;
 			this.clientSecret = clientSecret;
 		}
-		
-		public OAuth2ConfigBuilder callDiscoveryAPI(Environment environment) {
-		
+
+		private void setFields (DiscoveryAPIResponse discoveryAPIResponse) {
+			this.intuitIdTokenIssuer = discoveryAPIResponse.getIssuer();
+			this.intuitAuthorizationEndpoint = discoveryAPIResponse.getAuthorizationEndpoint();
+			this.intuitBearerTokenEndpoint = discoveryAPIResponse.getTokenEndpoint();
+			this.intuitRevokeTokenEndpoint = discoveryAPIResponse.getRevocationEndpoint();
+			this.intuitJwksURI = discoveryAPIResponse.getJwksUri();
+			this.userProfileEndpoint = discoveryAPIResponse.getUserinfoEndpoint();
+		}
+
+
+		public OAuth2ConfigBuilder callDiscoveryAPI (Environment environment) {
+
 			try {
 				DiscoveryAPIResponse discoveryAPIResponse = new DiscoveryAPIClient(proxyConfig).callDiscoveryAPI(environment);
-			
+
 				if (discoveryAPIResponse != null) {
-					this.intuitIdTokenIssuer = discoveryAPIResponse.getIssuer();
-					this.intuitAuthorizationEndpoint = discoveryAPIResponse.getAuthorizationEndpoint();
-					this.intuitBearerTokenEndpoint = discoveryAPIResponse.getTokenEndpoint();
-					this.intuitRevokeTokenEndpoint = discoveryAPIResponse.getRevocationEndpoint();
-					this.intuitJwksURI = discoveryAPIResponse.getJwksUri();
-					this.userProfileEndpoint = discoveryAPIResponse.getUserinfoEndpoint();
+					this.setFields(discoveryAPIResponse);
 				}
+
+
 			} catch (ConnectionException e) {
 				logger.error("Exception while preparing url for redirect ", e);
+				this.intuit_tid = e.getIntuit_tid();
+				this.statusCode = e.getStatusCode();
+				this.errorMessage = e.getErrorMessage();
 			}
 			return this;
 		}
-		
-		public OAuth2ConfigBuilder proxyConfig(ProxyConfig proxyConfig) {		
+
+
+
+		public OAuth2ConfigBuilder callDiscoveryAPI (String discoveryEndpoint) {
+
+			try {
+				DiscoveryAPIResponse discoveryAPIResponse = new DiscoveryAPIClient(proxyConfig).callDiscoveryAPI(discoveryEndpoint);
+
+				if (discoveryAPIResponse != null) {
+					this.setFields(discoveryAPIResponse);
+				}
+
+
+			} catch (ConnectionException e) {
+				logger.error("Exception while preparing url for redirect ", e);
+				this.intuit_tid = e.getIntuit_tid();
+				this.statusCode = e.getStatusCode();
+				this.errorMessage = e.getErrorMessage();
+			}
+			return this;
+		}
+
+		public OAuth2ConfigBuilder proxyConfig(ProxyConfig proxyConfig) {
 			this.proxyConfig = proxyConfig;
 			return this;
 		}
@@ -180,12 +215,12 @@ public class OAuth2Config {
 		public OAuth2Config buildConfig() {
 			return new OAuth2Config(this);
 		}
-		
+
 	}
-	
+
 	/**
 	 * Returns the scope value based on the Enum supplied
-	 * 
+	 *
 	 * @param scope
 	 * @return
 	 */
@@ -193,20 +228,20 @@ public class OAuth2Config {
 		logger.debug("Enter OAuth2config::getDefaultScope");
 		return PropertiesConfig.getInstance().getProperty(scope.value());
 	}
-	
+
 	/**
 	 * Generates CSRF token
-	 * 
+	 *
 	 * @return
 	 */
 	public String generateCSRFToken()  {
 		logger.debug("Enter OAuth2config::generateCSRFToken");
 		return UUID.randomUUID().toString();
 	}
-	
+
 	/**
 	 * Prepares URL to call the OAuth2 authorization endpoint using Scope, CSRF and redirectURL that is supplied
-	 * 
+	 *
 	 * @param scope
 	 * @param redirectUri
 	 * @param csrfToken
@@ -214,25 +249,25 @@ public class OAuth2Config {
 	 * @throws InvalidRequestException
 	 */
 	public String prepareUrl(List<Scope> scopes, String redirectUri, String csrfToken) throws InvalidRequestException  {
-		
+
 		logger.debug("Enter OAuth2config::prepareUrl");
 		if(scopes == null || scopes.isEmpty() || redirectUri.isEmpty() || csrfToken.isEmpty()) {
 			logger.error("Invalid request for prepareUrl ");
 			throw new InvalidRequestException("Invalid request for prepareUrl");
 		}
 		try {
-			return intuitAuthorizationEndpoint 
-					+ "?client_id=" + clientId 
-					+ "&response_type=code&scope=" + URLEncoder.encode(buildScopeString(scopes), "UTF-8") 
-					+ "&redirect_uri=" + URLEncoder.encode(redirectUri, "UTF-8") 
+			return intuitAuthorizationEndpoint
+					+ "?client_id=" + clientId
+					+ "&response_type=code&scope=" + URLEncoder.encode(buildScopeString(scopes), "UTF-8")
+					+ "&redirect_uri=" + URLEncoder.encode(redirectUri, "UTF-8")
 					+ "&state=" + csrfToken;
 		} catch (UnsupportedEncodingException e) {
 			logger.error("Exception while preparing url for redirect ", e);
 			throw new InvalidRequestException(e.getMessage(), e);
 		}
-		
+
 	}
-	
+
 	private String buildScopeString(List<Scope> scopes) {
 		StringBuilder sb = new StringBuilder();
 		for (Scope scope: scopes) {
@@ -240,35 +275,106 @@ public class OAuth2Config {
 		}
 		return StringUtils.stripEnd(sb.toString(), " ");
 	}
-	
+
+	private String buildScope(List<String> scopes) {
+		StringBuilder sb = new StringBuilder();
+		for (String scope: scopes) {
+			sb.append(scope + " ");
+		}
+		return StringUtils.stripEnd(sb.toString(), " ");
+	}
+
 	/**
 	 * Prepares URL to call the OAuth2 authorization endpoint using Scope and redirectURL that is supplied.
 	 * A CSRF token is generated and sent in the request.
-	 * 
-	 * @param scope
+	 *
+	 * @param scopes
 	 * @param redirectUri
 	 * @return
 	 * @throws InvalidRequestException
 	 */
 	public String prepareUrl(List<Scope> scopes, String redirectUri) throws InvalidRequestException  {
-		
+
 		logger.debug("Enter OAuth2config::prepareUrl");
 		if(scopes == null || scopes.isEmpty() || redirectUri.isEmpty()) {
 			logger.error("Invalid request for prepareUrl ");
 			throw new InvalidRequestException("Invalid request for prepareUrl");
 		}
-		
+
 		try {
-			return intuitAuthorizationEndpoint 
+			return intuitAuthorizationEndpoint
 					+ "?client_id=" + clientId
-					+ "&response_type=code&scope=" + URLEncoder.encode(buildScopeString(scopes), "UTF-8") 
-					+ "&redirect_uri=" + URLEncoder.encode(redirectUri, "UTF-8") 
+					+ "&response_type=code&scope=" + URLEncoder.encode(buildScopeString(scopes), "UTF-8")
+					+ "&redirect_uri=" + URLEncoder.encode(redirectUri, "UTF-8")
 					+ "&state=" + generateCSRFToken();
 		} catch (UnsupportedEncodingException e) {
 			logger.error("Exception while preparing url for redirect ", e);
 			throw new InvalidRequestException(e.getMessage(), e);
 		}
-		
+
 	}
-	   
+
+	/**
+	 * Prepares URL to call the OAuth2 authorization endpoint using Scope and redirectURL that is supplied.
+	 * A CSRF token is generated and sent in the request.
+	 *
+	 * @param scopes
+	 * @param redirectUri
+	 * @return
+	 * @throws InvalidRequestException
+	 */
+	public String prepareUrlWithCustomScopes (List<String> scopes, String redirectUri) throws InvalidRequestException  {
+
+		logger.debug("Enter OAuth2config::prepareUrl");
+		if(scopes == null || scopes.isEmpty() || redirectUri.isEmpty()) {
+			logger.error("Invalid request for prepareUrl ");
+			throw new InvalidRequestException("Invalid request for prepareUrl");
+		}
+
+		try {
+
+			return intuitAuthorizationEndpoint
+					+ "?client_id=" + clientId
+					+ "&response_type=code&scope=" + buildScope (scopes)
+					+ "&redirect_uri=" + URLEncoder.encode(redirectUri, "UTF-8")
+					+ "&state=" + generateCSRFToken();
+		} catch (UnsupportedEncodingException e) {
+			logger.error("Exception while preparing url for redirect ", e);
+			throw new InvalidRequestException(e.getMessage(), e);
+		}
+
+	}
+
+
+	/**
+	 * Prepares URL to call the OAuth2 authorization endpoint using Scopes, redirectURL & csrfToken that is supplied.
+	 * A CSRF token is generated and sent in the request.
+	 *
+	 * @param scopes
+	 * @param redirectUri
+	 * @return
+	 * @throws InvalidRequestException
+	 */
+	public String prepareUrlWithCustomScopes (List<String> scopes, String redirectUri, String csrfToken) throws InvalidRequestException  {
+
+		logger.debug("Enter OAuth2config::prepareUrl");
+		if(scopes == null || scopes.isEmpty() || redirectUri.isEmpty()) {
+			logger.error("Invalid request for prepareUrl ");
+			throw new InvalidRequestException("Invalid request for prepareUrl");
+		}
+
+		try {
+
+			return intuitAuthorizationEndpoint
+					+ "?client_id=" + clientId
+					+ "&response_type=code&scope=" + buildScope (scopes)
+					+ "&redirect_uri=" + URLEncoder.encode(redirectUri, "UTF-8")
+					+ "&state=" + csrfToken;
+		} catch (UnsupportedEncodingException e) {
+			logger.error("Exception while preparing url for redirect ", e);
+			throw new InvalidRequestException(e.getMessage(), e);
+		}
+
+	}
+
 }

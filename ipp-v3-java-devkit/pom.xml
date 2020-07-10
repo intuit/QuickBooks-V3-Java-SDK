@@ -4,7 +4,7 @@
     <parent>
         <artifactId>ipp-v3-java-devkit-pom</artifactId>
         <groupId>com.intuit.quickbooks-online</groupId>
-        <version>6.0.5</version>
+        <version>6.0.6</version>
     </parent>
 
 	<artifactId>ipp-v3-java-devkit</artifactId>
@@ -15,14 +15,14 @@
 	<properties>
 		<sonar.langauge>java</sonar.langauge>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<javadocExecutable>${java.home}/../bin/javadoc</javadocExecutable>
+		<javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.intuit.quickbooks-online</groupId>
 			<artifactId>ipp-v3-java-data</artifactId>
-			<version>6.0.5</version>
+			<version>6.0.6</version>
 		</dependency>
         <dependency>
             <groupId>cglib</groupId>

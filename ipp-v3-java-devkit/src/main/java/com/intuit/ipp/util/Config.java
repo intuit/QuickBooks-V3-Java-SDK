@@ -184,6 +184,8 @@ public final class Config {
     public static final String BIGDECIMAL_SCALE_SHIFT = "feature.bigDecimalScaleShift";
     
     public static final String WEBHOOKS_VERIFIER_TOKEN = "webhooks.verifier.token";
+
+    public static final String LATEST_MINOR_VERSION = "minorVersion.latestMinorVersion";
 	
 	/**
 	 * variable ThreadLocal

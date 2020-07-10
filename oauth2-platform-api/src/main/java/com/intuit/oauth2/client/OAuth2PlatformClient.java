@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.intuit.oauth2.exception.InvalidRequestException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -52,109 +53,119 @@ import com.intuit.oauth2.utils.MapperImpl;
 /**
  * Client class for OAuth2 API's with methods to retrieve bearer token,
  * refresh token and get UserInfo
- * 
+ *
  * @author dderose
  *
  */
 public class OAuth2PlatformClient {
-    
-    
+
+
     private OAuth2Config oauth2Config;
 
     private static final Logger logger = LoggerImpl.getInstance();
     private static final ObjectMapper mapper  = MapperImpl.getInstance();
-    
+
     public OAuth2PlatformClient(OAuth2Config oauth2Config) {
         this.oauth2Config = oauth2Config;
     }
-    
-    /**
-    * Hiding the default constructor as OAuth2PlatformClient is always required to function properly
-    */
-   protected OAuth2PlatformClient() {
 
-   }
-    
-    
+    /** `
+     * Hiding the default constructor as OAuth2PlatformClient is always required to function properly
+     */
+    protected OAuth2PlatformClient() {
+
+    }
+
+
     /**
      * Method to retrieve OAuth2 access token by passing the redirectURI and authCode
-     * 
-     * @param auth_code
-     * @param redirectUri
+     *
+     * @param authCode
+     * @param redirectURI
      * @return
      * @throws OAuthException
      */
     public BearerTokenResponse retrieveBearerTokens(String authCode, String redirectURI) throws OAuthException {
-        
+
         logger.debug("Enter OAuth2PlatformClient::retrieveBearerTokens");
 
         try {
             HttpRequestClient client = new HttpRequestClient(oauth2Config.getProxyConfig());
             Request request = new Request.RequestBuilder(MethodType.POST, oauth2Config.getIntuitBearerTokenEndpoint())
-                                            .requiresAuthentication(true)
-                                            .authString(getAuthHeader())
-                                            .postParams(getUrlParameters(null, authCode, redirectURI))
-                                            .build();
+                    .requiresAuthentication(true)
+                    .authString(getAuthHeader())
+                    .postParams(getUrlParameters(null, authCode, redirectURI))
+                    .build();
 
             Response response = client.makeRequest(request);
-                
+
             logger.debug("Response Code : "+ response.getStatusCode());
+            logger.debug("intuit_tid : "+ response.getIntuit_tid());
             if (response.getStatusCode() != 200) {
                 logger.debug("failed getting access token");
-                throw new OAuthException("failed getting access token", response.getStatusCode() + "");
+                logger.debug("Response content : "+ response.getContent());
+                throw new OAuthException("Failed getting access token", response.getStatusCode() + "", response.getIntuit_tid(), response);
             }
-    
+
             ObjectReader reader = mapper.readerFor(BearerTokenResponse.class);
             BearerTokenResponse bearerTokenResponse = reader.readValue(response.getContent());
             bearerTokenResponse.setIntuit_tid(response.getIntuit_tid());
+
             return bearerTokenResponse;
-            
-        } catch (Exception ex) {
+
+        } catch (OAuthException ex) {
+            logger.error("OAuthException while retrieving bearer tokens: " + ex.getResponseContent());
+            throw new OAuthException("Failed getting access token", ex.getStatusCode() + "", ex.getIntuit_tid(), ex.getResponse());
+        }  catch (Exception ex) {
             logger.error("Exception while retrieving bearer tokens", ex);
             throw new OAuthException(ex.getMessage(), ex);
         }
     }
-    
+
     /**
      * Method to renew OAuth2 tokens by passing the refreshToken
-     * 
+     *
      * @param refreshToken
      * @return
-     * @throws OAuthException 
+     * @throws OAuthException
      */
     public BearerTokenResponse refreshToken(String refreshToken) throws OAuthException {
-        
+
         logger.debug("Enter OAuth2PlatformClient::refreshToken");
         try {
             HttpRequestClient client = new HttpRequestClient(oauth2Config.getProxyConfig());
             Request request = new Request.RequestBuilder(MethodType.POST, oauth2Config.getIntuitBearerTokenEndpoint())
-                                        .requiresAuthentication(true)
-                                        .authString(getAuthHeader())
-                                        .postParams(getUrlParameters("refresh", refreshToken, null))
-                                        .build();
+                    .requiresAuthentication(true)
+                    .authString(getAuthHeader())
+                    .postParams(getUrlParameters("refresh", refreshToken, null))
+                    .build();
             Response response = client.makeRequest(request);
 
             logger.debug("Response Code : "+ response.getStatusCode());
+            logger.debug("intuit_tid : "+ response.getIntuit_tid());
             if (response.getStatusCode() != 200) {
-                logger.debug("failed getting access token");
-                throw new OAuthException("failed getting access token", response.getStatusCode() + "");
+                logger.debug("Failed to refresh token");
+                logger.debug("Response content : "+ response.getContent());
+                throw new OAuthException("Failed to refresh token", response.getStatusCode() + "", response.getIntuit_tid(), response);
             }
- 
+
             ObjectReader reader = mapper.readerFor(BearerTokenResponse.class);
             BearerTokenResponse bearerTokenResponse = reader.readValue(response.getContent());
             bearerTokenResponse.setIntuit_tid(response.getIntuit_tid());
             return bearerTokenResponse;
-        }
-        catch (Exception ex) {
-            logger.error("Exception while calling refreshToken ", ex);
+        } catch (OAuthException ex) {
+            logger.error("OAuthException while calling refreshToken:  " + ex.getResponseContent());
+            throw new OAuthException(ex.getMessage(), ex.getStatusCode() + "", ex.getIntuit_tid(), ex.getResponse());
+        } catch (Exception ex) {
+            logger.error("Exception while calling refreshToken ");
             throw new OAuthException(ex.getMessage(), ex);
-        } 
+        }
     }
-    
-    
+
+
     /**
      * Method to build post parameters
-     * 
+     *
      * @param action
      * @param token
      * @param redirectUri
@@ -177,48 +188,51 @@ public class OAuth2PlatformClient {
 
     /**
      * Method to revoke OAuth2 tokens
-     * 
+     *
      * @param token
      * @return
-     * @throws ConnectionException 
+     * @throws ConnectionException
      */
     public PlatformResponse revokeToken(String token) throws ConnectionException {
 
         logger.debug("Enter OAuth2PlatformClient::revokeToken");
-        
+
         PlatformResponse platformResponse = new PlatformResponse();
         try {
-            
+
             HttpRequestClient client = new HttpRequestClient(oauth2Config.getProxyConfig());
             Request request = new Request.RequestBuilder(MethodType.POST, oauth2Config.getIntuitRevokeTokenEndpoint())
-                                        .requiresAuthentication(true)
-                                        .authString(getAuthHeader())
-                                        .postParams(getUrlParameters("revoke", token, null))
-                                        .build();
+                    .requiresAuthentication(true)
+                    .authString(getAuthHeader())
+                    .postParams(getUrlParameters("revoke", token, null))
+                    .build();
 
             Response response = client.makeRequest(request);
-            
+
             logger.debug("Response Code : "+ response.getStatusCode());
+            logger.debug("intuit_tid: " + response.getIntuit_tid());
             if (response.getStatusCode() != 200) {
                 logger.debug("failed to revoke token");
+
                 platformResponse.setStatus("ERROR");
                 platformResponse.setErrorCode(response.getStatusCode() + "");
                 platformResponse.setErrorMessage("Failed to revoke token");
                 return platformResponse;
             }
-            
+
             platformResponse.setStatus("SUCCESS");
+            platformResponse.setIntuit_tid(response.getIntuit_tid());
             return platformResponse;
         }
         catch (Exception ex) {
             logger.error("Exception while calling revokeToken ", ex);
             throw new ConnectionException(ex.getMessage(), ex);
-        }    
+        }
     }
-    
+
     /**
      * Method to generate auth header based on client ID and Client Secret
-     * 
+     *
      * @return
      */
     private String getAuthHeader() {
@@ -226,60 +240,64 @@ public class OAuth2PlatformClient {
         String base64ClientIdSec = new String(bytesEncoded);
         return "Basic " + base64ClientIdSec;
     }
-    
+
     /**
      * Method to retrieve UserInfo data associated with the accessToken generated
      * The response depends on the Scope supplied during openId
-     * 
+     *
      * @param accessToken
      * @return
-     * @throws OpenIdException 
+     * @throws OpenIdException
      */
     public UserInfoResponse getUserInfo(String accessToken) throws OpenIdException {
 
         logger.debug("Enter OAuth2PlatformClient::getUserInfo");
-        
+
         try {
             HttpRequestClient client = new HttpRequestClient(oauth2Config.getProxyConfig());
             Request request = new Request.RequestBuilder(MethodType.GET, oauth2Config.getUserProfileEndpoint())
-                                        .requiresAuthentication(true)
-                                        .authString("Bearer " + accessToken)
-                                        .build();
-     
+                    .requiresAuthentication(true)
+                    .authString("Bearer " + accessToken)
+                    .build();
+
             Response response = client.makeRequest(request);
 
             logger.debug("Response Code : "+ response.getStatusCode());
-            if (response.getStatusCode() == 200) {                             
+            logger.debug("intuit_tid: " + response.getIntuit_tid());
+            if (response.getStatusCode() == 200) {
                 ObjectReader reader = mapper.readerFor(UserInfoResponse.class);
                 UserInfoResponse userInfoResponse = reader.readValue(response.getContent());
                 userInfoResponse.setIntuit_tid(response.getIntuit_tid());
                 return userInfoResponse;
             } else {
                 logger.debug("failed getting user info");
-                throw new OpenIdException("failed getting user info", response.getStatusCode() + "");
+                throw new OpenIdException("failed getting user info", response.getStatusCode() + "", response.getIntuit_tid(), response);
             }
+        }
+        catch (OpenIdException ex) {
+            logger.error("OpenIdException while retrieving user info: " + ex.getResponseContent());
+            throw new OpenIdException("failed getting user info", ex.getStatusCode() + "", ex.getIntuit_tid(), ex.getResponse());
         }
         catch (Exception ex) {
             logger.error("Exception while retrieving user info ", ex);
             throw new OpenIdException(ex.getMessage(), ex);
         }
-        
+
     }
-    
+
     /**
      * Method to validate IDToken
-     * 
+     *
      * @param idToken
-     * @param clientId
      * @return
-     * @throws OpenIdException 
+     * @throws OpenIdException
      */
     public boolean validateIDToken(String idToken) throws OpenIdException {
-        
+
         logger.debug("Enter OAuth2PlatformClient::validateIDToken");
-        
+
         String[] idTokenParts = idToken.split("\\.");
-        
+
         if (idTokenParts.length < 3) {
             logger.debug("invalid idTokenParts length");
             return false;
@@ -300,7 +318,7 @@ public class OAuth2PlatformClient {
         }
 
         //Step 2 : check if the aud field in idToken is same as application's clientId
-        JSONArray jsonaud = idTokenHeaderPayload.getJSONArray("aud"); 
+        JSONArray jsonaud = idTokenHeaderPayload.getJSONArray("aud");
         String aud = jsonaud.getString(0);
 
         if(!aud.equalsIgnoreCase(oauth2Config.getClientId())) {
@@ -310,7 +328,7 @@ public class OAuth2PlatformClient {
 
         //Step 3 : ensure the timestamp has not elapsed
         Long expirationTimestamp = idTokenHeaderPayload.getLong("exp");
-        Long currentTime = System.currentTimeMillis() / 1000; 
+        Long currentTime = System.currentTimeMillis() / 1000;
 
         if((expirationTimestamp - currentTime) <= 0) {
             logger.debug("expirationTimestamp has elapsed");
@@ -323,7 +341,7 @@ public class OAuth2PlatformClient {
             logger.debug("unable to retrive keyMap from JWKS url");
             return false;
         }
-        
+
         //first get the kid from the header.
         String keyId = idTokenHeaderJson.getString("kid");
         JSONObject keyDetails = keyMap.get(keyId);
@@ -342,7 +360,7 @@ public class OAuth2PlatformClient {
             boolean isSignatureValid = verifyUsingPublicKey(data, idTokenSignature, publicKey);
             logger.debug("isSignatureValid: " + isSignatureValid);
             return isSignatureValid;
-           
+
         } catch (GeneralSecurityException e) {
             logger.error("Exception while validating ID token ", e);
             throw new OpenIdException(e.getMessage(), e);
@@ -352,21 +370,21 @@ public class OAuth2PlatformClient {
 
     /**
      * Build JWKS keymap
-     * 
+     *
      * @return
      * @throws OpenIdException
      */
     private HashMap<String, JSONObject> getKeyMapFromJWKSUri() throws OpenIdException {
-        
+
         logger.debug("Enter OAuth2PlatformClient::getKeyMapFromJWKSUri");
-        
+
         try {
-            
+
             HttpRequestClient client = new HttpRequestClient(oauth2Config.getProxyConfig());
             Request request = new Request.RequestBuilder(MethodType.GET, oauth2Config.getIntuitJwksURI())
                     .requiresAuthentication(false)
                     .build();
-            
+
             Response response = client.makeRequest(request);
 
             logger.debug("Response Code : "+ response.getStatusCode());
@@ -375,7 +393,7 @@ public class OAuth2PlatformClient {
                 throw new OpenIdException("failed JWKS URI", response.getStatusCode() + "");
             }
 
-             return buildKeyMap(response.getContent());
+            return buildKeyMap(response.getContent());
         }
         catch (Exception ex) {
             logger.error("Exception while retrieving jwks ", ex);
@@ -385,7 +403,7 @@ public class OAuth2PlatformClient {
 
     /**
      * Build public key
-     * 
+     *
      * @param MODULUS
      * @param EXPONENT
      * @return
@@ -408,7 +426,7 @@ public class OAuth2PlatformClient {
 
     /**
      * Verify signature
-     * 
+     *
      * @param data
      * @param signature
      * @param pubKey
@@ -422,7 +440,7 @@ public class OAuth2PlatformClient {
         sig.update(data);
         return sig.verify(signature);
     }
-    
+
     /**
      * @param input
      * @return
@@ -432,7 +450,7 @@ public class OAuth2PlatformClient {
         String result = new String(decodedBytes, StandardCharsets.UTF_8);
         return result;
     }
-    
+
     /**
      * @param input
      * @return
@@ -443,10 +461,10 @@ public class OAuth2PlatformClient {
 
         return decodedBytes;
     }
-    
+
     /**
      * Build Map from response
-     * 
+     *
      * @param content
      * @return
      * @throws ConnectionException
@@ -465,5 +483,5 @@ public class OAuth2PlatformClient {
     }
 
 
-    
+
 }
