@@ -24,24 +24,25 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 
 
 /**
- * Method of payment for received goods.
+ * 
+ * 				Description: Describes the Recurring Schedules for Transactions
  * 			
  * 
- * <p>Java class for PaymentMethod complex type.
+ * <p>Java class for RecurringInfo complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="PaymentMethod"&gt;
+ * &lt;complexType name="RecurringInfo"&gt;
  *   &lt;complexContent&gt;
- *     &lt;extension base="{http://schema.intuit.com/finance/v3}IntuitEntity"&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="Name" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="RecurType" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="Active" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
- *         &lt;element name="Type" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="PaymentMethodEx" type="{http://schema.intuit.com/finance/v3}IntuitAnyType" minOccurs="0"/&gt;
+ *         &lt;element name="ScheduleInfo" type="{http://schema.intuit.com/finance/v3}RecurringScheduleInfo" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
- *     &lt;/extension&gt;
+ *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
@@ -49,26 +50,24 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PaymentMethod", propOrder = {
+@XmlType(name = "RecurringInfo", propOrder = {
     "name",
+    "recurType",
     "active",
-    "type",
-    "paymentMethodEx"
+    "scheduleInfo"
 })
-public class PaymentMethod
-    extends IntuitEntity
-    implements Serializable, Equals2, HashCode2
+public class RecurringInfo implements Serializable, Equals2, HashCode2
 {
 
     private final static long serialVersionUID = 1L;
     @XmlElement(name = "Name")
     protected String name;
+    @XmlElement(name = "RecurType")
+    protected String recurType;
     @XmlElement(name = "Active")
     protected Boolean active;
-    @XmlElement(name = "Type")
-    protected String type;
-    @XmlElement(name = "PaymentMethodEx")
-    protected IntuitAnyType paymentMethodEx;
+    @XmlElement(name = "ScheduleInfo")
+    protected RecurringScheduleInfo scheduleInfo;
 
     /**
      * Gets the value of the name property.
@@ -92,6 +91,30 @@ public class PaymentMethod
      */
     public void setName(String value) {
         this.name = value;
+    }
+
+    /**
+     * Gets the value of the recurType property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getRecurType() {
+        return recurType;
+    }
+
+    /**
+     * Sets the value of the recurType property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setRecurType(String value) {
+        this.recurType = value;
     }
 
     /**
@@ -119,51 +142,27 @@ public class PaymentMethod
     }
 
     /**
-     * Gets the value of the type property.
+     * Gets the value of the scheduleInfo property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link RecurringScheduleInfo }
      *     
      */
-    public String getType() {
-        return type;
+    public RecurringScheduleInfo getScheduleInfo() {
+        return scheduleInfo;
     }
 
     /**
-     * Sets the value of the type property.
+     * Sets the value of the scheduleInfo property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link RecurringScheduleInfo }
      *     
      */
-    public void setType(String value) {
-        this.type = value;
-    }
-
-    /**
-     * Gets the value of the paymentMethodEx property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link IntuitAnyType }
-     *     
-     */
-    public IntuitAnyType getPaymentMethodEx() {
-        return paymentMethodEx;
-    }
-
-    /**
-     * Sets the value of the paymentMethodEx property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link IntuitAnyType }
-     *     
-     */
-    public void setPaymentMethodEx(IntuitAnyType value) {
-        this.paymentMethodEx = value;
+    public void setScheduleInfo(RecurringScheduleInfo value) {
+        this.scheduleInfo = value;
     }
 
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy2 strategy) {
@@ -173,16 +172,22 @@ public class PaymentMethod
         if (this == object) {
             return true;
         }
-        if (!super.equals(thisLocator, thatLocator, object, strategy)) {
-            return false;
-        }
-        final PaymentMethod that = ((PaymentMethod) object);
+        final RecurringInfo that = ((RecurringInfo) object);
         {
             String lhsName;
             lhsName = this.getName();
             String rhsName;
             rhsName = that.getName();
             if (!strategy.equals(LocatorUtils.property(thisLocator, "name", lhsName), LocatorUtils.property(thatLocator, "name", rhsName), lhsName, rhsName, (this.name!= null), (that.name!= null))) {
+                return false;
+            }
+        }
+        {
+            String lhsRecurType;
+            lhsRecurType = this.getRecurType();
+            String rhsRecurType;
+            rhsRecurType = that.getRecurType();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "recurType", lhsRecurType), LocatorUtils.property(thatLocator, "recurType", rhsRecurType), lhsRecurType, rhsRecurType, (this.recurType!= null), (that.recurType!= null))) {
                 return false;
             }
         }
@@ -196,20 +201,11 @@ public class PaymentMethod
             }
         }
         {
-            String lhsType;
-            lhsType = this.getType();
-            String rhsType;
-            rhsType = that.getType();
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "type", lhsType), LocatorUtils.property(thatLocator, "type", rhsType), lhsType, rhsType, (this.type!= null), (that.type!= null))) {
-                return false;
-            }
-        }
-        {
-            IntuitAnyType lhsPaymentMethodEx;
-            lhsPaymentMethodEx = this.getPaymentMethodEx();
-            IntuitAnyType rhsPaymentMethodEx;
-            rhsPaymentMethodEx = that.getPaymentMethodEx();
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "paymentMethodEx", lhsPaymentMethodEx), LocatorUtils.property(thatLocator, "paymentMethodEx", rhsPaymentMethodEx), lhsPaymentMethodEx, rhsPaymentMethodEx, (this.paymentMethodEx!= null), (that.paymentMethodEx!= null))) {
+            RecurringScheduleInfo lhsScheduleInfo;
+            lhsScheduleInfo = this.getScheduleInfo();
+            RecurringScheduleInfo rhsScheduleInfo;
+            rhsScheduleInfo = that.getScheduleInfo();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "scheduleInfo", lhsScheduleInfo), LocatorUtils.property(thatLocator, "scheduleInfo", rhsScheduleInfo), lhsScheduleInfo, rhsScheduleInfo, (this.scheduleInfo!= null), (that.scheduleInfo!= null))) {
                 return false;
             }
         }
@@ -222,11 +218,16 @@ public class PaymentMethod
     }
 
     public int hashCode(ObjectLocator locator, HashCodeStrategy2 strategy) {
-        int currentHashCode = super.hashCode(locator, strategy);
+        int currentHashCode = 1;
         {
             String theName;
             theName = this.getName();
             currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "name", theName), currentHashCode, theName, (this.name!= null));
+        }
+        {
+            String theRecurType;
+            theRecurType = this.getRecurType();
+            currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "recurType", theRecurType), currentHashCode, theRecurType, (this.recurType!= null));
         }
         {
             Boolean theActive;
@@ -234,14 +235,9 @@ public class PaymentMethod
             currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "active", theActive), currentHashCode, theActive, (this.active!= null));
         }
         {
-            String theType;
-            theType = this.getType();
-            currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "type", theType), currentHashCode, theType, (this.type!= null));
-        }
-        {
-            IntuitAnyType thePaymentMethodEx;
-            thePaymentMethodEx = this.getPaymentMethodEx();
-            currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "paymentMethodEx", thePaymentMethodEx), currentHashCode, thePaymentMethodEx, (this.paymentMethodEx!= null));
+            RecurringScheduleInfo theScheduleInfo;
+            theScheduleInfo = this.getScheduleInfo();
+            currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "scheduleInfo", theScheduleInfo), currentHashCode, theScheduleInfo, (this.scheduleInfo!= null));
         }
         return currentHashCode;
     }

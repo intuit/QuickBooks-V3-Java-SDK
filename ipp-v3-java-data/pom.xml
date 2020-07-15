@@ -72,7 +72,7 @@
 			</plugin>
 
 			<!-- maven shade plugin -->
-			<plugin>
+			<!--<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.2.4</version>
@@ -88,11 +88,11 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 			<!-- end of maven shade plugin -->
 
 			<!-- commented to avoid regeneration of entities, as the same is not required everytime	-->
-
+			<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
@@ -155,8 +155,10 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin> -->
+			</plugin>
+			-->
 			<!-- end of regeneration code block -->
+
 		</plugins>
 	</build>
 
