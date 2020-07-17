@@ -5,7 +5,7 @@
 
     <groupId>com.intuit.quickbooks-online</groupId>
     <artifactId>ipp-v3-java-devkit-pom</artifactId>
-    <version>6.0.6</version>
+    <version>6.0.7</version>
     <packaging>pom</packaging>
     <name>IPP V3 Java DevKit</name>
     <url>https://github.com/intuit/QuickBooks-V3-Java-SDK</url>
