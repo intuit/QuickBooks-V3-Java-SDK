@@ -221,6 +221,7 @@ public final class MessageUtils {
 				entityList.add(PurchaseByVendor.class);
 				entityList.add(PurchaseOrder.class);
 				entityList.add(QbdtEntityIdMapping.class);
+				entityList.add(RecurringTransaction.class);
 				entityList.add(RefundReceipt.class);
 				entityList.add(ReimburseCharge.class);
 				entityList.add(SalesOrder.class);
