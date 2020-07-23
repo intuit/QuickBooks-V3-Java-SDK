@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -55,7 +56,7 @@ public class GZIPCompressor implements ICompressor {
 		try {
 			baos = new ByteArrayOutputStream();
 			gzout = new GZIPOutputStream(baos);
-			gzout.write(data.getBytes());
+			gzout.write(data.getBytes(StandardCharsets.UTF_8));
 			if (uploadFile != null) {
 				gzout.write(uploadFile);
 			}
