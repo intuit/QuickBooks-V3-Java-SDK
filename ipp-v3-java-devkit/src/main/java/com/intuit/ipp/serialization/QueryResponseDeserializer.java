@@ -34,11 +34,7 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 
-import com.intuit.ipp.data.CustomFieldDefinition;
-import com.intuit.ipp.data.Fault;
-import com.intuit.ipp.data.IntuitEntity;
-import com.intuit.ipp.data.ObjectFactory;
-import com.intuit.ipp.data.QueryResponse;
+import com.intuit.ipp.data.*;
 import com.intuit.ipp.util.Logger;
 
 /**
@@ -76,6 +72,11 @@ public class QueryResponseDeserializer extends JsonDeserializer<QueryResponse> {
 	 * variable TOTALCOUNT
 	 */
 	private static final String TOTALCOUNT = "totalCount";
+
+	/**
+	 * variable RECURRINGTXN
+	 */
+	private static final String RECURRINGTXN = "RecurringTransaction";
 	
 	/**
 	 * variable objFactory
@@ -116,6 +117,54 @@ public class QueryResponseDeserializer extends JsonDeserializer<QueryResponse> {
 				qr.setMaxResults(jn.get(MAXRESULTS).intValue());
 			} else if (key.equals(TOTALCOUNT)) {
 				qr.setTotalCount(jn.get(TOTALCOUNT).intValue());
+			} else if (key.equals(RECURRINGTXN)) {
+				if (JsonResourceTypeLocator.lookupType(key) != null) {
+					JsonNode jn1 = jn.get(key);
+					if (jn1.isArray()) {
+						Iterator<JsonNode> iteJson = jn1.iterator();
+
+						// read the recurring transactions array
+						while (iteJson.hasNext()) {
+
+							RecurringTransaction rt = new RecurringTransaction();
+							JsonNode jn2 = iteJson.next();
+							Iterator<JsonNode> iteJson2 = jn2.iterator();
+
+							// read the underlying IntuitObject transaction
+							while (iteJson2.hasNext()) {
+								Iterator<String> s = jn2.fieldNames();
+								String rtKey = s.next();
+								LOG.debug("RecurringTransaction : " + rtKey);
+
+								JsonNode jn3 = iteJson2.next();
+
+								// set the CustomFieldDefinition deserializer
+								registerModulesForCustomFieldDef(mapper);
+
+								//Force the data to be casted to its type
+								Object intuitType = mapper.treeToValue(jn3, JsonResourceTypeLocator.lookupType(rtKey));
+								//Double check
+								if (intuitType instanceof IntuitEntity) {
+									intuitResponseDeserializerHelper.updateBigDecimalScale((IntuitEntity) intuitType);
+									JAXBElement<? extends IntuitEntity> intuitObject = objFactory.createIntuitObject((IntuitEntity) intuitType);
+									rt.setIntuitObject(intuitObject);
+								}
+							}
+
+							// set the CustomFieldDefinition deserializer
+							registerModulesForCustomFieldDef(mapper);
+
+							// set the query response object to be the recurring transaction
+							Object intuitType = rt;
+							//Double check
+							if (intuitType instanceof IntuitEntity) {
+								intuitResponseDeserializerHelper.updateBigDecimalScale((IntuitEntity) intuitType);
+								JAXBElement<? extends IntuitEntity> intuitObject = objFactory.createIntuitObject((IntuitEntity) intuitType);
+								qr.getIntuitObject().add(intuitObject);
+							}
+						}
+					}
+				}
 			} else {
 				// It has to be an IntuitEntity
 				//Check if the entity is in the resource locator 
