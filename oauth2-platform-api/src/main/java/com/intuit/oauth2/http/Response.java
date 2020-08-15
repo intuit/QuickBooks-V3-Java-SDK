@@ -36,12 +36,14 @@ public class Response {
 	private final InputStream stream;
     private final int statusCode;
     private String content;
+    private final String intuit_tid;
     
     private static final Logger logger = LoggerImpl.getInstance();
     
-	public Response(final InputStream stream, final int statusCode) {
+	public Response(final InputStream stream, final int statusCode, final String intuit_tid) {
         this.stream = stream;
         this.statusCode = statusCode;
+        this.intuit_tid = intuit_tid;
     }
 	
     /**
@@ -56,6 +58,7 @@ public class Response {
     	
     	if (content != null) {
     		logger.debug("content already available ");
+    		logger.debug("Response json : " + content);
             return content;
         }
 
@@ -71,6 +74,7 @@ public class Response {
             throw new ConnectionException(e.getMessage());
 		}
 		content = result.toString();
+		logger.debug("Response json : " + result.toString());
 		logger.debug("End Response::getContent");	
 		return content;
         
@@ -94,7 +98,9 @@ public class Response {
 		return stream;
 	}
     
-    
+	public String getIntuit_tid() {
+		return intuit_tid;
+	}
     
 
 }

@@ -59,6 +59,8 @@ public class DiscoveryAPIResponse {
     
     @JsonProperty("jwks_uri")
     private String jwksUri;
+    
+    private String intuit_tid = null;
 
     @JsonProperty("issuer")
 	public String getIssuer() {
@@ -119,5 +121,12 @@ public class DiscoveryAPIResponse {
 		this.jwksUri = jwksUri;
 	}
    
+	public String getIntuit_tid() {
+		return intuit_tid;
+	}
+
+	public void setIntuit_tid(String intuit_tid) {
+		this.intuit_tid = intuit_tid;
+	}
 
 }

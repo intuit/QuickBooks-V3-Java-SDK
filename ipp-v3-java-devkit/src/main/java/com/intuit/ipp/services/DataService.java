@@ -34,6 +34,7 @@ import com.intuit.ipp.core.IEntity;
 import com.intuit.ipp.data.AttachableResponse;
 import com.intuit.ipp.data.BatchItemResponse;
 import com.intuit.ipp.data.CDCResponse;
+import com.intuit.ipp.data.CreditMemo;
 import com.intuit.ipp.data.EntitlementsResponse;
 import com.intuit.ipp.data.Estimate;
 import com.intuit.ipp.data.Fault;
@@ -42,7 +43,10 @@ import com.intuit.ipp.data.IntuitEntity;
 import com.intuit.ipp.data.IntuitResponse;
 import com.intuit.ipp.data.Invoice;
 import com.intuit.ipp.data.ObjectFactory;
+import com.intuit.ipp.data.Payment;
+import com.intuit.ipp.data.PurchaseOrder;
 import com.intuit.ipp.data.QueryResponse;
+import com.intuit.ipp.data.RefundReceipt;
 import com.intuit.ipp.data.SalesReceipt;
 import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.interceptors.IntuitBatchInterceptorProvider;
@@ -55,6 +59,7 @@ import com.intuit.ipp.net.MethodType;
 import com.intuit.ipp.net.OperationType;
 import com.intuit.ipp.net.UploadEntry;
 import com.intuit.ipp.util.Logger;
+import com.intuit.ipp.util.MessageUtils;
 import com.intuit.ipp.util.StringUtils;
 
 /**
@@ -111,7 +116,7 @@ public class DataService {
      */
     @SuppressWarnings("unchecked")
     public <T extends IEntity> List<T> findAll(T entity) throws FMSException {
-
+    	verifyEntity(entity);
         String intuitQuery = "SELECT * FROM " + entity.getClass().getSimpleName();
         QueryResult result = executeQuery(intuitQuery);
         return (List<T>) result.getEntities();
@@ -136,7 +141,7 @@ public class DataService {
      */
     @SuppressWarnings("unchecked")
     public <T extends IEntity> T add(T entity) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareAdd(entity);
 
         //execute interceptors
@@ -181,7 +186,7 @@ public class DataService {
      */
     @SuppressWarnings("unchecked")
     public <T extends IEntity> T delete(T entity) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareDelete(entity);
 
         //execute interceptors
@@ -200,7 +205,7 @@ public class DataService {
      */
     @SuppressWarnings("unchecked")
     public <T extends IEntity> T update(T entity) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareUpdate(entity);
 
         //execute interceptors
@@ -213,7 +218,7 @@ public class DataService {
     
     @SuppressWarnings("unchecked")
     public <T extends IEntity> T updateAccountOnTxns(T entity) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareupdateAccountOnTxns(entity);
 
         //execute interceptors
@@ -225,7 +230,7 @@ public class DataService {
     //donotUpdateAccountOnTxns used for France Locale with Minor Version >= 5.
     @SuppressWarnings("unchecked")
     public <T extends IEntity> T donotUpdateAccountOnTxns(T entity) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = preparedonotUpdateAccountOnTxns(entity);
 
         //execute interceptors
@@ -261,7 +266,7 @@ public class DataService {
      */
     @SuppressWarnings("unchecked")
     public <T extends IEntity> T findById(T entity) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareFindById(entity);
 
         //execute interceptors
@@ -297,7 +302,7 @@ public class DataService {
      */
     @SuppressWarnings("unchecked")
     public QueryResult findTaxClassificationByParentId(IEntity entity) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareFindByParentId(entity);
 
         //execute interceptors
@@ -325,7 +330,7 @@ public class DataService {
      */
     @SuppressWarnings("unchecked")
     public QueryResult findTaxClassificationByLevel(IEntity entity) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareFindByLevel(entity);
  
         //execute interceptors
@@ -355,7 +360,7 @@ public class DataService {
      */
     @SuppressWarnings("unchecked")
     public <T extends IEntity> T voidRequest(T entity) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareVoidRequest(entity);
 
         //execute interceptors
@@ -373,7 +378,7 @@ public class DataService {
      */
     @SuppressWarnings("unchecked")
     public <T extends IEntity> T upload(T entity, InputStream docContent) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareUpload(entity, docContent);
 
         //execute interceptors
@@ -506,7 +511,7 @@ public class DataService {
      * @throws FMSException
      */
     public <T extends IEntity> InputStream download(T entity) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareDownload(entity);
 
         //execute interceptors
@@ -526,6 +531,7 @@ public class DataService {
     }
 
     public <T extends IEntity> InputStream downloadPDF(T entity) throws FMSException {
+    	verifyEntity(entity);
         if(!isAvailableAsPDF(entity)) {
             throw new FMSException("Following entity: " + entity.getClass().getSimpleName() + " cannot be exported as PDF " );
         }
@@ -546,6 +552,7 @@ public class DataService {
      * @throws FMSException
      */
     public <T extends IEntity> T sendEmail(T entity) throws FMSException {
+    	verifyEntity(entity);
         return sendEmail(entity, null);
     }
 
@@ -559,6 +566,7 @@ public class DataService {
      */
     @SuppressWarnings("unchecked")
     public <T extends IEntity> T sendEmail(T entity, String email) throws FMSException {
+    	verifyEntity(entity);
         if(!isAvailableToEmail(entity)) {
             throw new FMSException("Following entity: " + entity.getClass().getSimpleName() + " cannot be send as email" );
         }
@@ -579,7 +587,11 @@ public class DataService {
     private <T extends IEntity> boolean isSpecialEntity(T entity) {
         return (entity instanceof Estimate)
                 || (entity instanceof Invoice)
-                || (entity instanceof SalesReceipt);
+                || (entity instanceof SalesReceipt)
+                || (entity instanceof CreditMemo)
+                || (entity instanceof Payment)
+                || (entity instanceof RefundReceipt)
+                || (entity instanceof PurchaseOrder);
     }
 
     /**
@@ -738,7 +750,7 @@ public class DataService {
      *             throws FMSException
      */
     public <T extends IEntity> void findAllAsync(T entity, CallbackHandler callbackHandler) throws FMSException {
-
+    	verifyEntity(entity);
         //findall is to be called as query
         String query = "SELECT * FROM " + entity.getClass().getSimpleName();
         executeQueryAsync(query, callbackHandler);
@@ -755,7 +767,7 @@ public class DataService {
      *             throws FMSException
      */
     public <T extends IEntity> void addAsync(T entity, CallbackHandler callbackHandler) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareAdd(entity);
 
         //set callback handler
@@ -777,7 +789,7 @@ public class DataService {
      * @throws FMSException
      */
     public <T extends IEntity> void deleteAsync(T entity, CallbackHandler callbackHandler) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareDelete(entity);
 
         //set callback handler
@@ -797,7 +809,7 @@ public class DataService {
      * @throws FMSException
      */
     public <T extends IEntity> void updateAsync(T entity, CallbackHandler callbackHandler) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareUpdate(entity);
 
         //set callback handler
@@ -817,7 +829,7 @@ public class DataService {
      * @throws FMSException
      */
     public <T extends IEntity> void findByIdAsync(T entity, CallbackHandler callbackHandler) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareFindById(entity);
 
         //set callback handler
@@ -837,7 +849,7 @@ public class DataService {
      * @throws FMSException
      */
     public <T extends IEntity> void voidRequestAsync(T entity, CallbackHandler callbackHandler) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareVoidRequest(entity);
 
         //set callback handler
@@ -860,7 +872,7 @@ public class DataService {
      *             throws FMSException
      */
     public <T extends IEntity> void uploadAsync(T entity, InputStream docContent, CallbackHandler callbackHandler) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareUpload(entity, docContent);
 
         //set callback handler
@@ -881,7 +893,7 @@ public class DataService {
      *             throws FMSException
      */
     public <T extends IEntity> void downloadAsync(T entity, CallbackHandler callbackHandler) throws FMSException {
-
+    	verifyEntity(entity);
         IntuitMessage intuitMessage = prepareDownload(entity);
 
         //set callback handler
@@ -903,7 +915,8 @@ public class DataService {
      *             throws FMSException
      */
     public <T extends IEntity> void downloadPDFAsync(T entity, CallbackHandler callbackHandler) throws FMSException {
-        if(!isAvailableAsPDF(entity)) {
+    	verifyEntity(entity);
+    	if(!isAvailableAsPDF(entity)) {
             throw new FMSException("Following entity: " + entity.getClass().getSimpleName() + " cannot be exported as PDF (Async) " );
         }
         IntuitMessage intuitMessage = prepareDownloadPDF(entity);
@@ -924,7 +937,8 @@ public class DataService {
      * @throws FMSException
      */
     public <T extends IEntity> void sendEmailAsync(T entity, CallbackHandler callbackHandler) throws FMSException {
-        sendEmailAsync(entity,null,callbackHandler);
+    	verifyEntity(entity);
+    	sendEmailAsync(entity,null,callbackHandler);
     }
 
     /**
@@ -940,7 +954,8 @@ public class DataService {
      *             throws FMSException
      */
     public <T extends IEntity> void sendEmailAsync(T entity, String email, CallbackHandler callbackHandler) throws FMSException {
-        if(!isAvailableToEmail(entity)) {
+    	verifyEntity(entity);
+    	if(!isAvailableToEmail(entity)) {
             throw new FMSException("Following entity: " + entity.getClass().getSimpleName() + " cannot send as email (Async) " );
         }
         IntuitMessage intuitMessage = prepareEmail(entity, email);
@@ -1398,6 +1413,24 @@ public class DataService {
             throw new FMSException("Id is required.");
         }
         return rid;
+    }
+    
+    /**
+     * Verifies that entity is valid
+     * @param <T>
+     * @param entity
+     * @return
+     * @throws FMSException
+     */
+    private <T extends IEntity> boolean verifyEntity(T entity) throws FMSException {
+    	List<Object> entityList = MessageUtils.getWhitelistedEntities();
+		
+    	if (entityList.contains(entity.getClass())) {
+    		return true;
+    	} else {
+    		throw new FMSException("Invalid Entity");
+    	}
+    	
     }
 
 

@@ -61,7 +61,6 @@ public class DeserializeInterceptor implements Interceptor {
 				if (contentTypePart.matches("(.*)/(.*)")) {
 					String serializeFormat = contentTypePart.substring(contentTypePart.lastIndexOf("/") + 1, 
 							contentTypePart.length());
-					LOG.info("HttpResponse content-type (deserialization format) : " + serializeFormat);
 					LOG.debug("HttpResponse content-type (deserialization format) : " + serializeFormat);
 
 					if (StringUtils.hasText(serializeFormat)

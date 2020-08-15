@@ -24,7 +24,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import junit.framework.Assert;
+
+
+//import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.testng.Assert;
+
+
 
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -45,7 +50,7 @@ public class QueryTest {
 	@BeforeTest
 	public void setCalendar() {
 		calendar = Calendar.getInstance();
-		calendar.set(2012, 8, 7, 1, 30, 30);
+		calendar.set(2019, 6, 1, 1, 30, 30);
 		dateString = getCalendarAsString(calendar);
 	}
 
@@ -72,6 +77,19 @@ public class QueryTest {
 				$(data.isBooleanData()).eq(true), $(data.getDateData()).eq(calendar.getTime()), $(data.getEnumData()).eq(EntityStatusEnum.PENDING))
 				.generate();
 		String expectedQuery = "SELECT * FROM Data WHERE StringData = 'StringValue' AND IntData = '10' AND ByteData = '10' AND ShortData = '10' AND LongData = '10' AND FloatData = '10.0' AND DoubleData = '10.0' AND CalendarData = '" + dateString + "' AND BooleanData = true AND DateData = '" + dateString + "' AND EnumData = 'Pending'";
+
+		Assert.assertEquals(expectedQuery, query);
+	}
+	
+	@Test
+	public void testQuery_eqUsingInvalidEnum() {
+		Data data = GenerateQuery.createQueryEntity(Data.class);
+		String query = select($(data)).where($(data.getStringData()).eq("StringValue"), $(data.getIntData()).eq(10),
+				$(data.getByteData()).eq((byte) 10), $(data.getShortData()).eq((short) 10), $(data.getLongData()).eq((long) 10),
+				$(data.getFloatData()).eq((float) 10), $(data.getDoubleData()).eq((double) 10), $(data.getCalendarData()).eq(calendar),
+				$(data.isBooleanData()).eq(true), $(data.getDateData()).eq(calendar.getTime()), $(data.getEnumData()).eq(Planet.MERCURY))
+				.generate();
+		String expectedQuery = "SELECT * FROM Data WHERE StringData = 'StringValue' AND IntData = '10' AND ByteData = '10' AND ShortData = '10' AND LongData = '10' AND FloatData = '10.0' AND DoubleData = '10.0' AND CalendarData = '" + dateString + "' AND BooleanData = true AND DateData = '" + dateString + "' AND EnumData = 'MERCURY'";
 
 		Assert.assertEquals(expectedQuery, query);
 	}
@@ -155,13 +173,19 @@ public class QueryTest {
 	@Test
 	public void testQuery_between() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
-		String query = select($(data)).where($(data.getStringData()).between("StringValue1", "StringValue2"), $(data.getIntData()).between(10, 20),
-				$(data.getByteData()).between((byte) 10, (byte) 20), $(data.getShortData()).between((short) 10, (short) 20),
-				$(data.getLongData()).between((long) 10, (long) 20), $(data.getFloatData()).between((float) 10, (float) 20),
-				$(data.getDoubleData()).between((double) 10, (double) 20), $(data.getCalendarData()).between(calendar, calendar),
-				$(data.getDateData()).between(calendar.getTime(), calendar.getTime())).generate();
-		String expectedQuery = "SELECT * FROM Data WHERE StringData BETWEEN 'StringValue1' AND 'StringValue2' AND IntData BETWEEN '10' AND '20' AND ByteData BETWEEN '10' AND '20' AND ShortData BETWEEN '10' AND '20' AND LongData BETWEEN '10' AND '20' AND FloatData BETWEEN '10.0' AND '20.0' AND DoubleData BETWEEN '10.0' AND '20.0' AND CalendarData BETWEEN '" + dateString + "Z' AND '" + dateString + "' AND DateData BETWEEN '" + dateString + "' AND '" + dateString.substring(0, dateString.length() - 1) + "'";
+		String query = select($(data)).where(
+				$(data.getStringData()).between("StringValue1", "StringValue2"),
+				$(data.getIntData()).between(10, 20),
+				$(data.getByteData()).between((byte) 10, (byte) 20),
+				$(data.getShortData()).between((short) 10, (short) 20),
+				$(data.getLongData()).between((long) 10, (long) 20),
+				$(data.getFloatData()).between((float) 10, (float) 20),
+				$(data.getDoubleData()).between((double) 10, (double) 20),
+				$(data.getCalendarData()).between(calendar, calendar),
+				$(data.getDateData()).between(calendar.getTime(), calendar.getTime())
+		).generate();
 		LOG.debug(query);
+		String expectedQuery = "SELECT * FROM Data WHERE StringData BETWEEN 'StringValue1' AND 'StringValue2' AND IntData BETWEEN '10' AND '20' AND ByteData BETWEEN '10' AND '20' AND ShortData BETWEEN '10' AND '20' AND LongData BETWEEN '10' AND '20' AND FloatData BETWEEN '10.0' AND '20.0' AND DoubleData BETWEEN '10.0' AND '20.0' AND CalendarData BETWEEN '" + dateString + "Z' AND '" + dateString + "' AND DateData BETWEEN '" + dateString + "' AND '" + dateString.substring(0, dateString.length() - 1) + "'";
 		Assert.assertEquals(expectedQuery, query);
 	}
 
@@ -251,12 +275,17 @@ public class QueryTest {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 
 		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-		cal.set(2012, 8, 1, 0, 0, 0);
+		cal.set(2019, 6, 1, 0, 0, 0);
 		java.sql.Date date = new java.sql.Date(cal.getTimeInMillis());
-		String query = select($(data)).where($(data.getCalendarData()).eq(date), $(data.getCalendarData()).neq(date),
-				$(data.getCalendarData()).gt(date), $(data.getCalendarData()).gte(date),
-				$(data.getCalendarData()).in(new java.sql.Date[] { date, date }), $(data.getCalendarData()).lt(date),
-				$(data.getCalendarData()).lte(date), $(data.getCalendarData()).between(date, date)).generate();
+		String query = select($(data)).where(
+				$(data.getCalendarData()).eq(date),
+				$(data.getCalendarData()).neq(date),
+				$(data.getCalendarData()).gt(date),
+				$(data.getCalendarData()).gte(date),
+				$(data.getCalendarData()).in(new java.sql.Date[] { date, date }),
+				$(data.getCalendarData()).lt(date),
+				$(data.getCalendarData()).lte(date),
+				$(data.getCalendarData()).between(date, date)).generate();
 		String expectedQuery = "SELECT * FROM Data WHERE CalendarData = '" + date + "' AND CalendarData != '" + date + "' AND CalendarData > '" + date + "' AND CalendarData >= '" + date + "' AND CalendarData IN ('" + date + "', '" + date + "') AND CalendarData < '" + date + "' AND CalendarData <= '" + date + "' AND CalendarData BETWEEN '" + date + "Z' AND '" + date + "'";
 		LOG.debug(query);
 		Assert.assertEquals(expectedQuery, query);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schema.intuit.com/finance/v3"
-	targetNamespace="http://schema.intuit.com/finance/v3"
-	elementFormDefault="qualified" attributeFormDefault="unqualified">
+		   targetNamespace="http://schema.intuit.com/finance/v3"
+		   elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:include schemaLocation="IntuitBaseTypes.xsd" />
 	<xs:include schemaLocation="IntuitNamesTypes.xsd" />
 
@@ -702,7 +702,7 @@
 					<xs:documentation>
 						Product: QBO
 						Description: Use Fixed asset - phone for phone equipment you use for
-						 work.
+						work.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
@@ -711,7 +711,7 @@
 					<xs:documentation>
 						Product: QBO
 						Description: Use Fixed asset - photo/video for cameras, photography,
-						 and video equipment you buy for work.
+						and video equipment you buy for work.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
@@ -729,7 +729,7 @@
 					<xs:documentation>
 						Product: QBO
 						Description: Use Fixed asset - other tools/equipment for the cost of
-						 tools and equipment needed for work.
+						tools and equipment needed for work.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
@@ -2022,7 +2022,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
-            <xs:enumeration value="SundryDebtorsAndCreditors">
+			<xs:enumeration value="SundryDebtorsAndCreditors">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -2055,7 +2055,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
-            <xs:enumeration value="GovernmentAndOtherPublicAuthorities">
+			<xs:enumeration value="GovernmentAndOtherPublicAuthorities">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -2087,7 +2087,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
-            <xs:enumeration value="OwnWorkCapitalized">
+			<xs:enumeration value="OwnWorkCapitalized">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -2799,7 +2799,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
-            <xs:enumeration value="LongTermLoansAndAdvancesToRelatedParties">
+			<xs:enumeration value="LongTermLoansAndAdvancesToRelatedParties">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -2847,7 +2847,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
-				<xs:enumeration value="IncomeTaxOtherExpense">
+			<xs:enumeration value="IncomeTaxOtherExpense">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -3187,6 +3187,7 @@
 			<xs:enumeration value="CashPurchase" />
 			<xs:enumeration value="Charge" />
 			<xs:enumeration value="Check" />
+			<xs:enumeration value="CreditCardPayment" />
 			<xs:enumeration value="CreditMemo" />
 			<xs:enumeration value="Deposit" />
 			<xs:enumeration value="EFPLiabilityCheck" />
@@ -3757,29 +3758,29 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="TaxReturnStatusEnum">
- 		<xs:annotation>
- 			<xs:documentation>Enumeration of the filing status that a TaxReturn can have</xs:documentation>
- 		</xs:annotation>
- 		<xs:restriction base="xs:string">
- 			<xs:enumeration value="FILED" />
- 			<xs:enumeration value="FILING_FAILED" />
- 			<xs:enumeration value="FILING_FAILED_WRONG_AGENCY_CREDENTIALS" />
- 			<xs:enumeration value="AGENCY_PAYMENT_INITIATED" />
- 			<xs:enumeration value="AGENCY_PAYMENT_COMPLETED" />
- 		</xs:restriction>
- 	</xs:simpleType>
- 	<xs:simpleType name="AgencyPaymentMethodEnum">
- 		<xs:annotation>
- 			<xs:documentation>Enumeration of payment methods that can be used to pay tax agency</xs:documentation>
- 		</xs:annotation>
- 		<xs:restriction base="xs:string">
- 			<xs:enumeration value="ACH_CREDIT" />
- 			<xs:enumeration value="ACH_DEBIT" />
- 			<xs:enumeration value="CHECK" />
- 			<xs:enumeration value="WIRE" />
- 			<xs:enumeration value="OTHER" />
- 		</xs:restriction>
- 	</xs:simpleType>
+		<xs:annotation>
+			<xs:documentation>Enumeration of the filing status that a TaxReturn can have</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FILED" />
+			<xs:enumeration value="FILING_FAILED" />
+			<xs:enumeration value="FILING_FAILED_WRONG_AGENCY_CREDENTIALS" />
+			<xs:enumeration value="AGENCY_PAYMENT_INITIATED" />
+			<xs:enumeration value="AGENCY_PAYMENT_COMPLETED" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AgencyPaymentMethodEnum">
+		<xs:annotation>
+			<xs:documentation>Enumeration of payment methods that can be used to pay tax agency</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ACH_CREDIT" />
+			<xs:enumeration value="ACH_DEBIT" />
+			<xs:enumeration value="CHECK" />
+			<xs:enumeration value="WIRE" />
+			<xs:enumeration value="OTHER" />
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="TaxReviewStatusEnum">
 		<xs:annotation>
 			<xs:documentation>Enumeration of Reasons to review AST Taxes</xs:documentation>
@@ -3787,6 +3788,17 @@
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="NON_AST_TAX" />
 			<xs:enumeration value="AST_TAX_OVERRIDE" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ConvenienceFeeTypeEnum">
+		<xs:annotation>
+			<xs:documentation>Enumeration of Convenience fee types applicable to Invoice</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MANUAL" />
+			<xs:enumeration value="AUTO" />
+			<xs:enumeration value="PAID" />
+			<xs:enumeration value="DISABLED" />
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -3864,6 +3876,64 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="TxnApprovalInfo">
+		<xs:annotation>
+			<xs:documentation>Details of approval status for the specific transaction.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ApprovalStatus" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+                        Product: QBO
+                        Description: Overall Approval Status, collective of all user approvals.
+						InputType: QBO: ReadOnly
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ApprovalStatusDetail" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description:ApprovalStatusDetail represents the detailed approval statuses of a transaction. For a given ApprovalStatus, ApprovalStatusDetail can have one of the many values described below.
+						Following are the approval status and their possible detailed approval statuses:
+						Approval Status - APPROVED
+						Approval Status Detail - APPROVED,AUTO_APPROVED,FORCE_APPROVED,WORKFLOW_AUTO_APPROVED
+
+						Approval Status - REJECTED
+						Approval Status Detail - REJECTED,WORKFLOW_AUTO_REJECTED
+
+						Approval Status - REQUIRES_APPROVAL
+						Approval Status Detail - REQUIRES_APPROVAL,CANNOT_DETERMINE
+
+						Approval Status - PENDING_APPROVAL
+						Approval Status Detail - PENDING_APPROVAL
+
+						Approval Status - IN_PROGRESS
+						Approval Status Detail - IN_PROGRESS
+						InputType: QBO: ReadOnly
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LastChangedByUser" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+                        Product: QBO
+                        Description: User-id of the user last updating the approval status.
+						InputType: QBO: ReadOnly
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LastChangedDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+                        Product: QBO
+                        Description: Date when the approval status was last updated.
+						InputType: QBO: ReadOnly
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:group name="TxnLineReferenceGroup">
 		<xs:annotation>
 			<xs:documentation>A reference to the transaction and one of its
@@ -3903,7 +3973,7 @@
 			<xs:extension base="IntuitEntity">
 				<xs:sequence>
 					<xs:element name="QboEntityId" type="xs:string"
-						minOccurs="1" maxOccurs="1">
+								minOccurs="1" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -3913,7 +3983,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="QbdtExportableId" type="xs:string"
-						minOccurs="1" maxOccurs="1">
+								minOccurs="1" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -3923,7 +3993,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="QboEntityType" type="xs:string"
-						minOccurs="1" maxOccurs="1">
+								minOccurs="1" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -3933,7 +4003,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="QbdtEntityType" type="xs:string"
-						minOccurs="1" maxOccurs="1">
+								minOccurs="1" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -3954,7 +4024,7 @@
 			<xs:extension base="IntuitEntity">
 				<xs:sequence>
 					<xs:element name="CompanyName" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -3969,14 +4039,14 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CompanyAddr" type="PhysicalAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Company Address as described in preference
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CustomerCommunicationAddr" type="PhysicalAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Address of the company as given to th customer,
 								sometimes the address given to the customer mail address is
@@ -3984,20 +4054,20 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="LegalAddr" type="PhysicalAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Legal Address given to the government for any
 								government communication </xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CompanyEmailAddr" type="EmailAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>CompanyEmail Address</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CustomerCommunicationEmailAddr" type="EmailAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Email Address published to customer for
 								communication if different from CompanyEmailAddress
@@ -4005,19 +4075,19 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CompanyURL" type="WebSiteAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Company URL </xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PrimaryPhone" type="TelephoneNumber"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Primary Phone number </xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="OtherContactInfo" type="ContactInfo"
-						minOccurs="0" maxOccurs="unbounded">
+								minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -4028,7 +4098,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CompanyFileName" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -4038,7 +4108,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="FlavorStratum" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -4049,7 +4119,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SampleFile" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -4058,7 +4128,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CompanyUserId" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -4070,7 +4140,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CompanyUserAdminEmail" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -4080,7 +4150,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CompanyStartDate" type="xs:date"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4089,7 +4159,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="EmployerId" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4098,7 +4168,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="FiscalYearStartMonth" type="MonthEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4107,7 +4177,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TaxYearStartMonth" type="MonthEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4137,7 +4207,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ShipAddr" type="PhysicalAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4146,7 +4216,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="OtherAddr" type="PhysicalAddress"
-						minOccurs="0" maxOccurs="unbounded">
+								minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4155,7 +4225,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Mobile" type="TelephoneNumber"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4180,7 +4250,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="WebSite" type="WebSiteAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4189,7 +4259,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="LastImportedTime" type="xs:dateTime"
-						minOccurs="0" maxOccurs="1">
+								minOccurs="0" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4198,28 +4268,28 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SupportedLanguages" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Comma separated list of languages
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DefaultTimeZone" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Default time zone for the company
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="MultiByteCharsSupported" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Specifies if the company support multibyte or
 								not</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="NameValue" type="NameValue" minOccurs="0"
-						maxOccurs="unbounded">
+								maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Any other preference not covered in base is
 								covered as name value pair, for detailed explanation look at the
@@ -4227,7 +4297,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element minOccurs="0" maxOccurs="1" name="CompanyInfoEx"
-						type="IntuitAnyType">
+								type="IntuitAnyType">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4247,7 +4317,7 @@
 			<xs:extension base="IntuitEntity">
 				<xs:sequence>
 					<xs:element name="CompanyName" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4262,14 +4332,14 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CompanyAddr" type="PhysicalAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Company Address as described in preference
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CustomerCommunicationAddr" type="PhysicalAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Address of the company as given to th customer,
 								sometimes the address given to the customer mail address is
@@ -4277,20 +4347,20 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="LegalAddr" type="PhysicalAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Legal Address given to the government for any
 								government communication </xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CompanyEmailAddr" type="EmailAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>CompanyEmail Address</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CustomerCommunicationEmailAddr" type="EmailAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Email Address published to customer for
 								communication if different from CompanyEmailAddress
@@ -4298,19 +4368,19 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CompanyURL" type="WebSiteAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Company URL </xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PrimaryPhone" type="TelephoneNumber"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Primary Phone number </xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="OtherContactInfo" type="ContactInfo"
-						minOccurs="0" maxOccurs="unbounded">
+								minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -4321,7 +4391,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CompanyFileName" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -4331,7 +4401,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="FlavorStratum" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -4342,7 +4412,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SampleFile" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -4351,7 +4421,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CompanyUserId" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -4363,7 +4433,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CompanyUserAdminEmail" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -4373,7 +4443,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CompanyStartDate" type="xs:date"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4382,7 +4452,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="EmployerId" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4391,7 +4461,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="FiscalYearStartMonth" type="MonthEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4400,7 +4470,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TaxYearStartMonth" type="MonthEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4430,7 +4500,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ShipAddr" type="PhysicalAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4439,7 +4509,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="OtherAddr" type="PhysicalAddress"
-						minOccurs="0" maxOccurs="unbounded">
+								minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4448,7 +4518,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Mobile" type="TelephoneNumber"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4473,7 +4543,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="WebAddr" type="WebSiteAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4482,7 +4552,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="LastImportedTime" type="xs:dateTime"
-						minOccurs="0" maxOccurs="1">
+								minOccurs="0" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4491,7 +4561,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="LastSyncTime" type="xs:dateTime"
-						minOccurs="0" maxOccurs="1">
+								minOccurs="0" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -4500,28 +4570,28 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SupportedLanguages" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Comma separated list of languages
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DefaultTimeZone" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Default time zone for the company
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="MultiByteCharsSupported" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Specifies if the company support multibyte or
 								not</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="NameValue" type="NameValue" minOccurs="0"
-						maxOccurs="unbounded">
+								maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Any other preference not covered in base is
 								covered as name value pair, for detailed explanation look at the
@@ -4538,7 +4608,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element minOccurs="0" maxOccurs="1" name="CompanyInfoEx"
-						type="IntuitAnyType">
+								type="IntuitAnyType">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4612,7 +4682,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DepartmentRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -4623,7 +4693,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CurrencyRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4635,7 +4705,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ExchangeRate" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4651,7 +4721,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PrivateNote" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4682,7 +4752,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="LinkedTxn" type="LinkedTxn" minOccurs="0"
-						maxOccurs="unbounded">
+								maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4692,7 +4762,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Line" type="Line" minOccurs="0"
-						maxOccurs="unbounded">
+								maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -4706,7 +4776,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TxnTaxDetail" type="TxnTaxDetail"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4739,7 +4809,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TaxFormType" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Description: refer TaxFormTypeEnum. Tax Form Type holds data related to Tax
@@ -4750,7 +4820,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TaxFormNum" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Description: Tax Form Num holds data related to Tax Information based on
@@ -4761,7 +4831,7 @@
 					</xs:element>
 
 					<xs:element name="TransactionLocationType" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -4773,6 +4843,42 @@
 						</xs:annotation>
 					</xs:element>
 
+					<xs:element name="Tag" type="Tag" minOccurs="0"
+								maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Descripton: List of tags used to identify the transaction.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TxnApprovalInfo" type="TxnApprovalInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+                                    Product: QBO
+                                    Description: Details of the Approval Status for current transaction in QBO workflows.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="RecurDataRef" type="ReferenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Reference to the
+								RecurTemplate which was used to create the Transaction
+								InputType: Read
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="RecurringInfo" type="RecurringInfo"
+								minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: The Recurring Schedule information for the Transaction
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -4799,7 +4905,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="DefaultTaxCodeRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBW
@@ -4812,7 +4918,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TxnTaxCodeRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: All
@@ -4841,11 +4947,26 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TaxLine" type="Line" minOccurs="0"
-				maxOccurs="unbounded">
+						maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
 						Description: This must be a Line whose LineDetailType is TaxLineDetail.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UseAutomatedSalesTax" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Product: All
+						Description: This is a boolean which defines if developer intends to use
+						Automated Sales Tax or tax code that they have provided in the payload.
+						If the v3 developer sets this to true, then txn going in QBO will always
+						have AST rates. In case this flag is set to false, then it will depend on the
+						QBO user pref - AllowPartnerTaxOverride, which tells if QBO user wants to allow
+						v3 app to override AST rates or not. If user allows v3 apps to override AST,
+						then the txn will get saved with v3 app specified rates.
+						[span style="display: none"] I18n: US [/span]
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -4863,7 +4984,7 @@
 			<xs:extension base="Transaction">
 				<xs:sequence>
 					<xs:element name="AutoDocNumber" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -4874,7 +4995,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CustomerRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4887,7 +5008,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CustomerMemo" type="MemoRef"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4907,7 +5028,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="BillAddr" type="PhysicalAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4922,7 +5043,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ShipAddr" type="PhysicalAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -4938,31 +5059,31 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-                                        <xs:element name="FreeFormAddress" type="xs:boolean"
-                                                minOccurs="0">
-                                                <xs:annotation>
-                                                        <xs:documentation>
-                                                                Product: QBO
-                                                                Description: Specifies whether
-                                                                shipping address is in free-form or structured-form (city/state etc.)
-                                                        </xs:documentation>
-                                                </xs:annotation>
-                                        </xs:element>
-			                <xs:element name="ShipFromAddr" type="PhysicalAddress"
-                                                minOccurs="0">
-                                                <xs:annotation>
-                                                        <xs:documentation>
-                                                                Product: ALL
-                                                                Description: QBO: Shipping from address
-                                                                of the Invoice.[br]See [a
-                                                                href="http://ipp.developer.intuit.com/0010_Intuit_Partner_Platform/0060_Financial_Management_Services_(v3)/01000_Using_Data_Service_Entities#Addresses"]Addresses[/a]
-                                                                Description: QBW: Identifies the address where the goods are shipped
-                                                                from. For transactions without shipping, it represents the address where the sale took place.
-                                                        </xs:documentation>
-                                                </xs:annotation>
-                                        </xs:element>
-                         		<xs:element name="RemitToRef" type="ReferenceType"
-						minOccurs="0">
+					<xs:element name="FreeFormAddress" type="xs:boolean"
+								minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Specifies whether
+								shipping address is in free-form or structured-form (city/state etc.)
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ShipFromAddr" type="PhysicalAddress"
+								minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: ALL
+								Description: QBO: Shipping from address
+								of the Invoice.[br]See [a
+								href="http://ipp.developer.intuit.com/0010_Intuit_Partner_Platform/0060_Financial_Management_Services_(v3)/01000_Using_Data_Service_Entities#Addresses"]Addresses[/a]
+								Description: QBW: Identifies the address where the goods are shipped
+								from. For transactions without shipping, it represents the address where the sale took place.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="RemitToRef" type="ReferenceType"
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -4973,7 +5094,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ClassRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -4984,7 +5105,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SalesTermRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -5020,7 +5141,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SalesRepRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -5057,7 +5178,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ShipMethodRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -5077,7 +5198,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TrackingNum" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -5088,7 +5209,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="GlobalTaxCalculation" type="GlobalTaxCalculationEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5117,7 +5238,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="HomeTotalAmt" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -5132,7 +5253,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ApplyTaxAfterDiscount" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5144,7 +5265,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TemplateRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -5155,7 +5276,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PrintStatus" type="PrintStatusEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -5166,7 +5287,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="EmailStatus" type="EmailStatusEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -5177,7 +5298,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="BillEmail" type="EmailAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5199,7 +5320,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="BillEmailCc" type="EmailAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5220,7 +5341,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="BillEmailBcc" type="EmailAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5241,7 +5362,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ARAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -5269,7 +5390,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="HomeBalance" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5287,7 +5408,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="FinanceCharge" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -5298,7 +5419,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PaymentMethodRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -5309,7 +5430,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PaymentRefNum" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5321,7 +5442,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PaymentType" type="PaymentTypeEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5334,7 +5455,7 @@
 					</xs:element>
 					<xs:choice minOccurs="0" maxOccurs="1">
 						<xs:element name="CheckPayment" type="CheckPayment"
-							minOccurs="0">
+									minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>
 									Product: ALL
@@ -5345,7 +5466,7 @@
 							</xs:annotation>
 						</xs:element>
 						<xs:element name="CreditCardPayment" type="CreditCardPayment"
-							minOccurs="0">
+									minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>
 									Product: ALL
@@ -5357,7 +5478,7 @@
 						</xs:element>
 					</xs:choice>
 					<xs:element name="DepositToAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -5372,7 +5493,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DeliveryInfo" type="TransactionDeliveryInfo"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5381,7 +5502,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DiscountRate" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5392,7 +5513,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DiscountAmt" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5403,7 +5524,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="GovtTxnRefIdentifier" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5415,7 +5536,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TaxExemptionRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -5471,7 +5592,7 @@
 			<xs:extension base="SalesTransaction">
 				<xs:sequence>
 					<xs:element name="Deposit" type="xs:decimal" minOccurs="0"
-						maxOccurs="1">
+								maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5481,7 +5602,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AllowIPNPayment" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5491,7 +5612,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AllowOnlinePayment" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5502,7 +5623,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AllowOnlineCreditCardPayment" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5513,7 +5634,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AllowOnlineACHPayment" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5524,7 +5645,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="EInvoiceStatus" type="ETransactionStatusEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5534,7 +5655,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ECloudStatusTimeStamp" type="xs:dateTime"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5572,7 +5693,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="InvoiceEx" type="IntuitAnyType"
-						minOccurs="0" maxOccurs="1">
+								minOccurs="0" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -5598,6 +5719,53 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="PaymentDetailsMessage" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: QBO:  Message displayed to customer about payment Instructions. eg: bank account info.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<xs:element name="ConvenienceFeeDetail" type="ConvenienceFeeDetail" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Internal use only: Convenience Fee detail for the invoice
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ConvenienceFeeDetail">
+		<xs:annotation>
+			<xs:documentation>
+				Product: QBO
+				Description: Internal use only: Convenience Fee detail for the invoice
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="IntuitEntity">
+				<xs:sequence>
+					<xs:element name="ConvenienceFeeType" type="ConvenienceFeeTypeEnum" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Internal use only: Convenience fee type
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ConvenienceFeePercent" type="xs:decimal" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Internal use only: Convenience fee rate percentage
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -5610,7 +5778,7 @@
 			<xs:extension base="SalesTransaction">
 				<xs:sequence>
 					<xs:element name="SalesReceiptEx" type="IntuitAnyType"
-						minOccurs="0" maxOccurs="1">
+								minOccurs="0" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>Extension entity for SalesReceipt
 							</xs:documentation>
@@ -5638,7 +5806,7 @@
 			<xs:extension base="SalesTransaction">
 				<xs:sequence>
 					<xs:element name="ExpirationDate" type="xs:date"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Date by which estimate must be accepted before
 								invalidation.
@@ -5647,7 +5815,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AcceptedBy" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Name of customer who accepted the estimate.
 								QBO
@@ -5656,7 +5824,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AcceptedDate" type="xs:date"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Date estimate was accepted.
 								QBO only field.
@@ -5664,7 +5832,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="EstimateEx" type="IntuitAnyType"
-						minOccurs="0" maxOccurs="1">
+								minOccurs="0" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>Extension entity for Estimate
 							</xs:documentation>
@@ -5686,7 +5854,7 @@
 			<xs:extension base="IntuitEntity">
 				<xs:sequence>
 					<xs:element name="DeliveryAddress" type="EmailAddress"
-						nillable="false" minOccurs="0">
+								nillable="false" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5696,7 +5864,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DeliveryAddressCc" type="EmailAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5706,7 +5874,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DeliveryAddressBcc" type="EmailAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5716,7 +5884,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="EmailMessage" type="EmailMessage"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5726,7 +5894,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AllowOnlinePayment" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5736,7 +5904,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AllowOnlineCreditCardPayment" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5747,7 +5915,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AllowOnlineACHPayment" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5758,7 +5926,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DeliveryInfo" type="TransactionDeliveryInfo"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5769,7 +5937,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ETransactionStatus" type="ETransactionStatusEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -5829,7 +5997,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Line" type="Line" minOccurs="0"
-				maxOccurs="unbounded">
+						maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -5840,7 +6008,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="GroupLineDetailEx" type="IntuitAnyType"
-				minOccurs="0" maxOccurs="1">
+						minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -5880,7 +6048,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="LineNum" type="xs:positiveInteger"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBW
@@ -5931,12 +6099,12 @@
 						which depends on the type of the line. It can represent the
 						received amount or received quantity
 						based on the line type detail. ReadOnly field for Purchase Order.
-                        Applies to existing and new entities.
+						Applies to existing and new entities.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="LinkedTxn" type="LinkedTxn" minOccurs="0"
-				maxOccurs="unbounded">
+						maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -5947,7 +6115,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DetailType" type="LineDetailTypeEnum"
-				minOccurs="0" maxOccurs="1">
+						minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -6095,7 +6263,7 @@
 				</xs:element>
 			</xs:choice>
 			<xs:element name="CustomField" type="CustomField"
-				minOccurs="0" maxOccurs="unbounded">
+						minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBW
@@ -6115,6 +6283,28 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="Tag">
+		<xs:annotation>
+			<xs:documentation>
+				Product: ALL
+				Description: A Tag applied to a transaction
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="IntuitEntity">
+				<xs:sequence>
+					<xs:element name="Name" type="xs:string" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Product: ALL
+								Description: The name of the tag.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<xs:complexType name="DiscountOverride">
 		<xs:sequence>
 			<xs:annotation>
@@ -6125,7 +6315,7 @@
 				</xs:documentation>
 			</xs:annotation>
 			<xs:element name="DiscountRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -6136,7 +6326,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="PercentBased" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -6146,7 +6336,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DiscountPercent" type="xs:decimal"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -6157,7 +6347,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DiscountAccountRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -6192,7 +6382,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ClassRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -6202,7 +6392,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TaxCodeRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -6212,7 +6402,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DiscountLineDetailEx" type="IntuitAnyType"
-						minOccurs="0" maxOccurs="1">
+								minOccurs="0" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -6244,7 +6434,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TaxCodeRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -6261,7 +6451,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DescriptionLineDetailEx" type="IntuitAnyType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -6282,7 +6472,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="TDSAccountRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -6292,7 +6482,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TDSSectionTypeId" type="xs:int"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -6302,7 +6492,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TDSLineDetailEx" type="IntuitAnyType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -6343,7 +6533,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AcquiredAs" type="AcquiredAsEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Specifies whether the asset is new or used.
 								This will aid in calculating depreciation.[br /]
@@ -6355,7 +6545,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PurchaseDesc" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>User entered purchase description for the fixed
 								asset which may include user entered information to further
@@ -6363,7 +6553,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PurchaseDate" type="xs:date"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Specifies the date the asset was purchased or
 								acquired.[br /]
@@ -6374,7 +6564,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PurchaseCost" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Specifies the asset's purchase price.
 							</xs:documentation>
@@ -6387,7 +6577,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AssetAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Indicates the Fixed Asset account that tracks
 								the current value of the asset. If the same account is used for
@@ -6412,14 +6602,14 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SalesPrice" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Specifies the amount for which the asset was
 								sold.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SalesExpense" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Additional expenses incurred during the sale of
 								the asset.</xs:documentation>
@@ -6438,21 +6628,21 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SerialNumber" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The serial number of the asset. For a vehicle,
 								it can be the VIN.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="WarrantyExpDate" type="xs:date"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The date the warranty for the asset expires.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Description" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Any description of the asset, like maker,
 								brand, and so on.</xs:documentation>
@@ -6472,7 +6662,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CostBasis" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>QBW only: The total cost of the fixed asset.
 								This can include the cost of improvements or repairs. This
@@ -6481,7 +6671,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Depreciation" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>QBW only: the total amount of depreciation
 								expense since the fixed asset was acquired as of the end of the
@@ -6490,7 +6680,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="BookValue" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>QBW only: the asset's cost or basis less
 								accumulated depreciation as of the end of the year. Maintained
@@ -6498,7 +6688,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="FixedAssetEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								FixedAsset  </xs:documentation>
@@ -6528,7 +6718,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ClassRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -6548,7 +6738,7 @@
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="RatePercent" type="xs:decimal"
-					minOccurs="0">
+							minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
 							Product: ALL
@@ -6559,7 +6749,7 @@
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="PriceLevelRef" type="ReferenceType"
-					minOccurs="0">
+							minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
 							Product: ALL
@@ -6597,7 +6787,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ItemAccountRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -6608,7 +6798,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="InventorySiteRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -6618,7 +6808,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TaxCodeRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -6628,7 +6818,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TaxClassificationRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -6660,7 +6850,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TaxInclusiveAmt" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -6670,7 +6860,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DiscountRate" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -6679,7 +6869,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DiscountAmt" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -6688,7 +6878,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SalesItemLineDetailEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -6713,7 +6903,7 @@
 			<xs:extension base="ItemLineDetail">
 				<xs:sequence>
 					<xs:element name="CustomerRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -6723,7 +6913,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="BillableStatus" type="BillableStatusEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -6733,7 +6923,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TaxInclusiveAmt" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -6743,7 +6933,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ItemBasedExpenseLineDetailEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -6768,7 +6958,7 @@
 			<xs:extension base="SalesItemLineDetail">
 				<xs:sequence>
 					<xs:element name="ManPartNum" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -6779,7 +6969,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ManuallyClosed" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -6800,7 +6990,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PurchaseOrderItemLineDetailEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -6825,7 +7015,7 @@
 			<xs:extension base="SalesItemLineDetail">
 				<xs:sequence>
 					<xs:element name="ManuallyClosed" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -6850,7 +7040,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="ItemReceiptLineDetailEx" type="IntuitAnyType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -6897,7 +7087,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Description" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -6919,14 +7109,14 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Hidden" type="xs:boolean" minOccurs="0">
- 						<xs:annotation>
- 							<xs:documentation>
- 								Product: QBW
- 								Description: True if Taxcode needs to be hidden. Active tax codes can be hidden from the display using this.
- 								Filterable: ALL
- 							</xs:documentation>
- 						</xs:annotation>
- 					</xs:element>
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBW
+								Description: True if Taxcode needs to be hidden. Active tax codes can be hidden from the display using this.
+								Filterable: ALL
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="Taxable" type="xs:boolean" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
@@ -6947,7 +7137,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SalesTaxRateList" type="TaxRateList"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -6958,7 +7148,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PurchaseTaxRateList" type="TaxRateList"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -6969,7 +7159,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AdjustmentTaxRateList" type="TaxRateList"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -6979,12 +7169,22 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TaxCodeEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
 								Description: Internal use only:
 								extension place holder for TaxCode
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TaxCodeConfigType" type="GTMConfigTypeEnum"
+								minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Tax code configuration type tracks
+								whether the user created the TaxCode or it was System Generated.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -6995,7 +7195,7 @@
 	<xs:complexType name="TaxRateDetail">
 		<xs:sequence>
 			<xs:element name="TaxRateRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7004,7 +7204,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TaxTypeApplicable" type="TaxTypeApplicablityEnum"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7033,7 +7233,7 @@
 	<xs:complexType name="TaxRateList">
 		<xs:sequence>
 			<xs:element name="TaxRateDetail" type="TaxRateDetail"
-				minOccurs="0" maxOccurs="unbounded">
+						minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>
 						Product: All
@@ -7070,6 +7270,21 @@
 			<xs:enumeration value="ADJUSTMENT_RATE" />
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="GTMConfigTypeEnum">
+		<xs:annotation>
+			<xs:documentation>
+				Product: QBO
+				Description: Enumeration of
+				ConfigType taxCode taxRate taxAgency
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SYSTEM_GENERATED" />
+			<xs:enumeration value="USER_DEFINED" />
+			<xs:enumeration value="SCRA_DEFINED" />
+			<xs:enumeration value="HIDDEN_AGENCY" />
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="TaxRate">
 		<xs:annotation>
 			<xs:documentation>
@@ -7097,7 +7312,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Description" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -7119,7 +7334,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="RateValue" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -7129,7 +7344,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AgencyRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -7140,7 +7355,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TaxReturnLineRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -7150,7 +7365,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="EffectiveTaxRate" type="EffectiveTaxRate"
-						minOccurs="0" maxOccurs="unbounded">
+								minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -7160,7 +7375,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SpecialTaxType" type="SpecialTaxTypeEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -7175,7 +7390,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DisplayType" type="TaxRateDisplayTypeEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -7185,7 +7400,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TaxRateEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -7215,7 +7430,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="EffectiveDate" type="xs:dateTime"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -7234,7 +7449,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="EffectiveTaxRateEx" type="IntuitAnyType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7255,7 +7470,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="TaxRateRef" type="ReferenceType"
-				minOccurs="0" maxOccurs="1">
+						minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBW
@@ -7294,7 +7509,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="PercentBased" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7313,7 +7528,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="NetAmountTaxable" type="xs:decimal"
-				minOccurs="0" maxOccurs="1">
+						minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -7329,7 +7544,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TaxInclusiveAmount" type="xs:decimal"
-				minOccurs="0" maxOccurs="1">
+						minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -7339,7 +7554,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="OverrideDeltaAmount" type="xs:decimal"
-				minOccurs="0" maxOccurs="1">
+						minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -7359,7 +7574,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TaxLineDetailEx" type="IntuitAnyType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7380,7 +7595,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="CustomerRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7390,7 +7605,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ClassRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7400,7 +7615,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AccountRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7410,7 +7625,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="BillableStatus" type="BillableStatusEnum"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7438,7 +7653,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TaxCodeRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7448,7 +7663,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TaxInclusiveAmt" type="xs:decimal"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -7458,7 +7673,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ExpenseDetailLineDetailEx" type="IntuitAnyType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7488,7 +7703,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ClassRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7498,7 +7713,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AccountRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7508,7 +7723,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="PaymentMethodRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7536,7 +7751,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TaxCodeRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -7546,7 +7761,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TaxApplicableOn" type="TaxApplicableOnEnum"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -7556,7 +7771,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DepositLineDetailEx" type="IntuitAnyType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7577,7 +7792,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="PostingType" type="PostingTypeEnum"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7597,7 +7812,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AccountRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7607,7 +7822,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ClassRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7617,7 +7832,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DepartmentRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -7627,7 +7842,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TaxCodeRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -7636,8 +7851,18 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="TaxRateRef" type="ReferenceType"
+						minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Sales/Purchase tax rate Id
+						associated with the JournalEntry Line. For CA Companies.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="TaxApplicableOn" type="TaxApplicableOnEnum"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -7656,7 +7881,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="BillableStatus" type="BillableStatusEnum"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7668,7 +7893,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="JournalCodeRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -7678,7 +7903,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="JournalEntryLineDetailEx" type="IntuitAnyType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7737,7 +7962,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="HomeBalance" type="xs:decimal"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7749,7 +7974,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Discount" type="DiscountOverride"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7759,7 +7984,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="PaymentLineEx" type="IntuitAnyType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7817,7 +8042,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="EntityRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7836,7 +8061,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="PercentBased" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7864,7 +8089,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="PriceLevelRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -7908,7 +8133,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SubAccount" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -7918,7 +8143,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ParentRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -7928,7 +8153,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Description" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -7942,7 +8167,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="FullyQualifiedName" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -7955,7 +8180,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AccountAlias" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -7967,7 +8192,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TxnLocationType" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -7989,7 +8214,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Classification" type="AccountClassificationEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8001,7 +8226,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AccountType" type="AccountTypeEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8014,13 +8239,24 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AccountSubType" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
 								Description: AccountSubTypeEnum
 								specificies QBO on detail type. If not specified default value
 								are listed for each SubType
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AccountPurposes" type="ReferenceType"
+								minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Internal use only: Account purpose indicates the mapping of the
+								chart-of-account to a purpose (eg: DEFAULT_QB_CASH_CHECKING_ACCOUNT). A chart-of-account
+								can have multiple account purpose mapping.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -8049,7 +8285,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AcctNumExtn" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -8072,7 +8308,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="OpeningBalance" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8082,7 +8318,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="OpeningBalanceDate" type="xs:date"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8093,7 +8329,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CurrentBalance" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8105,7 +8341,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CurrentBalanceWithSubAccounts" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8117,7 +8353,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CurrencyRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8127,7 +8363,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TaxAccount" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8137,7 +8373,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TaxCodeRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -8149,7 +8385,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="OnlineBankingEnabled" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8176,7 +8412,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="JournalCodeRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -8187,7 +8423,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element minOccurs="0" maxOccurs="1" name="AccountEx"
-						type="IntuitAnyType">
+								type="IntuitAnyType">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8213,7 +8449,7 @@
 			<xs:extension base="Account">
 				<xs:sequence>
 					<xs:element name="AccountExistsInCompany" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8233,7 +8469,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="AccountRef" type="ReferenceType"
-				minOccurs="0" />
+						minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="CreditCardPurchase">
@@ -8243,7 +8479,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="AccountRef" type="ReferenceType"
-				minOccurs="0" />
+						minOccurs="0" />
 			<xs:element name="Credit" type="xs:boolean" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation> If false or null it represents a CreditCard
@@ -8260,9 +8496,9 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="AccountRef" type="ReferenceType"
-				minOccurs="0" />
+						minOccurs="0" />
 			<xs:element name="PayeeAddr" type="PhysicalAddress"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Address to which the payment should be sent.
 					</xs:documentation>
@@ -8277,7 +8513,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="PrintStatus" type="PrintStatusEnum"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>ReadToPrint is a flag indicating if the Check is
 						ready for printing
@@ -8361,9 +8597,9 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="CreditChargeInfo" type="CreditChargeInfo"
-				minOccurs="0" />
+						minOccurs="0" />
 			<xs:element name="CreditChargeResponse" type="CreditChargeResponse"
-				minOccurs="0" />
+						minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Purchase">
@@ -8375,7 +8611,7 @@
 			<xs:extension base="Transaction">
 				<xs:sequence>
 					<xs:element name="AccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Specifies the account reference. Check should
 								have bank account, CreditCard should specify credit card account
@@ -8383,7 +8619,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PaymentMethodRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8393,7 +8629,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PaymentRefNum" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8405,7 +8641,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PaymentType" type="PaymentTypeEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation> Required element. No defaults. Expense Type
 								can be Cash, Check or CreditCard
@@ -8417,12 +8653,12 @@
 					</xs:element>
 					<xs:choice minOccurs="0" maxOccurs="1">
 						<xs:element name="CheckPayment" type="CheckPayment"
-							minOccurs="0" />
+									minOccurs="0" />
 						<xs:element name="CreditCardPayment" type="CreditCardPayment"
-							minOccurs="0" />
+									minOccurs="0" />
 					</xs:choice>
 					<xs:element name="EntityRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Specifies the party to whom a expense is
 								associated with. Can be Customer, Vendor, Employee (or OtherName
@@ -8440,7 +8676,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="RemitToAddr" type="PhysicalAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Address to which the payment should be
 								sent.Output only.
@@ -8480,7 +8716,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PrintStatus" type="PrintStatusEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>PrintStatus if to be printed or already printed
 								information
@@ -8488,7 +8724,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="GlobalTaxCalculation" type="GlobalTaxCalculationEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -8499,7 +8735,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PurchaseEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								Purchase.</xs:documentation>
@@ -8535,7 +8771,7 @@
 			<xs:extension base="Transaction">
 				<xs:sequence>
 					<xs:element name="VendorRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8545,7 +8781,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="APAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Specifies which AP account the bill will be
 								credited to. Many/most small businesses have a single AP
@@ -8574,7 +8810,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="BillEmail" type="EmailAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -8584,7 +8820,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ReplyEmail" type="EmailAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -8601,7 +8837,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="GlobalTaxCalculation" type="GlobalTaxCalculationEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -8625,7 +8861,7 @@
 			<xs:extension base="PurchaseByVendor">
 				<xs:sequence>
 					<xs:element name="PayerRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -8634,7 +8870,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SalesTermRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>SalesTerm Reference for the bill
 							</xs:documentation>
@@ -8648,7 +8884,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="RemitToAddr" type="PhysicalAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Address to which the payment should be sent.
 								[b]QuickBooks Notes[/b][br /]
@@ -8657,10 +8893,18 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ShipAddr" type="PhysicalAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Address to which the vendor shipped or will
 								ship any goods associated with the purchase.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="VendorAddr" type="PhysicalAddress" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Vendor Mailing Address
+							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Balance" type="xs:decimal" minOccurs="0">
@@ -8677,7 +8921,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="HomeBalance" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8693,7 +8937,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element minOccurs="0" maxOccurs="1" name="BillEx"
-						type="IntuitAnyType">
+								type="IntuitAnyType">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								Bill.</xs:documentation>
@@ -8729,8 +8973,16 @@
 		<xs:complexContent>
 			<xs:extension base="PurchaseByVendor">
 				<xs:sequence>
+					<xs:element name="VendorAddr" type="PhysicalAddress" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Vendor Mailing Address
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="VendorCreditEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								Bill extensible element to qualify account.</xs:documentation>
@@ -8781,14 +9033,14 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CustomerRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Represents Customer (or Job)Reference
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="RemitToRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Identifies the party or location that the
 								payment is to be remitted to or sent to.
@@ -8799,7 +9051,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ARAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>ARAccountReferenceGroup Identifies the AR
 								Account to be used for this Credit Memo.
@@ -8811,7 +9063,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ClassRef" type="ReferenceType"
-						minOccurs="0" />
+								minOccurs="0" />
 					<xs:element name="DueDate" type="xs:date" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Date when the Charge is to be paid.
@@ -8836,7 +9088,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="StatementChargeEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								StatementCharge </xs:documentation>
@@ -8874,14 +9126,14 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ParentRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Reference to parent class entity
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="FullyQualifiedName" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8903,7 +9155,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ClassEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								Class extensible element </xs:documentation>
@@ -8938,7 +9190,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Description" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The description of the Journal Code
 							</xs:documentation>
@@ -8951,7 +9203,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="JournalCodeEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								Journal Code extensible element </xs:documentation>
@@ -8972,7 +9224,7 @@
 			<xs:extension base="Transaction">
 				<xs:sequence>
 					<xs:element name="CustomerRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -8983,7 +9235,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="RemitToRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Identifies the party or location that the
 								payment is to be remitted to or sent to.
@@ -8994,7 +9246,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ARAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>ARAccountReferenceGroup Identifies the AR
 								Account to be used for this Payment.
@@ -9006,7 +9258,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DepositToAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Optional asset account specification to
 								designate the account the payment money needs to be deposited
@@ -9018,7 +9270,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PaymentMethodRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9028,7 +9280,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PaymentRefNum" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9040,7 +9292,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PaymentType" type="PaymentTypeEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9053,9 +9305,9 @@
 					</xs:element>
 					<xs:choice minOccurs="0">
 						<xs:element name="CheckPayment" type="CheckPayment"
-							minOccurs="0" />
+									minOccurs="0" />
 						<xs:element name="CreditCardPayment" type="CreditCardPayment"
-							minOccurs="0" />
+									minOccurs="0" />
 					</xs:choice>
 					<xs:element name="TotalAmt" type="xs:decimal" minOccurs="0">
 						<xs:annotation>
@@ -9073,7 +9325,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="UnappliedAmt" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Indicates the amount that has not been applied
 								to pay amounts owed for sales transactions.
@@ -9084,7 +9336,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ProcessPayment" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Indicates that the payment should be processed
 								by merchant account service. Valid for QBO companies with credit
@@ -9094,7 +9346,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PaymentEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								Payment </xs:documentation>
@@ -9140,7 +9392,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PaymentMethodEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								PaymentMethod </xs:documentation>
@@ -9197,7 +9449,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="ItemGroupLine" type="ItemComponentLine"
-				minOccurs="0" maxOccurs="unbounded">
+						minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -9228,7 +9480,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SubDepartment" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation> Specifies the Department is a SubDepartment or
 								Not. True if subdepartment, false or null if it is top-level
@@ -9237,14 +9489,14 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ParentRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Reference to parent class entity
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="FullyQualifiedName" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9264,7 +9516,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DepartmentEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								DepartmentEx extensible element </xs:documentation>
@@ -9289,7 +9541,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="ItemAssemblyLine" type="ItemComponentLine"
-				minOccurs="0" maxOccurs="unbounded">
+						minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -9390,7 +9642,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Description" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -9428,7 +9680,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ParentRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9448,7 +9700,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="FullyQualifiedName" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9471,7 +9723,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SalesTaxIncluded" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9482,7 +9734,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PercentBased" type="xs:boolean"
-						minOccurs="0" maxOccurs="1">
+								minOccurs="0" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9492,7 +9744,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="UnitPrice" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9504,7 +9756,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="RatePercent" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9530,7 +9782,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PaymentMethodRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9540,7 +9792,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="UOMSetRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9550,7 +9802,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="IncomeAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9563,7 +9815,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PurchaseDesc" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9573,7 +9825,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PurchaseTaxIncluded" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9584,7 +9836,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PurchaseCost" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9594,7 +9846,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ExpenseAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9611,7 +9863,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="COGSAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9623,7 +9875,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AssetAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9638,7 +9890,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PrefVendorRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9657,7 +9909,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TrackQtyOnHand" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -9667,7 +9919,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="QtyOnHand" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9678,7 +9930,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="QtyOnPurchaseOrder" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9689,7 +9941,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="QtyOnSalesOrder" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9699,7 +9951,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ReorderPoint" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9712,7 +9964,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ManPartNum" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9724,7 +9976,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DepositToAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9736,7 +9988,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SalesTaxCodeRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9747,7 +9999,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PurchaseTaxCodeRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9758,7 +10010,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="InvStartDate" type="xs:date"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9773,7 +10025,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="BuildPoint" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9786,7 +10038,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PrintGroupedItems" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -9797,7 +10049,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SpecialItem" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9810,7 +10062,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SpecialItemType" type="SpecialItemTypeEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9820,7 +10072,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ItemGroupDetail" type="ItemGroupDetail"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9830,7 +10082,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ItemAssemblyDetail" type="ItemAssemblyDetail"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -9841,7 +10093,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AbatementRate" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -9851,7 +10103,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ReverseChargeRate" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -9861,7 +10113,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ServiceType" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -9871,7 +10123,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ItemCategoryType" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -9883,7 +10135,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ItemEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								Item</xs:documentation>
@@ -9914,6 +10166,15 @@
 								Product: ALL
 								Description: Unit of measure for this line item as per the standard unit (UQC) defined under the GST rule. Example: KGS- kilograms, MTR- metres, SQF-  square feet. It will be shown in GSTR1 report.
 								Applicable for IN Region.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ClassRef" type="ReferenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Reference to the Class
+								for this item.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -9978,7 +10239,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DiscountPercent" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -10008,7 +10269,7 @@
 								</xs:annotation>
 							</xs:element>
 							<xs:element name="DiscountDays" type="xs:int"
-								minOccurs="0">
+										minOccurs="0">
 								<xs:annotation>
 									<xs:documentation>
 										Product: ALL
@@ -10023,7 +10284,7 @@
 						</xs:sequence>
 						<xs:sequence>
 							<xs:element name="DayOfMonthDue" type="xs:positiveInteger"
-								minOccurs="0">
+										minOccurs="0">
 								<xs:annotation>
 									<xs:documentation>
 										Product: ALL
@@ -10038,7 +10299,7 @@
 								</xs:annotation>
 							</xs:element>
 							<xs:element name="DueNextMonthDays" type="xs:positiveInteger"
-								minOccurs="0">
+										minOccurs="0">
 								<xs:annotation>
 									<xs:documentation>
 										Product: ALL
@@ -10051,7 +10312,7 @@
 								</xs:annotation>
 							</xs:element>
 							<xs:element name="DiscountDayOfMonth" type="xs:positiveInteger"
-								minOccurs="0">
+										minOccurs="0">
 								<xs:annotation>
 									<xs:documentation>
 										Product: ALL
@@ -10066,7 +10327,7 @@
 						</xs:sequence>
 					</xs:choice>
 					<xs:element name="SalesTermEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -10082,11 +10343,11 @@
 	<xs:complexType name="BillPaymentCheck">
 		<xs:sequence>
 			<xs:element name="BankAccountRef" type="ReferenceType"
-				minOccurs="0" />
+						minOccurs="0" />
 			<xs:element name="PrintStatus" type="PrintStatusEnum"
-				minOccurs="0" />
+						minOccurs="0" />
 			<xs:element name="CheckDetail" type="CheckPayment"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						[b]QuickBooks Notes[/b][br /]
@@ -10096,14 +10357,14 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="PayeeAddr" type="PhysicalAddress"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Address to which the payment should be sent.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="BillPaymentCheckEx" type="IntuitAnyType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Internal use only: extension place holder for
 						BillPaymentCheck.</xs:documentation>
@@ -10114,11 +10375,11 @@
 	<xs:complexType name="BillPaymentCreditCard">
 		<xs:sequence>
 			<xs:element name="CCAccountRef" type="ReferenceType"
-				minOccurs="0" />
+						minOccurs="0" />
 			<xs:element name="CCDetail" type="CreditCardPayment"
-				minOccurs="0" />
+						minOccurs="0" />
 			<xs:element name="BillPaymentCreditCardEx" type="IntuitAnyType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Internal use only: extension place holder for
 						BillPayTypeCreditCard  </xs:documentation>
@@ -10136,7 +10397,7 @@
 			<xs:extension base="Transaction">
 				<xs:sequence>
 					<xs:element name="VendorRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Identifies the party or organization that
 								originated the purchase of the goods, services or BillPayment.
@@ -10147,8 +10408,16 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="VendorAddr" type="PhysicalAddress" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Vendor Mailing Address
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="APAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Optional AP account specification for bill
 								payment transactions. Most small businesses have a single AP
@@ -10162,7 +10431,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PayType" type="BillPaymentTypeEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Filterable: QBW
@@ -10171,9 +10440,9 @@
 					</xs:element>
 					<xs:choice minOccurs="0">
 						<xs:element name="CheckPayment" type="BillPaymentCheck"
-							minOccurs="0" />
+									minOccurs="0" />
 						<xs:element name="CreditCardPayment" type="BillPaymentCreditCard"
-							minOccurs="0" />
+									minOccurs="0" />
 					</xs:choice>
 					<xs:element name="TotalAmt" type="xs:decimal" minOccurs="0">
 						<xs:annotation>
@@ -10189,7 +10458,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="BillPaymentEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								BillPay </xs:documentation>
@@ -10202,7 +10471,7 @@
 	<xs:complexType name="CashBackInfo">
 		<xs:sequence>
 			<xs:element name="AccountRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>AccountReferenceGroup Identifies the Asset
 						Account (bank account) to be used for this Cash back.
@@ -10226,7 +10495,7 @@
 			<xs:extension base="Transaction">
 				<xs:sequence>
 					<xs:element name="DepositToAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>DepositToAccountReferenceGroup Identifies the
 								Asset Account (bank account) to be used for this Deposit.
@@ -10237,9 +10506,9 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CashBack" type="CashBackInfo"
-						minOccurs="0" />
+								minOccurs="0" />
 					<xs:element name="GlobalTaxCalculation" type="GlobalTaxCalculationEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -10259,7 +10528,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="HomeTotalAmt" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -10273,7 +10542,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DepositEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								Deposit  </xs:documentation>
@@ -10294,14 +10563,14 @@
 			<xs:extension base="Transaction">
 				<xs:sequence>
 					<xs:element name="FromAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Must be a Balance Sheet account.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ToAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Must be a Balance Sheet account.
 							</xs:documentation>
@@ -10314,7 +10583,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ClassRef" type="ReferenceType"
-						minOccurs="0" />
+								minOccurs="0" />
 					<xs:element name="TransferEx" type="IntuitAnyType">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
@@ -10335,7 +10604,7 @@
 			<xs:extension base="PurchaseByVendor">
 				<xs:sequence>
 					<xs:element name="TaxCodeRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Represents the TaxCode Reference with respect
 								to the purchase[br /]
@@ -10343,9 +10612,9 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ClassRef" type="ReferenceType"
-						minOccurs="0" />
+								minOccurs="0" />
 					<xs:element name="ReimbursableInfoRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Information about the Customer and actual Job
 								or Project the expense must be reimbursed for.
@@ -10353,7 +10622,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SalesTermRef" type="ReferenceType"
-						minOccurs="0" />
+								minOccurs="0" />
 					<xs:element name="DueDate" type="xs:date" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The nominal date by which the bill must be
@@ -10362,14 +10631,14 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ExpectedDate" type="xs:date"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The date when the delivery of the product is
 								expected.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="VendorAddr" type="PhysicalAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Address to which the payment should be sent.
 								[b]QuickBooks Notes[/b][br /]
@@ -10377,26 +10646,35 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="ShipTo" type="ReferenceType"
+								minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Ship to Entity Reference.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:choice minOccurs="0">
 						<xs:element name="DropShipToEntity" type="ReferenceType"
-							minOccurs="0">
+									minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>DropShip to Entity Reference
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
 						<xs:element name="InventorySiteRef" type="ReferenceType"
-							minOccurs="0" />
+									minOccurs="0" />
 					</xs:choice>
 					<xs:element name="ShipAddr" type="PhysicalAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Address to which the vendor shipped or will
 								ship any goods associated with the purchase.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ShipMethodRef" type="ReferenceType"
-						minOccurs="0" />
+								minOccurs="0" />
 					<xs:element name="FOB" type="xs:string" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>"Free On Board", specifies the terms between
@@ -10409,7 +10687,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="POEmail" type="EmailAddress"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The email address to which this purchase order
 								is/was sent.
@@ -10420,13 +10698,13 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TemplateRef" type="ReferenceType"
-						minOccurs="0" />
+								minOccurs="0" />
 					<xs:element name="PrintStatus" type="PrintStatusEnum"
-						minOccurs="0" />
+								minOccurs="0" />
 					<xs:element name="EmailStatus" type="EmailStatusEnum"
-						minOccurs="0" />
+								minOccurs="0" />
 					<xs:element name="ManuallyClosed" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The entire transaction, or individual items are
 								manually closed, i.e. they may not be received.
@@ -10434,9 +10712,9 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="POStatus" type="PurchaseOrderStatusEnum"
-						minOccurs="0" />
+								minOccurs="0" />
 					<xs:element name="PurchaseOrderEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								PurchaseOrder  </xs:documentation>
@@ -10473,7 +10751,7 @@
 			<xs:extension base="SalesTransaction">
 				<xs:sequence>
 					<xs:element name="ManuallyClosed" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -10484,7 +10762,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SalesOrderEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								SalesOrder  </xs:documentation>
@@ -10504,7 +10782,7 @@
 			<xs:extension base="SalesTransaction">
 				<xs:sequence>
 					<xs:element name="RemainingCredit" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Indicates the total credit amount still
 								available to apply towards the payment.
@@ -10515,16 +10793,16 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="InvoiceRef" type="ReferenceType" minOccurs="0">
-    					<xs:annotation>
-        					<xs:documentation>
-            					Product: ALL
-            					Description: A credit memo needs to have an invoice number to save successfully
-            					Applicable for IN Region.
-        					</xs:documentation>
-    					</xs:annotation>
+						<xs:annotation>
+							<xs:documentation>
+								Product: ALL
+								Description: A credit memo needs to have an invoice number to save successfully
+								Applicable for IN Region.
+							</xs:documentation>
+						</xs:annotation>
 					</xs:element>
 					<xs:element name="CreditMemoEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								CreditMemo  </xs:documentation>
@@ -10544,7 +10822,7 @@
 			<xs:extension base="SalesTransaction">
 				<xs:sequence>
 					<xs:element name="RemainingCredit" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Indicates the total credit amount still
 								available to apply towards the payment.
@@ -10555,10 +10833,50 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="RefundReceiptEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								Refund  </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CreditCardPaymentTxn">
+		<xs:annotation>
+			<xs:documentation>Financial transaction representing recording of a Credit Card balance payment.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Transaction">
+				<xs:sequence>
+					<xs:element name="CreditCardAccountRef" type="ReferenceType"
+								minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Credit Card account for which a payment is being entered.
+								Must be a Credit Card account.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="BankAccountRef" type="ReferenceType"
+								minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Bank account used to pay the Credit Card balance.
+								Must be a Bank account.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Amount" type="xs:decimal" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Total amount of the payment. Denominated in the currency of the credit card account.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CreditCardPaymentEx" type="IntuitAnyType">
+						<xs:annotation>
+							<xs:documentation>Internal use only: extension place holder for
+								CreditCardPayment</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -10626,7 +10944,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DecimalPlaces" type="xs:positiveInteger"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Specifies how many decimal places can be shown.
 								Usually there will be 2, or 0 for currencies without "cents".
@@ -10636,7 +10954,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DecimalSeparator" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Used for display purpose, can be a comma or a
 								period.
@@ -10645,14 +10963,14 @@
 					</xs:element>
 					<xs:element name="Symbol" type="xs:string" minOccurs="0" />
 					<xs:element name="SymbolPosition" type="SymbolPositionEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Used for display purpose to specify where to
 								show the Currency Symbol.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="UserDefined" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								[b][i]QuickBooks Notes[/i][/b] [br /]
@@ -10664,10 +10982,10 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ExchangeRate" type="xs:decimal"
-						minOccurs="0" />
+								minOccurs="0" />
 					<xs:element name="AsOfDate" type="xs:date" minOccurs="0" />
 					<xs:element name="CurrencyEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								Currency  </xs:documentation>
@@ -10718,7 +11036,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CompanyCurrencyEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								Company Currency </xs:documentation>
@@ -10737,7 +11055,7 @@
 			<xs:extension base="IntuitEntity">
 				<xs:sequence>
 					<xs:element name="SourceCurrencyCode" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -10750,7 +11068,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TargetCurrencyCode" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -10781,7 +11099,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ExchangeRateEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								Exchange Rate </xs:documentation>
@@ -10806,7 +11124,7 @@
 			<xs:extension base="IntuitEntity">
 				<xs:sequence>
 					<xs:element name="NameOf" type="SalesRepTypeEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -10838,7 +11156,7 @@
 							</xs:documentation>
 						</xs:annotation>
 						<xs:element name="EmployeeRef" type="ReferenceType"
-							minOccurs="0">
+									minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>
 									Product: QBW
@@ -10851,7 +11169,7 @@
 							</xs:annotation>
 						</xs:element>
 						<xs:element name="VendorRef" type="ReferenceType"
-							minOccurs="0">
+									minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>
 									Product: QBW
@@ -10864,7 +11182,7 @@
 							</xs:annotation>
 						</xs:element>
 						<xs:element name="OtherNameRef" type="ReferenceType"
-							minOccurs="0">
+									minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>
 									Product: QBW
@@ -10888,7 +11206,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SalesRepEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -10946,7 +11264,7 @@
 							</xs:annotation>
 						</xs:element>
 						<xs:element name="PriceLevelPerItem" type="PriceLevelPerItem"
-							minOccurs="0" maxOccurs="unbounded">
+									minOccurs="0" maxOccurs="unbounded">
 							<xs:annotation>
 								<xs:documentation>
 									Product: QBW
@@ -10957,7 +11275,7 @@
 						</xs:element>
 					</xs:choice>
 					<xs:element name="CurrencyRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -10967,7 +11285,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PriceLevelEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								PriceLevel  </xs:documentation>
@@ -10990,10 +11308,10 @@
 			<xs:extension base="IntuitEntity">
 				<xs:sequence>
 					<xs:element name="ItemRef" type="ReferenceType"
-						minOccurs="0" />
+								minOccurs="0" />
 					<xs:choice>
 						<xs:element name="CustomPrice" type="xs:decimal"
-							minOccurs="0">
+									minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>
 									Product: QBW
@@ -11003,7 +11321,7 @@
 							</xs:annotation>
 						</xs:element>
 						<xs:element name="CustomPricePercent" type="xs:decimal"
-							minOccurs="0">
+									minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>
 									Product: QBW
@@ -11016,7 +11334,7 @@
 						</xs:element>
 					</xs:choice>
 					<xs:element name="PriceLevelPerItemEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								PriceLevelPerItem  </xs:documentation>
@@ -11053,7 +11371,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CustomerMsgEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								CustomerMsg </xs:documentation>
@@ -11073,7 +11391,7 @@
 			<xs:extension base="Transaction">
 				<xs:sequence>
 					<xs:element name="Adjustment" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Indicates that the Journal Entry is
 								after-the-fact entry to make changes to specific accounts.
@@ -11081,7 +11399,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="HomeCurrencyAdjustment" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Valid only if the company file is set up to use
 								Multi-Currency feature.
@@ -11098,7 +11416,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="EnteredInHomeCurrency" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Valid only if the company file is set up to use
 								Multi-Currency feature.
@@ -11128,7 +11446,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="HomeTotalAmt" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -11142,7 +11460,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="JournalEntryEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								JournalEntry </xs:documentation>
@@ -11174,7 +11492,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="NameOf" type="TimeActivityTypeEnum"
-						minOccurs="0" />
+								minOccurs="0" />
 					<xs:choice minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The name of the person who performed the work.
@@ -11186,21 +11504,21 @@
 							</xs:documentation>
 						</xs:annotation>
 						<xs:element name="EmployeeRef" type="ReferenceType"
-							minOccurs="0">
+									minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>Specifies the employee whose time is being
 									recorded.</xs:documentation>
 							</xs:annotation>
 						</xs:element>
 						<xs:element name="VendorRef" type="ReferenceType"
-							minOccurs="0">
+									minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>Specifies the vendor whose time is being
 									recorded.</xs:documentation>
 							</xs:annotation>
 						</xs:element>
 						<xs:element name="OtherNameRef" type="ReferenceType"
-							minOccurs="0">
+									minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>Specifies the Payee whose time is being
 									recorded.</xs:documentation>
@@ -11208,21 +11526,21 @@
 						</xs:element>
 					</xs:choice>
 					<xs:element name="CustomerRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Represents Customer (or Job)Reference
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DepartmentRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation> Represents Department Reference.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ItemRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								[br /]
@@ -11231,9 +11549,9 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ClassRef" type="ReferenceType"
-						minOccurs="0" />
+								minOccurs="0" />
 					<xs:element name="PayrollItemRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The payroll item determines how much the
 								employee should be paid for doing the work specified by the Item
@@ -11245,7 +11563,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="BillableStatus" type="BillableStatusEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Billable status of the time recorded
 							</xs:documentation>
@@ -11258,7 +11576,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="HourlyRate" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Hourly bill rate of the employee or vendor for
 								this time activity.
@@ -11298,7 +11616,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="StartTime" type="xs:dateTime"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Time work started.
 								[b]QuickBooks Notes[/b][br /]
@@ -11315,19 +11633,27 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Description" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Description of work completed during time
 								activity.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TimeActivityEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								TimeActivity.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="HoursInEmployeeTimeZone" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>True if the start, end hours are already with company/employee time zone offset.
+
+							Couple of TimeActivity API integrations are already submitting start, end hours with right company/employee time zone offsets. Such integrations will pass this attribute as true to avoid company time zone offsets by TimeActivity API.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>					
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -11367,7 +11693,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DefaultSite" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -11377,7 +11703,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Description" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -11395,7 +11721,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Addr" type="PhysicalAddress"
-						minOccurs="0" maxOccurs="unbounded">
+								minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -11404,7 +11730,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ContactInfo" type="ContactInfo"
-						minOccurs="0" maxOccurs="unbounded">
+								minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -11413,7 +11739,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="InventorySiteEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								InventorySite  </xs:documentation>
@@ -11453,7 +11779,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ShipMethodEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								ShipMethod</xs:documentation>
@@ -11531,7 +11857,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ReminderDate" type="xs:date"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBW
@@ -11541,7 +11867,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TaskEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								Task  </xs:documentation>
@@ -11598,7 +11924,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ReminderDate" type="xs:dateTime"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: ALL
@@ -11608,7 +11934,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ExpireDate" type="xs:dateTime"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -11645,7 +11971,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="NameValue" type="NameValue" minOccurs="0"
-						maxOccurs="unbounded">
+								maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Any other properties not covered in base is
 								covered as name value pair, for detailed explanation look at the
@@ -11653,7 +11979,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="UserAlertEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								user alert  </xs:documentation>
@@ -11666,7 +11992,7 @@
 	<xs:complexType name="CurrencyPrefs">
 		<xs:sequence>
 			<xs:element name="MultiCurrencyEnabled" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -11676,7 +12002,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="HomeCurrency" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -11690,14 +12016,14 @@
 	<xs:complexType name="TaxPrefs">
 		<xs:sequence>
 			<xs:element name="UsingSalesTax" type="xs:boolean"
-				minOccurs="0" />
+						minOccurs="0" />
 			<xs:element name="PartnerTaxEnabled" type="xs:boolean"
-				minOccurs="0" />
+						minOccurs="0" />
 			<xs:element name="HideTaxManagement" type="xs:boolean"
-				minOccurs="0" />
+						minOccurs="0" />
 			<xs:choice>
 				<xs:element name="TaxGroupCodeRef" type="ReferenceType"
-					minOccurs="0">
+							minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
 							Product: QBW
@@ -11709,7 +12035,7 @@
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="TaxRateRef" type="ReferenceType"
-					minOccurs="0">
+							minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>
 							Product: QBW
@@ -11720,7 +12046,7 @@
 				</xs:element>
 			</xs:choice>
 			<xs:element name="PaySalesTax" type="PaySalesTaxEnum"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBW
@@ -11729,7 +12055,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="NonTaxableSalesTaxCodeRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBW
@@ -11740,7 +12066,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TaxableSalesTaxCodeRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBW
@@ -11755,7 +12081,7 @@
 	<xs:complexType name="FinanceChargePrefs">
 		<xs:sequence>
 			<xs:element name="AnnualInterestRate" type="xs:decimal"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -11771,7 +12097,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="GracePeriod" type="xs:positiveInteger"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -11779,7 +12105,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="CalcFinChrgFromTxnDate" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -11791,7 +12117,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AssessFinChrgForOverdueCharges" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -11802,7 +12128,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="FinChrgAccountRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -11821,25 +12147,25 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="UseAccountNumbers" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>QBW: Only QBW supported</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DefaultARAccount" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Product:QBO Default ARAccount</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DefaultAPAccount" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Product:QBO Default APAccount</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="RequiresAccounts" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -11848,7 +12174,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TrackDepartments" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -11858,7 +12184,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DepartmentTerminology" type="xs:string"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -11867,7 +12193,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ClassTrackingPerTxn" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -11876,7 +12202,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ClassTrackingPerTxnLine" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -11886,14 +12212,14 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AutoJournalEntryNumber" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>QBW: ONLY. Enable auto journal entry number
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="FirstMonthOfFiscalYear" type="MonthEnum"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -11902,7 +12228,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TaxYearMonth" type="MonthEnum"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -11925,7 +12251,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="OtherContactInfo" type="ContactInfo"
-				minOccurs="0" maxOccurs="unbounded">
+						minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBW
@@ -11934,7 +12260,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="CustomerTerminology" type="xs:string"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -11951,7 +12277,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="MLIAvailable" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>QBW: ONLY. MLI available </xs:documentation>
 				</xs:annotation>
@@ -11962,55 +12288,55 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="EnhancedInventoryReceivingEnabled" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>QBW: Only QBW supported</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TrackingSerialOrLotNumber" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>QBW: only</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TrackingOnSalesTransactionsEnabled"
-				type="xs:boolean" minOccurs="0">
+						type="xs:boolean" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>QBW: only</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TrackingOnPurchaseTransactionsEnabled"
-				type="xs:boolean" minOccurs="0">
+						type="xs:boolean" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>QBW: only</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TrackingOnInventoryAdjustmentEnabled"
-				type="xs:boolean" minOccurs="0">
+						type="xs:boolean" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>QBW: only</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TrackingOnBuildAssemblyEnabled" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>QBW: only</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="FIFOEnabled" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>QBW: ONLY. </xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="FIFOEffectiveDate" type="xs:date"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>QBW: only</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="RowShelfBinEnabled" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBW
@@ -12020,7 +12346,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="BarcodeEnabled" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBW
@@ -12047,7 +12373,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ForPurchase" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12057,7 +12383,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="InventoryAndPurchaseOrder" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -12066,7 +12392,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="QuantityWithPriceAndRate" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12076,7 +12402,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="QuantityOnHand" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12085,7 +12411,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="UOM" type="UOMFeatureTypeEnum"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Product:QBW. Possible values are
 						Disabled,SinglePerItem and MultiplePerItem</xs:documentation>
@@ -12099,7 +12425,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="UsingProgressInvoicing" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -12107,7 +12433,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="CustomField" type="CustomFieldDefinition"
-				minOccurs="0" maxOccurs="unbounded">
+						minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12116,7 +12442,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="CustomTxnNumbers" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBo
@@ -12125,7 +12451,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DelayedCharges" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12134,7 +12460,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="SalesEmailCc" type="EmailAddress"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12143,7 +12469,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="SalesEmailBcc" type="EmailAddress"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12159,7 +12485,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AllowDeposit" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12168,19 +12494,19 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AllowDiscount" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>QBO:Enable specifying Discount</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DefaultDiscountAccount" type="xs:string"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>QBO:Default Discount account</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AllowEstimates" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -12189,7 +12515,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="EstimateMessage" type="xs:string"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12198,7 +12524,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ETransactionEnabledStatus" type="ETransactionEnabledStatusEnum"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12207,7 +12533,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ETransactionAttachPDF" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12217,7 +12543,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ETransactionPaymentEnabled" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12226,7 +12552,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="IPNSupportEnabled" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12236,7 +12562,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="InvoiceMessage" type="xs:string"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12245,7 +12571,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AllowServiceDate" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12254,7 +12580,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AllowShipping" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12263,7 +12589,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DefaultShippingAccount" type="xs:string"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12272,7 +12598,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DefaultItem" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12282,7 +12608,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DefaultTerms" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12291,7 +12617,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DefaultDeliveryMethod" type="xs:string"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Product:QBO Default Delivery Method of Invoice
 						and other sales forms - Print, Email are normal options
@@ -12299,7 +12625,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AutoApplyCredit" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:ALL
@@ -12308,7 +12634,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AutoApplyPayments" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -12317,7 +12643,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="PrintItemWithZeroAmount" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -12326,7 +12652,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DefaultShipMethodRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -12338,7 +12664,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DefaultMarkup" type="xs:decimal"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -12348,7 +12674,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TrackReimbursableExpensesAsIncome" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -12356,14 +12682,14 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="UsingSalesOrders" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>QBW: used by QB desktop, not used by QBO
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="UsingPriceLevels" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>QBW: used by QB desktop, not used by QBO
 					</xs:documentation>
@@ -12376,7 +12702,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DefaultCustomerMessage" type="xs:string"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12393,7 +12719,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="EnableBills" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -12402,7 +12728,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TrackingByCustomer" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -12411,7 +12737,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="BillableExpenseTracking" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -12420,7 +12746,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DefaultTerms" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -12429,7 +12755,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DefaultMarkup" type="xs:decimal"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -12439,7 +12765,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DefaultMarkupAccount" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -12449,7 +12775,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AutomaticBillPayment" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -12467,7 +12793,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="POCustomField" type="CustomFieldDefinition"
-				minOccurs="0" maxOccurs="unbounded">
+						minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -12476,7 +12802,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="MsgToVendors" type="xs:string"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -12485,7 +12811,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="UsingInventory" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12493,7 +12819,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="UsingMultiLocationInventory" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -12501,7 +12827,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DaysBillsAreDue" type="xs:int"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -12509,7 +12835,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DiscountAccountRef" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Cloud Max Length: 4000
@@ -12528,7 +12854,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="UseServices" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12537,14 +12863,14 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DefaultTimeItem" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Product:QBO Default TimeItem Id
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="BillCustomers" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12553,7 +12879,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ShowBillRateToAll" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12562,7 +12888,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="WorkWeekStartDate" type="WeekEnum"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -12571,7 +12897,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TimeTrackingEnabled" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -12581,7 +12907,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="MarkTimeEntriesBillable" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -12591,7 +12917,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="MarkExpensesAsBillable" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -12608,7 +12934,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="NameValue" maxOccurs="unbounded"
-				minOccurs="0" type="NameValue">
+						minOccurs="0" type="NameValue">
 				<xs:annotation>
 					<xs:documentation> Specifies Preferences classified as email
 						messages are classified as Name-Value pair
@@ -12625,7 +12951,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="EstimateMessage" minOccurs="0"
-				type="EmailMessage">
+						type="EmailMessage">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12635,7 +12961,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="SalesReceiptMessage" minOccurs="0"
-				type="EmailMessage">
+						type="EmailMessage">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12645,7 +12971,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="StatementMessage" minOccurs="0"
-				type="EmailMessage">
+						type="EmailMessage">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBO
@@ -12662,7 +12988,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="NameValue" maxOccurs="unbounded"
-				minOccurs="0" type="NameValue">
+						minOccurs="0" type="NameValue">
 				<xs:annotation>
 					<xs:documentation> Specifies Preferences classified as email
 						messages are classified as Name-Value pair
@@ -12677,7 +13003,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="ReportBasis" type="ReportBasisEnum"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:All
@@ -12686,7 +13012,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="CalcAgingReportFromTxnDate" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product:QBW
@@ -12707,7 +13033,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="NameValue" maxOccurs="unbounded"
-				minOccurs="0" type="NameValue">
+						minOccurs="0" type="NameValue">
 				<xs:annotation>
 					<xs:documentation> Specifies extension of Preference entity to
 						allow extension of Name-Value pair based extension at the top
@@ -12726,52 +13052,52 @@
 			<xs:extension base="IntuitEntity">
 				<xs:sequence>
 					<xs:element name="AccountingInfoPrefs" type="CompanyAccountingPrefs"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Accounting info Preferences</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AdvancedInventoryPrefs" type="AdvancedInventoryPrefs"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Accounting info Preferences</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ProductAndServicesPrefs" type="ProductAndServicesPrefs"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Product and Service Preferences
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="SalesFormsPrefs" type="SalesFormsPrefs"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Sales Form Preferences</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="EmailMessagesPrefs" type="EmailMessagesPrefs"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Email messages Preferences</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PrintDocumentPrefs" type="PrintDocumentPrefs"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Printable document preferences
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="VendorAndPurchasesPrefs" type="VendorAndPurchasesPrefs"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Vendor and purchases Preferences
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TimeTrackingPrefs" type="TimeTrackingPrefs"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Vendor and purchases Preferences
 							</xs:documentation>
@@ -12783,25 +13109,25 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="FinanceChargesPrefs" type="FinanceChargePrefs"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>FinanceCharges Preferences</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CurrencyPrefs" type="CurrencyPrefs"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Currency Preferences</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ReportPrefs" type="ReportPrefs"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Report Preferences</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="OtherPrefs" maxOccurs="1" minOccurs="0"
-						type="OtherPrefs">
+								type="OtherPrefs">
 						<xs:annotation>
 							<xs:documentation> Specifies extension of Preference entity to
 								allow extension of Name-Value pair based extension at the top
@@ -12828,7 +13154,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="UOMSetRef" type="ReferenceType"
-				minOccurs="1">
+						minOccurs="1">
 				<xs:annotation>
 					<xs:documentation>A reference to the UOM entity that defines the
 						set of related units from which the specified Unit is used.
@@ -12867,7 +13193,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="BaseType" type="UOMBaseTypeEnum"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								[br /]
@@ -12876,7 +13202,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ConvUnit" type="UOMConvUnit"
-						minOccurs="0" maxOccurs="unbounded" />
+								minOccurs="0" maxOccurs="unbounded" />
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -12975,7 +13301,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="FileAccessUri" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>FullPath FileAccess URI of the attachment,
 								output only
@@ -12983,7 +13309,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TempDownloadUri" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Output only. TempDownload URI which can be
 								directly downloaded by clients
@@ -12997,7 +13323,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ContentType" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation> ContentType of the attachment
 							</xs:documentation>
@@ -13043,7 +13369,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ThumbnailFileAccessUri" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>FullPath FileAccess URI of the attachment
 								thumbnail if the attachment file is of a content type with
@@ -13052,7 +13378,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ThumbnailTempDownloadUri" type="xs:string"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Output only. Thumbnail TempDownload URI which
 								can be directly downloaded by clients. This is only available if
@@ -13061,7 +13387,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AttachableEx" maxOccurs="1" minOccurs="0"
-						type="IntuitAnyType">
+								type="IntuitAnyType">
 						<xs:annotation>
 							<xs:documentation> Specifies extension entity to allow extension
 							</xs:documentation>
@@ -13071,6 +13397,160 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:complexType name="RecurringScheduleInfo">
+		<xs:annotation>
+			<xs:documentation>
+				Scheduling Information for the Transaction
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IntervalType" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: The Interval Type which can be Yearly, Monthly, Daily or Weekly
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NumInterval" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> 
+						Product: QBO
+						Description: The Interval based on the Interval Type
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>			
+			<xs:element name="DayOfMonth" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> 
+						Product: QBO
+						Description: The Day of the Month
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>						
+			<xs:element name="DayOfWeek" type="WeekEnum" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> 
+						Product: QBO
+						Description: The Day of the Week
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>			
+			<xs:element name="WeekOfMonth" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+ 						Product: QBO
+						Description: The Week of the Month
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>			
+			<xs:element name="MonthOfYear" type="MonthEnum" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> 
+						Product: QBO
+						Description: The Month of the Year
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>		
+			<xs:element name="RemindDays" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> 
+						Product: QBO
+						Description: The days before StartDate for a Reminded RecurType
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>			
+			<xs:element name="DaysBefore" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> 
+						Product: QBO
+						Description: The Days before the Scheduled Date
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaxOccurrences" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> 
+						Product: QBO
+						Description: The Max number of Recurring Occurrences
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>			
+			<xs:element name="StartDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> 
+						Product: QBO
+						Description: The Start Date for the Recurring Schedule
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>			
+			<xs:element name="EndDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> 
+						Product: QBO
+						Description: The End Date for the Recurring Schedule
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>			
+			<xs:element name="NextDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> 
+						Product: QBO
+						Description: The Date when the next Transaction will created. (Read Only)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>			
+			<xs:element name="PreviousDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> 
+						Product: QBO
+						Description: The Date when the last Transaction was created.(Read Only)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>						
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RecurringInfo">
+		<xs:annotation>
+			<xs:documentation>
+				Description: Describes the Recurring Schedules for Transactions
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: The name of the Recurring Schedule Template.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RecurType" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> 
+						Product: QBO
+						Description: The Recur Type which can be Automated, Reminded, UnScheduled or Manual.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Active" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> 
+						Product: QBO
+						Description: Indicates whether the Recurring Schedule is enabled.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ScheduleInfo" type="RecurringScheduleInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: The Scheduling Information.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>       
 	<xs:simpleType name="OLBTxnStatusEnum">
 		<xs:annotation>
 			<xs:documentation> Product: All
@@ -13106,7 +13586,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ReferenceNumber" type="xs:string"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Reference Number of downloaded transaction
 					</xs:documentation>
@@ -13128,7 +13608,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="AccountId" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -13137,7 +13617,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="LastPostingDate" type="xs:date"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -13147,7 +13627,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TxnsDownloadTime" type="xs:dateTime"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -13156,7 +13636,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="OLBTxnDetail" type="OLBTxnDetail"
-				minOccurs="0" maxOccurs="unbounded">
+						minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Details of OLB transactions</xs:documentation>
 				</xs:annotation>
@@ -13188,7 +13668,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="OLBDownloadTime" type="xs:dateTime"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -13197,7 +13677,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="OLBTxn" type="OLBTxn" minOccurs="0"
-				maxOccurs="unbounded">
+						maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>List of OLB transactions</xs:documentation>
 				</xs:annotation>
@@ -13210,7 +13690,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="AccountId" type="ReferenceType"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -13219,14 +13699,14 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AccountDetails" type="xs:string"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Account details that contains possibly credit
 						card number, last 5 digits </xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="SubscribedToApp" type="xs:boolean"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>True when the AccountId is linked to an IPP app
 						and false when the AccountId is delinked from the IPP app
@@ -13240,7 +13720,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="LastBankBalance" type="xs:decimal"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The last bank balance. This field is optional.
 					</xs:documentation>
@@ -13255,7 +13735,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="OLBAccount" type="OLBAccount" minOccurs="0"
-				maxOccurs="unbounded">
+						maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>
 						Product: ALL
@@ -13274,7 +13754,7 @@
 			<xs:extension base="IntuitEntity">
 				<xs:sequence>
 					<xs:element name="Name" type="xs:string" minOccurs="0"
-						maxOccurs="1">
+								maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -13283,7 +13763,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="StartDate" type="xs:date" minOccurs="0"
-						maxOccurs="1">
+								maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -13292,7 +13772,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="EndDate" type="xs:date" minOccurs="0"
-						maxOccurs="1">
+								maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -13301,7 +13781,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="BudgetType" type="BudgetTypeEnum"
-						minOccurs="0" maxOccurs="1">
+								minOccurs="0" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -13310,7 +13790,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="BudgetEntryType" type="BudgetEntryTypeEnum"
-						minOccurs="0" maxOccurs="1">
+								minOccurs="0" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -13319,7 +13799,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Active" type="xs:boolean" minOccurs="0"
-						maxOccurs="1">
+								maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -13328,7 +13808,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="BudgetDetail" type="BudgetDetail"
-						minOccurs="0" maxOccurs="unbounded">
+								minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -13348,7 +13828,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="BudgetDate" type="xs:date" minOccurs="0"
-				maxOccurs="1">
+						maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -13357,7 +13837,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Amount" type="xs:decimal" minOccurs="0"
-				maxOccurs="1">
+						maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -13367,7 +13847,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AccountRef" type="ReferenceType"
-				minOccurs="0" maxOccurs="1">
+						minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -13376,7 +13856,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="CustomerRef" type="ReferenceType"
-				minOccurs="0" maxOccurs="1">
+						minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -13385,7 +13865,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ClassRef" type="ReferenceType"
-				minOccurs="0" maxOccurs="1">
+						minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -13394,7 +13874,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DepartmentRef" type="ReferenceType"
-				minOccurs="0" maxOccurs="1">
+						minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
 						Product: QBO
@@ -13416,7 +13896,7 @@
 			<xs:extension base="IntuitEntity">
 				<xs:sequence>
 					<xs:element name="TDSEntityTypes" type="NameValue"
-						minOccurs="0" maxOccurs="unbounded">
+								minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -13425,7 +13905,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TDSSectionTypes" type="NameValue"
-						minOccurs="0" maxOccurs="unbounded">
+								minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -13451,7 +13931,7 @@
 			<xs:extension base="Transaction">
 				<xs:sequence>
 					<xs:element name="CustomerRef" type="ReferenceType"
-						minOccurs="0" maxOccurs="1">
+								minOccurs="0" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation> Product: QBO Description: Customer Reference
 							</xs:documentation>
@@ -13488,14 +13968,14 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CustomerRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Represents Customer (or Job)Reference
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="RemitToRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Identifies the party or location that the
 								payment is
@@ -13506,7 +13986,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ARAccountRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>ARAccountReferenceGroup Identifies the AR
 								Account to
@@ -13518,7 +13998,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ClassRef" type="ReferenceType"
-						minOccurs="0" />
+								minOccurs="0" />
 					<xs:element name="DueDate" type="xs:date" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Date when the Charge is to be paid.
@@ -13543,7 +14023,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="ChargeCreditEx" type="IntuitAnyType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Internal use only: extension place holder for
 								ChargeCredit
@@ -13566,7 +14046,7 @@
 			<xs:extension base="IntuitEntity">
 				<xs:sequence>
 					<xs:element name="UpcomingFiling" type="xs:boolean"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -13611,28 +14091,28 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AgencyPaymentAmount" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Specifies the payment amount paid to tax agency
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="NetTaxAmountDue" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Specifies the final Tax Amount due to the Tax
 								Agency for a Filing </xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="FlatRateSavingsAmountDue" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Specifies the FRS Amount due to the Tax Agency
 								for a Filing Period. Applicable for UK only.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="PayGWithheldAmount" type="xs:decimal"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Specifies the PayGWithheld Amount due to the
 								Tax Agency for a Filing Period. Applicable for AU only.
@@ -13640,7 +14120,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="AgencyRef" type="ReferenceType"
-						minOccurs="0">
+								minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -13650,22 +14130,22 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="TaxReturnStatus" type="TaxReturnStatusEnum" minOccurs="0">
- 						<xs:annotation>
- 							<xs:documentation>
- 								Product: QBO
- 								Description: Represents the status of the filing of the tax return
- 							</xs:documentation>
- 						</xs:annotation>
- 					</xs:element>
- 					<xs:element name="TaxReturnEFilingFailureReason" type="xs:string" minOccurs="0">
- 						<xs:annotation>
- 							<xs:documentation>
- 								Product: QBO
- 								Description: Represents the failure reason of tax return e-filing with agency
- 							</xs:documentation>
- 						</xs:annotation>
- 					</xs:element>
- 					<xs:element name="EFileErrorFixByDate" type="xs:date" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Represents the status of the filing of the tax return
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TaxReturnEFilingFailureReason" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Represents the failure reason of tax return e-filing with agency
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EFileErrorFixByDate" type="xs:date" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
 								Product: QBO
@@ -13673,22 +14153,22 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
- 					<xs:element name="AgencyPaymentMethod" type="AgencyPaymentMethodEnum" minOccurs="0">
- 						<xs:annotation>
- 							<xs:documentation>
- 								Product: QBO
- 								Description: Represents the payment method used while e-filing tax return with agency
- 							</xs:documentation>
- 						</xs:annotation>
- 					</xs:element>
- 					<xs:element name="TaxReturnCode" type="xs:string" minOccurs="0">
- 						<xs:annotation>
- 							<xs:documentation>
- 								Product: QBO
- 								Description: Represents the tax return code with the partner
- 							</xs:documentation>
- 						</xs:annotation>
- 					</xs:element>
+					<xs:element name="AgencyPaymentMethod" type="AgencyPaymentMethodEnum" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Represents the payment method used while e-filing tax return with agency
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TaxReturnCode" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Represents the tax return code with the partner
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -13740,15 +14220,69 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="IntuitEntity">
-			<xs:sequence>
-				<xs:element name="Code" type="xs:string" minOccurs="0"/>
-				<xs:element name="Name" type="xs:string" minOccurs="0"/>
-				<xs:element name="Description" type="xs:string" minOccurs="0"/>
-				<xs:element name="Level" type="xs:string" minOccurs="0"/>
-				<xs:element name="ParentRef" type="ReferenceType" minOccurs="0"/>
-				<xs:element name="ApplicableTo" type="ItemTypeEnum" minOccurs="0"  maxOccurs="unbounded"/>
-			</xs:sequence>
-		 </xs:extension>
+				<xs:sequence>
+					<xs:element name="Code" type="xs:string" minOccurs="0"/>
+					<xs:element name="Name" type="xs:string" minOccurs="0"/>
+					<xs:element name="Description" type="xs:string" minOccurs="0"/>
+					<xs:element name="Level" type="xs:string" minOccurs="0"/>
+					<xs:element name="ParentRef" type="ReferenceType" minOccurs="0"/>
+					<xs:element name="ApplicableTo" type="ItemTypeEnum" minOccurs="0"  maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TaxPayment">
+		<xs:annotation>
+			<xs:documentation>
+				Product: QBO
+				Description: Tax Payment/Refund made against filed taxReturn.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="IntuitEntity">
+				<xs:sequence>
+					<xs:element name="PaymentDate" type="xs:date" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: The tax payment date
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PaymentAccountRef" type="ReferenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Account ID from which the payment was made (or refund was moved to)
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PaymentAmount" type="xs:decimal" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Specifies the tax payment amount paid towards a filed tax return.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Description" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Memo/Description added for this payment.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Refund" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Indicate if this transaction is a refund. Returns false for the tax payment.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 </xs:schema>

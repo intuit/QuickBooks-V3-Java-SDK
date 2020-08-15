@@ -32,12 +32,12 @@ The QuickBooks Online Java SDK provides a set of Java class libraries that make 
 ## Project Structure
 * ipp-v3-java-data - contains all entities and entity dependencies that are used in data services operations.
 * ipp-v3-java-devkit - core component, contains REST API support.
-* ipp-java-qbapihelper - contains QuickBooks Online API Helper methods for OAuth, Disconnect and Reconnect API.
+* ipp-java-qbapihelper - contains QuickBooks Online API Helper methods for OAuth, Disconnect and Reconnect API. `[This artifact is deprecated with v6.0.0]`
 * oauth2-platform-api - contains QuickBooks Online API Helper methods for obtaining OAuth2 tokens, Disconnect and Reconnect API for OAuth2 apps.
 * payments-api - Payments SDK for V2 API, contains methods for charge, echeck, token, card and bank account APIs.
 
 ## System Requirements
-The SDK works on JDK 1.6 and above.
+The SDK works on JDK 1.7 and above.
 
 ## First Use Instructions
 1. Clone the GitHub repo to your computer.
@@ -76,5 +76,3 @@ Note: Before you submit the pull request, make sure to remove the keys and token
 Thank you for your contribution!
 
 [ss1]: https://help.developer.intuit.com/s/SDKFeedback?cid=1180
-
-

@@ -15,6 +15,8 @@
  *******************************************************************************/
 package com.intuit.oauth2.exception;
 
+import com.intuit.oauth2.http.Response;
+
 /**
  * Exception class to handle OAuth exceptions
  * 
@@ -37,7 +39,10 @@ public class OAuthException extends PlatformException {
 	public OAuthException(String errorMessage,Throwable e){
 		super(errorMessage,e);
 	}
-	
-	
-	
-}
+
+	public OAuthException( String errorMessage,  String statusCode,  String intuit_tid, Response response){
+		super(errorMessage, statusCode, intuit_tid, response);
+	}
+
+
+	}

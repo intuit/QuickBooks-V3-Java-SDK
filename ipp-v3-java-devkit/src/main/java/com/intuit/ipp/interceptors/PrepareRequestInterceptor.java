@@ -281,10 +281,12 @@ public class PrepareRequestInterceptor implements Interceptor {
 			Map<String, String> requestParameters) throws FMSException {
 
 		StringBuilder uri = new StringBuilder();
-		if(entityName.equalsIgnoreCase("Taxservice"))
-				{
+		if(entityName.equalsIgnoreCase("Taxservice")) {
 					entityName = entityName + "/" + "taxcode";
-				}
+		}
+		if(entityName.equalsIgnoreCase("CreditCardPaymentTxn")) {
+			entityName = "creditcardpayment";
+		}
 		
 		// constructs request URI
 		uri.append(getBaseUrl(Config.getProperty(Config.BASE_URL_QBO))).append("/").append(context.getRealmID()).append("/").append(entityName);
@@ -308,7 +310,7 @@ public class PrepareRequestInterceptor implements Interceptor {
 		
 		if(context.getMinorVersion() == null)
 		{
-		context.setMinorVersion("38");
+			context.setMinorVersion(Config.getProperty(Config.LATEST_MINOR_VERSION));
 		}
 		
 		uri.append("minorversion").append("=").append(context.getMinorVersion()).append("&");
@@ -419,6 +421,17 @@ public class PrepareRequestInterceptor implements Interceptor {
 		StringBuilder uri = new StringBuilder();
 		uri.append(getBaseUrl(Config.getProperty(Config.BASE_URL_ENTITLEMENTSERVICE))).append("/").
 		append("entitlements").append("/").append("v3").append("/").append(context.getRealmID());
+		// adds the generated request id as a parameter
+		uri.append("?").append("requestid").append("=").append(context.getRequestID()).append("&");
+		//set RequestId to null once appended, so the next random num can be generated
+		context.setRequestID(null);
+		
+		if(context.getMinorVersion() == null)
+		{
+		context.setMinorVersion("43");
+		}
+		
+		uri.append("minorversion").append("=").append(context.getMinorVersion()).append("&");
 		return uri.toString();
 	}
 
@@ -526,7 +539,9 @@ public class PrepareRequestInterceptor implements Interceptor {
         		|| key.equals(RequestElements.REPORT_PARAM_CUSTOM2)
         		|| key.equals(RequestElements.REPORT_PARAM_CUSTOM3)
         		|| key.equals(RequestElements.REPORT_PARAM_SHIPVIA)
-        		|| key.equals(RequestElements.REPORT_PARAM_ACCOUNT_STATUS);
+        		|| key.equals(RequestElements.REPORT_PARAM_ACCOUNT_STATUS)
+        		|| key.equals(RequestElements.REPORT_PARAM_SUBCOL_PCT_INC)
+        		|| key.equals(RequestElements.REPORT_PARAM_SUBCOL_PCT_EXP);
     }
 
     /**

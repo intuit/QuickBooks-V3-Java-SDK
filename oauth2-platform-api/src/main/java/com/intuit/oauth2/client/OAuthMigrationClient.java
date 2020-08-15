@@ -61,8 +61,7 @@ public class OAuthMigrationClient {
 	/**
 	 * Calls the migrate API based on the the request provided and
 	 * returns an object with oauth2 tokens
-	 * 
-	 * @param environment
+	 *
 	 * @return
 	 * @throws ConnectionException 
 	 */
@@ -93,6 +92,7 @@ public class OAuthMigrationClient {
 			if (response.getStatusCode() == 200) {
 				ObjectReader reader = mapper.readerFor(OAuthMigrationResponse.class);
 				OAuthMigrationResponse oAuthMigrationResponse = reader.readValue(response.getContent());
+				oAuthMigrationResponse.setIntuit_tid(response.getIntuit_tid());
 				return oAuthMigrationResponse;
 
 			} else {

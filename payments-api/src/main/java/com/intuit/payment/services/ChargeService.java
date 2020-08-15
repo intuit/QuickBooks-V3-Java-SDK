@@ -266,14 +266,14 @@ public class ChargeService extends ServiceBase {
 	/**
 	 * Method to void a Charge
 	 * 
-	 * @param chargeId
-	 * @param refund
+	 * @param chargeRequestId
+	 *
 	 * @return
 	 * @throws BaseException
 	 */
 	public Refund voidTransaction(String chargeRequestId) throws BaseException {
 
-		logger.debug("Enter ChargeService::refund");
+		logger.debug("Enter ChargeService::voidTransaction");
 		
 		if (StringUtils.isBlank(chargeRequestId)) {
 			logger.error("IllegalArgumentException {}", chargeRequestId);

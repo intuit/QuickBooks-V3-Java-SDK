@@ -35,6 +35,8 @@ public class PaymentContext extends Entity {
 	private Boolean recurring = null;
 	private String mobile = null;
 	private String isEcommerce = null;
+	private Lodging lodging = null;
+	private Restaurant restaurant = null;
 
 	public PaymentContext() {
 	}
@@ -45,6 +47,8 @@ public class PaymentContext extends Entity {
 		this.recurring = builder.recurring;
 		this.mobile = builder.mobile;
 		this.isEcommerce = builder.isEcommerce;
+		this.lodging = builder.lodging;
+		this.restaurant = builder.restaurant;
 	}
 
 	/**
@@ -135,6 +139,34 @@ public class PaymentContext extends Entity {
 		this.isEcommerce = isEcommerce;
 	}
 
+	/**
+	 * @return
+	 */
+	public Lodging getLodging() {
+		return lodging;
+	}
+
+	/**
+	 * @param lodging
+	 */
+	public void setLodging(Lodging lodging) {
+		this.lodging = lodging;
+	}
+
+	/**
+	 * @return
+	 */
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	/**
+	 * @param restaurant
+	 */
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
+
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this);
@@ -153,6 +185,8 @@ public class PaymentContext extends Entity {
 		private Boolean recurring = null;
 		private String mobile = null;
 		private String isEcommerce = null;
+		private Lodging lodging = null;
+		private Restaurant restaurant = null;
 
 		public Builder() {
 		}
@@ -179,6 +213,16 @@ public class PaymentContext extends Entity {
 
 		public Builder isEcommerce(String isEcommerce) {
 			this.isEcommerce = isEcommerce;
+			return this;
+		}
+		
+		public Builder lodging(Lodging lodging) {
+			this.lodging = lodging;
+			return this;
+		}
+		
+		public Builder restaurant(Restaurant restaurant) {
+			this.restaurant = restaurant;
 			return this;
 		}
 

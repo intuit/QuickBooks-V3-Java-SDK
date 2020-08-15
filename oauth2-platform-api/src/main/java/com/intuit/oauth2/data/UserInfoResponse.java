@@ -67,6 +67,8 @@ public class UserInfoResponse {
     
     @JsonProperty("address")
     private Address address;
+    
+    private String intuit_tid = null;
 
     @JsonProperty("sub")
 	public String getSub() {
@@ -146,6 +148,14 @@ public class UserInfoResponse {
 	@JsonProperty("address")
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+	
+	public String getIntuit_tid() {
+		return intuit_tid;
+	}
+
+	public void setIntuit_tid(String intuit_tid) {
+		this.intuit_tid = intuit_tid;
 	}
     
 }

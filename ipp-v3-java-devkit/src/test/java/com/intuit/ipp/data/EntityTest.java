@@ -28,6 +28,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.params.CoreProtocolPNames;
 
 import com.intuit.ipp.core.IEntity;
@@ -63,19 +64,16 @@ public class EntityTest {
 	public String doPost(IEntity entity) {
 		
 		String bodyData = SerializeXML.serialize(entity);
-		HttpClient httpclient = new DefaultHttpClient();
 		HttpHost proxy = new HttpHost("127.0.0.1", 8888);
-		httpclient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
 
-		httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, 
-			    HttpVersion.HTTP_1_0);
-		
-		
+		HttpClient httpclient = HttpClientBuilder.create().setProxy(proxy).build();
+
 		HttpPost httpPost = new HttpPost(createURI(entity));
 		httpPost.addHeader("Authorization",getAuthString());
 		try {
 			StringEntity bodyDataEntity = new StringEntity(bodyData);
 			httpPost.setEntity(bodyDataEntity);
+			httpPost.setProtocolVersion(HttpVersion.HTTP_1_0);
 		
 			HttpResponse response = httpclient.execute(httpPost);
 			
