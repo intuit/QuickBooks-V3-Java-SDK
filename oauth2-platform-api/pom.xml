@@ -20,7 +20,7 @@
   <parent>
     <artifactId>ipp-v3-java-devkit-pom</artifactId>
     <groupId>com.intuit.quickbooks-online</groupId>
-    <version>6.0.8</version>
+    <version>6.0.9</version>
   </parent>
   <artifactId>oauth2-platform-api</artifactId>
   <name>Quickbooks API Helper for OAuth2</name>
