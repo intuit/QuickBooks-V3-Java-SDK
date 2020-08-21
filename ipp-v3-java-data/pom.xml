@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.intuit.quickbooks-online</groupId>
 		<artifactId>ipp-v3-java-devkit-pom</artifactId>
-		<version>6.0.8</version>
+		<version>6.0.9</version>
 	</parent>
 
 	<artifactId>ipp-v3-java-data</artifactId>
@@ -92,7 +92,7 @@
 			<!-- end of maven shade plugin -->
 
 			<!-- commented to avoid regeneration of entities, as the same is not required everytime	-->
-			<!--
+<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
@@ -156,7 +156,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			-->
+-->
 			<!-- end of regeneration code block -->
 
 		</plugins>
