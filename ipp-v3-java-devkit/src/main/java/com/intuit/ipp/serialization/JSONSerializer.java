@@ -91,6 +91,7 @@ import com.intuit.ipp.data.PrintStatusEnum;
 import com.intuit.ipp.data.PurchaseOrderStatusEnum;
 import com.intuit.ipp.data.QboEntityTypeEnum;
 import com.intuit.ipp.data.QboEstimateStatusEnum;
+import com.intuit.ipp.data.RecurringTransaction;
 import com.intuit.ipp.data.ReimbursableTypeEnum;
 import com.intuit.ipp.data.ReportBasisEnum;
 //import com.intuit.ipp.data.ReportNameEnum;
@@ -254,6 +255,10 @@ public class JSONSerializer implements IEntitySerializer {
 
 		SimpleModule testModule = new SimpleModule("BatchItemRequest", new Version(1, 0, 0, null));
 		testModule.addSerializer(BatchItemRequest.class, new BatchItemRequestSerializer());
+		mapper.registerModule(testModule);
+		
+		testModule = new SimpleModule("RecurringTransaction", new Version(1, 0, 0, null));
+		testModule.addSerializer(RecurringTransaction.class, new RecurringTransactionSerializer());
 		mapper.registerModule(testModule);
 
 		String json = null;
