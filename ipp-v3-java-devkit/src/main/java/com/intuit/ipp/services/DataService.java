@@ -1058,9 +1058,6 @@ public class DataService {
         requestElements.setContext(context);
         requestElements.setEntity(entity);
         requestElements.setObjectToSerialize(getSerializableObject(entity));
-        if ("RecurringTransaction".equals(entity.getClass().getSimpleName())) { 
-        	requestElements.setAction("recurringtransaction");
-        }
 
         return intuitMessage;
     }
