@@ -124,6 +124,11 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 	 * variable ATTACHABLE_RESPONSE
 	 */
 	private static final String ATTACHABLE_RESPONSE = "AttachableResponse";
+
+	/**
+	 * variable ATTACHABLE_RESPONSE
+	 */
+	private static final String RECURRING_TXN_RESPONSE = "RecurringTransaction";
 	
 	/**
 	 * variable objFactory
@@ -235,6 +240,41 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 						}
 					}
 					qr.setAttachableResponse(attachableResponses);
+				}
+			} else if (key.equals(RECURRING_TXN_RESPONSE)) {
+				if (JsonResourceTypeLocator.lookupType(key) != null) {
+					LOG.debug("processing recurring transaction response");
+
+					JsonNode rtNode = jn.get(key);
+					Object recurringTxn = mapper.treeToValue(rtNode, JsonResourceTypeLocator.lookupType(key));
+					RecurringTransaction rt = new RecurringTransaction();
+					rt = (RecurringTransaction) recurringTxn;
+
+					String entityName = rtNode.fieldNames().next();
+					LOG.debug("RecurringTransaction : " + entityName);
+
+					//read the underlying txn node
+					JsonNode entityNode = rtNode.get(entityName);
+
+					//Force the data to be casted to its type
+					Object entity = mapper.treeToValue(entityNode, JsonResourceTypeLocator.lookupType(entityName));
+
+					//Double check
+					if (entity instanceof IntuitEntity) {
+						intuitResponseDeserializerHelper.updateBigDecimalScale((IntuitEntity) entity);
+						JAXBElement<? extends IntuitEntity> intuitObject = objFactory.createIntuitObject((IntuitEntity) entity);
+						rt.setIntuitObject(intuitObject);
+					}
+
+					// set the CustomFieldDefinition deserializer
+					registerModulesForCustomFieldDef(mapper);
+
+					Object obj = rt;
+					if (obj instanceof IntuitEntity) {
+						intuitResponseDeserializerHelper.updateBigDecimalScale((IntuitEntity) obj);
+						JAXBElement<? extends IntuitEntity> intuitObject = objFactory.createIntuitObject((IntuitEntity) obj);
+						qr.setIntuitObject(intuitObject);
+					}
 				}
 			} else {
                 // It has to be an IntuitEntity
