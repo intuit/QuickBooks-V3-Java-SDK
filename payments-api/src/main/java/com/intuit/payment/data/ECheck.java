@@ -38,7 +38,7 @@ public class ECheck extends Entity {
 
 	public enum ECheckStatus {
 		PENDING, SUCCEEDED, DECLINED, VOIDED, REFUNDED
-	};
+	}
 
 	private BigDecimal amount = null;
 	private BankAccount bankAccount = null;
@@ -48,8 +48,8 @@ public class ECheck extends Entity {
 	private PaymentModeType paymentMode = null;
 
 	public enum PaymentModeType {
-		WEB
-	};
+		WEB, CCD
+	}
 
 	private String description = null;
 	private String checkNumber = null;
