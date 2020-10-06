@@ -39,6 +39,11 @@ public class FMSException extends Exception {
 	 * variable throwable
 	 */
 	private Throwable throwable;
+
+	/**
+	 * variable throwable
+	 */
+	private String intuit_tid;
 	
 	/**
 	 * Constructor FMSException
@@ -79,7 +84,11 @@ public class FMSException extends Exception {
 		super(errorMessage, throwable);
 		this.throwable = throwable;
 	}
-
+	public FMSException(String errorMessage, Throwable throwable, String intuit_tid) {
+		super(errorMessage, throwable);
+		this.throwable = throwable;
+		this.intuit_tid = intuit_tid;
+	}
 	/**
 	 * Method to get the list of errors received from server.
 	 * 
@@ -96,6 +105,18 @@ public class FMSException extends Exception {
 	 */
 	public Throwable getThrowable() {
 		return this.throwable;
+	}
+
+	/**
+	 * Method to get the intuit_tid
+	 * @return intuit_tid
+	 */
+	public String getIntuit_tid() {
+		return intuit_tid;
+	}
+
+	public void setIntuit_tid(String intuit_tid) {
+		this.intuit_tid = intuit_tid;
 	}
 	
 	/**
