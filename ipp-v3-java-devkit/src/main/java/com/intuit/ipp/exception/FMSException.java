@@ -41,7 +41,7 @@ public class FMSException extends Exception {
 	private Throwable throwable;
 
 	/**
-	 * variable throwable
+	 * variable intuit_tid
 	 */
 	private String intuit_tid;
 	
