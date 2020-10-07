@@ -27,6 +27,11 @@ public class OAuthException extends PlatformException {
 	
 	private static final long serialVersionUID = -1985285089721112172L;
 
+	/**
+	 * variable intuit_tid
+	 */
+	private String intuit_tid;
+
 	public OAuthException(String errorMessage,String errorCode){
 		super(errorMessage,errorCode);
 		
@@ -40,9 +45,23 @@ public class OAuthException extends PlatformException {
 		super(errorMessage,e);
 	}
 
+	public OAuthException(String errorMessage, Throwable e, String intuit_tid) {
+		super(errorMessage, e);
+		this.intuit_tid = intuit_tid;
+	}
+
 	public OAuthException( String errorMessage,  String statusCode,  String intuit_tid, Response response){
 		super(errorMessage, statusCode, intuit_tid, response);
+		this.intuit_tid = intuit_tid;
 	}
 
-
+	@Override
+	public String getIntuit_tid() {
+		return intuit_tid;
 	}
+
+	@Override
+	public void setIntuit_tid(String intuit_tid) {
+		this.intuit_tid = intuit_tid;
+	}
+}
