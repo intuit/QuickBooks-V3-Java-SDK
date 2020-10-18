@@ -112,11 +112,11 @@ public class HTTPURLConnectionInterceptor implements Interceptor {
 			setResponseElements(intuitMessage, httpUrlConnection);
 			
 		} catch (URISyntaxException e) {
-			throw new FMSException("URISyntaxException", e);
+			throw new FMSException("URISyntaxException", e, intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 		} catch (IOException e) {
-			throw new FMSException("IO Exception", e);
+			throw new FMSException("IO Exception", e, intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 		} catch(Throwable e){
-			throw new FMSException("Unexpected expection", e);
+			throw new FMSException("Unexpected expection", e, intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 		}
 		finally{
 			// Make sure to always disconnect.

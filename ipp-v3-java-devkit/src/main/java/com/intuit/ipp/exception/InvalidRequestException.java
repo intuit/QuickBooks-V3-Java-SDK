@@ -66,4 +66,15 @@ public class InvalidRequestException extends FMSException {
 	public InvalidRequestException(String errorMessage, Throwable throwable) {
 		super(errorMessage, throwable);
 	}
+	
+	/**
+	 * Constructor InvalidRequestException
+	 * 
+	 * @param errorMessage the error message
+	 * @param throwable the throwable
+	 * @param intuit_tid the transaction id
+	 */
+	public InvalidRequestException(String errorMessage, Throwable throwable, String intuit_tid) {
+		super(errorMessage, throwable, intuit_tid);
+	}
 }

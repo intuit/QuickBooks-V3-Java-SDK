@@ -65,5 +65,16 @@ public class AuthenticationException extends FMSException {
 	public AuthenticationException(String errorMessage, Throwable throwable) {
 		super(errorMessage, throwable);
 	}
+	
+	/**
+	 * Constructor AuthenticationException
+	 * 
+	 * @param errorMessage the error message
+	 * @param throwable the throwable
+	 * @param intuit_tid the transaction id
+	 */
+	public AuthenticationException(String errorMessage, Throwable throwable, String intuit_tid) {
+		super(errorMessage, throwable, intuit_tid);
+	}
 
 }

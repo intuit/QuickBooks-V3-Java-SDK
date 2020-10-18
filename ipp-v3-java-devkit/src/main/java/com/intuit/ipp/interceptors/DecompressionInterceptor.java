@@ -26,6 +26,7 @@ import com.intuit.ipp.compression.ICompressor;
 import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.util.Logger;
 import com.intuit.ipp.util.StringUtils;
+import com.sun.tools.internal.ws.processor.model.Request;
 
 /**
  * Interceptor to decompress the HTTP response
@@ -68,10 +69,10 @@ public class DecompressionInterceptor implements Interceptor {
                     decompressedData = new String(bytes.toByteArray());
 				} catch (IllegalStateException e) {
 					LOG.error("IllegalStateException while get the content from HttpResponse.", e);
-					throw new FMSException(e);
+					throw new FMSException(e, intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 				} catch (Exception e) {
 					LOG.error("IOException in DecompressInterceptor.", e);
-					throw new FMSException(e);
+					throw new FMSException(e, intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 				}
 			}
 		}
@@ -90,10 +91,10 @@ public class DecompressionInterceptor implements Interceptor {
 				}
 			} catch (IllegalStateException e) {
 				LOG.error("IllegalStateException while get the content from HttpResponse.", e);
-				throw new FMSException(e);
+				throw new FMSException(e, intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 			} catch (Exception e) {
 				LOG.error("IOException in DecompressInterceptor.", e);
-				throw new FMSException(e);
+				throw new FMSException(e, intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 			} finally {
 				if (br != null) {
 					try {
