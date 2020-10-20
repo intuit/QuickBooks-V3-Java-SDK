@@ -26,7 +26,6 @@ import com.intuit.ipp.compression.ICompressor;
 import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.util.Logger;
 import com.intuit.ipp.util.StringUtils;
-import com.sun.tools.internal.ws.processor.model.Request;
 
 /**
  * Interceptor to decompress the HTTP response
