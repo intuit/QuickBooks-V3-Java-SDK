@@ -12,7 +12,8 @@
     <description>IPP Java V3 DevKit Parent project for development and test projects</description>
 
     <modules>
-        <module>ipp-v3-java-all</module>
+        <module>ipp-v3-java-data</module>
+        <module>ipp-v3-java-devkit</module>
         <module>oauth2-platform-api</module>
         <module>payments-api</module>
     </modules>
