@@ -83,6 +83,7 @@ public final class JsonResourceTypeLocator {
 			put("QueryResponse", QueryResponse.class);
 			put("RecurringTransaction", RecurringTransaction.class);
 			put("RefundReceipt", RefundReceipt.class);
+			put("ReimburseCharge", ReimburseCharge.class);
 			put("SalesOrder", SalesOrder.class);
 			put("SalesReceipt", SalesReceipt.class);
 			put("SalesRep", SalesRep.class);

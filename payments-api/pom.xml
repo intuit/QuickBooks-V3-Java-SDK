@@ -19,7 +19,7 @@
   <parent>
     <artifactId>ipp-v3-java-devkit-pom</artifactId>
     <groupId>com.intuit.quickbooks-online</groupId>
-	  <version>6.1.0</version>
+	  <version>6.1.1</version>
   </parent>
   <artifactId>payments-api</artifactId>
   <name>Payments API SDK</name>
