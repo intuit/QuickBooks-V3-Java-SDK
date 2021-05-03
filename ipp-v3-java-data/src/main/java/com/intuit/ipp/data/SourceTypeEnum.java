@@ -14,31 +14,28 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for PostingTypeEnum.
+ * <p>Java class for SourceTypeEnum.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="PostingTypeEnum"&gt;
+ * &lt;simpleType name="SourceTypeEnum"&gt;
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
- *     &lt;enumeration value="Credit"/&gt;
- *     &lt;enumeration value="Debit"/&gt;
+ *     &lt;enumeration value="QBCommerce"/&gt;
  *   &lt;/restriction&gt;
  * &lt;/simpleType&gt;
  * </pre>
  * 
  */
-@XmlType(name = "PostingTypeEnum")
+@XmlType(name = "SourceTypeEnum")
 @XmlEnum
-public enum PostingTypeEnum {
+public enum SourceTypeEnum {
 
-    @XmlEnumValue("Credit")
-    CREDIT("Credit"),
-    @XmlEnumValue("Debit")
-    DEBIT("Debit");
+    @XmlEnumValue("QBCommerce")
+    QB_COMMERCE("QBCommerce");
     private final String value;
 
-    PostingTypeEnum(String v) {
+    SourceTypeEnum(String v) {
         value = v;
     }
 
@@ -46,8 +43,8 @@ public enum PostingTypeEnum {
         return value;
     }
 
-    public static PostingTypeEnum fromValue(String v) {
-        for (PostingTypeEnum c: PostingTypeEnum.values()) {
+    public static SourceTypeEnum fromValue(String v) {
+        for (SourceTypeEnum c: SourceTypeEnum.values()) {
             if (c.value.equals(v)) {
                 return c;
             }
