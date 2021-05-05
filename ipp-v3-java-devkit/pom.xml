@@ -22,7 +22,7 @@
 		<dependency>
 			<groupId>com.intuit.quickbooks-online</groupId>
 			<artifactId>ipp-v3-java-data</artifactId>
-			<version>6.0.8</version>
+			<version>6.1.2</version>
 		</dependency>
         <dependency>
             <groupId>cglib</groupId>
