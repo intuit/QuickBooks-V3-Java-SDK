@@ -24,6 +24,7 @@ public class Entity {
 	String id;
 	String operation;
 	String lastUpdated;
+	String deletedId;
 
 	public String getName() {
 		return name;
@@ -57,4 +58,11 @@ public class Entity {
 		this.lastUpdated = lastUpdated;
 	}
 
+	public String getDeletedId() {
+		return deletedId;
+	}
+
+	public void setDeletedId(String deletedId) {
+		this.deletedId = deletedId;
+	}
 }

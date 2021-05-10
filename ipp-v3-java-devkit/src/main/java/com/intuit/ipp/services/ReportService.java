@@ -263,6 +263,8 @@ public class ReportService {
     
     private  String subcol_pct_exp = null;
 
+    private String showrows = null;
+
 
 
     /**
@@ -1209,5 +1211,12 @@ public class ReportService {
 	public void setSubcol_pct_exp(String subcol_pct_exp) {
 		this.subcol_pct_exp = subcol_pct_exp;
 	}
-    
+	
+    public String getShowrows() {
+        return showrows;
+    }
+
+    public void setShowrows(String showrows) {
+        this.showrows = showrows;
+    }
 }

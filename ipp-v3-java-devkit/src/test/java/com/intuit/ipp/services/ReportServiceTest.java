@@ -100,6 +100,7 @@ public class ReportServiceTest {
         reportService.setAccount_status("");
         reportService.setSubcol_pct_inc("");
         reportService.setSubcol_pct_exp("");
+        reportService.setShowrows("");
 
         return reportService;
     }

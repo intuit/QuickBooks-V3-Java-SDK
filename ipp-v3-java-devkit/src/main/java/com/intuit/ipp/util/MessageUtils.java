@@ -162,6 +162,7 @@ public final class MessageUtils {
 				enumList.add(UOMBaseTypeEnum.class);
 				enumList.add(UOMFeatureTypeEnum.class);
 				enumList.add(WeekEnum.class);
+				enumList.add(SourceTypeEnum.class);
 			}
 			return enumList;
 		}
@@ -253,6 +254,7 @@ public final class MessageUtils {
 				entityList.add(Vendor.class);
 				entityList.add(VendorCredit.class);
 				entityList.add(VendorType.class);
+				entityList.add(RecurringScheduleInfo.class);
 			}
 			return entityList;
 		}
