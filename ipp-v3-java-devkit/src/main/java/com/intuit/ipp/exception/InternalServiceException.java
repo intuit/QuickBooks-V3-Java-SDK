@@ -66,4 +66,15 @@ public class InternalServiceException extends FMSException {
 	public InternalServiceException(String errorMessage, Throwable throwable) {
 		super(errorMessage, throwable);
 	}
+	
+	/**
+	 * Constructor for InternalServiceException
+	 * 
+	 * @param errorMessage the error message
+	 * @param throwable the throwable
+	 * @param intuit_tid the transaction id
+	 */
+	public InternalServiceException(String errorMessage, Throwable throwable, String intuit_tid) {
+		super(errorMessage, throwable, intuit_tid);
+	}
 }

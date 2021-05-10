@@ -120,7 +120,7 @@ public class HandleResponseInterceptor implements Interceptor {
 				throw new AuthorizationException(fault.getError());
 			} else {
 				//not able to recognize the type of exception
-				throw new FMSException(fault.getError());
+				throw new FMSException(fault.getError(), intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 			}
 		} else if (intuitResponse == null) {
 			//intuitResponse is null means that message received contains error as message 
