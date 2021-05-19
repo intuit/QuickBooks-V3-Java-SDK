@@ -173,9 +173,9 @@ public class OAuth2PlatformClient {
      */
     private List<NameValuePair> getUrlParameters(String action, String token, String redirectUri) {
         List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-        if (action == "revoke") {
+        if ("revoke".equals(action)) {
             urlParameters.add(new BasicNameValuePair("token", token));
-        } else if (action == "refresh") {
+        } else if ("refresh".equals(action)) {
             urlParameters.add(new BasicNameValuePair("refresh_token", token));
             urlParameters.add(new BasicNameValuePair("grant_type", "refresh_token"));
         } else {
