@@ -26,7 +26,6 @@ import com.intuit.ipp.compression.ICompressor;
 import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.util.Logger;
 import com.intuit.ipp.util.StringUtils;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Interceptor to decompress the HTTP response
@@ -83,7 +82,7 @@ public class DecompressionInterceptor implements Interceptor {
 			String readLine = null;
 			StringBuilder responseBody = new StringBuilder();
 			try {
-				br = new BufferedReader(new InputStreamReader(responseElements.getResponseContent(), StandardCharsets.UTF_8));
+				br = new BufferedReader(new InputStreamReader(responseElements.getResponseContent()));
 
 				//get the response body received from socket connection
 				while (((readLine = br.readLine()) != null)) {
