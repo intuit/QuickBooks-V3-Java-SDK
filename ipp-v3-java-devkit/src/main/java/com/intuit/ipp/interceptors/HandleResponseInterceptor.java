@@ -104,19 +104,19 @@ public class HandleResponseInterceptor implements Interceptor {
 		if (intuitResponse != null && intuitResponse.getFault() != null) {
 			Fault fault = intuitResponse.getFault();
 
-			if (fault.getType().equalsIgnoreCase("Validation")) {
+			if ("Validation".equalsIgnoreCase(fault.getType())) {
 				throw new ValidationException(fault.getError());
-			} else if (fault.getType().equalsIgnoreCase("Service")) {
+			} else if ("Service".equalsIgnoreCase(fault.getType())) {
 				throw new ServiceException(fault.getError());
-			} else if (fault.getType().equalsIgnoreCase("AuthenticationFault")) {
+			} else if ("AuthenticationFault".equalsIgnoreCase(fault.getType())) {
 				throw new AuthenticationException(fault.getError());
-			} else if (fault.getType().equalsIgnoreCase("Authentication")) {
+			} else if ("Authentication".equalsIgnoreCase(fault.getType())) {
 				throw new AuthenticationException(fault.getError());
-			} else if (fault.getType().equalsIgnoreCase("ApplicationAuthenticationFailed")) {
+			} else if ("ApplicationAuthenticationFailed".equalsIgnoreCase(fault.getType())) {
 				throw new AuthenticationException(fault.getError());
-			} else if (fault.getType().equalsIgnoreCase("Authorization")) {
+			} else if ("Authorization".equalsIgnoreCase(fault.getType())) {
 				throw new AuthorizationException(fault.getError());
-			} else if (fault.getType().equalsIgnoreCase("AuthorizationFault")) {
+			} else if ("AuthorizationFault".equalsIgnoreCase(fault.getType())) {
 				throw new AuthorizationException(fault.getError());
 			} else {
 				//not able to recognize the type of exception
