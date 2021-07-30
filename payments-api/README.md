@@ -1,3 +1,5 @@
+[![Rate your SDK](view/RateSDK.png)][ss1][![Yes](view/Thumbup.png)][ss2][![No](view/Thumbdown.png)][ss3]
+
 JAVA-PAYMENTS-SDK
 ==================
 
@@ -100,6 +102,10 @@ For logging requestId, use the following method
 ```java
 token.getRequestId();
 ```
+
+[ss1]: #
+[ss2]: https://customersurveys.intuit.com/jfe/form/SV_9LWgJBcyy3NAwHc?check=Yes&checkpoint=JavaPaymentsSDK&pageUrl=github
+[ss3]: https://customersurveys.intuit.com/jfe/form/SV_9LWgJBcyy3NAwHc?check=No&checkpoint=JavaPaymentsSDK&pageUrl=github
 
 ## Sample
 For more samples on how to create other entities and operation, take a look at the sample application below :  
