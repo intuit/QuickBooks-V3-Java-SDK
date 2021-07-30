@@ -1,4 +1,5 @@
-[![SDK Banner](views/SDK.png)][ss1]
+[![Rate your SDK](views/RateSDK.png)][ss1][![Yes](views/Thumbup.png)][ss2][![No](views/Thumbdown.png)][ss3]
+
 
 V3-JAVA-SDK
 ===========
@@ -75,4 +76,6 @@ Note: Before you submit the pull request, make sure to remove the keys and token
 
 Thank you for your contribution!
 
-[ss1]: https://help.developer.intuit.com/s/SDKFeedback?cid=1180
+[ss1]: #
+[ss2]: https://customersurveys.intuit.com/jfe/form/SV_9LWgJBcyy3NAwHc?check=Yes&checkpoint=.NETSDK&pageUrl=github
+[ss3]: https://customersurveys.intuit.com/jfe/form/SV_9LWgJBcyy3NAwHc?check=No&checkpoint=.NETSDK&pageUrl=github
