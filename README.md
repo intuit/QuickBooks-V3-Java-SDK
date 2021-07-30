@@ -77,5 +77,5 @@ Note: Before you submit the pull request, make sure to remove the keys and token
 Thank you for your contribution!
 
 [ss1]: #
-[ss2]: https://customersurveys.intuit.com/jfe/form/SV_9LWgJBcyy3NAwHc?check=Yes&checkpoint=.NETSDK&pageUrl=github
-[ss3]: https://customersurveys.intuit.com/jfe/form/SV_9LWgJBcyy3NAwHc?check=No&checkpoint=.NETSDK&pageUrl=github
+[ss2]: https://customersurveys.intuit.com/jfe/form/SV_9LWgJBcyy3NAwHc?check=Yes&checkpoint=JavaQBOSDK&pageUrl=github
+[ss3]: https://customersurveys.intuit.com/jfe/form/SV_9LWgJBcyy3NAwHc?check=No&checkpoint=JavaQBOSDK&pageUrl=github
