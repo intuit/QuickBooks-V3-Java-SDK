@@ -73,14 +73,14 @@
     <xs:element name="Budget" type="Budget" substitutionGroup="IntuitObject"/>
     <xs:element name="OLBStatus" type="OLBStatus"/>
     <xs:element name="TaxAgency" type="TaxAgency" substitutionGroup="IntuitObject"/>
-    <xs:element name="TDSMetadata" type="TDSMetadata" substitutionGroup="IntuitObject"/>
-    <xs:element name="CompanyCurrency" type="CompanyCurrency" substitutionGroup="IntuitObject"/>
-    <xs:element name="ExchangeRate" type="ExchangeRate" substitutionGroup="IntuitObject"/> 
-    <xs:element name="JournalCode" type="JournalCode" substitutionGroup="IntuitObject"/>  
-    <xs:element name="QbdtEntityIdMapping" type="QbdtEntityIdMapping" substitutionGroup="IntuitObject"/>
+	<xs:element name="TDSMetadata" type="TDSMetadata" substitutionGroup="IntuitObject"/>
+	<xs:element name="CompanyCurrency" type="CompanyCurrency" substitutionGroup="IntuitObject"/>
+	<xs:element name="ExchangeRate" type="ExchangeRate" substitutionGroup="IntuitObject"/> 
+	<xs:element name="JournalCode" type="JournalCode" substitutionGroup="IntuitObject"/>  
+	<xs:element name="QbdtEntityIdMapping" type="QbdtEntityIdMapping" substitutionGroup="IntuitObject"/>
     <xs:element name="MasterAccount" type="MasterAccount" substitutionGroup="IntuitObject"/>
     <xs:element name="Tag" type="Tag" substitutionGroup="IntuitObject"/>
-        
+	  	
     <xs:simpleType name="FaultTypeEnum">
         <xs:annotation>
             <xs:documentation>FaultTypeEnumeration list</xs:documentation>
@@ -458,7 +458,7 @@
             <xs:enumeration value="revert"/>
             <xs:enumeration value="delete"/>
             <xs:enumeration value="void"/>
-            <xs:enumeration value="send"/>
+			<xs:enumeration value="send"/>
             <xs:enumeration value="merge"/>
         </xs:restriction>
     </xs:simpleType>
@@ -477,9 +477,9 @@
     <xs:complexType name="Status">
         <xs:annotation>
             <xs:documentation>
-                Product: QBW
-                Description: generic meta data response for any add mod
-              </xs:documentation>
+		        Product: QBW
+		        Description: generic meta data response for any add mod
+		      </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="IntuitEntity">
@@ -487,53 +487,53 @@
                     <xs:element name="RequestId" type="xs:string" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>
-                            Product: QBW
-                            Description: Request Id to create/update object
-                            Filterable: QBW
-                         </xs:documentation>
+            				Product: QBW
+            				Description: Request Id to create/update object
+            				Filterable: QBW
+         				 </xs:documentation>
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="BatchId" type="xs:string" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>
-                            Product: QBW
-                            Description: Batch Id to create/update object
-                            Filterable: QBW
-                        </xs:documentation>
+            				Product: QBW
+            				Description: Batch Id to create/update object
+            				Filterable: QBW
+          				</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="ObjectType" type="xs:string"/>
                     <xs:element name="StateCode" type="xs:string" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>
-                            Product: QBW
-                            Description: Code for Current State of object
-                            Filterable: QBW
-                        </xs:documentation>
+            				Product: QBW
+            				Description: Code for Current State of object
+            				Filterable: QBW
+          				</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="StateDesc" type="xs:string" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>
-                            Product: QBW
-                                Description: Description for Current State of object
-                        </xs:documentation>
+	            			Product: QBW
+	            				Description: Description for Current State of object
+	          			</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="MessageCode" type="xs:string" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>
-                            Product: QBW
-                            Description: Status Message Code 
-                        </xs:documentation>
+            				Product: QBW
+            				Description: Status Message Code 
+          				</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="MessageDesc" type="xs:string" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>
-                        Product: QBW
-                        Description: Status Message if error occurred else null
-                    </xs:documentation>
+            			Product: QBW
+            			Description: Status Message if error occurred else null
+          			</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                 </xs:sequence>
@@ -543,10 +543,10 @@
     <xs:complexType name="SyncActivity">
         <xs:annotation>
             <xs:documentation>
-                 Product: QBW
-                 Description: Provides upload/writeback activity for a given period of time. Query activity using 
-                              StartSyncTMS OR EndSyncTMS
-            </xs:documentation>
+       			 Product: QBW
+        		 Description: Provides upload/writeback activity for a given period of time. Query activity using 
+        		 			  StartSyncTMS OR EndSyncTMS
+      		</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="IntuitEntity">
@@ -555,60 +555,60 @@
                         maxOccurs="1">
                         <xs:annotation>
                             <xs:documentation>
-                             Product:QBW
-                             Description: indicates when the data sync upload or write back started
-                        </xs:documentation>
+          					 Product:QBW
+            				 Description: indicates when the data sync upload or write back started
+          				</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="LatestWriteBackDateTime" type="xs:dateTime" minOccurs="0"
                         maxOccurs="1">
                         <xs:annotation>
                             <xs:documentation>
-                            Product: QBW
-                            Description: indicates when the data sync upload or write back completed
-                        </xs:documentation>
+            				Product: QBW
+            				Description: indicates when the data sync upload or write back completed
+          				</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="SyncType" type="SyncType" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>
-                            Product: QBW
-                            Description: can be either Upload or Write back sync type
-                        </xs:documentation>
+            				Product: QBW
+            				Description: can be either Upload or Write back sync type
+          				</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="StartSyncTMS" type="xs:dateTime" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>
-                            Product: QBW
-                            Description: indicates when the data sync upload or write back started
-                            Filterable: QBW
-                        </xs:documentation>
+            				Product: QBW
+            				Description: indicates when the data sync upload or write back started
+            				Filterable: QBW
+          				</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="EndSyncTMS" type="xs:dateTime" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>
-                            Product: QBW
-                            Description: indicates when the data sync upload or write back completed
-                            Filterable: QBW
-                        </xs:documentation>
+            				Product: QBW
+            				Description: indicates when the data sync upload or write back completed
+            				Filterable: QBW
+          				</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="EntityName" type="xs:string" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>
-                            Product: QBW
-                            Description: name of the entity that is part of the data sync
-                        </xs:documentation>
+            				Product: QBW
+            				Description: name of the entity that is part of the data sync
+          				</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="EntityRowCount" type="xs:int" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>
-                            Product: QBW
-                            Description: number of rows of this entity that have been uploaded or written back to QB
-                        </xs:documentation>
+            				Product: QBW
+            				Description: number of rows of this entity that have been uploaded or written back to QB
+          				</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                 </xs:sequence>
@@ -648,28 +648,28 @@
             </xs:element>
         </xs:sequence>
         <xs:attribute name="latestUploadTime" type="xs:dateTime" use="optional">
-               <xs:annotation>
-                   <xs:documentation>
-                        Product: QBW
-                        Description: Specifies the latest time when Upload happened.
-                   </xs:documentation>
-               </xs:annotation>
-        </xs:attribute>
+		       <xs:annotation>
+		           <xs:documentation>
+		           		Product: QBW
+		           		Description: Specifies the latest time when Upload happened.
+		           </xs:documentation>
+		       </xs:annotation>
+		</xs:attribute>
         <xs:attribute name="startPosition" type="xs:int" use="optional">
-               <xs:annotation>
-                   <xs:documentation>Specifies the starting row number in this result</xs:documentation>
-               </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="maxResults" type="xs:int" use="optional">
-             <xs:annotation>
-                 <xs:documentation>Specifies the number of records in this result </xs:documentation>
-             </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="totalCount" type="xs:int" use="optional">
-            <xs:annotation>
-                <xs:documentation>Specifies the total count of records that satisfy the filter condition </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
+		       <xs:annotation>
+		           <xs:documentation>Specifies the starting row number in this result</xs:documentation>
+		       </xs:annotation>
+		</xs:attribute>
+     	<xs:attribute name="maxResults" type="xs:int" use="optional">
+	         <xs:annotation>
+	             <xs:documentation>Specifies the number of records in this result </xs:documentation>
+	         </xs:annotation>
+     	</xs:attribute>
+     	<xs:attribute name="totalCount" type="xs:int" use="optional">
+         	<xs:annotation>
+             	<xs:documentation>Specifies the total count of records that satisfy the filter condition </xs:documentation>
+         	</xs:annotation>
+     	</xs:attribute>
     </xs:complexType>
     <xs:complexType name="SyncError">
         <xs:annotation>
@@ -724,8 +724,8 @@
     <xs:complexType name="SyncObject">
         <xs:annotation>
             <xs:documentation>
-                Product: QBW
-                Description: SyncObject that has an error
+            	Product: QBW
+            	Description: SyncObject that has an error
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
@@ -757,9 +757,9 @@
         </xs:restriction>
     </xs:simpleType>
     <!-- ========================================================================================================= 
-        Please don't expose this object externally, this object should ONLY be used 
-        for publishing JMS events 
-        ========================================================================================================= -->
+		Please don't expose this object externally, this object should ONLY be used 
+		for publishing JMS events 
+		========================================================================================================= -->
     <xs:complexType name="Cascade">
         <xs:annotation>
             <xs:documentation> Product: QBO Description: Object representing cascading events on entities resulting from a transaction event. Used by messaging. Not intended for external clients. </xs:documentation>
@@ -783,9 +783,9 @@
         </xs:sequence>
     </xs:complexType>
     <!-- ========================================================================================================= 
-        Please don't expose this object externally, this object should ONLY be used 
-        for publishing JMS events 
-        ========================================================================================================= -->
+		Please don't expose this object externally, this object should ONLY be used 
+		for publishing JMS events 
+		========================================================================================================= -->
     <xs:complexType name="CascadeResponse">
         <xs:annotation>
             <xs:documentation> Product: QBO Description: Holder for a collection of Cascade objects. Used by messaging. Not intended for external clients.  </xs:documentation>

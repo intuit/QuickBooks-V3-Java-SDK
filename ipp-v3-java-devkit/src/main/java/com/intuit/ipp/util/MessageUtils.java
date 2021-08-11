@@ -106,6 +106,7 @@ public final class MessageUtils {
 				enumList.add(ETransactionEnabledStatusEnum.class);
 				enumList.add(ETransactionStatusEnum.class);
 				enumList.add(FaultTypeEnum.class);
+				enumList.add(FinancingProductTypeEnum.class);
 				enumList.add(Gender.class);
 				enumList.add(GlobalTaxCalculationEnum.class);
 				enumList.add(GTMConfigTypeEnum.class);
@@ -141,6 +142,7 @@ public final class MessageUtils {
 				enumList.add(SpecialItemTypeEnum.class);
 				enumList.add(SpecialTaxTypeEnum.class);
 				enumList.add(SubcontractorTypeEnum.class);
+				enumList.add(SubscriptionPaymentsSettingEnum.class);
 				enumList.add(SummarizeColumnsByEnum.class);
 				enumList.add(SymbolPositionEnum.class);
 				enumList.add(TaxApplicableOnEnum.class);

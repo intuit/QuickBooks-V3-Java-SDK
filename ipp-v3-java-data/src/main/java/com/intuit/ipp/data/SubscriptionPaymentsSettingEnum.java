@@ -13,38 +13,30 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for SpecialTaxTypeEnum.
+ * <p>Java class for SubscriptionPaymentsSettingEnum.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="SpecialTaxTypeEnum"&gt;
+ * &lt;simpleType name="SubscriptionPaymentsSettingEnum"&gt;
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
- *     &lt;enumeration value="NONE"/&gt;
- *     &lt;enumeration value="ZERO_RATE"/&gt;
- *     &lt;enumeration value="FOREIGN_TAX"/&gt;
- *     &lt;enumeration value="REVERSE_CHARGE"/&gt;
- *     &lt;enumeration value="ADJUSTMENT_RATE"/&gt;
+ *     &lt;enumeration value="SALE_TERM"/&gt;
  *   &lt;/restriction&gt;
  * &lt;/simpleType&gt;
  * </pre>
  * 
  */
-@XmlType(name = "SpecialTaxTypeEnum")
+@XmlType(name = "SubscriptionPaymentsSettingEnum")
 @XmlEnum
-public enum SpecialTaxTypeEnum {
+public enum SubscriptionPaymentsSettingEnum {
 
-    NONE,
-    ZERO_RATE,
-    FOREIGN_TAX,
-    REVERSE_CHARGE,
-    ADJUSTMENT_RATE;
+    SALE_TERM;
 
     public String value() {
         return name();
     }
 
-    public static SpecialTaxTypeEnum fromValue(String v) {
+    public static SubscriptionPaymentsSettingEnum fromValue(String v) {
         return valueOf(v);
     }
 
