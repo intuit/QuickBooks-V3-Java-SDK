@@ -48,12 +48,21 @@ public class DiscoveryAPIClientTest {
 		assertEquals("https://sandbox-accounts.platform.intuit.com/v1/openid_connect/userinfo", discoveryAPIResponse.getUserinfoEndpoint());
 		
 	}
-	
-	public static void main (String[] args) throws ConnectionException {
-		
-		DiscoveryAPIResponse discoveryAPIResponse = new DiscoveryAPIClient(null).callDiscoveryAPI(Environment.PRODUCTION);
-		
+
+	@Test
+	public void testCallDiscoverAPIForE2e() throws ConnectionException {
+
+		DiscoveryAPIResponse discoveryAPIResponse = new DiscoveryAPIClient(null).callDiscoveryAPI(Environment.E2E);
+		assertNotNull(discoveryAPIResponse);
+		assertEquals("https://accounts-e2e.platform.intuit.com/v1/openid_connect/userinfo", discoveryAPIResponse.getUserinfoEndpoint());
+
 	}
-	
-	
+
+	public static void main (String[] args) throws ConnectionException {
+
+		DiscoveryAPIResponse discoveryAPIResponse = new DiscoveryAPIClient(null).callDiscoveryAPI(Environment.PRODUCTION);
+
+	}
+
+
 }

@@ -24,7 +24,8 @@ package com.intuit.oauth2.config;
 public enum Environment {
 	
 	PRODUCTION("PRODUCTION"),
-	SANDBOX("SANDBOX");
+	SANDBOX("SANDBOX"),
+    E2E("E2E");
 	
 	private final String value;
 
