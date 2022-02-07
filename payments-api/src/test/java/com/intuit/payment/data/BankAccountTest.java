@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import java.util.Date;
 import com.intuit.payment.data.BankAccount.BankAccountInputTypeEnum;
 import com.intuit.payment.data.BankAccount.AccountType;
+import com.intuit.payment.data.BankAccount.VerificationStatus;
 
 /**
  * @author enzozafra
@@ -22,6 +23,7 @@ public class BankAccountTest {
     private String routingNumber;
     private String accountNumber;
     private AccountType accountType;
+    private VerificationStatus verificationStatus;
     private String phone;
     private Boolean defaultValue;
     private String country;
@@ -42,6 +44,7 @@ public class BankAccountTest {
         routingNumber = "12311";
         accountNumber = "123123123";
         accountType = AccountType.PERSONAL_CHECKING;
+        verificationStatus = VerificationStatus.VERIFIED;
         phone = "5871231234";
         defaultValue = true;
         country = "country";
@@ -62,6 +65,7 @@ public class BankAccountTest {
                 .routingNumber(routingNumber)
                 .accountNumber(accountNumber)
                 .accountType(accountType)
+                .verificationStatus(verificationStatus)
                 .phone(phone)
                 .defaultValue(defaultValue)
                 .country(country)
@@ -102,6 +106,7 @@ public class BankAccountTest {
         String newRoutingNumber = "11321";
         String newAccountNumber = "45655623";
         AccountType newAccountType = AccountType.PERSONAL_SAVINGS;
+        VerificationStatus newVerificationStatus = VerificationStatus.VERIFIED;
         String newPhone = "1231231231";
         Boolean newDefaultValue = false;
         String newCountry = "new country";
@@ -118,6 +123,7 @@ public class BankAccountTest {
         bankAccount.setRoutingNumber(newRoutingNumber);
         bankAccount.setAccountNumber(newAccountNumber);
         bankAccount.setAccountType(newAccountType);
+        bankAccount.setVerificationStatus(newVerificationStatus);
         bankAccount.setPhone(newPhone);
         bankAccount.setDefaultValue(newDefaultValue);
         bankAccount.setCountry(newCountry);
@@ -133,6 +139,8 @@ public class BankAccountTest {
         Assert.assertEquals(bankAccount.getInputType(), newInputType);
         Assert.assertEquals(bankAccount.getRoutingNumber(), newRoutingNumber);
         Assert.assertEquals(bankAccount.getAccountNumber(), newAccountNumber);
+        Assert.assertEquals(bankAccount.getAccountType(), newAccountType);
+        Assert.assertEquals(bankAccount.getVerificationStatus(), newVerificationStatus);
         Assert.assertEquals(bankAccount.getPhone(), newPhone);
         Assert.assertEquals(bankAccount.getDefaultValue(), newDefaultValue);
         Assert.assertEquals(bankAccount.getCountry(), newCountry);

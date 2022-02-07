@@ -44,9 +44,12 @@ public class BankAccount extends Entity {
 	private String routingNumber = null;
 	private String accountNumber = null;
 	private AccountType accountType = null;
-
 	public enum AccountType {
 		PERSONAL_CHECKING, PERSONAL_SAVINGS, BUSINESS_CHECKING, BUSINESS_SAVINGS
+	};
+	private VerificationStatus verificationStatus = null;
+	public enum VerificationStatus {
+		VERIFIED, NOT_VERIFIED, VERIFICATION_PENDING
 	};
 
 	private String phone = null;
@@ -73,6 +76,7 @@ public class BankAccount extends Entity {
 		this.routingNumber = builder.routingNumber;
 		this.accountNumber = builder.accountNumber;
 		this.accountType = builder.accountType;
+		this.verificationStatus = builder.verificationStatus;
 		this.phone = builder.phone;
 		this.defaultValue = builder.defaultValue;
 		this.country = builder.country;
@@ -193,6 +197,20 @@ public class BankAccount extends Entity {
 	/**
 	 * @return
 	 */
+	public VerificationStatus getVerificationStatus() {
+		return verificationStatus;
+	}
+
+	/**
+	 * @param verificationStatus
+	 */
+	public void setVerificationStatus(VerificationStatus verificationStatus) {
+		this.verificationStatus = verificationStatus;
+	}
+
+	/**
+	 * @return
+	 */
 	public String getPhone() {
 		return phone;
 	}
@@ -305,6 +323,7 @@ public class BankAccount extends Entity {
 		private String routingNumber = null;
 		private String accountNumber = null;
 		private AccountType accountType = null;
+		private VerificationStatus verificationStatus = null;
 		private String phone = null;
 		private Boolean defaultValue = null;
 		private String country = null;
@@ -353,6 +372,11 @@ public class BankAccount extends Entity {
 
 		public Builder accountType(AccountType accountType) {
 			this.accountType = accountType;
+			return this;
+		}
+
+		public Builder verificationStatus(VerificationStatus verificationStatus) {
+			this.verificationStatus = verificationStatus;
 			return this;
 		}
 
