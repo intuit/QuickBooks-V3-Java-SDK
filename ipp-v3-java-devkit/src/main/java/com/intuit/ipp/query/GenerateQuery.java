@@ -19,6 +19,11 @@ import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
 
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
+import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.implementation.SuperMethodCall;
+import net.bytebuddy.matcher.ElementMatchers;
 import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.CallbackFilter;
 import net.sf.cglib.proxy.Enhancer;
@@ -34,7 +39,7 @@ import net.sf.cglib.proxy.NoOp;
 
 /**
  * Class used to generate the query string
- * 
+ *
  */
 public final class GenerateQuery {
 
@@ -42,17 +47,17 @@ public final class GenerateQuery {
 	 * logger instance
 	 */
 	private static final org.slf4j.Logger LOG = Logger.getLogger();
-	
+
 	/**
 	 * variable LEN_3
 	 */
 	private static final int LEN_3 = 3;
-	
+
 	/**
 	 * variable path
 	 */
 	public static ThreadLocal<Path<?>> path = new ThreadLocal<Path<?>>();
-	
+
 	/**
 	 * varriable message
 	 */
@@ -64,53 +69,94 @@ public final class GenerateQuery {
 	private GenerateQuery() {
 	}
 
-	/**
-	 * Method to create the query entity for the given class
-	 * 
-	 * @param cl the class
-	 * @return the proxified object
-	 */
+//	/**
+//	 * Method to create the query entity for the given class
+//	 *
+//	 * @param cl the class
+//	 * @return the proxified object
+//	 */
+//	@SuppressWarnings("unchecked")
+//	public static <T> T createQueryEntity(Class<T> cl) {
+//		Enhancer enhancer = new Enhancer();
+//		if (cl.isInterface()) {
+//			LOG.debug("The given class is interface");
+//			//enhancer.setInterfaces(new Class[] { cl });
+//			//enhancer.setCallback(new MyMethodInterceptor());
+//		} else {
+//			enhancer.setSuperclass(cl);
+//		}
+//		enhancer.setCallbackFilter(CALLBACK_FILTER);
+//		enhancer.setCallbacks(new Callback[] {NoOp.INSTANCE, new MyMethodInterceptor()});
+//		return (T) enhancer.create();
+//	}
+//
+//	/**
+//	 * Method to create the query for the given entity
+//	 *
+//	 * @param entity the entity
+//	 * @return the proxified object
+//	 */
+//	@SuppressWarnings("unchecked")
+//	public static <T> T createQueryEntity(T entity) {
+//		Class<?> cl = entity.getClass();
+//		Enhancer enhancer = new Enhancer();
+//		if (cl.isInterface()) {
+//			LOG.debug("The given entity is interface");
+//			//enhancer.setInterfaces(new Class[] { cl });
+//			//enhancer.setCallback(new MyMethodInterceptor());
+//		} else {
+//			enhancer.setSuperclass(cl);
+//			enhancer.setCallbackFilter(CALLBACK_FILTER);
+//			enhancer.setCallbacks(new Callback[] {NoOp.INSTANCE, new MyMethodInterceptor()});
+//		}
+//		return (T) enhancer.create();
+//	}
+
+
 	@SuppressWarnings("unchecked")
 	public static <T> T createQueryEntity(Class<T> cl) {
-		Enhancer enhancer = new Enhancer();
+		Class<?> proxied = null;
 		if (cl.isInterface()) {
 			LOG.debug("The given class is interface");
-			//enhancer.setInterfaces(new Class[] { cl });
-			//enhancer.setCallback(new MyMethodInterceptor());
 		} else {
-			enhancer.setSuperclass(cl);
+			proxied = new ByteBuddy()
+					.subclass(cl)
+					.method(ElementMatchers.any())
+					.intercept(MethodDelegation.to(new MyMethodInterceptor()))
+					.method(ElementMatchers.isClone().or(ElementMatchers.isFinalizer()).or(ElementMatchers.isEquals()).or(ElementMatchers.isHashCode()).or(ElementMatchers.isToString()))
+					.intercept(SuperMethodCall.INSTANCE)
+					.make()
+					.load(cl.getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+					.getLoaded();
 		}
-		enhancer.setCallbackFilter(CALLBACK_FILTER);
-		enhancer.setCallbacks(new Callback[] {NoOp.INSTANCE, new MyMethodInterceptor()});
-		return (T) enhancer.create();
+		return (T) proxied;
 	}
 
-	/**
-	 * Method to create the query for the given entity
-	 * 
-	 * @param entity the entity
-	 * @return the proxified object
-	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T createQueryEntity(T entity) {
 		Class<?> cl = entity.getClass();
-		Enhancer enhancer = new Enhancer();
+		Class<?> proxied = null;
 		if (cl.isInterface()) {
 			LOG.debug("The given entity is interface");
-			//enhancer.setInterfaces(new Class[] { cl });
-			//enhancer.setCallback(new MyMethodInterceptor());
 		} else {
-			enhancer.setSuperclass(cl);
-			enhancer.setCallbackFilter(CALLBACK_FILTER);
-			enhancer.setCallbacks(new Callback[] {NoOp.INSTANCE, new MyMethodInterceptor()});
+			proxied = new ByteBuddy()
+					.subclass(cl)
+					.method(ElementMatchers.any())
+					.intercept(MethodDelegation.to(new MyMethodInterceptor()))
+					.method(ElementMatchers.isClone().or(ElementMatchers.isFinalizer()).or(ElementMatchers.isEquals()).or(ElementMatchers.isHashCode()).or(ElementMatchers.isToString()))
+					.intercept(SuperMethodCall.INSTANCE)
+					.make()
+					.load(cl.getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+					.getLoaded();
 		}
-		return (T) enhancer.create();
+		return (T) proxied;
 	}
+
 
 	/**
 	 * when no handler for specific return type is defined which means properties of that type cannot be inserted in filter expression but can be
 	 * listed in select part, it will return Path
-	 * 
+	 *
 	 * @param ret the object
 	 * @return path the path
 	 */
@@ -129,7 +175,7 @@ public final class GenerateQuery {
 	/**
 	 * When return type is Calendar, it will create CalendarPath which will expose filter methods accepting java.util.Calendar, java.util.Date and
 	 * java.sql.Date
-	 * 
+	 *
 	 * @param ret
 	 * @return
 	 */
@@ -141,7 +187,7 @@ public final class GenerateQuery {
 
 	/**
 	 * Method to get the calendar path
-	 * 
+	 *
 	 * @param ret the date
 	 * @return CalendarPath the calendar path
 	 */
@@ -153,7 +199,7 @@ public final class GenerateQuery {
 
 	/**
 	 * When return type is String, it will create StringPath which will expose filter methods accepting only String
-	 * 
+	 *
 	 * @param ret the string
 	 * @return StringPath the string path
 	 */
@@ -165,7 +211,7 @@ public final class GenerateQuery {
 
 	/**
 	 * Method to get the number path
-	 * 
+	 *
 	 * @param ret the number
 	 * @return NumberPath the number path
 	 */
@@ -177,7 +223,7 @@ public final class GenerateQuery {
 
 	/**
 	 * Method to get the boolean path
-	 * 
+	 *
 	 * @param ret the boolean
 	 * @return BooleanPath the boolean path
 	 */
@@ -189,7 +235,7 @@ public final class GenerateQuery {
 
 	/**
 	 * Method to get the Enum path
-	 * 
+	 *
 	 * @param ret the enum
 	 * @return EnumPath the enum path
 	 */
@@ -201,7 +247,7 @@ public final class GenerateQuery {
 
 	/**
 	 * Method to get the optional syntax
-	 * 
+	 *
 	 * @param path the path
 	 * @param pathlist the path list
 	 * @return OptionalSyntax the optional syntax
@@ -222,7 +268,7 @@ public final class GenerateQuery {
 
 	/**
 	 * Method to get the optional syntax for the given entity
-	 * 
+	 *
 	 * @param entity the entity
 	 * @return OptionalSyntax the optional syntax
 	 */
@@ -240,7 +286,7 @@ public final class GenerateQuery {
 
 	/**
 	 * Method to get the query message
-	 * 
+	 *
 	 * @return QueryMessage the query message
 	 */
 	public static QueryMessage getMessage() {
@@ -249,7 +295,7 @@ public final class GenerateQuery {
 
 	/**
 	 * Method to set the query message
-	 * 
+	 *
 	 * @param mess the query message
 	 */
 	public static void setMessage(QueryMessage mess) {

@@ -28,41 +28,42 @@ import java.util.List;
 import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.util.Logger;
 
+import net.bytebuddy.implementation.bind.annotation.*;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 /**
  * For intercepting method and adding the name of method called in threadlocal stringbuilder.
- * 
+ *
  * @author lokeshg
- * 
+ *
  */
-public class MyMethodInterceptor implements MethodInterceptor {
+public class MyMethodInterceptor {
 
 	/**
 	 * logger instance
 	 */
 	private static final org.slf4j.Logger LOG = Logger.getLogger();
-	
+
 	/**
 	 * variable NUM_3
 	 */
 	private static final int NUM_3 = 3;
-	
+
 	/**
 	 * variable NUM_2
 	 */
 	private static final int NUM_2 = 2;
-	
+
 	/**
 	 * Constructor MyMethodInterceptor
-	 * 
+	 *
 	 */
 	public MyMethodInterceptor() {
 	}
 
-	@Override
-	public Object intercept(Object arg0, Method arg1, Object[] arg2, MethodProxy arg3) throws FMSException {
+	@RuntimeType
+	public Object intercept(@This Object arg0, @Origin Method arg1, @AllArguments Object[] arg2, @SuperMethod Method arg3) throws FMSException {
 
 		if (GenerateQuery.path.get() == null) {
 			GenerateQuery.path.set(new Path<Object>(extractPropertyName(arg1), extractEntity(arg0)));
@@ -89,7 +90,7 @@ public class MyMethodInterceptor implements MethodInterceptor {
 
 	/**
 	 * extract the name of property from method called.
-	 * 
+	 *
 	 * @param method
 	 * @return
 	 */
@@ -101,13 +102,13 @@ public class MyMethodInterceptor implements MethodInterceptor {
 
 	/**
 	 * create the object for linked method call or object of leaf node
-	 * 
+	 *
 	 * @param type
 	 * @return
-	 * @throws Throwable 
+	 * @throws Throwable
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T createInstance(Object arg0, Method arg1, Object[] arg2, MethodProxy arg3) 
+	public <T> T createInstance(Object arg0, Method arg1, Object[] arg2, Method arg3)
 			throws FMSException {
 		Object obj = null;
 		Class<?> type = arg1.getReturnType();
@@ -144,7 +145,7 @@ public class MyMethodInterceptor implements MethodInterceptor {
 				Type t = arg1.getGenericReturnType();
 				Object value = getObject(t);
 				Object queryValue = GenerateQuery.createQueryEntity(value);
-				obj = arg3.invokeSuper(arg0, arg2);
+				obj = arg3.invoke(arg0, arg2);
 				((List<Object>) obj).add(queryValue);
 			} catch (Throwable t) {
 				throw new FMSException(t);
@@ -165,7 +166,7 @@ public class MyMethodInterceptor implements MethodInterceptor {
 
 	/**
 	 * Method to get the object for the given type
-	 * 
+	 *
 	 * @param type the type
 	 * @return Object the object
 	 * @throws Throwable
@@ -182,5 +183,5 @@ public class MyMethodInterceptor implements MethodInterceptor {
 			}
 		}
 		return obj;
-	}	
+	}
 }

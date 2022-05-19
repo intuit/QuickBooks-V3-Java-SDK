@@ -119,7 +119,12 @@
       <artifactId>jmockit</artifactId>  
       <version>1.25</version>  
       <scope>test</scope> 
-    </dependency> 
+    </dependency>
+    <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy</artifactId>
+      <version>1.12.10</version>
+    </dependency>
   </dependencies>  
   <build> 
     <testResources> 
