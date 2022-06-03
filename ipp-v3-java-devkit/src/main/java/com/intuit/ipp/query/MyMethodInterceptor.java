@@ -61,15 +61,15 @@ public class MyMethodInterceptor {
 	}
 
 	@RuntimeType
-	public Object intercept(@This Object arg0, @Origin Method arg1, @AllArguments Object[] arg2, @SuperMethod(nullIfImpossible = true) Method arg3) throws FMSException {
+	public Object intercept(@This Object proxyObject, @Origin Method method, @AllArguments Object[] methodArgs, @SuperMethod(nullIfImpossible = true) Method superMethod) throws FMSException {
 
 		if (GenerateQuery.path.get() == null) {
-			GenerateQuery.path.set(new Path<Object>(extractPropertyName(arg1), extractEntity(arg0)));
+			GenerateQuery.path.set(new Path<Object>(extractPropertyName(method), extractEntity(proxyObject)));
 		} else {
 			String parentPath = GenerateQuery.path.get().getPathString();
-			GenerateQuery.path.get().setPathString(parentPath.concat(".").concat(extractPropertyName(arg1)));
+			GenerateQuery.path.get().setPathString(parentPath.concat(".").concat(extractPropertyName(method)));
 		}
-		return createInstance(arg0, arg1, arg2, arg3);
+		return createInstance(proxyObject, method, methodArgs, superMethod);
 	}
 
 	/**
@@ -101,15 +101,15 @@ public class MyMethodInterceptor {
 	/**
 	 * create the object for linked method call or object of leaf node
 	 *
-	 * @param type
+	 * @param
 	 * @return
 	 * @throws Throwable
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T createInstance(Object arg0, Method arg1, Object[] arg2, Method arg3)
+	public <T> T createInstance(Object proxyObject, Method method, Object[] methodArgs, Method superMethod)
 			throws FMSException {
 		Object obj = null;
-		Class<?> type = arg1.getReturnType();
+		Class<?> type = method.getReturnType();
 		if (String.class.equals(type)) {
 			obj = null;
 		} else if (Integer.class.equals(type) || int.class.equals(type)) {
@@ -140,10 +140,10 @@ public class MyMethodInterceptor {
 			obj = Boolean.TRUE;
 		} else if (List.class.isAssignableFrom(type)) {
 			try {
-				Type t = arg1.getGenericReturnType();
+				Type t = method.getGenericReturnType();
 				Object value = getObject(t);
 				Object queryValue = GenerateQuery.createQueryEntity(value);
-				obj = arg3.invoke(arg0, arg2);
+				obj = superMethod.invoke(proxyObject, methodArgs);
 				((List<Object>) obj).add(queryValue);
 			} catch (Throwable t) {
 				throw new FMSException(t);

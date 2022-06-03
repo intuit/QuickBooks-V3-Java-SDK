@@ -15,11 +15,9 @@
  *******************************************************************************/
 package com.intuit.ipp.query;
 
-import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.intuit.ipp.data.Customer;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
