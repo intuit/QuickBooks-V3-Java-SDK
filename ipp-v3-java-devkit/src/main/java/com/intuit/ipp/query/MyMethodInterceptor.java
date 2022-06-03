@@ -29,8 +29,6 @@ import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.util.Logger;
 
 import net.bytebuddy.implementation.bind.annotation.*;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
 
 /**
  * For intercepting method and adding the name of method called in threadlocal stringbuilder.
@@ -63,7 +61,7 @@ public class MyMethodInterceptor {
 	}
 
 	@RuntimeType
-	public Object intercept(@This Object arg0, @Origin Method arg1, @AllArguments Object[] arg2, @SuperMethod Method arg3) throws FMSException {
+	public Object intercept(@This Object arg0, @Origin Method arg1, @AllArguments Object[] arg2, @SuperMethod(nullIfImpossible = true) Method arg3) throws FMSException {
 
 		if (GenerateQuery.path.get() == null) {
 			GenerateQuery.path.set(new Path<Object>(extractPropertyName(arg1), extractEntity(arg0)));
@@ -81,7 +79,7 @@ public class MyMethodInterceptor {
 	 */
 	private String extractEntity(Object obj) {
 		String name = obj.getClass().getSimpleName();
-		String[] extracted = name.split("\\$\\$");
+		String[] extracted = name.split("\\$");
 		if (extracted.length == NUM_3) {
 			return extracted[0];
 		}
@@ -115,9 +113,9 @@ public class MyMethodInterceptor {
 		if (String.class.equals(type)) {
 			obj = null;
 		} else if (Integer.class.equals(type) || int.class.equals(type)) {
-			obj = Integer.valueOf(0);
+			obj = 0;
 		} else if (Byte.class.equals(type) || byte.class.equals(type)) {
-			obj = Integer.valueOf(0);
+			obj = (byte) 0;
 		} else if (java.util.Date.class.equals(type)) {
 			obj = new Date();
 		} else if (java.sql.Timestamp.class.equals(type)) {

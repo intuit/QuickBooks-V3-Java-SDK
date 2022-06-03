@@ -19,14 +19,11 @@ import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.intuit.ipp.data.Customer;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
-import net.bytebuddy.implementation.SuperMethodCall;
 import net.bytebuddy.matcher.ElementMatchers;
-import net.sf.cglib.proxy.Callback;
-import net.sf.cglib.proxy.CallbackFilter;
-import net.sf.cglib.proxy.Enhancer;
 
 import com.intuit.ipp.core.IEntity;
 import com.intuit.ipp.query.expr.BooleanPath;
@@ -35,7 +32,6 @@ import com.intuit.ipp.query.expr.EnumPath;
 import com.intuit.ipp.query.expr.NumberPath;
 import com.intuit.ipp.query.expr.StringPath;
 import com.intuit.ipp.util.Logger;
-import net.sf.cglib.proxy.NoOp;
 
 /**
  * Class used to generate the query string
@@ -69,49 +65,6 @@ public final class GenerateQuery {
 	private GenerateQuery() {
 	}
 
-//	/**
-//	 * Method to create the query entity for the given class
-//	 *
-//	 * @param cl the class
-//	 * @return the proxified object
-//	 */
-//	@SuppressWarnings("unchecked")
-//	public static <T> T createQueryEntity(Class<T> cl) {
-//		Enhancer enhancer = new Enhancer();
-//		if (cl.isInterface()) {
-//			LOG.debug("The given class is interface");
-//			//enhancer.setInterfaces(new Class[] { cl });
-//			//enhancer.setCallback(new MyMethodInterceptor());
-//		} else {
-//			enhancer.setSuperclass(cl);
-//		}
-//		enhancer.setCallbackFilter(CALLBACK_FILTER);
-//		enhancer.setCallbacks(new Callback[] {NoOp.INSTANCE, new MyMethodInterceptor()});
-//		return (T) enhancer.create();
-//	}
-//
-//	/**
-//	 * Method to create the query for the given entity
-//	 *
-//	 * @param entity the entity
-//	 * @return the proxified object
-//	 */
-//	@SuppressWarnings("unchecked")
-//	public static <T> T createQueryEntity(T entity) {
-//		Class<?> cl = entity.getClass();
-//		Enhancer enhancer = new Enhancer();
-//		if (cl.isInterface()) {
-//			LOG.debug("The given entity is interface");
-//			//enhancer.setInterfaces(new Class[] { cl });
-//			//enhancer.setCallback(new MyMethodInterceptor());
-//		} else {
-//			enhancer.setSuperclass(cl);
-//			enhancer.setCallbackFilter(CALLBACK_FILTER);
-//			enhancer.setCallbacks(new Callback[] {NoOp.INSTANCE, new MyMethodInterceptor()});
-//		}
-//		return (T) enhancer.create();
-//	}
-
 
 	@SuppressWarnings("unchecked")
 	public static <T> T createQueryEntity(Class<T> cl) {
@@ -121,15 +74,18 @@ public final class GenerateQuery {
 		} else {
 			proxied = new ByteBuddy()
 					.subclass(cl)
-					.method(ElementMatchers.any())
+					.method(ElementMatchers.not(ElementMatchers.isClone().or(ElementMatchers.isFinalizer()).or(ElementMatchers.isEquals()).or(ElementMatchers.isHashCode()).or(ElementMatchers.isToString())))
 					.intercept(MethodDelegation.to(new MyMethodInterceptor()))
-					.method(ElementMatchers.isClone().or(ElementMatchers.isFinalizer()).or(ElementMatchers.isEquals()).or(ElementMatchers.isHashCode()).or(ElementMatchers.isToString()))
-					.intercept(SuperMethodCall.INSTANCE)
 					.make()
-					.load(cl.getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+//					.load(cl.getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+					.load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
 					.getLoaded();
 		}
-		return (T) proxied;
+		try {
+			return (T) proxied.newInstance();
+		} catch(Exception exception) {
+			throw new RuntimeException(exception);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -141,15 +97,22 @@ public final class GenerateQuery {
 		} else {
 			proxied = new ByteBuddy()
 					.subclass(cl)
-					.method(ElementMatchers.any())
+//					.method(ElementMatchers.any())
+//					.intercept(MethodDelegation.to(new MyMethodInterceptor()))
+//					.method(ElementMatchers.isClone().or(ElementMatchers.isFinalizer()).or(ElementMatchers.isEquals()).or(ElementMatchers.isHashCode()).or(ElementMatchers.isToString()))
+//					.intercept(SuperMethodCall.INSTANCE)
+					.method(ElementMatchers.not(ElementMatchers.isClone().or(ElementMatchers.isFinalizer()).or(ElementMatchers.isEquals()).or(ElementMatchers.isHashCode()).or(ElementMatchers.isToString())))
 					.intercept(MethodDelegation.to(new MyMethodInterceptor()))
-					.method(ElementMatchers.isClone().or(ElementMatchers.isFinalizer()).or(ElementMatchers.isEquals()).or(ElementMatchers.isHashCode()).or(ElementMatchers.isToString()))
-					.intercept(SuperMethodCall.INSTANCE)
 					.make()
-					.load(cl.getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+//					.load(cl.getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+					.load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
 					.getLoaded();
 		}
-		return (T) proxied;
+		try {
+			return (T) proxied.newInstance();
+		} catch(Exception exception) {
+			throw new RuntimeException(exception);
+		}
 	}
 
 
@@ -167,7 +130,7 @@ public final class GenerateQuery {
 			return new Path<Object>(currentPath.getPathString().concat(".*"), currentPath.getEntity());
 		} else {
 			String name = ret.getClass().getSimpleName();
-			String[] extracted = name.split("\\$\\$");
+			String[] extracted = name.split("\\$");
 			return new Path<Object>("*", extracted[0]);
 		}
 	}
@@ -276,7 +239,7 @@ public final class GenerateQuery {
 		resetQueryMessage();
 		getMessage().setSQL("SELECT");
 		String name = entity.getClass().getSimpleName();
-		String extracted[] = name.split("\\$\\$");
+		String extracted[] = name.split("\\$");
 		getMessage().setCount(true);
 		if (extracted.length == LEN_3) {
 			getMessage().setEntity(extracted[0]);
@@ -309,65 +272,17 @@ public final class GenerateQuery {
 		setMessage(new QueryMessage());
 	}
 
-	/**
-	 * Callback filter which will filter out callback triggers for several {@link Object} methods.
-	 */
-	private static final CallbackFilter CALLBACK_FILTER = new CallbackFilter() {
 
-		@Override
-		public int accept(Method method) {
-			if (isFinalizeMethod(method) || isCloneMethod(method) || isEqualsMethod(method)
-					|| isHashCodeMethod(method) || isToStringMethod(method)) {
-				return 0;
-			}
-			return 1;
-		}
-
-		/**
-		 * Determine whether the given method is a "finalize" method.
-		 * @see java.lang.Object#finalize()
-		 */
-		private boolean isFinalizeMethod(Method method) {
-			return (method != null && method.getName().equals("finalize") &&
-					method.getParameterTypes().length == 0);
-		}
-
-		/**
-		 * Determine whether the given method is a "finalize" method.
-		 * @see java.lang.Object#finalize()
-		 */
-		private boolean isCloneMethod(Method method) {
-			return (method != null && method.getName().equals("clone") &&
-					method.getParameterTypes().length == 0);
-		}
-
-		/**
-		 * Determine whether the given method is an "equals" method.
-		 * @see java.lang.Object#equals(Object)
-		 */
-		private boolean isEqualsMethod(Method method) {
-			if (method == null || !method.getName().equals("equals")) {
-				return false;
-			}
-			Class<?>[] paramTypes = method.getParameterTypes();
-			return (paramTypes.length == 1 && paramTypes[0] == Object.class);
-		}
-
-		/**
-		 * Determine whether the given method is a "hashCode" method.
-		 * @see java.lang.Object#hashCode()
-		 */
-		private boolean isHashCodeMethod(Method method) {
-			return (method != null && method.getName().equals("hashCode") && method.getParameterTypes().length == 0);
-		}
-
-		/**
-		 * Determine whether the given method is a "toString" method.
-		 * @see java.lang.Object#toString()
-		 */
-		private boolean isToStringMethod(Method method) {
-			return (method != null && method.getName().equals("toString") && method.getParameterTypes().length == 0);
-		}
-	};
-
+	public static void main(String[] args) {
+		Customer customer = createQueryEntity(Customer.class);
+		String query = select($(customer.getId()), $(customer.getDisplayName())).where($(customer.getId()).eq("10")).generate();
+		System.out.println(query);
+//		Class<?> proxied = new ByteBuddy()
+//				.subclass(Customer.class)
+//				.method(ElementMatchers.not(ElementMatchers.isClone().or(ElementMatchers.isFinalizer()).or(ElementMatchers.isEquals()).or(ElementMatchers.isHashCode()).or(ElementMatchers.isToString())))
+//				.intercept(MethodDelegation.to(new MyMethodInterceptor()))
+//				.make()
+//				.load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+//				.getLoaded();
+	}
 }
