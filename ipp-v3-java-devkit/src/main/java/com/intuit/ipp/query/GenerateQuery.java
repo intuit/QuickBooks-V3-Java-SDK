@@ -65,7 +65,11 @@ public final class GenerateQuery {
 	private GenerateQuery() {
 	}
 
-
+	/**
+	 *
+	 * @param cl the class
+	 * @return the proxified object
+	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T createQueryEntity(Class<T> cl) {
 		Class<?> proxied = null;
@@ -77,7 +81,6 @@ public final class GenerateQuery {
 					.method(ElementMatchers.not(ElementMatchers.isClone().or(ElementMatchers.isFinalizer()).or(ElementMatchers.isEquals()).or(ElementMatchers.isHashCode()).or(ElementMatchers.isToString())))
 					.intercept(MethodDelegation.to(new MyMethodInterceptor()))
 					.make()
-//					.load(cl.getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
 					.load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
 					.getLoaded();
 		}
@@ -88,6 +91,11 @@ public final class GenerateQuery {
 		}
 	}
 
+	/**
+	 *
+	 * @param entity the entity
+	 * @return the proxified object
+	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T createQueryEntity(T entity) {
 		Class<?> cl = entity.getClass();
@@ -97,14 +105,9 @@ public final class GenerateQuery {
 		} else {
 			proxied = new ByteBuddy()
 					.subclass(cl)
-//					.method(ElementMatchers.any())
-//					.intercept(MethodDelegation.to(new MyMethodInterceptor()))
-//					.method(ElementMatchers.isClone().or(ElementMatchers.isFinalizer()).or(ElementMatchers.isEquals()).or(ElementMatchers.isHashCode()).or(ElementMatchers.isToString()))
-//					.intercept(SuperMethodCall.INSTANCE)
 					.method(ElementMatchers.not(ElementMatchers.isClone().or(ElementMatchers.isFinalizer()).or(ElementMatchers.isEquals()).or(ElementMatchers.isHashCode()).or(ElementMatchers.isToString())))
 					.intercept(MethodDelegation.to(new MyMethodInterceptor()))
 					.make()
-//					.load(cl.getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
 					.load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
 					.getLoaded();
 		}
@@ -270,19 +273,5 @@ public final class GenerateQuery {
 	 */
 	public static void resetQueryMessage() {
 		setMessage(new QueryMessage());
-	}
-
-
-	public static void main(String[] args) {
-		Customer customer = createQueryEntity(Customer.class);
-		String query = select($(customer.getId()), $(customer.getDisplayName())).where($(customer.getId()).eq("10")).generate();
-		System.out.println(query);
-//		Class<?> proxied = new ByteBuddy()
-//				.subclass(Customer.class)
-//				.method(ElementMatchers.not(ElementMatchers.isClone().or(ElementMatchers.isFinalizer()).or(ElementMatchers.isEquals()).or(ElementMatchers.isHashCode()).or(ElementMatchers.isToString())))
-//				.intercept(MethodDelegation.to(new MyMethodInterceptor()))
-//				.make()
-//				.load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
-//				.getLoaded();
 	}
 }
