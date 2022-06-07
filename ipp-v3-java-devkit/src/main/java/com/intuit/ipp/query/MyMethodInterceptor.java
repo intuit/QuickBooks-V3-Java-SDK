@@ -54,6 +54,11 @@ public class MyMethodInterceptor {
 	private static final int NUM_2 = 2;
 
 	/**
+	 * variable CLASSNAME_SPLIT_PATTERN
+	 */
+	private static final String CLASSNAME_SPLIT_PATTERN = "\\$";
+
+	/**
 	 * Constructor MyMethodInterceptor
 	 *
 	 */
@@ -61,7 +66,7 @@ public class MyMethodInterceptor {
 	}
 
 	@RuntimeType
-	public Object intercept(@This Object proxyObject, @Origin Method method, @AllArguments Object[] methodArgs, @SuperMethod(nullIfImpossible = true) Method superMethod) throws FMSException {
+	public Object intercept(@This Object proxyObject, @Origin Method method, @AllArguments Object[] methodArgs, @SuperMethod(nullIfImpossible = true) Method superMethod) throws FMSException, InstantiationException, IllegalAccessException {
 
 		if (GenerateQuery.path.get() == null) {
 			GenerateQuery.path.set(new Path<Object>(extractPropertyName(method), extractEntity(proxyObject)));
@@ -79,7 +84,7 @@ public class MyMethodInterceptor {
 	 */
 	private String extractEntity(Object obj) {
 		String name = obj.getClass().getSimpleName();
-		String[] extracted = name.split("\\$");
+		String[] extracted = name.split(CLASSNAME_SPLIT_PATTERN);
 		if (extracted.length == NUM_3) {
 			return extracted[0];
 		}
@@ -107,7 +112,7 @@ public class MyMethodInterceptor {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T createInstance(Object proxyObject, Method method, Object[] methodArgs, Method superMethod)
-			throws FMSException {
+			throws FMSException, InstantiationException, IllegalAccessException {
 		Object obj = null;
 		Class<?> type = method.getReturnType();
 		if (String.class.equals(type)) {

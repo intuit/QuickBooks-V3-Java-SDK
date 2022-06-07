@@ -498,7 +498,7 @@ public class QBODataServiceTest {
 	}
 	
 	@Test (enabled = false)
-	public void testExecuteQuery_get() throws FMSException {
+	public void testExecuteQuery_get() throws FMSException, InstantiationException, IllegalAccessException {
 		Customer customerIn = getCustomer();
 		Customer customer = GenerateQuery.createQueryEntity(Customer.class);
 		String query = select($(customer.getId()), $(customer.getDisplayName())).where($(customer.getId()).eq(customerIn.getId())).generate();
@@ -513,7 +513,7 @@ public class QBODataServiceTest {
 	}
 	
 	@Test(enabled=false)
-	public void testExecuteQuery_post() throws FMSException {
+	public void testExecuteQuery_post() throws FMSException, InstantiationException, IllegalAccessException {
 		Customer customerIn = getCustomer();
 		Customer customer = GenerateQuery.createQueryEntity(Customer.class);
 		String query = select($(customer.getId()), $(customer.getDisplayName())).where($(customer.getId()).eq(customerIn.getId())).generate();

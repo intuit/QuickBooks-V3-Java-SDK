@@ -58,6 +58,11 @@ public final class GenerateQuery {
 	private static QueryMessage message = new QueryMessage();
 
 	/**
+	 * variable CLASSNAME_SPLIT_PATTERN
+	 */
+	private static final String CLASSNAME_SPLIT_PATTERN = "\\$";
+
+	/**
 	 * Constructor to have private modifier as it has only static methods
 	 */
 	private GenerateQuery() {
@@ -69,7 +74,7 @@ public final class GenerateQuery {
 	 * @return the proxified object
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T createQueryEntity(Class<T> cl) {
+	public static <T> T createQueryEntity(Class<T> cl) throws InstantiationException, IllegalAccessException {
 		Class<?> proxied = null;
 		if (cl.isInterface()) {
 			LOG.debug("The given class is interface");
@@ -82,11 +87,7 @@ public final class GenerateQuery {
 					.load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
 					.getLoaded();
 		}
-		try {
-			return (T) proxied.newInstance();
-		} catch(Exception exception) {
-			throw new RuntimeException(exception);
-		}
+		return (T) proxied.newInstance();
 	}
 
 	/**
@@ -95,25 +96,9 @@ public final class GenerateQuery {
 	 * @return the proxified object
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T createQueryEntity(T entity) {
+	public static <T> T createQueryEntity(T entity) throws InstantiationException, IllegalAccessException {
 		Class<?> cl = entity.getClass();
-		Class<?> proxied = null;
-		if (cl.isInterface()) {
-			LOG.debug("The given entity is interface");
-		} else {
-			proxied = new ByteBuddy()
-					.subclass(cl)
-					.method(ElementMatchers.not(ElementMatchers.isClone().or(ElementMatchers.isFinalizer()).or(ElementMatchers.isEquals()).or(ElementMatchers.isHashCode()).or(ElementMatchers.isToString())))
-					.intercept(MethodDelegation.to(new MyMethodInterceptor()))
-					.make()
-					.load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
-					.getLoaded();
-		}
-		try {
-			return (T) proxied.newInstance();
-		} catch(Exception exception) {
-			throw new RuntimeException(exception);
-		}
+		return (T) createQueryEntity(cl);
 	}
 
 
@@ -131,7 +116,7 @@ public final class GenerateQuery {
 			return new Path<Object>(currentPath.getPathString().concat(".*"), currentPath.getEntity());
 		} else {
 			String name = ret.getClass().getSimpleName();
-			String[] extracted = name.split("\\$");
+			String[] extracted = name.split(CLASSNAME_SPLIT_PATTERN);
 			return new Path<Object>("*", extracted[0]);
 		}
 	}
@@ -240,7 +225,7 @@ public final class GenerateQuery {
 		resetQueryMessage();
 		getMessage().setSQL("SELECT");
 		String name = entity.getClass().getSimpleName();
-		String extracted[] = name.split("\\$");
+		String extracted[] = name.split(CLASSNAME_SPLIT_PATTERN);
 		getMessage().setCount(true);
 		if (extracted.length == LEN_3) {
 			getMessage().setEntity(extracted[0]);
