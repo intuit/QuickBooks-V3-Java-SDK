@@ -84,7 +84,7 @@ public final class GenerateQuery {
 					.method(ElementMatchers.not(ElementMatchers.isClone().or(ElementMatchers.isFinalizer()).or(ElementMatchers.isEquals()).or(ElementMatchers.isHashCode()).or(ElementMatchers.isToString())))
 					.intercept(MethodDelegation.to(new MyMethodInterceptor()))
 					.make()
-					.load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+					.load(GenerateQuery.class.getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
 					.getLoaded();
 		}
 		return (T) proxied.newInstance();
