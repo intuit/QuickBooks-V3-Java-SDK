@@ -66,7 +66,7 @@ public class MyMethodInterceptor {
 	}
 
 	@RuntimeType
-	public Object intercept(@This Object proxyObject, @Origin Method method, @AllArguments Object[] methodArgs, @SuperMethod(nullIfImpossible = true) Method superMethod) throws FMSException, InstantiationException, IllegalAccessException {
+	public Object intercept(@This Object proxyObject, @Origin Method method, @AllArguments Object[] methodArgs, @SuperMethod(nullIfImpossible = true) Method superMethod) throws FMSException {
 
 		if (GenerateQuery.path.get() == null) {
 			GenerateQuery.path.set(new Path<Object>(extractPropertyName(method), extractEntity(proxyObject)));
@@ -112,7 +112,7 @@ public class MyMethodInterceptor {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T createInstance(Object proxyObject, Method method, Object[] methodArgs, Method superMethod)
-			throws FMSException, InstantiationException, IllegalAccessException {
+			throws FMSException {
 		Object obj = null;
 		Class<?> type = method.getReturnType();
 		if (String.class.equals(type)) {
