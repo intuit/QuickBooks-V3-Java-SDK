@@ -183,7 +183,7 @@ public class DataServiceTest {
 	}
 	
 	@Test (enabled = false)
-	public void testExecuteQuery_get() throws FMSException, InstantiationException, IllegalAccessException {
+	public void testExecuteQuery_get() throws FMSException {
 		Customer customer = GenerateQuery.createQueryEntity(Customer.class);
 		String query = select($(customer.getId()), $(customer.getDisplayName())).where($(customer.getId()).eq(EntityCreator.customer.getId())).generate();
 
@@ -197,7 +197,7 @@ public class DataServiceTest {
 	}
 	
 	@Test(enabled = false)
-	public void testExecuteQuery_post() throws FMSException, InstantiationException, IllegalAccessException {
+	public void testExecuteQuery_post() throws FMSException {
 		Customer customer = GenerateQuery.createQueryEntity(Customer.class);
 		String query = select($(customer.getId()), $(customer.getDisplayName())).where($(customer.getId()).eq(EntityCreator.customer.getId())).generate();
 		String newQuery = "          ";
@@ -214,7 +214,7 @@ public class DataServiceTest {
 	}
 	
 	@Test(enabled = false)
-	public void testExecuteQuery_postCompression() throws FMSException, InstantiationException, IllegalAccessException {
+	public void testExecuteQuery_postCompression() throws FMSException {
 		Customer customer = GenerateQuery.createQueryEntity(Customer.class);
 		String query = select($(customer.getId()), $(customer.getDisplayName())).where($(customer.getId()).eq(EntityCreator.customer.getId())).generate();
 		String newQuery = "          ";
@@ -249,7 +249,7 @@ public class DataServiceTest {
 	}
 	
 	@Test(enabled = false)
-	public void testExecuteBatch() throws FMSException, InstantiationException, IllegalAccessException {
+	public void testExecuteBatch() throws FMSException {
 		BatchOperation batchOperation = new BatchOperation();
 		
 		Customer customer = new Customer();
@@ -296,7 +296,7 @@ public class DataServiceTest {
 	}
 	
 	@Test (enabled = false)
-	public void testExecuteBatch_Query() throws FMSException, InstantiationException, IllegalAccessException {
+	public void testExecuteBatch_Query() throws FMSException {
 		BatchOperation batchOperation = new BatchOperation();
 		
 		Customer c = GenerateQuery.createQueryEntity(Customer.class);

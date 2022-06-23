@@ -74,7 +74,7 @@ public final class GenerateQuery {
 	 * @return the proxified object
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T createQueryEntity(Class<T> cl) throws InstantiationException, IllegalAccessException {
+	public static <T> T createQueryEntity(Class<T> cl) {
 		Class<?> proxied = null;
 		if (cl.isInterface()) {
 			LOG.debug("The given class is interface");
@@ -87,7 +87,12 @@ public final class GenerateQuery {
 					.load(GenerateQuery.class.getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
 					.getLoaded();
 		}
-		return (T) proxied.newInstance();
+		try {
+			return (T) proxied.newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			LOG.error(e.getMessage());
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -96,7 +101,7 @@ public final class GenerateQuery {
 	 * @return the proxified object
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T createQueryEntity(T entity) throws InstantiationException, IllegalAccessException {
+	public static <T> T createQueryEntity(T entity) {
 		Class<?> cl = entity.getClass();
 		return (T) createQueryEntity(cl);
 	}
