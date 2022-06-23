@@ -55,7 +55,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_datatypes() throws InstantiationException, IllegalAccessException {
+	public void testQuery_datatypes() {
 		Data data = GenerateQuery.createQueryEntity(new Data());
 		String query = select($(data.getStringData()), $(data.getIntData()), $(data.getByteData()), $(data.getShortData()), $(data.getLongData()),
 				$(data.getFloatData()), $(data.getDoubleData()), $(data.getCalendarData()), $(data.isBooleanData()), $(data.getDateData()),
@@ -69,7 +69,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_eq() throws InstantiationException, IllegalAccessException {
+	public void testQuery_eq() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 		String query = select($(data)).where($(data.getStringData()).eq("StringValue"), $(data.getIntData()).eq(10),
 				$(data.getByteData()).eq((byte) 10), $(data.getShortData()).eq((short) 10), $(data.getLongData()).eq((long) 10),
@@ -82,7 +82,7 @@ public class QueryTest {
 	}
 	
 	@Test
-	public void testQuery_eqUsingInvalidEnum() throws InstantiationException, IllegalAccessException {
+	public void testQuery_eqUsingInvalidEnum() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 		String query = select($(data)).where($(data.getStringData()).eq("StringValue"), $(data.getIntData()).eq(10),
 				$(data.getByteData()).eq((byte) 10), $(data.getShortData()).eq((short) 10), $(data.getLongData()).eq((long) 10),
@@ -95,7 +95,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_neq() throws InstantiationException, IllegalAccessException {
+	public void testQuery_neq() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 		String query = select($(data))
 				.where($(data.getStringData()).neq("StringValue"), $(data.getIntData()).neq(10), $(data.getByteData()).neq((byte) 10),
@@ -108,7 +108,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_lt() throws InstantiationException, IllegalAccessException {
+	public void testQuery_lt() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 		String query = select($(data)).where($(data.getStringData()).lt("StringValue"), $(data.getIntData()).lt(10),
 				$(data.getByteData()).lt((byte) 10), $(data.getShortData()).lt((short) 10), $(data.getLongData()).lt((long) 10),
@@ -120,7 +120,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_lte() throws InstantiationException, IllegalAccessException {
+	public void testQuery_lte() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 		String query = select($(data)).where($(data.getStringData()).lte("StringValue"), $(data.getIntData()).lte(10),
 				$(data.getByteData()).lte((byte) 10), $(data.getShortData()).lte((short) 10), $(data.getLongData()).lte((long) 10),
@@ -132,7 +132,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_gt() throws InstantiationException, IllegalAccessException {
+	public void testQuery_gt() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 		String query = select($(data)).where($(data.getStringData()).gt("StringValue"), $(data.getIntData()).gt(10),
 				$(data.getByteData()).gt((byte) 10), $(data.getShortData()).gt((short) 10), $(data.getLongData()).gt((long) 10),
@@ -144,7 +144,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_gte() throws InstantiationException, IllegalAccessException {
+	public void testQuery_gte() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 		String query = select($(data)).where($(data.getStringData()).gte("StringValue"), $(data.getIntData()).gte(10),
 				$(data.getByteData()).gte((byte) 10), $(data.getShortData()).gte((short) 10), $(data.getLongData()).gte((long) 10),
@@ -156,7 +156,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_in() throws InstantiationException, IllegalAccessException {
+	public void testQuery_in() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 		String query = select($(data)).where($(data.getStringData()).in(new String[] { "StringValue1", "StringValue2" }),
 				$(data.getIntData()).in(new Integer[] { 10, 20 }), $(data.getByteData()).in(new Byte[] { 10, 20 }),
@@ -171,7 +171,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_between() throws InstantiationException, IllegalAccessException {
+	public void testQuery_between() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 		String query = select($(data)).where(
 				$(data.getStringData()).between("StringValue1", "StringValue2"),
@@ -190,7 +190,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_like() throws InstantiationException, IllegalAccessException {
+	public void testQuery_like() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 		String query = select($(data)).where($(data.getStringData()).startsWith("StringValue")).generate();
 		String expectedQuery = "SELECT * FROM Data WHERE StringData LIKE 'StringValue%'";
@@ -209,7 +209,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_select() throws InstantiationException, IllegalAccessException {
+	public void testQuery_select() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 		String query = select($(data.getSubData())).generate();
 		String expectedQuery = "SELECT SubData.* FROM Data";
@@ -218,7 +218,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_orderby() throws InstantiationException, IllegalAccessException {
+	public void testQuery_orderby() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 		String query = select($(data)).orderByAscending($(data.getStringData()), $(data.getIntData())).generate();
 		String expectedQuery = "SELECT * FROM Data ORDERBY StringData, IntData ASC";
@@ -234,7 +234,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_not() throws InstantiationException, IllegalAccessException {
+	public void testQuery_not() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 		String query = select($(data)).where($(data.getIntData()).eq(10).negate()).generate();
 		String expectedQuery = "SELECT * FROM Data WHERE NOT IntData = '10'";
@@ -243,7 +243,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_pagination() throws InstantiationException, IllegalAccessException {
+	public void testQuery_pagination() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 		String query = select($(data)).skip(10).generate();
 		String expectedQuery = "SELECT * FROM Data STARTPOSITION 11";
@@ -262,7 +262,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_count() throws InstantiationException, IllegalAccessException {
+	public void testQuery_count() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 		String query = selectCount(data).generate();
 		String expectedQuery = "SELECT count(*) FROM Data";
@@ -271,7 +271,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_calendar() throws InstantiationException, IllegalAccessException {
+	public void testQuery_calendar() {
 		Data data = GenerateQuery.createQueryEntity(Data.class);
 
 		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
@@ -292,7 +292,7 @@ public class QueryTest {
 	}
 
 	@Test
-	public void testQuery_line() throws InstantiationException, IllegalAccessException {
+	public void testQuery_line() {
 		Invoice data = GenerateQuery.createQueryEntity(Invoice.class);
 		String query = select($(data.getLine())).generate();
 		String expectedQuery = "SELECT Line.* FROM Invoice";
