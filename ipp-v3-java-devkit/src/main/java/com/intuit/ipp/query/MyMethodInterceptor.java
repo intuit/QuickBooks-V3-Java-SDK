@@ -28,49 +28,53 @@ import java.util.List;
 import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.util.Logger;
 
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import net.bytebuddy.implementation.bind.annotation.*;
 
 /**
  * For intercepting method and adding the name of method called in threadlocal stringbuilder.
- * 
+ *
  * @author lokeshg
- * 
+ *
  */
-public class MyMethodInterceptor implements MethodInterceptor {
+public class MyMethodInterceptor {
 
 	/**
 	 * logger instance
 	 */
 	private static final org.slf4j.Logger LOG = Logger.getLogger();
-	
+
 	/**
 	 * variable NUM_3
 	 */
 	private static final int NUM_3 = 3;
-	
+
 	/**
 	 * variable NUM_2
 	 */
 	private static final int NUM_2 = 2;
-	
+
+	/**
+	 * variable CLASSNAME_SPLIT_PATTERN
+	 */
+	private static final String CLASSNAME_SPLIT_PATTERN = "\\$";
+
 	/**
 	 * Constructor MyMethodInterceptor
-	 * 
+	 *
 	 */
 	public MyMethodInterceptor() {
 	}
 
-	@Override
-	public Object intercept(Object arg0, Method arg1, Object[] arg2, MethodProxy arg3) throws FMSException {
+	@RuntimeType
+	public Object intercept(@This Object proxyObject, @Origin Method method, @AllArguments Object[] methodArgs, @SuperMethod(nullIfImpossible = true) Method superMethod) throws FMSException, InstantiationException, IllegalAccessException {
 
 		if (GenerateQuery.path.get() == null) {
-			GenerateQuery.path.set(new Path<Object>(extractPropertyName(arg1), extractEntity(arg0)));
+			GenerateQuery.path.set(new Path<Object>(extractPropertyName(method), extractEntity(proxyObject)));
 		} else {
 			String parentPath = GenerateQuery.path.get().getPathString();
-			GenerateQuery.path.get().setPathString(parentPath.concat(".").concat(extractPropertyName(arg1)));
+			GenerateQuery.path.get().setPathString(parentPath.concat(".").concat(extractPropertyName(method)));
 		}
-		return createInstance(arg0, arg1, arg2, arg3);
+		return createInstance(proxyObject, method, methodArgs, superMethod);
 	}
 
 	/**
@@ -80,7 +84,7 @@ public class MyMethodInterceptor implements MethodInterceptor {
 	 */
 	private String extractEntity(Object obj) {
 		String name = obj.getClass().getSimpleName();
-		String[] extracted = name.split("\\$\\$");
+		String[] extracted = name.split(CLASSNAME_SPLIT_PATTERN);
 		if (extracted.length == NUM_3) {
 			return extracted[0];
 		}
@@ -89,7 +93,7 @@ public class MyMethodInterceptor implements MethodInterceptor {
 
 	/**
 	 * extract the name of property from method called.
-	 * 
+	 *
 	 * @param method
 	 * @return
 	 */
@@ -101,22 +105,22 @@ public class MyMethodInterceptor implements MethodInterceptor {
 
 	/**
 	 * create the object for linked method call or object of leaf node
-	 * 
-	 * @param type
+	 *
+	 * @param
 	 * @return
-	 * @throws Throwable 
+	 * @throws Throwable
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T createInstance(Object arg0, Method arg1, Object[] arg2, MethodProxy arg3) 
-			throws FMSException {
+	public <T> T createInstance(Object proxyObject, Method method, Object[] methodArgs, Method superMethod)
+			throws FMSException, InstantiationException, IllegalAccessException {
 		Object obj = null;
-		Class<?> type = arg1.getReturnType();
+		Class<?> type = method.getReturnType();
 		if (String.class.equals(type)) {
 			obj = null;
 		} else if (Integer.class.equals(type) || int.class.equals(type)) {
-			obj = Integer.valueOf(0);
+			obj = 0;
 		} else if (Byte.class.equals(type) || byte.class.equals(type)) {
-			obj = Integer.valueOf(0);
+			obj = (byte) 0;
 		} else if (java.util.Date.class.equals(type)) {
 			obj = new Date();
 		} else if (java.sql.Timestamp.class.equals(type)) {
@@ -141,10 +145,10 @@ public class MyMethodInterceptor implements MethodInterceptor {
 			obj = Boolean.TRUE;
 		} else if (List.class.isAssignableFrom(type)) {
 			try {
-				Type t = arg1.getGenericReturnType();
+				Type t = method.getGenericReturnType();
 				Object value = getObject(t);
 				Object queryValue = GenerateQuery.createQueryEntity(value);
-				obj = arg3.invokeSuper(arg0, arg2);
+				obj = superMethod.invoke(proxyObject, methodArgs);
 				((List<Object>) obj).add(queryValue);
 			} catch (Throwable t) {
 				throw new FMSException(t);
@@ -165,7 +169,7 @@ public class MyMethodInterceptor implements MethodInterceptor {
 
 	/**
 	 * Method to get the object for the given type
-	 * 
+	 *
 	 * @param type the type
 	 * @return Object the object
 	 * @throws Throwable
@@ -182,5 +186,5 @@ public class MyMethodInterceptor implements MethodInterceptor {
 			}
 		}
 		return obj;
-	}	
+	}
 }

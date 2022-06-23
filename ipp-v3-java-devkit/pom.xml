@@ -43,12 +43,7 @@
           <artifactId>jaxb2-commons-lang</artifactId>
         </exclusion>
       </exclusions> 
-    </dependency>  
-    <dependency> 
-      <groupId>cglib</groupId>  
-      <artifactId>cglib</artifactId>  
-      <version>3.2.12</version> 
-    </dependency>  
+    </dependency>
     <dependency> 
       <groupId>asm</groupId>  
       <artifactId>asm-commons</artifactId>  
@@ -119,7 +114,12 @@
       <artifactId>jmockit</artifactId>  
       <version>1.25</version>  
       <scope>test</scope> 
-    </dependency> 
+    </dependency>
+    <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy</artifactId>
+      <version>1.12.10</version>
+    </dependency>
   </dependencies>  
   <build> 
     <testResources> 
