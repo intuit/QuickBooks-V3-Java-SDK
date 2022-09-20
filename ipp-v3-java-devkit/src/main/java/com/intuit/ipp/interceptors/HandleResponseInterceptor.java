@@ -106,6 +106,8 @@ public class HandleResponseInterceptor implements Interceptor {
 
 			if ("Validation".equalsIgnoreCase(fault.getType())) {
 				throw new ValidationException(fault.getError());
+			} else if ("ValidationFault".equalsIgnoreCase(fault.getType())) {
+				throw new ValidationException(fault.getError());
 			} else if ("Service".equalsIgnoreCase(fault.getType())) {
 				throw new ServiceException(fault.getError());
 			} else if ("AuthenticationFault".equalsIgnoreCase(fault.getType())) {
