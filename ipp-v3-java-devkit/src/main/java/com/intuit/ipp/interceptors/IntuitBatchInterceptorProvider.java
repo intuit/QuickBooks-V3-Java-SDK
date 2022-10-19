@@ -75,9 +75,9 @@ public class IntuitBatchInterceptorProvider extends IntuitInterceptorProvider im
             try {
                 message.getResponseElements().getResponseContent().reset();
             } catch (Exception ex) {
-                LOG.error("IllegalStateException while get the content from HttpRespose.", ex);
+                LOG.error("IllegalStateException while get the content from HttpResponse.", ex);
                 if(message.getRequestElements() != null && message.getRequestElements().getRequestHeaders()!= null) {
-                    throw new FMSException("IllegalStateException while get the content from HttpRespose.", ex, message.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
+                    throw new FMSException("IllegalStateException while get the content from HttpResponse.", ex, message.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
                 }
                 throw new FMSException(ex);
             }
