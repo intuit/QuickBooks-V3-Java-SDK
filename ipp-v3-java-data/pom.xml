@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.intuit.quickbooks-online</groupId>
 		<artifactId>ipp-v3-java-devkit-pom</artifactId>
-		<version>6.2.3</version>
+		<version>6.2.4</version>
 	</parent>
 
 	<artifactId>ipp-v3-java-data</artifactId>

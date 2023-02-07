@@ -47,7 +47,7 @@
 	</timeout>
 
 	<minorVersion>
-		<latestMinorVersion>65</latestMinorVersion>
+		<latestMinorVersion>68</latestMinorVersion>
 	</minorVersion>
 
 </intuit-config>
