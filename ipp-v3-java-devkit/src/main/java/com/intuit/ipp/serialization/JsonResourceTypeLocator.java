@@ -70,6 +70,7 @@ public final class JsonResourceTypeLocator {
 			put("JournalCode", JournalCode.class);
 			put("JournalEntry", JournalEntry.class);
 			put("Money", Money.class);
+			put("MXGlobalInfo", MXGlobalInfo.class);
 			put("Payment", Payment.class);
 			put("PaymentMethod", PaymentMethod.class);
 			put("Preferences", Preferences.class);
