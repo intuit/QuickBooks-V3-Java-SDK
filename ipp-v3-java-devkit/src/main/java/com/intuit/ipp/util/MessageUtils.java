@@ -208,6 +208,7 @@ public final class MessageUtils {
 				entityList.add(JournalCode.class);
 				entityList.add(JournalEntry.class);
 				entityList.add(MasterAccount.class);
+				entityList.add(MXGlobalInfo.class);
 				entityList.add(NameBase.class);
 				entityList.add(NameValue.class);
 				entityList.add(NumberTypeCustomFieldDefinition.class);

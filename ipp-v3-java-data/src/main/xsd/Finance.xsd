@@ -800,6 +800,14 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="DeferredRevenue">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Use Deferred Revenue for payments on services you haven’t provided yet.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 			<xs:enumeration value="Healthcare">
 				<xs:annotation>
 					<xs:documentation>
@@ -2920,6 +2928,78 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="OtherDebtors">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Use Other Debtors to group Accounts Receivable other than those from customers.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RentARoomReliefRentsReceived">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Use Rent a room relief - Rents Received for rents receivable for UK landlords
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UkTaxesWithheld">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Use UK Taxes withheld for tax withheld from non-resident landlords
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ForeignTaxesIncurred">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Use Foreign Tax paid for foreign taxes for landlords
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PremiumsReceived">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Use Premiums Received for premiums for the Grant of a lease for landlords
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PremiumsPaid">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Use Premiums Paid for reverse premiums and inducements for landlords
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FinanceCostsRestricted">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Use Finance Costs Restricted for residential property interest charged on finance for landlords
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CarriedForwardRelief">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Use Carried Forward Relief for carried forward residential property interest charged on finance for landlords
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RentARoomReliefReliefClaimed">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Use Rent a room relief - Relief Claimed for relief claimed for rented room for landlords
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="APCreditCardOperationEnum">
@@ -4938,6 +5018,17 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="ProjectRef" type="ReferenceType"
+								minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: ALL
+								Description: Project identifier
+								References to the project this transaction
+								is associated with
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -5715,6 +5806,17 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="AllowOnlinePayPalPayment" type="xs:boolean"
+								minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Specifies whether
+								customer is allowed to use eInvoicing(online payment -paypal or
+								venmo) to pay the Invoice
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="EInvoiceStatus" type="ETransactionStatusEnum"
 								minOccurs="0">
 						<xs:annotation>
@@ -5732,6 +5834,35 @@
 								Product: QBO
 								Description: Specifies the
 								eCloudStatus timeStamp(last Viewed/Sent/paid) for the invoice
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CfdiUse" type="xs:int"
+								minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Use of Invoice of a transaction which is required by CFDI4.0 in Mexico. 
+								Visit http://omawww.sat.gob.mx/tramitesyservicios/Paginas/anexo_20_version3-3.htm and find the catalogues that contain the accepted values of cfdiUse.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Exportation" type="xs:string"
+								minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Exportation type of a transaction which is required by CFDI4.0 in Mexico. 
+								Visit http://omawww.sat.gob.mx/tramitesyservicios/Paginas/anexo_20_version3-3.htm and find the catalogues that contain the accepted values of Exportation.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="GlobalInfo" type="MXGlobalInfo"
+								minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Global invoice data of a transaction which is required by CFDI4.0 in Mexico. 
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -5875,6 +6006,43 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
+	<xs:complexType name="MXGlobalInfo">
+		<xs:annotation>
+			<xs:documentation>
+				Product: QBO
+				Description: Global invoice data of a transaction which is required by CFDI4.0 in Mexico.
+				Visit http://omawww.sat.gob.mx/tramitesyservicios/Paginas/anexo_20_version3-3.htm and find the catalogues that contain the accepted values of Exportation, Periodicity, and Year.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Periodicity" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Periodicity of global invoice data which is required by CFDI4.0 in Mexico. 
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Month" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Month of global invoice data which is required by CFDI4.0 in Mexico. 
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Year" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Year of global invoice data which is required by CFDI4.0 in Mexico. 
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="ConvenienceFeeDetail">
 		<xs:annotation>
 			<xs:documentation>
@@ -6431,6 +6599,16 @@
 						Product: ALL
 						Description: Internal use only:
 						extension place holder for LineBase
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ProjectRef" type="ReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Product: ALL
+						Description: Project identifier
+						References to the project this line
+						is associated with
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -10498,6 +10676,16 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="DeferredRevenue" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Use the DeferredRevenue property to indicate that the goods/services sold
+								have not yet been delivered to the customer, and therefore not appropriate for the
+								accounting engine to book as Revenue for accounting.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -11919,6 +12107,17 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="ProjectRef" type="ReferenceType"
+								minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+                                Product: ALL
+                                Description: Project identifier
+                                References to the project this line
+                                is associated with
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="BillableStatus" type="BillableStatusEnum"
 								minOccurs="0">
 						<xs:annotation>
@@ -12792,6 +12991,24 @@
 				<xs:annotation>
 					<xs:documentation>Product:QBW. Possible values are
 						Disabled,SinglePerItem and MultiplePerItem</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RevenueRecognition" type="xs:boolean"
+						minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Product:QBO
+						Description: Indicates if revenue recognition is enabled for the company. True if enabled, false otherwise.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RevenueRecognitionFrequency" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Product:QBO
+						Description: RevenueRecognitionFrequency describes how frequently revenue is recognised.
+						Possible values are Daily, Weekly, Monthly.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
