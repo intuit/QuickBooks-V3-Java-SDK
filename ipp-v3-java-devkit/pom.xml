@@ -44,11 +44,11 @@
         </exclusion>
       </exclusions> 
     </dependency>
-    <dependency> 
-      <groupId>asm</groupId>  
-      <artifactId>asm-commons</artifactId>  
-      <version>3.3.1</version> 
-    </dependency>  
+    <dependency>
+  <groupId>org.ow2.asm</groupId>
+  <artifactId>asm-commons</artifactId>
+  <version>9.3</version>
+</dependency> 
     <dependency> 
       <groupId>com.sun.mail</groupId>  
       <artifactId>javax.mail</artifactId>  
@@ -128,10 +128,10 @@
       <scope>test</scope> 
     </dependency>
     <dependency>
-      <groupId>net.bytebuddy</groupId>
-      <artifactId>byte-buddy</artifactId>
-      <version>1.12.10</version>
-    </dependency>
+  <groupId>net.bytebuddy</groupId>
+  <artifactId>byte-buddy</artifactId>
+  <version>1.11.10</version>
+</dependency>
   </dependencies>  
   <build> 
     <testResources> 
