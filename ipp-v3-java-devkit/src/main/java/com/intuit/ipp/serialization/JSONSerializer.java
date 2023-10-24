@@ -15,7 +15,7 @@
  *******************************************************************************/
 package com.intuit.ipp.serialization;
 
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.Version;

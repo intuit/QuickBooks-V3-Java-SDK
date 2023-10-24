@@ -132,6 +132,11 @@
       <artifactId>byte-buddy</artifactId>
       <version>1.12.10</version>
     </dependency>
+    <dependency>
+      <groupId>jakarta.mail</groupId>
+      <artifactId>jakarta.mail-api</artifactId>
+      <version>2.1.2</version>
+    </dependency>
   </dependencies>  
   <build> 
     <testResources> 
@@ -181,7 +186,7 @@
       <!-- Surefire plugin before 2.9 version is buggy -->  
       <plugin> 
         <artifactId>maven-surefire-plugin</artifactId>  
-        <version>3.0.0-M3</version>  
+        <version>3.1.2</version>  
         <configuration> 
           <argLine>${argLine} -Djdk.attach.allowAttachSelf</argLine>  
           <suiteXmlFiles> 
@@ -193,7 +198,7 @@
         <groupId>org.jacoco</groupId>  
         <artifactId>jacoco-maven-plugin</artifactId>  
         <!-- <version>0.7.6-SNAPSHOT</version> -->  
-        <version>0.8.4</version>  
+        <version>0.8.11</version>  
         <executions> 
           <execution> 
             <id>default-prepare-agent</id>  
@@ -330,7 +335,7 @@
         <groupId>com.sun.xml.fastinfoset</groupId>  
         <artifactId>FastInfoset</artifactId>  
         <version>1.2.15</version> 
-      </dependency> 
+      </dependency>
     </dependencies> 
   </dependencyManagement> 
 </project>
