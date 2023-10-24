@@ -8,7 +8,7 @@ import com.intuit.ipp.services.CDCQueryResult;
 import com.intuit.ipp.services.CallbackHandler;
 import com.intuit.ipp.services.CallbackMessage;
 
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 import java.util.List;
 

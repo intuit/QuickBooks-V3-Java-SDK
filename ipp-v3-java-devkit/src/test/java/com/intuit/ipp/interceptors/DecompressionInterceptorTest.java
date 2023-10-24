@@ -28,8 +28,8 @@ import java.io.InputStreamReader;
 
 public class DecompressionInterceptorTest {
 
-    private DecompressionInterceptor instance = new DecompressionInterceptor();
-    private IntuitMessage message = new IntuitMessage();
+    private final DecompressionInterceptor instance = new DecompressionInterceptor();
+    private final IntuitMessage message = new IntuitMessage();
 
 
 

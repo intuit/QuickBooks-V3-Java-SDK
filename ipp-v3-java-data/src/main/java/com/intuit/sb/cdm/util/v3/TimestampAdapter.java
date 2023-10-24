@@ -18,7 +18,7 @@ package com.intuit.sb.cdm.util.v3;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * Adapter for JAXB to bind xs:timestamp type to java.util.Timestamp rather than
