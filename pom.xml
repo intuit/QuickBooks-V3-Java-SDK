@@ -5,7 +5,7 @@
 
     <groupId>com.intuit.quickbooks-online</groupId>
     <artifactId>ipp-v3-java-devkit-pom</artifactId>
-    <version>6.2.4</version>
+    <version>6.3.0</version>
     <packaging>pom</packaging>
     <name>IPP V3 Java DevKit</name>
     <url>https://github.com/intuit/QuickBooks-V3-Java-SDK</url>
@@ -85,10 +85,10 @@
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
-            <version>2.4</version>
+            <version>3.8.1</version>
             <configuration>
-                <source>1.7</source>
-                <target>1.7</target>
+                <source>17</source>
+                <target>17</target>
             </configuration>
 
         </plugin>
@@ -105,13 +105,22 @@
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-release-plugin</artifactId>
-            <version>2.4.1</version>
+            <version>2.5.3</version>
         </plugin>
         <plugin>
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.6</version>
+            <version>1.6.13</version>
             <extensions>true</extensions>
+            <executions>
+                <execution>
+                    <id>default-deploy</id>
+                    <phase>deploy</phase>
+                    <goals>
+                        <goal>deploy</goal>
+                    </goals>
+                </execution>
+            </executions>
             <configuration>
                 <serverId>ossrh</serverId>
                 <nexusUrl>https://oss.sonatype.org/</nexusUrl>
@@ -123,9 +132,9 @@
 
 <profiles>
     <profile>
-        <id>doclint-java8-disable</id>
+        <id>doclint-java17-disable</id>
         <activation>
-            <jdk>[1.8,)</jdk>
+            <jdk>[17,)</jdk>
         </activation>
         <build>
             <plugins>
@@ -134,9 +143,9 @@
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.1.1</version>
                     <configuration>
-                        <source>8</source>
+                        <source>17</source>
                         <additionalJOption>-Xdoclint:none</additionalJOption>
-                        <javadocExecutable>${java.home}/../bin/javadoc</javadocExecutable>
+                        <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
                     </configuration>
                 </plugin>
             </plugins>
@@ -149,7 +158,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.6</version>
+                    <version>3.1.0</version>
                     <executions>
                         <execution>
                             <id>sign-artifacts</id>
