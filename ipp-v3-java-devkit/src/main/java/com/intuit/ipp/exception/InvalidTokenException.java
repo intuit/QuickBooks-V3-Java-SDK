@@ -66,4 +66,15 @@ public class InvalidTokenException extends FMSException {
 	public InvalidTokenException(String errorMessage, Throwable throwable) {
 		super(errorMessage, throwable);
 	}
+	
+	/**
+	 * Constructor InvalidTokenException
+	 * 
+	 * @param errorMessage the error message
+	 * @param throwable the throwable
+	 * @param intuit_tid the transaction id
+	 */
+	public InvalidTokenException(String errorMessage, Throwable throwable, String intuit_tid) {
+		super(errorMessage, throwable, intuit_tid);
+	}
 }
