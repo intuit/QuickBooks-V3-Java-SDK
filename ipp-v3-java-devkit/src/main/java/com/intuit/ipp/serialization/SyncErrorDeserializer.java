@@ -15,120 +15,84 @@
  *******************************************************************************/
 package com.intuit.ipp.serialization;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
+import com.intuit.ipp.data.Error;
+import com.intuit.ipp.data.*;
+import com.intuit.ipp.util.Logger;
+import jakarta.xml.bind.JAXBElement;
 import java.io.IOException;
 import java.util.Iterator;
 
-import jakarta.xml.bind.JAXBElement;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.AnnotationIntrospector;
-import com.fasterxml.jackson.databind.DeserializationConfig;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-//import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
-import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
-import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-
-import com.intuit.ipp.data.Error;
-import com.intuit.ipp.data.IntuitEntity;
-import com.intuit.ipp.data.ObjectFactory;
-import com.intuit.ipp.data.SyncError;
-import com.intuit.ipp.data.SyncObject;
-import com.intuit.ipp.util.Logger;
-
 public class SyncErrorDeserializer extends JsonDeserializer<SyncError> {
-	
-	ObjectMapper mapper = new ObjectMapper();
-	
-	/**
-	 * logger instance
-	 */
-	private static final org.slf4j.Logger LOG = Logger.getLogger();
+    /**
+     * logger instance
+     */
+    private static final org.slf4j.Logger LOG = Logger.getLogger();
 
-	
-	/**
-	 * variable CLOUDVERSION
-	 */
-	private static final String CLOUDVERSION = "CloudVersion";
-	
-	/**
-	 * variable QBVERSION
-	 */
-	private static final String QBVERSION = "QBVersion";
-	
-	/**
-	 * variable ERROR
-	 */
-	private static final String ERROR = "Error";
-	
-	
-	/**
-	 * variable objFactory
-	 */
-	private ObjectFactory objFactory = new ObjectFactory();
 
-	@SuppressWarnings("deprecation")
-	@Override
-	public SyncError deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
-		
+    /**
+     * variable CLOUDVERSION
+     */
+    private static final String CLOUDVERSION = "CloudVersion";
 
-		//Make the mapper JAXB annotations aware
-		AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector();
-		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
-		mapper.setAnnotationIntrospector(pair);
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    /**
+     * variable QBVERSION
+     */
+    private static final String QBVERSION = "QBVersion";
 
-		//Read the QueryResponse as a tree
-		JsonNode jn = jp.readValueAsTree();
+    /**
+     * variable ERROR
+     */
+    private static final String ERROR = "Error";
 
-		//Create the SyncError to be returned
-		SyncError se = new SyncError();
 
-		//Iterate over the field names
-		Iterator<String> ite = jn.fieldNames();
+    /**
+     * variable objFactory
+     */
+    private ObjectFactory objFactory = new ObjectFactory();
+    private static final ObjectMapper deserializeMapper = getDeserializeMapper();
 
-		
-		
-		while (ite.hasNext()) {
-			String key = ite.next();
-			if (key.equals(CLOUDVERSION)) {
-			se.setCloudVersion(getSyncObject(jn.get(key)));
-			} else if (key.equals(QBVERSION)) {
-				se.setQBVersion(getSyncObject(jn.get(key)));
-			} else if(key.equals(ERROR)) {
-				se.setError(mapper.treeToValue(jn.get(key),Error.class));
-			}
-		}
+    @SuppressWarnings("deprecation")
+    @Override
+    public SyncError deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
+        //Read the QueryResponse as a tree
+        JsonNode jn = jp.readValueAsTree();
+        //Create the SyncError to be returned
+        SyncError se = new SyncError();
+        //Iterate over the field names
+        Iterator<String> ite = jn.fieldNames();
+        while (ite.hasNext()) {
+            String key = ite.next();
+            if (key.equals(CLOUDVERSION)) {
+                se.setCloudVersion(getSyncObject(jn.get(key)));
+            } else if (key.equals(QBVERSION)) {
+                se.setQBVersion(getSyncObject(jn.get(key)));
+            } else if (key.equals(ERROR)) {
+                se.setError(deserializeMapper.treeToValue(jn.get(key), Error.class));
+            }
+        }
 
-		return se;
-	}
+        return se;
+    }
 
-	
-	/**
-	 * Method to Object Intuitobject
-	 * 
-	 * @param JsonNode
-	 */
-	private SyncObject getSyncObject(JsonNode jsonNode) {
-		
-		String name = null;
-		JsonNode jn1 =null;
-		SyncObject syncObject = new SyncObject();
-		
-		
-		Iterator<String> ite = jsonNode.fieldNames();
 
-		while (ite.hasNext()) {
-			String key = ite.next();
+    /**
+     * Method to Object Intuitobject
+     *
+     * @param jsonNode
+     */
+    private SyncObject getSyncObject(JsonNode jsonNode) {
+        String name = null;
+        JsonNode jn1 = null;
+        SyncObject syncObject = new SyncObject();
+        Iterator<String> ite = jsonNode.fieldNames();
+        while (ite.hasNext()) {
+            String key = ite.next();
             if (JsonResourceTypeLocator.lookupType(key) != null) {
 
                 jn1 = jsonNode.get(key);
@@ -136,14 +100,14 @@ public class SyncErrorDeserializer extends JsonDeserializer<SyncError> {
 
                 try {
                     //Force the data to be casted to its type
-                    Object intuitType = mapper.treeToValue(jn1, JsonResourceTypeLocator.lookupType(key));
+                    Object intuitType = deserializeMapper.treeToValue(jn1, JsonResourceTypeLocator.lookupType(key));
                     //Double check
                     if (intuitType instanceof IntuitEntity) {
                         JAXBElement<? extends IntuitEntity> intuitObject = objFactory
                                 .createIntuitObject((IntuitEntity) intuitType);
                         syncObject.setIntuitObject(intuitObject);
                     }
-                }  catch (JsonParseException e) {
+                } catch (JsonParseException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 } catch (JsonMappingException e) {
@@ -154,9 +118,24 @@ public class SyncErrorDeserializer extends JsonDeserializer<SyncError> {
                     e.printStackTrace();
                 }
             }
-		}
-		return syncObject;
-	}
+        }
+        return syncObject;
+    }
 
+    /**
+     * Deserialize mapper for {@link #deserialize(JsonParser, DeserializationContext)}}
+     *
+     * @return ObjectMapper
+     */
+    private static ObjectMapper getDeserializeMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        //Make the mapper JAXB annotations aware
+        AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector(mapper.getTypeFactory());
+        AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+        AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
+        mapper.setAnnotationIntrospector(pair);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        return mapper;
+    }
 }
 
