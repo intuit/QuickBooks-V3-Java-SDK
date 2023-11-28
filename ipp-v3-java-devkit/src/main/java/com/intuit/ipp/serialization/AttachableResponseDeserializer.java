@@ -15,77 +15,74 @@
  *******************************************************************************/
 package com.intuit.ipp.serialization;
 
-import java.io.IOException;
-import java.util.Iterator;
-
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.AnnotationIntrospector;
-import com.fasterxml.jackson.databind.DeserializationConfig;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-//import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
-import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
 import com.intuit.ipp.data.Attachable;
 import com.intuit.ipp.data.AttachableResponse;
 import com.intuit.ipp.data.Fault;
+import java.io.IOException;
+import java.util.Iterator;
 
 /**
  * Custom deserializer class to handle AttachableResponse while unmarshall
- *
  */
 public class AttachableResponseDeserializer extends JsonDeserializer<AttachableResponse> {
 
-	/**
-	 * variable FAULT
-	 */
-	private static final String FAULT = "Fault";
-	
-	/**
-	 * variable ATTACHABLE
-	 */
-	private static final String ATTACHABLE = "Attachable";
-	
-	/**
-	 * {@inheritDoc}}
-	 */
-	@SuppressWarnings("deprecation")
-	@Override
-	public AttachableResponse deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
+    /**
+     * variable FAULT
+     */
+    private static final String FAULT = "Fault";
 
-		//Make the mapper JAXB annotations aware
-		AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector();
-		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
-		mapper.setAnnotationIntrospector(pair);
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    /**
+     * variable ATTACHABLE
+     */
+    private static final String ATTACHABLE = "Attachable";
+    private static final ObjectMapper deserializeMapper = getDeserializeMapper();
 
-		//Read the QueryResponse as a tree
-		JsonNode jn = jp.readValueAsTree();
+    /**
+     * {@inheritDoc}}
+     */
+    @SuppressWarnings("deprecation")
+    @Override
+    public AttachableResponse deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
+        //Read the QueryResponse as a tree
+        JsonNode jn = jp.readValueAsTree();
 
-		//Create the QueryResponse to be returned
-		AttachableResponse qr = new AttachableResponse();
+        //Create the QueryResponse to be returned
+        AttachableResponse qr = new AttachableResponse();
 
-		//Iterate over the field names
-		Iterator<String> ite = jn.fieldNames();
+        //Iterate over the field names
+        Iterator<String> ite = jn.fieldNames();
 
-		while (ite.hasNext()) {
-			String key = ite.next();
+        while (ite.hasNext()) {
+            String key = ite.next();
 
-			//Attributes
-			if (key.equalsIgnoreCase(FAULT)) {
-				qr.setFault(mapper.treeToValue(jn.get(FAULT), Fault.class));
-			} else if (key.equalsIgnoreCase(ATTACHABLE)) {
-				qr.setAttachable(mapper.treeToValue(jn.get(ATTACHABLE), Attachable.class));
-			}
-		}
-		return qr;
-	}
+            //Attributes
+            if (key.equalsIgnoreCase(FAULT)) {
+                qr.setFault(deserializeMapper.treeToValue(jn.get(FAULT), Fault.class));
+            } else if (key.equalsIgnoreCase(ATTACHABLE)) {
+                qr.setAttachable(deserializeMapper.treeToValue(jn.get(ATTACHABLE), Attachable.class));
+            }
+        }
+        return qr;
+    }
 
+    /**
+     * Deserialize mapper for {@link #deserialize(JsonParser, DeserializationContext)}}
+     *
+     * @return ObjectMapper
+     */
+    private static ObjectMapper getDeserializeMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        //Make the mapper JAXB annotations aware
+        AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector();
+        AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+        AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
+        mapper.setAnnotationIntrospector(pair);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        return mapper;
+    }
 }

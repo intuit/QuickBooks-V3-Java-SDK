@@ -135,6 +135,13 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 	 * variable objFactory
 	 */
 	private ObjectFactory objFactory = new ObjectFactory();
+	private static final ObjectMapper deserializeMapper = getDeserializeMapper();
+	private static final ObjectMapper customDeserializeMapper = getCustomDeserializeMapper();
+	private static final ObjectMapper queryResponseMapper = getQueryResponseMapper();
+	private static final ObjectMapper cdcQueryResponseMapper = getCDCQueryResponseMapper();
+	private static final ObjectMapper attachableResponseMapper = getAttachableResponseMapper();
+	private static final ObjectMapper batchItemResponseMapper = getBatchItemResponseMapper();
+	private static final ObjectMapper syncErrorResponseMapper = getSyncErrorResponseMapper();
 
 	/**
 	 * {@inheritDoc}}
@@ -143,18 +150,7 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 	@Override
 	public IntuitResponse deserialize(JsonParser jp, DeserializationContext desContext) 
 			throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
 		Report report = new Report();
-
-		//Make the mapper JAXB annotations aware
-		AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector();
-		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
-		mapper.setAnnotationIntrospector(pair);
-		
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-
         //Read the QueryResponse as a tree
 		JsonNode jn = jp.readValueAsTree();
 
@@ -173,19 +169,19 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 
 			//Attributes
 			if (key.equalsIgnoreCase(FAULT)) {
-				mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
-				qr.setFault(mapper.treeToValue(jn.get(key), Fault.class));
+				deserializeMapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+				qr.setFault(deserializeMapper.treeToValue(jn.get(key), Fault.class));
 				continue;
 			} else if (key.equalsIgnoreCase(REPORT)) {
-				qr.setReport(mapper.treeToValue(jn.get(key), Report.class));
+				qr.setReport(deserializeMapper.treeToValue(jn.get(key), Report.class));
 			} else if (key.equalsIgnoreCase(HEADER)) {
-				ReportHeader header = mapper.treeToValue(jn.get(HEADER), ReportHeader.class);
+				ReportHeader header = deserializeMapper.treeToValue(jn.get(HEADER), ReportHeader.class);
 				report.setHeader(header);
 			} else if (key.equalsIgnoreCase(ROWS)) {
-				Rows rows= mapper.treeToValue(jn.get(ROWS), Rows.class);
+				Rows rows= deserializeMapper.treeToValue(jn.get(ROWS), Rows.class);
 				report.setRows(rows);
 			} else if (key.equalsIgnoreCase(COLUMNS)) {
-				Columns columns= mapper.treeToValue(jn.get(COLUMNS), Columns.class);
+				Columns columns= deserializeMapper.treeToValue(jn.get(COLUMNS), Columns.class);
 				report.setColumns(columns);
 			} else if (key.equalsIgnoreCase(REQUESTID)) {
 				qr.setRequestId(jn.get(REQUESTID).textValue());
@@ -199,9 +195,9 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 				qr.setStatus(jn.get(STATUS).textValue());
 			} else if (key.equals(SYNC_ERROR_RESPONSE)) {
 				//qr.setSyncErrorResponse(mapper.readValue(jn.get(SYNC_ERROR_RESPONSE), SyncErrorResponse.class));
-                qr.setSyncErrorResponse(getSyncErrorResponse(jn.get(key)));
+                qr.setSyncErrorResponse(syncErrorResponseMapper.treeToValue(jn.get(key), SyncErrorResponse.class));
 			} else if (key.equals(QUERY_RESPONSE)) {
-                qr.setQueryResponse(getQueryResponse(jn.get(key)));
+                qr.setQueryResponse(queryResponseMapper.treeToValue(jn.get(key), QueryResponse.class));
 			} else if (key.equals(CDC_QUERY_RESPONSE)) {
                 List<CDCResponse> cdcResponses = new ArrayList<CDCResponse>();
 				JsonNode jn1 = jn.get(key);
@@ -209,7 +205,7 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 					Iterator<JsonNode> iteJson = jn1.iterator();
 					while (iteJson.hasNext()) {
 						JsonNode jn2 = iteJson.next();
-						cdcResponses.add(getCDCQueryResponse(jn2));
+						cdcResponses.add(cdcQueryResponseMapper.treeToValue(jn2, CDCResponse.class));
 					}
 				}
 				qr.setCDCResponse(cdcResponses);
@@ -222,7 +218,7 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 						Iterator<JsonNode> iteJson = jn1.iterator();
 						while (iteJson.hasNext()) {
 							JsonNode jn2 = iteJson.next();
-							batchItemResponses.add(getBatchItemResponse(jn2));
+							batchItemResponses.add(batchItemResponseMapper.treeToValue(jn2, BatchItemResponse.class));
 						}
 					}
 					qr.setBatchItemResponse(batchItemResponses);
@@ -237,7 +233,7 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 						Iterator<JsonNode> iteJson = jn1.iterator();
 						while (iteJson.hasNext()) {
 							JsonNode jn2 = iteJson.next();
-							attachableResponses.add(getAttachableResponse(jn2));
+							attachableResponses.add(attachableResponseMapper.treeToValue(jn2, AttachableResponse.class));
 						}
 					}
 					qr.setAttachableResponse(attachableResponses);
@@ -247,7 +243,7 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 					LOG.debug("processing recurring transaction response");
 
 					JsonNode rtNode = jn.get(key);
-					Object recurringTxn = mapper.treeToValue(rtNode, JsonResourceTypeLocator.lookupType(key));
+					Object recurringTxn = deserializeMapper.treeToValue(rtNode, JsonResourceTypeLocator.lookupType(key));
 					RecurringTransaction rt = new RecurringTransaction();
 					rt = (RecurringTransaction) recurringTxn;
 
@@ -258,7 +254,7 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 					JsonNode entityNode = rtNode.get(entityName);
 
 					//Force the data to be casted to its type
-					Object entity = mapper.treeToValue(entityNode, JsonResourceTypeLocator.lookupType(entityName));
+					Object entity = deserializeMapper.treeToValue(entityNode, JsonResourceTypeLocator.lookupType(entityName));
 
 					//Double check
 					if (entity instanceof IntuitEntity) {
@@ -266,9 +262,6 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 						JAXBElement<? extends IntuitEntity> intuitObject = objFactory.createIntuitObject((IntuitEntity) entity);
 						rt.setIntuitObject(intuitObject);
 					}
-
-					// set the CustomFieldDefinition deserializer
-					registerModulesForCustomFieldDef(mapper);
 
 					Object obj = rt;
 					if (obj instanceof IntuitEntity) {
@@ -282,9 +275,7 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 				String entity = key;
 				LOG.debug("entity key : " + key);
 				if (JsonResourceTypeLocator.lookupType(entity) != null) {
-					// set the CustomFieldDefinition deserializer
-					registerModulesForCustomFieldDef(mapper);
-					Object intuitType = mapper.treeToValue(jn.get(key), JsonResourceTypeLocator.lookupType(entity));
+					Object intuitType = customDeserializeMapper.treeToValue(jn.get(key), JsonResourceTypeLocator.lookupType(entity));
 					if (intuitType instanceof IntuitEntity) {
 
                         intuitResponseDeserializerHelper.updateBigDecimalScale((IntuitEntity) intuitType);
@@ -310,141 +301,97 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 		return qr;
 	}
 
-    /**
-     * Updates instances of BigDecimal with new scale in intuitEntity
-     * @param intuitType
-
-    private void updateBigDecimalScale(IntuitEntity intuitType) {
-        IntuitResponseDeserializer.Feature feature =  new IntuitResponseDeserializer.Feature() {
-            private IntuitEntity obj;
-            public <T extends IntuitEntity> void set(T object) {
-                obj = object;
-            }
-            public void execute() {
-                (new IntuitResponseDeserializer.BigDecimalScaleUpdater()).execute(obj);
-            }
-        };
-        feature.set(intuitType);
-
-        invokeFeature(Config.BIGDECIMAL_SCALE_SHIFT, feature);
-    }*/
-
-
-
 	/**
-	 * Method to deserialize the SyncErrorResponse object
-	 * 
-	 * @param jsonNode
-	 * @return QueryResponse
+	 * QueryResponse mapper for {@link #deserialize(JsonParser, DeserializationContext)}}
+	 * @return ObjectMapper
 	 */
-    /*
-	private SyncErrorResponse getSyncErrorResponse(JsonNode jsonNode) throws IOException {
+	private static ObjectMapper getQueryResponseMapper() {
 		ObjectMapper mapper = new ObjectMapper();
-
-		SimpleModule simpleModule = new SimpleModule("SyncErrorResponseDeserializer", new Version(1, 0, 0, null));
-		simpleModule.addDeserializer(SyncErrorResponse.class, new SyncErrorResponseDeserializer());
-
-		mapper.registerModule(simpleModule);
-		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-		return mapper.readValue(jsonNode, SyncErrorResponse.class);
-	}
-	*/
-	/**
-	 * Method to deserialize the QueryResponse object
-	 * 
-	 * @param jsonNode
-	 * @return QueryResponse
-	 */
-	private QueryResponse getQueryResponse(JsonNode jsonNode) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-
 		SimpleModule simpleModule = new SimpleModule("QueryResponseDeserializer", new Version(1, 0, 0, null));
 		simpleModule.addDeserializer(QueryResponse.class, new QueryResponseDeserializer());
-
 		mapper.registerModule(simpleModule);
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-		return mapper.treeToValue(jsonNode, QueryResponse.class);
+		return mapper;
 	}
-	
-	/**
-	 * Method to deserialize the CDCQueryResponse object
-	 * 
-	 * @param jsonNode
-	 * @return CDCResponse
-	 */
-	private CDCResponse getCDCQueryResponse(JsonNode jsonNode) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
 
+	/**
+	 * CDCQueryResponse mapper for {@link #deserialize(JsonParser, DeserializationContext)}}
+	 * @return ObjectMapper
+	 */
+	private static ObjectMapper getCDCQueryResponseMapper() {
+		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule simpleModule = new SimpleModule("CDCQueryResponseDeserializer", new Version(1, 0, 0, null));
 		simpleModule.addDeserializer(CDCResponse.class, new CDCQueryResponseDeserializer());
-
 		mapper.registerModule(simpleModule);
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-		return mapper.treeToValue(jsonNode, CDCResponse.class);
+		return mapper;
 	}
-	
-	/**
-	 * Method to deserialize the BatchItemResponse object
-	 * 
-	 * @param jsonNode the json node
-	 * @return BatchItemResponse the batch item response
-	 */
-	private BatchItemResponse getBatchItemResponse(JsonNode jsonNode) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
 
+	/**
+	 * BatchItemResponse mapper for {@link #deserialize(JsonParser, DeserializationContext)}}
+	 * @return ObjectMapper
+	 */
+	private static ObjectMapper getBatchItemResponseMapper(){
+		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule simpleModule = new SimpleModule("BatchItemResponseDeserializer", new Version(1, 0, 0, null));
 		simpleModule.addDeserializer(BatchItemResponse.class, new BatchItemResponseDeserializer());
-
 		mapper.registerModule(simpleModule);
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-		return mapper.treeToValue(jsonNode, BatchItemResponse.class);
+		return mapper;
 	}
-	
-	/**
-	 * Method to deserialize the QueryResponse object
-	 * 
-	 * @param jsonNode
-	 * @return QueryResponse
-	 */
-	private AttachableResponse getAttachableResponse(JsonNode jsonNode) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
 
+	/**
+	 * AttachableResponse mapper for {@link #deserialize(JsonParser, DeserializationContext)}}
+	 * @return ObjectMapper
+	 */
+	private static ObjectMapper getAttachableResponseMapper() {
+		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule simpleModule = new SimpleModule("AttachableResponseDeserializer", new Version(1, 0, 0, null));
 		simpleModule.addDeserializer(AttachableResponse.class, new AttachableResponseDeserializer());
-
 		mapper.registerModule(simpleModule);
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-		return mapper.treeToValue(jsonNode, AttachableResponse.class);
+		return mapper;
 	}
-	
+
 	/**
-	 * Method to add custom deserializer for CustomFieldDefinition
-	 * 
-	 * @param objectMapper the Jackson object mapper
+	 * SyncErrorResponse mapper for {@link #deserialize(JsonParser, DeserializationContext)}}
+	 * @return ObjectMapper
 	 */
-	private void registerModulesForCustomFieldDef(ObjectMapper objectMapper) {
+	private static ObjectMapper getSyncErrorResponseMapper() {
+		ObjectMapper mapper = new ObjectMapper();
+		SimpleModule simpleModule = new SimpleModule("SyncErrorResponseDeserializer", new Version(1, 0, 0, null));
+		simpleModule.addDeserializer(SyncErrorResponse.class, new SyncErrorResponseDeserializer());
+		mapper.registerModule(simpleModule);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		return mapper;
+	}
+
+	/**
+	 * Deserialize mapper for {@link #deserialize(JsonParser, DeserializationContext)}}
+	 * @return ObjectMapper
+	 */
+	private static ObjectMapper getDeserializeMapper() {
+		ObjectMapper mapper = new ObjectMapper();
+		//Make the mapper JAXB annotations aware
+		AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector();
+		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
+		mapper.setAnnotationIntrospector(pair);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		return mapper;
+	}
+
+	/**
+	 * Custom mapper for {@link #deserialize(JsonParser, DeserializationContext)}}
+	 * @return ObjectMapper
+	 */
+	private static ObjectMapper getCustomDeserializeMapper() {
+		ObjectMapper objectMapper = deserializeMapper.copy();
 		SimpleModule simpleModule = new SimpleModule("CustomFieldDefinition", new Version(1, 0, 0, null));
 		simpleModule.addDeserializer(CustomFieldDefinition.class, new CustomFieldDefinitionDeserializer());
 		objectMapper.registerModule(simpleModule);
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		return objectMapper;
 	}
-
-    private SyncErrorResponse getSyncErrorResponse(JsonNode jsonNode) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-
-        SimpleModule simpleModule = new SimpleModule("SyncErrorResponseDeserializer", new Version(1, 0, 0, null));
-        simpleModule.addDeserializer(SyncErrorResponse.class, new SyncErrorResponseDeserializer());
-
-        mapper.registerModule(simpleModule);
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        return mapper.treeToValue(jsonNode, SyncErrorResponse.class);
-    }
-
 
 }

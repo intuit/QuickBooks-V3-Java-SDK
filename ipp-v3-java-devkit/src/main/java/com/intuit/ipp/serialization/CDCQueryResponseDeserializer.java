@@ -15,121 +15,117 @@
  *******************************************************************************/
 package com.intuit.ipp.serialization;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
+import com.intuit.ipp.data.CDCResponse;
+import com.intuit.ipp.data.Fault;
+import com.intuit.ipp.data.QueryResponse;
+import com.intuit.ipp.util.Logger;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.AnnotationIntrospector;
-import com.fasterxml.jackson.databind.DeserializationConfig;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
-import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-
-import com.intuit.ipp.data.CDCResponse;
-import com.intuit.ipp.data.Fault;
-import com.intuit.ipp.data.QueryResponse;
-import com.intuit.ipp.util.Logger;
-
 /**
  * Custom deserializer class to handle CDCResponse while unmarshall
- *
  */
 public class CDCQueryResponseDeserializer extends JsonDeserializer<CDCResponse> {
 
-	/**
-	 * logger instance
-	 */
-	private static final org.slf4j.Logger LOG = Logger.getLogger();
+    /**
+     * logger instance
+     */
+    private static final org.slf4j.Logger LOG = Logger.getLogger();
 
-	/**
-	 * variable FAULT
-	 */
-	private static final String FAULT = "Fault";
-	
-	/**
-	 * variable SIZE
-	 */
-	private static final String SIZE = "size";
-	
-	/**
-	 * variable QUERY_RESPONSE
-	 */
-	private static final String QUERY_RESPONSE = "QueryResponse";
-	
-	@SuppressWarnings("deprecation")
-	@Override
-	public CDCResponse deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
+    /**
+     * variable FAULT
+     */
+    private static final String FAULT = "Fault";
 
-		//Make the mapper JAXB annotations aware
-		AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector();
-		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
-		mapper.setAnnotationIntrospector(pair);
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    /**
+     * variable SIZE
+     */
+    private static final String SIZE = "size";
 
-		//Read the QueryResponse as a tree
-		JsonNode jn = jp.readValueAsTree();
+    /**
+     * variable QUERY_RESPONSE
+     */
+    private static final String QUERY_RESPONSE = "QueryResponse";
+    private static final ObjectMapper deserializeMapper = getDeserializeMapper();
+    private static final ObjectMapper queryResponseMapper = getQueryResponseMapper();
 
-		//Create the QueryResponse to be returned
-		CDCResponse qr = new CDCResponse();
+    @SuppressWarnings("deprecation")
+    @Override
+    public CDCResponse deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
+        //Read the QueryResponse as a tree
+        JsonNode jn = jp.readValueAsTree();
 
-		//Iterate over the field names
-		Iterator<String> ite = jn.fieldNames();
+        //Create the QueryResponse to be returned
+        CDCResponse qr = new CDCResponse();
 
-		while (ite.hasNext()) {
-			String key = ite.next();
+        //Iterate over the field names
+        Iterator<String> ite = jn.fieldNames();
 
-			//Attributes
-			if (key.equals(FAULT)) {
-				qr.setFault(mapper.treeToValue(jn.get(FAULT), Fault.class));
-				continue;
-			} else if (key.equals(SIZE)) {
-				qr.setSize(jn.get(SIZE).intValue());
-			} else if (key.equals(QUERY_RESPONSE)) {
+        while (ite.hasNext()) {
+            String key = ite.next();
+
+            //Attributes
+            if (key.equals(FAULT)) {
+                qr.setFault(deserializeMapper.treeToValue(jn.get(FAULT), Fault.class));
+                continue;
+            } else if (key.equals(SIZE)) {
+                qr.setSize(jn.get(SIZE).intValue());
+            } else if (key.equals(QUERY_RESPONSE)) {
                 JsonNode jn1 = jn.get(key);
-				if (jn1.isArray()) {
-					List<QueryResponse> queryResponses = new ArrayList<QueryResponse>();
-					Iterator<JsonNode> iteJson = jn1.iterator();
-					while (iteJson.hasNext()) {
-						JsonNode jn2 = iteJson.next();
-						QueryResponse queryResponse = getQueryResponse(jn2);
-						queryResponses.add(queryResponse);
-					}
-					qr.setQueryResponse(queryResponses);
-				}
-			} else {
-				// Unknown  key
-				LOG.warn("Unknown key for CDCResponse :" + key);
-			}
-		}
+                if (jn1.isArray()) {
+                    List<QueryResponse> queryResponses = new ArrayList<QueryResponse>();
+                    Iterator<JsonNode> iteJson = jn1.iterator();
+                    while (iteJson.hasNext()) {
+                        JsonNode jn2 = iteJson.next();
+                        QueryResponse queryResponse = queryResponseMapper.treeToValue(jn2, QueryResponse.class);
+                        queryResponses.add(queryResponse);
+                    }
+                    qr.setQueryResponse(queryResponses);
+                }
+            } else {
+                // Unknown  key
+                LOG.warn("Unknown key for CDCResponse :" + key);
+            }
+        }
 
-		return qr;
-	}
+        return qr;
+    }
 
-	/**
-	 * Method to deserialize the QueryResponse object
-	 * 
-	 * @param jsonNode
-	 * @return QueryResponse
-	 */
-	private QueryResponse getQueryResponse(JsonNode jsonNode) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
+    /**
+     * Deserialize mapper for {@link #deserialize(JsonParser, DeserializationContext)}}
+     *
+     * @return ObjectMapper
+     */
+    private static ObjectMapper getDeserializeMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        //Make the mapper JAXB annotations aware
+        AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector(mapper.getTypeFactory());
+        AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+        AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
+        mapper.setAnnotationIntrospector(pair);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        return mapper;
+    }
 
-		SimpleModule simpleModule = new SimpleModule("QueryResponseDeserializer", new Version(1, 0, 0, null));
-		simpleModule.addDeserializer(QueryResponse.class, new QueryResponseDeserializer());
-
-		mapper.registerModule(simpleModule);
-
-		return mapper.treeToValue(jsonNode, QueryResponse.class);
-	}
+    /**
+     * QueryResponse mapper for {@link #deserialize(JsonParser, DeserializationContext)}}
+     *
+     * @return ObjectMapper
+     */
+    private static ObjectMapper getQueryResponseMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule simpleModule = new SimpleModule("QueryResponseDeserializer", new Version(1, 0, 0, null));
+        simpleModule.addDeserializer(QueryResponse.class, new QueryResponseDeserializer());
+        mapper.registerModule(simpleModule);
+        return mapper;
+    }
 }

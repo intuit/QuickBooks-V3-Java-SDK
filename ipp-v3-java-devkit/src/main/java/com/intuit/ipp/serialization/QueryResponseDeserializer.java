@@ -15,32 +15,21 @@
  *******************************************************************************/
 package com.intuit.ipp.serialization;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
+import com.intuit.ipp.data.*;
+import com.intuit.ipp.util.Logger;
+import jakarta.xml.bind.JAXBElement;
 import java.io.IOException;
 import java.util.Iterator;
 
-import jakarta.xml.bind.JAXBElement;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.AnnotationIntrospector;
-import com.fasterxml.jackson.databind.DeserializationConfig;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-//import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
-import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
-import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-
-import com.intuit.ipp.data.*;
-import com.intuit.ipp.util.Logger;
-
 /**
  * Custom deserializer class to handle QueryResponse while unmarshall
- *
  */
 public class QueryResponseDeserializer extends JsonDeserializer<QueryResponse> {
 
@@ -50,162 +39,163 @@ public class QueryResponseDeserializer extends JsonDeserializer<QueryResponse> {
     private IntuitResponseDeserializerHelper intuitResponseDeserializerHelper = new IntuitResponseDeserializerHelper();
 
     /**
-	 * logger instance
-	 */
-	private static final org.slf4j.Logger LOG = Logger.getLogger();
+     * logger instance
+     */
+    private static final org.slf4j.Logger LOG = Logger.getLogger();
 
-	/**
-	 * variable FAULT
-	 */
-	private static final String FAULT = "Fault";
-	
-	/**
-	 * variable STARTPOSITION
-	 */
-	private static final String STARTPOSITION = "startPosition";
-	
-	/**
-	 * variable MAXRESULTS
-	 */
-	private static final String MAXRESULTS = "maxResults";
-	
-	/**
-	 * variable TOTALCOUNT
-	 */
-	private static final String TOTALCOUNT = "totalCount";
+    /**
+     * variable FAULT
+     */
+    private static final String FAULT = "Fault";
 
-	/**
-	 * variable RECURRINGTXN
-	 */
-	private static final String RECURRINGTXN = "RecurringTransaction";
-	
-	/**
-	 * variable objFactory
-	 */
-	private ObjectFactory objFactory = new ObjectFactory();
+    /**
+     * variable STARTPOSITION
+     */
+    private static final String STARTPOSITION = "startPosition";
 
-	@SuppressWarnings("deprecation")
-	@Override
-	public QueryResponse deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
+    /**
+     * variable MAXRESULTS
+     */
+    private static final String MAXRESULTS = "maxResults";
 
-		//Make the mapper JAXB annotations aware
-		AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector();
-		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
-		mapper.setAnnotationIntrospector(pair);
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    /**
+     * variable TOTALCOUNT
+     */
+    private static final String TOTALCOUNT = "totalCount";
 
-		//Read the QueryResponse as a tree
-		JsonNode jn = jp.readValueAsTree();
+    /**
+     * variable RECURRINGTXN
+     */
+    private static final String RECURRINGTXN = "RecurringTransaction";
 
-		//Create the QueryResponse to be returned
-		QueryResponse qr = new QueryResponse();
+    /**
+     * variable objFactory
+     */
+    private ObjectFactory objFactory = new ObjectFactory();
+    private static final ObjectMapper deserializeMapper = getDeserializeMapper();
+    private static final ObjectMapper customDeserializeMapper = getCustomDeserializeMapper();
 
-		//Iterate over the field names
-		Iterator<String> ite = jn.fieldNames();
+    @SuppressWarnings("deprecation")
+    @Override
+    public QueryResponse deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
+        //Read the QueryResponse as a tree
+        JsonNode jn = jp.readValueAsTree();
 
-		while (ite.hasNext()) {
-			String key = ite.next();
+        //Create the QueryResponse to be returned
+        QueryResponse qr = new QueryResponse();
 
-			//Attributes
-			if (key.equals(FAULT)) {
-				qr.setFault(mapper.treeToValue(jn.get(FAULT), Fault.class));
-				continue;
-			} else if (key.equals(STARTPOSITION)) {
-				qr.setStartPosition(jn.get(STARTPOSITION).intValue());
-			} else if (key.equals(MAXRESULTS)) {
-				qr.setMaxResults(jn.get(MAXRESULTS).intValue());
-			} else if (key.equals(TOTALCOUNT)) {
-				qr.setTotalCount(jn.get(TOTALCOUNT).intValue());
-			} else if (key.equals(RECURRINGTXN)) {
-				if (JsonResourceTypeLocator.lookupType(key) != null) {
-					JsonNode jn1 = jn.get(key);
-					if (jn1.isArray()) {
-						Iterator<JsonNode> iteJson = jn1.iterator();
+        //Iterate over the field names
+        Iterator<String> ite = jn.fieldNames();
 
-						// read the recurring transactions array
-						while (iteJson.hasNext()) {
+        while (ite.hasNext()) {
+            String key = ite.next();
 
-							RecurringTransaction rt = new RecurringTransaction();
-							JsonNode jn2 = iteJson.next();
-							Iterator<JsonNode> iteJson2 = jn2.iterator();
+            //Attributes
+            if (key.equals(FAULT)) {
+                qr.setFault(deserializeMapper.treeToValue(jn.get(FAULT), Fault.class));
+                continue;
+            } else if (key.equals(STARTPOSITION)) {
+                qr.setStartPosition(jn.get(STARTPOSITION).intValue());
+            } else if (key.equals(MAXRESULTS)) {
+                qr.setMaxResults(jn.get(MAXRESULTS).intValue());
+            } else if (key.equals(TOTALCOUNT)) {
+                qr.setTotalCount(jn.get(TOTALCOUNT).intValue());
+            } else if (key.equals(RECURRINGTXN)) {
+                if (JsonResourceTypeLocator.lookupType(key) != null) {
+                    JsonNode jn1 = jn.get(key);
+                    if (jn1.isArray()) {
+                        Iterator<JsonNode> iteJson = jn1.iterator();
 
-							// read the underlying IntuitObject transaction
-							while (iteJson2.hasNext()) {
-								Iterator<String> s = jn2.fieldNames();
-								String rtKey = s.next();
-								LOG.debug("RecurringTransaction : " + rtKey);
+                        // read the recurring transactions array
+                        while (iteJson.hasNext()) {
 
-								JsonNode jn3 = iteJson2.next();
+                            RecurringTransaction rt = new RecurringTransaction();
+                            JsonNode jn2 = iteJson.next();
+                            Iterator<JsonNode> iteJson2 = jn2.iterator();
 
-								// set the CustomFieldDefinition deserializer
-								registerModulesForCustomFieldDef(mapper);
+                            // read the underlying IntuitObject transaction
+                            while (iteJson2.hasNext()) {
+                                Iterator<String> s = jn2.fieldNames();
+                                String rtKey = s.next();
+                                LOG.debug("RecurringTransaction : " + rtKey);
+                                JsonNode jn3 = iteJson2.next();
+                                //Force the data to be casted to its type
+                                Object intuitType = customDeserializeMapper.treeToValue(jn3, JsonResourceTypeLocator.lookupType(rtKey));
+                                //Double check
+                                if (intuitType instanceof IntuitEntity) {
+                                    intuitResponseDeserializerHelper.updateBigDecimalScale((IntuitEntity) intuitType);
+                                    JAXBElement<? extends IntuitEntity> intuitObject = objFactory.createIntuitObject((IntuitEntity) intuitType);
+                                    rt.setIntuitObject(intuitObject);
+                                }
+                            }
 
-								//Force the data to be casted to its type
-								Object intuitType = mapper.treeToValue(jn3, JsonResourceTypeLocator.lookupType(rtKey));
-								//Double check
-								if (intuitType instanceof IntuitEntity) {
-									intuitResponseDeserializerHelper.updateBigDecimalScale((IntuitEntity) intuitType);
-									JAXBElement<? extends IntuitEntity> intuitObject = objFactory.createIntuitObject((IntuitEntity) intuitType);
-									rt.setIntuitObject(intuitObject);
-								}
-							}
-
-							// set the CustomFieldDefinition deserializer
-							registerModulesForCustomFieldDef(mapper);
-
-							// set the query response object to be the recurring transaction
-							Object intuitType = rt;
-							//Double check
-							if (intuitType instanceof IntuitEntity) {
-								intuitResponseDeserializerHelper.updateBigDecimalScale((IntuitEntity) intuitType);
-								JAXBElement<? extends IntuitEntity> intuitObject = objFactory.createIntuitObject((IntuitEntity) intuitType);
-								qr.getIntuitObject().add(intuitObject);
-							}
-						}
-					}
-				}
-			} else {
-				// It has to be an IntuitEntity
-				//Check if the entity is in the resource locator 
-				if (JsonResourceTypeLocator.lookupType(key) != null) {
-
-					JsonNode jn1 = jn.get(key);
-					LOG.debug("Query response entity Key :" + key);
-
-					if (jn1.isArray()) {
-						Iterator<JsonNode> iteJson = jn1.iterator();
-						while (iteJson.hasNext()) {
-							JsonNode jn2 = iteJson.next();
-							// set the CustomFieldDefinition deserializer
-							registerModulesForCustomFieldDef(mapper);
-							//Force the data to be casted to its type
-							Object intuitType = mapper.treeToValue(jn2, JsonResourceTypeLocator.lookupType(key));
-							//Double check
-							if (intuitType instanceof IntuitEntity) {
+                            // set the query response object to be the recurring transaction
+                            Object intuitType = rt;
+                            //Double check
+                            if (intuitType instanceof IntuitEntity) {
                                 intuitResponseDeserializerHelper.updateBigDecimalScale((IntuitEntity) intuitType);
-								JAXBElement<? extends IntuitEntity> intuitObject = objFactory
-										.createIntuitObject((IntuitEntity) intuitType);
-								qr.getIntuitObject().add(intuitObject);
-							}
-						}
-					}
-				}
-			}
-		}
+                                JAXBElement<? extends IntuitEntity> intuitObject = objFactory.createIntuitObject((IntuitEntity) intuitType);
+                                qr.getIntuitObject().add(intuitObject);
+                            }
+                        }
+                    }
+                }
+            } else {
+                // It has to be an IntuitEntity
+                //Check if the entity is in the resource locator
+                if (JsonResourceTypeLocator.lookupType(key) != null) {
 
-		return qr;
-	}
+                    JsonNode jn1 = jn.get(key);
+                    LOG.debug("Query response entity Key :" + key);
 
-	/**
-	 * Method to add custom deserializer for CustomFieldDefinition
-	 * 
-	 * @param objectMapper the Jackson object mapper
-	 */
-	private void registerModulesForCustomFieldDef(ObjectMapper objectMapper) {
-		SimpleModule simpleModule = new SimpleModule("CustomFieldDefinition", new Version(1, 0, 0, null));
-		simpleModule.addDeserializer(CustomFieldDefinition.class, new CustomFieldDefinitionDeserializer());
-		objectMapper.registerModule(simpleModule);
-	}
+                    if (jn1.isArray()) {
+                        Iterator<JsonNode> iteJson = jn1.iterator();
+                        while (iteJson.hasNext()) {
+                            JsonNode jn2 = iteJson.next();
+                            //Force the data to be casted to its type
+                            Object intuitType = customDeserializeMapper.treeToValue(jn2, JsonResourceTypeLocator.lookupType(key));
+                            //Double check
+                            if (intuitType instanceof IntuitEntity) {
+                                intuitResponseDeserializerHelper.updateBigDecimalScale((IntuitEntity) intuitType);
+                                JAXBElement<? extends IntuitEntity> intuitObject = objFactory
+                                        .createIntuitObject((IntuitEntity) intuitType);
+                                qr.getIntuitObject().add(intuitObject);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return qr;
+    }
+
+    /**
+     * Deserialize mapper for {@link #deserialize(JsonParser, DeserializationContext)}}
+     *
+     * @return ObjectMapper
+     */
+    private static ObjectMapper getDeserializeMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        //Make the mapper JAXB annotations aware
+        AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector(mapper.getTypeFactory());
+        AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+        AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
+        mapper.setAnnotationIntrospector(pair);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        return mapper;
+    }
+
+    /**
+     * CustomDeserialize mapper for {@link #deserialize(JsonParser, DeserializationContext)}}
+     *
+     * @return ObjectMapper
+     */
+    private static ObjectMapper getCustomDeserializeMapper() {
+        ObjectMapper mapper = deserializeMapper.copy();
+        SimpleModule simpleModule = new SimpleModule("CustomFieldDefinition", new Version(1, 0, 0, null));
+        simpleModule.addDeserializer(CustomFieldDefinition.class, new CustomFieldDefinitionDeserializer());
+        mapper.registerModule(simpleModule);
+        return mapper;
+    }
 }
