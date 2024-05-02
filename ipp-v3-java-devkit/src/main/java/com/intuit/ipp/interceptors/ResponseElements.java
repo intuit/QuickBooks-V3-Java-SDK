@@ -17,7 +17,7 @@ package com.intuit.ipp.interceptors;
 
 import java.io.InputStream;
 
-import org.apache.http.StatusLine;
+import org.apache.hc.core5.http.message.StatusLine;
 
 import com.intuit.ipp.core.Response;
 import com.intuit.ipp.services.CallbackMessage;

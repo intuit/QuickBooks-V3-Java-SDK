@@ -15,11 +15,14 @@
  *******************************************************************************/
 package com.intuit.ipp.net;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
+import com.intuit.ipp.data.Status;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.core5.http.HttpResponse;
 import java.net.ConnectException;
-import org.apache.http.impl.client.HttpClientBuilder;
+
+import org.apache.hc.core5.http.message.StatusLine;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -71,9 +74,9 @@ public class RetryPolicyHandlerTest {
 	@Test(expectedExceptions = ConnectException.class)
 	public void testFixedRetry() throws Exception {
 		handler = new IntuitRetryPolicyHandler(retryCount, retryInterval);
-		client = HttpClientBuilder.create().setRetryHandler(handler).build();
-		HttpResponse x = client.execute(httpget);
-		LOG.debug(x.getStatusLine().toString());
+		client = HttpClientBuilder.create().setRetryStrategy(handler).build();
+		String status = client.execute(httpget, response -> new StatusLine(response).toString());
+		LOG.debug(status);
 	}
 
 	/**
@@ -85,9 +88,9 @@ public class RetryPolicyHandlerTest {
 	public void testIncrementalRetry() throws Exception {
 		LOG.debug("in incremental");
 		handler = new IntuitRetryPolicyHandler(retryCount, retryInterval, increment);
-		client = HttpClientBuilder.create().setRetryHandler(handler).build();
-		HttpResponse resp = client.execute(httpget);
-		LOG.debug(resp.getStatusLine().toString());
+		client = HttpClientBuilder.create().setRetryStrategy(handler).build();
+		String status = client.execute(httpget, response -> new StatusLine(response).toString());
+		LOG.debug(status);
 	}
 
 	/**
@@ -100,9 +103,9 @@ public class RetryPolicyHandlerTest {
 	public void testExponentialRetry() throws Exception {
 		LOG.debug("in exponential");
 		handler = new IntuitRetryPolicyHandler(retryCount, minBackoff, maxBackoff, deltaBackoff);
-		client = HttpClientBuilder.create().setRetryHandler(handler).build();
-		HttpResponse resp = client.execute(httpget);
-		LOG.debug(resp.getStatusLine().toString());
+		client = HttpClientBuilder.create().setRetryStrategy(handler).build();
+		String status = client.execute(httpget, response -> new StatusLine(response).toString());
+		LOG.debug(status);
 	}
 
 	/**

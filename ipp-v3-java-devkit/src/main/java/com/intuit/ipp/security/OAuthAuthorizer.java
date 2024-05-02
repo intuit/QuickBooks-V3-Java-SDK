@@ -24,12 +24,11 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.signature.AuthorizationHeaderSigningStrategy;
 
-import org.apache.http.client.methods.HttpRequestBase;
-
 import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.interceptors.HTTPURLConnectionInterceptor;
 import com.intuit.ipp.util.Config;
 import com.intuit.ipp.util.StringUtils;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
 
 /**
  * This class will sign the http request using oAuth credentials
@@ -45,7 +44,7 @@ public class OAuthAuthorizer implements IAuthorizer {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void authorize(HttpRequestBase httpRequest) throws FMSException {
+	public void authorize(HttpUriRequestBase httpRequest) throws FMSException {
 		try {
 			oAuthConsumer.sign(httpRequest);
 		} catch (OAuthMessageSignerException e) {

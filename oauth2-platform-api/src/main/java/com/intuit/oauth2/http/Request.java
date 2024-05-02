@@ -21,7 +21,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
+import org.apache.hc.core5.http.NameValuePair;
 
 import com.intuit.oauth2.exception.InvalidRequestException;
 

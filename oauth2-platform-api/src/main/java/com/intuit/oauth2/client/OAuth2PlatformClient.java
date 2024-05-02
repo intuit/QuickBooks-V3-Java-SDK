@@ -28,8 +28,8 @@ import java.util.List;
 
 import com.intuit.oauth2.exception.InvalidRequestException;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;

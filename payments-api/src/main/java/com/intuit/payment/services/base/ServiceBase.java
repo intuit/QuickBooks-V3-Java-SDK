@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.HttpStatus;
+import org.apache.hc.core5.http.HttpStatus;
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.core.type.TypeReference;

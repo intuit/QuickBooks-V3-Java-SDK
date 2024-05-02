@@ -22,10 +22,11 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -96,7 +97,7 @@ public class OAuth2PlatformClientTest {
   }
 
   @Test(expectedExceptions = OAuthException.class)
-  public void retrieveBearerTokensThrowsOAuthExceptionOnErrorStatus() throws JsonProcessingException, OAuthException {
+  public void retrieveBearerTokensThrowsOAuthExceptionOnErrorStatus() throws IOException, OAuthException {
     ObjectWriter writer = mapper.writerFor(BearerTokenResponse.class);
     Response mockResponse = new Response(
         IOUtils.toInputStream(writer.writeValueAsString(new BearerTokenResponse()), StandardCharsets.UTF_8), 500, intuit_tid);
@@ -130,7 +131,7 @@ public class OAuth2PlatformClientTest {
   }
 
   @Test(expectedExceptions = OAuthException.class)
-  public void refreshTokenThrowsOAuthExceptionOnErrorStatus() throws JsonProcessingException, OAuthException {
+  public void refreshTokenThrowsOAuthExceptionOnErrorStatus() throws IOException, OAuthException {
     ObjectWriter writer = mapper.writerFor(BearerTokenResponse.class);
     Response mockResponse = new Response(
         IOUtils.toInputStream(writer.writeValueAsString(new BearerTokenResponse()), StandardCharsets.UTF_8), 500, intuit_tid);
@@ -188,7 +189,7 @@ public class OAuth2PlatformClientTest {
   }
 
   @Test(expectedExceptions = OpenIdException.class)
-  public void getUserInfoThrowsOpenIdExceptionOnErrorStatus() throws JsonProcessingException, OpenIdException {
+  public void getUserInfoThrowsOpenIdExceptionOnErrorStatus() throws IOException, OpenIdException {
     ObjectWriter writer = mapper.writerFor(UserInfoResponse.class);
     Response mockResponse = new Response(
         IOUtils.toInputStream(writer.writeValueAsString(new UserInfoResponse()), StandardCharsets.UTF_8), 500, intuit_tid);

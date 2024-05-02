@@ -19,9 +19,9 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 
-import org.apache.http.Header;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.core5.http.Header;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -35,7 +35,7 @@ public class OAuth2AuthorizerTest {
 	private final String URL_STRING = "http://code.intuit.com";
 
 	public String extractHeaderParams(Header[] header,
-			HttpRequestBase requestBase) {
+			HttpUriRequestBase requestBase) {
 
 		String value = null;
 		if (header != null)
@@ -64,13 +64,12 @@ public class OAuth2AuthorizerTest {
 
 		String accessToken = "TestAccessToken";
 		Header[] header = null;
-		HttpRequestBase requestBase = new HttpGet();
+		HttpUriRequestBase requestBase = new HttpGet(URL_STRING);
 		try {
-			requestBase.setURI(new URI(URL_STRING));
 			OAuth2Authorizer oauthAuthorizer = new OAuth2Authorizer(accessToken);
 			oauthAuthorizer.authorize(requestBase);
 
-			header = requestBase.getAllHeaders();
+			header = requestBase.getHeaders();
 			Assert.assertEquals("Bearer "+accessToken,extractHeaderParams(header, requestBase));
 			
 

@@ -15,42 +15,41 @@
  *******************************************************************************/
 package com.intuit.ipp.net;
 
+import com.intuit.ipp.exception.ConfigurationException;
+import com.intuit.ipp.util.Config;
+import com.intuit.ipp.util.Logger;
+import org.apache.hc.client5.http.HttpRequestRetryStrategy;
+import org.apache.hc.core5.http.HttpRequest;
+import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.NoHttpResponseException;
+import org.apache.hc.core5.http.protocol.HttpContext;
+import org.apache.hc.core5.util.TimeValue;
+
+import javax.net.ssl.SSLException;
+import javax.security.sasl.SaslException;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.ConnectException;
 import java.net.ProtocolException;
 import java.net.UnknownHostException;
-
-import javax.net.ssl.SSLException;
-import javax.security.sasl.SaslException;
-
-import org.apache.http.HttpEntityEnclosingRequest;
-import org.apache.http.HttpRequest;
-import org.apache.http.NoHttpResponseException;
-import org.apache.http.client.HttpRequestRetryHandler;
-import org.apache.http.protocol.HttpCoreContext;
-import org.apache.http.protocol.HttpContext;
-
-import com.intuit.ipp.exception.ConfigurationException;
-import com.intuit.ipp.util.Config;
-import com.intuit.ipp.util.Logger;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Class to handle retry policy
  *
  */
-public class IntuitRetryPolicyHandler implements HttpRequestRetryHandler {
+public class IntuitRetryPolicyHandler implements HttpRequestRetryStrategy {
 
 	/**
 	 * logger instance
 	 */
 	private static final org.slf4j.Logger LOG = Logger.getLogger();
-	
+
 	/**
 	 * variable NUM_0_8
 	 */
 	private static final double NUM_0_8 = 0.8;
-	
+
 	/**
 	 * variable NUM_1_2
 	 */
@@ -104,7 +103,7 @@ public class IntuitRetryPolicyHandler implements HttpRequestRetryHandler {
 
 	/**
 	 * Initialize a new instance of the RetryPolicyHandler class
-	 * 
+	 *
 	 * @param retryCount the retry count
 	 * @param retryInterval the retry interval
 	 * @throws ConfigurationException the configuration exception
@@ -120,7 +119,7 @@ public class IntuitRetryPolicyHandler implements HttpRequestRetryHandler {
 
 	/**
 	 * Initialize a new instance of the RetryPolicyHandler class
-	 * 
+	 *
 	 * @param retryCount the retry count
 	 * @param initialInterval the initial interval
 	 * @param increment the increment
@@ -139,7 +138,7 @@ public class IntuitRetryPolicyHandler implements HttpRequestRetryHandler {
 
 	/**
 	 * Initialize a new instance of the RetryPolicyHandler class
-	 * 
+	 *
 	 * @param retryCount the retry cont
 	 * @param minBackoff the min backoff
 	 * @param maxBackoff the max backoff
@@ -161,10 +160,10 @@ public class IntuitRetryPolicyHandler implements HttpRequestRetryHandler {
 
 	/**
 	 * method to validate the retry policies
-	 * 
+	 *
 	 * @return boolean
 	 */
-	public boolean retryRequest(IOException exception, int executionCount, HttpContext context) {
+	public boolean retryRequest(HttpRequest request, IOException exception, int executionCount, HttpContext context) {
 		LOG.debug("In retry request");
 		if (exception == null) {
 			throw new IllegalArgumentException("Exception parameter may not be null");
@@ -197,29 +196,12 @@ public class IntuitRetryPolicyHandler implements HttpRequestRetryHandler {
 			return false;
 		}
 
-		HttpRequest request = (HttpRequest) context.getAttribute(HttpCoreContext.HTTP_REQUEST);
-		boolean idempotent = !(request instanceof HttpEntityEnclosingRequest);
-		if (idempotent) {
-			// Retry if the request is considered idempotent
-			return checkPolicy(executionCount);
-		}
-
-		Boolean b = (Boolean) context.getAttribute(HttpCoreContext.HTTP_REQ_SENT);
-		boolean sent = (b != null && b.booleanValue());
-
-		// if (!sent || this.requestSentRetryEnabled) {
-		// Retry if the request has not been sent fully or
-		// if it's OK to retry methods that have been sent
-		if (!sent) {
-			return checkPolicy(executionCount);
-		}
-		// otherwise do not retry
-		return false;
+		return checkPolicy(executionCount);
 	}
 
 	/**
 	 * Method to check the retry request policy
-	 * 
+	 *
 	 * @param executionCount the execution count
 	 * @return boolean
 	 */
@@ -270,5 +252,34 @@ public class IntuitRetryPolicyHandler implements HttpRequestRetryHandler {
 		}
 		return true;
 	}
-	
+
+	@Override
+	public boolean retryRequest(HttpResponse response, int execCount, HttpContext context) {
+		return false;
+	}
+
+	@Override
+	public TimeValue getRetryInterval(HttpResponse response, int execCount, HttpContext context) {
+		if (mechanism.equalsIgnoreCase("fixedretry")) {
+			LOG.debug("The retryInterval " + this.retryInterval);
+			return TimeValue.of(this.retryInterval, TimeUnit.MILLISECONDS);
+		}
+
+		// functionality for incremental retry policy
+		if (mechanism.equalsIgnoreCase("incrementalretry")) {
+			return TimeValue.of((long) this.initialInterval + ((long) this.increment * execCount), TimeUnit.MILLISECONDS);
+		}
+
+		// functionality for exponential retry
+		if (mechanism.equalsIgnoreCase("exponentialretry")) {
+			int delta = (int) ((Math.pow(2.0, execCount) - 1.0)
+					* (this.deltaBackoff * NUM_0_8) + (Math.random()
+					* (this.deltaBackoff * NUM_1_2)
+					- (this.deltaBackoff * NUM_0_8) + 1));
+			int interval = Math.min((this.minBackoff + delta), this.maxBackoff);
+			return TimeValue.of(interval, TimeUnit.MILLISECONDS);
+		}
+
+		return TimeValue.ZERO_MILLISECONDS;
+	}
 }

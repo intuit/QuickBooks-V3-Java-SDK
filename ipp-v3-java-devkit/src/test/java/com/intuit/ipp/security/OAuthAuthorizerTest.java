@@ -19,9 +19,9 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 
-import org.apache.http.Header;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.core5.http.Header;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -35,7 +35,7 @@ public class OAuthAuthorizerTest {
 	private final String URL_STRING = "http://code.intuit.com";
 
 	public String extractHeaderParams(Header[] header,
-			HttpRequestBase requestBase, String headerName) {
+									  HttpUriRequestBase requestBase, String headerName) {
 
 		String[] headerArray = null;
 		String[] headerItemArray = null;
@@ -68,14 +68,13 @@ public class OAuthAuthorizerTest {
 		String consumerKey = "TestConsumerKey";
 		String consumerSecret = "TestConsumerSecret";
 		Header[] header = null;
-		HttpRequestBase requestBase = new HttpGet();
+		HttpUriRequestBase requestBase = new HttpGet(URL_STRING);
 		try {
-			requestBase.setURI(new URI(URL_STRING));
 			OAuthAuthorizer oauthAuthorizer = new OAuthAuthorizer(consumerKey,
 					consumerSecret, accessToken, accessTokenSecret);
 			oauthAuthorizer.authorize(requestBase);
 
-			header = requestBase.getAllHeaders();
+			header = requestBase.getHeaders();
 			Assert.assertEquals(
 					accessToken,
 					extractHeaderParams(header, requestBase,

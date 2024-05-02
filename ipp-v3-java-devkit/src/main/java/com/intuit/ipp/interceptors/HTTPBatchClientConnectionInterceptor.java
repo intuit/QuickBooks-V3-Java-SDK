@@ -15,51 +15,6 @@
  *******************************************************************************/
 package com.intuit.ipp.interceptors;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.KeyStore;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.net.ssl.SSLContext;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.NTCredentials;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.entity.InputStreamEntity;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContexts;
-
 import com.intuit.ipp.core.Context;
 import com.intuit.ipp.exception.CompressionException;
 import com.intuit.ipp.exception.ConfigurationException;
@@ -70,6 +25,42 @@ import com.intuit.ipp.util.Config;
 import com.intuit.ipp.util.Logger;
 import com.intuit.ipp.util.PropertyHelper;
 import com.intuit.ipp.util.StringUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.hc.client5.http.ClientProtocolException;
+import org.apache.hc.client5.http.auth.AuthScope;
+import org.apache.hc.client5.http.auth.CredentialsProvider;
+import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.client5.http.config.ConnectionConfig;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.io.HttpClientConnectionManager;
+import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.TrustSelfSignedStrategy;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpHost;
+import org.apache.hc.core5.http.io.entity.InputStreamEntity;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.message.StatusLine;
+import org.apache.hc.core5.ssl.SSLContexts;
+
+import javax.net.ssl.SSLContext;
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.security.KeyStore;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Interceptor to establish a HTTP connection
@@ -101,16 +92,10 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
      */
     public void execute(List<IntuitMessage> intuitMessages) throws FMSException {
         LOG.debug("Enter HTTPBatchClientConnectionInterceptor - batch...");
-        
+
         RequestElements intuitRequest = getFirst(intuitMessages).getRequestElements();
-        
-        IntuitRetryPolicyHandler handler = getRetryHandler();
-        HttpClientBuilder hcBuilder = HttpClients.custom()
-                .setRetryHandler(handler)
-                .setDefaultRequestConfig(setTimeout(intuitRequest.getContext()))
-                .setDefaultCredentialsProvider(setProxyAuthentication())
-                .setSSLSocketFactory(prepareClientSSL());
-        
+		HttpClientBuilder hcBuilder = getTimeoutHttpClientBuilder(intuitRequest.getContext());
+
         entitiesManager.reset();
         HttpHost proxy = getProxy();
 
@@ -119,7 +104,7 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
         }
 
         CloseableHttpClient client = hcBuilder.build();
-        HttpRequestBase httpRequest = prepareHttpRequest(intuitRequest);
+		HttpUriRequestBase httpRequest = prepareHttpRequest(intuitRequest);
 
         //Additional processing for POST requests
         if(httpRequest instanceof HttpPost) {
@@ -198,22 +183,17 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
             return null;
         }
     }
-    
+
     public CredentialsProvider setProxyAuthentication() {
         String username = Config.getProperty(Config.PROXY_USERNAME);
         String password = Config.getProperty(Config.PROXY_PASSWORD);
-        
+
         if (StringUtils.hasText(username) && StringUtils.hasText(password)) {
             String host = Config.getProperty(Config.PROXY_HOST);
             String port = Config.getProperty(Config.PROXY_PORT);
             if (StringUtils.hasText(host) && StringUtils.hasText(port)) {
-                CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-                String domain = Config.getProperty(Config.PROXY_DOMAIN);
-				if (StringUtils.hasText(domain)) {
-					credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new NTCredentials(username, password, host, domain));
-				} else {
-					credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new UsernamePasswordCredentials(username, password));
-				}
+                BasicCredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+                credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new UsernamePasswordCredentials(username, password.toCharArray()));
                 return credentialsProvider;
             }
         }
@@ -227,10 +207,10 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
      * @return
      * @throws FMSException
      */
-    private <T extends CloseableHttpClient> HttpRequestBase prepareHttpRequest(RequestElements intuitRequest) throws FMSException
+    private <T extends CloseableHttpClient> HttpUriRequestBase prepareHttpRequest(RequestElements intuitRequest) throws FMSException
     {
         //setTimeout(client, intuitRequest.getContext());
-        HttpRequestBase httpRequest =  extractMethod(intuitRequest, extractURI(intuitRequest));
+		HttpUriRequestBase httpRequest =  extractMethod(intuitRequest, extractURI(intuitRequest));
 
         // populate the headers to HttpRequestBase
         populateRequestHeaders(httpRequest, intuitRequest.getRequestHeaders());
@@ -238,7 +218,7 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
         // authorize the request
         authorizeRequest(intuitRequest.getContext(), httpRequest);
 
-        LOG.debug("Request URI : " + httpRequest.getURI());
+        LOG.debug("Request URI : " + httpRequest.getRequestUri());
         LOG.debug("Http Method : " + httpRequest.getMethod());
 
         return httpRequest;
@@ -269,7 +249,7 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
      * @return HttpRequestBase
      * @throws FMSException
      */
-    private HttpRequestBase extractMethod(RequestElements intuitRequest, URI uri) throws FMSException {
+    private HttpUriRequestBase extractMethod(RequestElements intuitRequest, URI uri) throws FMSException {
         String method = intuitRequest.getRequestParameters().get(RequestElements.REQ_PARAM_METHOD_TYPE);
 
         if (method.equals(MethodType.GET.toString())) {
@@ -287,31 +267,28 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
      * @return IntuitMessage
      * @throws FMSException
      */
-    private  IntuitMessage executeHttpRequest(HttpRequestBase httpRequest, CloseableHttpClient client) throws FMSException {
+    private  IntuitMessage executeHttpRequest(HttpUriRequestBase httpRequest, CloseableHttpClient client) throws FMSException {
         CloseableHttpResponse httpResponse = null;
         IntuitMessage intuitMessage = new IntuitMessage();
 
-
         try {
-            // prepare HttpHost object
-            HttpHost target = new HttpHost(httpRequest.getURI().getHost(), -1, httpRequest.getURI().getScheme());
-            httpResponse = client.execute(target, httpRequest);
-            LOG.debug("Connection status : " + httpResponse.getStatusLine());
-            // set the response elements before close the connection
-            setResponseElements(intuitMessage, httpResponse);
-            return intuitMessage;
-        } catch (ClientProtocolException e) {
+			// prepare HttpHost object
+			HttpHost target = new HttpHost(httpRequest.getUri().getScheme(), httpRequest.getUri().getHost(), -1);
+			return client.execute(target, httpRequest, response -> {
+				LOG.debug("Connection status : " + response.getCode() + " " + response.getReasonPhrase());
+				// set the response elements before close the connection
+				try {
+					setResponseElements(intuitMessage, response);
+				} catch (FMSException e) {
+					throw new IOException(e);
+				}
+				return intuitMessage;
+			});
+		} catch (ClientProtocolException e) {
             throw new ConfigurationException("Error in Http Protocol definition", e);
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             throw new FMSException(e);
-        } finally {
-            if (httpResponse != null) {
-                try {
-                    httpResponse.close();
-                } catch (IOException e) {
-                    LOG.warn("Unable to close CloseableHttpResponse .", e);
-                }
-            }
+		} finally {
             if (client != null) {
                 try {
                     client.close();
@@ -341,7 +318,7 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
      * @param httpRequest the http request
      * @param requestHeaders the request headers
      */
-    private void populateRequestHeaders(HttpRequestBase httpRequest, Map<String, String> requestHeaders) {
+    private void populateRequestHeaders(HttpUriRequestBase httpRequest, Map<String, String> requestHeaders) {
 
         Set<String> keySet = requestHeaders.keySet();
         Iterator<String> keySetIterator = keySet.iterator();
@@ -366,7 +343,7 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
      * @param httpRequest the http request
      * @throws com.intuit.ipp.exception.FMSException the FMSException
      */
-    private void authorizeRequest(Context context, HttpRequestBase httpRequest) throws FMSException {
+    private void authorizeRequest(Context context, HttpUriRequestBase httpRequest) throws FMSException {
         context.getAuthorizer().authorize(httpRequest);
     }
 
@@ -440,7 +417,7 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
      * @param httpResponse the http response object
      * @throws com.intuit.ipp.exception.FMSException the FMSException
      */
-    private void setResponseElements(IntuitMessage intuitMessage, HttpResponse httpResponse) throws FMSException {
+    private void setResponseElements(IntuitMessage intuitMessage, ClassicHttpResponse httpResponse) throws FMSException {
         ResponseElements responseElements = intuitMessage.getResponseElements();
         if(httpResponse.getLastHeader(RequestElements.HEADER_PARAM_CONTENT_ENCODING) != null)
         {
@@ -458,8 +435,8 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
         {
             responseElements.setContentTypeHeader(null);
         }
-        responseElements.setStatusLine(httpResponse.getStatusLine());
-        responseElements.setStatusCode(httpResponse.getStatusLine().getStatusCode());
+        responseElements.setStatusLine(new StatusLine(httpResponse));
+        responseElements.setStatusCode(httpResponse.getCode());
         try {
             responseElements.setResponseContent(getCopyOfResponseContent(httpResponse.getEntity().getContent()));
         } catch (IllegalStateException e) {
@@ -480,7 +457,7 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
      */
     private InputStream getCopyOfResponseContent(InputStream is) throws FMSException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        InputStream copyIs = null; 
+        InputStream copyIs = null;
         try {
             byte[] bbuf = new byte[LENGTH_256];
             while (true) {
@@ -505,11 +482,11 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
             }
         }
     }
-    
+
     /**
      * Method to set the connection and request timeouts by reading from the configuration file or Context object
      */
-    private RequestConfig setTimeout(Context context) {
+    private HttpClientBuilder getTimeoutHttpClientBuilder(Context context) throws FMSException {
         int socketTimeout = 0;
         int connectionTimeout = 0;
         if ( context.getCustomerRequestTimeout() != null) {
@@ -517,22 +494,38 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
         }else {
             String reqTimeout = Config.getProperty(Config.TIMEOUT_REQUEST);
             if (StringUtils.hasText(reqTimeout)) {
-                socketTimeout = new Integer(reqTimeout.trim());
+                socketTimeout = Integer.parseInt(reqTimeout.trim());
             }
         }
 
         String connTimeout = Config.getProperty(Config.TIMEOUT_CONNECTION);
         if (StringUtils.hasText(connTimeout)) {
-            connectionTimeout = new Integer(connTimeout.trim());
+            connectionTimeout = Integer.parseInt(connTimeout.trim());
         }
-        RequestConfig defaultRequestConfig = RequestConfig.custom()
-                .setSocketTimeout(socketTimeout)
-                .setConnectTimeout(connectionTimeout)
-                .setConnectionRequestTimeout(connectionTimeout)
-                .setCookieSpec(CookieSpecs.IGNORE_COOKIES)
-                .build();
-        return defaultRequestConfig;
 
+		ConnectionConfig defaultConnectionConfig = ConnectionConfig.custom()
+				.setSocketTimeout(socketTimeout, TimeUnit.MILLISECONDS)
+				.setConnectTimeout(connectionTimeout, TimeUnit.MILLISECONDS)
+				.build();
+
+		RequestConfig defaultRequestConfig = RequestConfig.custom()
+				.setConnectionRequestTimeout(connectionTimeout, TimeUnit.MILLISECONDS)
+				.setCookieSpec("ignoreCookies")
+				.build();
+
+		IntuitRetryPolicyHandler handler = getRetryHandler();
+		HttpClientConnectionManager cm = PoolingHttpClientConnectionManagerBuilder.create()
+				.setSSLSocketFactory(prepareClientSSL())
+				.setDefaultConnectionConfig(defaultConnectionConfig)
+				.build();
+
+		HttpClientBuilder hcBuilder = HttpClients.custom()
+				.setRetryStrategy(handler)
+				.setDefaultCredentialsProvider(setProxyAuthentication())
+				.setDefaultRequestConfig(defaultRequestConfig)
+				.setConnectionManager(cm);
+
+		return hcBuilder;
     }
 
     /**
@@ -546,15 +539,11 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
 
         if (null == compressedData) {
             // use postString to create httpEntity
-            try {
-                return new StringEntity(intuitRequest.getPostString());
-            } catch (UnsupportedEncodingException e) {
-                throw new FMSException("UnsupportedEncodingException", e);
-            }
-        }
+			return new StringEntity(intuitRequest.getPostString());
+		}
 
         // use compressed data to create httpEntity
-        return new InputStreamEntity( new ByteArrayInputStream(compressedData) , compressedData.length);
+        return new InputStreamEntity(new ByteArrayInputStream(compressedData), compressedData.length, null);
     }
 
     /**
@@ -607,7 +596,7 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
                 InputStream stream = entity.getContent();
                 buffer = ArrayUtils.addAll(buffer,IOUtils.toByteArray(stream));
             }
-            return new InputStreamEntity( new ByteArrayInputStream(buffer) , buffer.length);
+            return new InputStreamEntity( new ByteArrayInputStream(buffer), buffer.length, null);
         }
 
     }

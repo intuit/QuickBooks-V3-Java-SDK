@@ -21,40 +21,39 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.KeyStore;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLContext;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.NTCredentials;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.entity.InputStreamEntity;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContexts;
+import org.apache.hc.client5.http.ClientProtocolException;
+import org.apache.hc.client5.http.auth.AuthScope;
+import org.apache.hc.client5.http.auth.CredentialsProvider;
+import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.client5.http.config.ConnectionConfig;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.TrustSelfSignedStrategy;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpHost;
+import org.apache.hc.core5.http.HttpResponse;
 
 import com.intuit.ipp.core.Context;
 import com.intuit.ipp.exception.CompressionException;
@@ -66,6 +65,10 @@ import com.intuit.ipp.util.Config;
 import com.intuit.ipp.util.Logger;
 import com.intuit.ipp.util.PropertyHelper;
 import com.intuit.ipp.util.StringUtils;
+import org.apache.hc.core5.http.io.entity.InputStreamEntity;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.message.StatusLine;
+import org.apache.hc.core5.ssl.SSLContexts;
 
 /**
  * Interceptor to establish a HTTP connection
@@ -92,14 +95,7 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 		LOG.debug("Enter HTTPClientConnectionInterceptor...");
 
 		RequestElements intuitRequest = intuitMessage.getRequestElements();
-		
-		// Set the retry handler
-		IntuitRetryPolicyHandler handler = getRetryHandler();
-		HttpClientBuilder hcBuilder = HttpClients.custom()
-				.setRetryHandler(handler)
-				.setDefaultRequestConfig(setTimeout(intuitRequest.getContext()))
-				.setDefaultCredentialsProvider(setProxyAuthentication())
-				.setSSLSocketFactory(prepareClientSSL());
+		HttpClientBuilder hcBuilder = getTimeoutHttpClientBuilder(intuitRequest.getContext());
 
 		// getting proxy from Config file.
 		HttpHost proxy = getProxy();
@@ -109,7 +105,7 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 		}
 		CloseableHttpClient client = hcBuilder.build();
 		
-		HttpRequestBase httpRequest = null;
+		HttpUriRequestBase httpRequest = null;
 		URI uri = null;
 		
 		try {
@@ -128,21 +124,17 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 			if (compressedData != null) {
 				// use compressed data to create httpEntity
 				InputStream is = new ByteArrayInputStream(compressedData);
-				HttpEntity entity = new InputStreamEntity(is, compressedData.length);
+				HttpEntity entity = new InputStreamEntity(is, compressedData.length, null);
 				((HttpPost) httpRequest).setEntity(entity);
 			} else if(null != intuitRequest.getPostString()) {
 				// use postString to create httpEntity
 				HttpEntity entity;
-				try {
-					entity = new StringEntity(intuitRequest.getPostString());
-				} catch (UnsupportedEncodingException e) {
-					throw new FMSException("UnsupportedEncodingException", e);
-				}
+				entity = new StringEntity(intuitRequest.getPostString());
 				((HttpPost) httpRequest).setEntity(entity);
 			}
 		}
 		
-		// populate the headers to HttpRequestBase
+		// populate the headers to HttpUriRequestBase
 		populateRequestHeaders(httpRequest, intuitRequest.getRequestHeaders());
 		
 		// authorize the request
@@ -155,9 +147,9 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 		CloseableHttpResponse httpResponse = null;
 		try {
 			// prepare HttpHost object
-			HttpHost target = new HttpHost(uri.getHost(), -1, uri.getScheme());
+			HttpHost target = new HttpHost(uri.getScheme(), uri.getHost(), -1);
 			httpResponse = client.execute(target, httpRequest);
-			LOG.debug("Connection status : " + httpResponse.getStatusLine());
+			LOG.debug("Connection status : " + httpResponse.getCode() + " " + httpResponse.getReasonPhrase());
 			// set the response elements before close the connection
 			setResponseElements(intuitMessage, httpResponse);
 		} catch (ClientProtocolException e) {
@@ -190,7 +182,7 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 	 * @param httpRequest the http request
 	 * @param requestHeaders the request headers
 	 */
-	private void populateRequestHeaders(HttpRequestBase httpRequest, Map<String, String> requestHeaders) {
+	private void populateRequestHeaders(HttpUriRequestBase httpRequest, Map<String, String> requestHeaders) {
 		
 		Set<String> keySet = requestHeaders.keySet();
 		Iterator<String> keySetIterator = keySet.iterator();
@@ -215,7 +207,7 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 	 * @param httpRequest the http request
 	 * @throws FMSException the FMSException
 	 */
-	private void authorizeRequest(Context context, HttpRequestBase httpRequest) throws FMSException {
+	private void authorizeRequest(Context context, HttpUriRequestBase httpRequest) throws FMSException {
 		context.getAuthorizer().authorize(httpRequest);
 	}
 	
@@ -321,13 +313,8 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 			String host = Config.getProperty(Config.PROXY_HOST);
 			String port = Config.getProperty(Config.PROXY_PORT);
 			if (StringUtils.hasText(host) && StringUtils.hasText(port)) {
-				CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-				String domain = Config.getProperty(Config.PROXY_DOMAIN);
-				if (StringUtils.hasText(domain)) {
-					credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new NTCredentials(username, password, host, domain));
-				} else {
-					credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new UsernamePasswordCredentials(username, password));
-				}
+				BasicCredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+				credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new UsernamePasswordCredentials(username, password.toCharArray()));
 				return credentialsProvider;
 			}
 		}
@@ -341,7 +328,7 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 	 * @param httpResponse the http response object
 	 * @throws FMSException the FMSException
 	 */
-	private void setResponseElements(IntuitMessage intuitMessage, HttpResponse httpResponse) throws FMSException {
+	private void setResponseElements(IntuitMessage intuitMessage, ClassicHttpResponse httpResponse) throws FMSException {
 		ResponseElements responseElements = intuitMessage.getResponseElements();
 		if(httpResponse.getLastHeader(RequestElements.HEADER_PARAM_CONTENT_ENCODING) != null)
 		{
@@ -359,8 +346,8 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 		{
 			responseElements.setContentTypeHeader(null);
 		}
-		responseElements.setStatusLine(httpResponse.getStatusLine());
-		responseElements.setStatusCode(httpResponse.getStatusLine().getStatusCode());
+		responseElements.setStatusLine(new StatusLine(httpResponse));
+		responseElements.setStatusCode(httpResponse.getCode());
 		try {
 			responseElements.setResponseContent(getCopyOfResponseContent(httpResponse.getEntity().getContent()));
 		} catch (IllegalStateException e) {
@@ -411,7 +398,7 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 	 * Method to set the connection and request timeouts by reading from the configuration file or Context object
 	 * 
 	 */
-	private RequestConfig setTimeout(Context context) {
+	private HttpClientBuilder getTimeoutHttpClientBuilder(Context context) throws FMSException {
 		int socketTimeout = 0;
 		int connectionTimeout = 0;
 		if ( context.getCustomerRequestTimeout() != null) {
@@ -419,21 +406,32 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 		}else {
             String reqTimeout = Config.getProperty(Config.TIMEOUT_REQUEST);
             if (StringUtils.hasText(reqTimeout)) {
-                socketTimeout = new Integer(reqTimeout.trim());
+                socketTimeout = Integer.parseInt(reqTimeout.trim());
             }
         }
 
 		String connTimeout = Config.getProperty(Config.TIMEOUT_CONNECTION);
 		if (StringUtils.hasText(connTimeout)) {
-			connectionTimeout = new Integer(connTimeout.trim());
+			connectionTimeout = Integer.parseInt(connTimeout.trim());
 		}
+		ConnectionConfig defauConnectionConfig = ConnectionConfig.custom()
+				.setSocketTimeout(socketTimeout, TimeUnit.MILLISECONDS)
+				.setConnectTimeout(connectionTimeout, TimeUnit.MILLISECONDS)
+				.build();
+		PoolingHttpClientConnectionManager cm = PoolingHttpClientConnectionManagerBuilder.create()
+				.setSSLSocketFactory(prepareClientSSL())
+				.setDefaultConnectionConfig(defauConnectionConfig)
+				.build();
 		RequestConfig defaultRequestConfig = RequestConfig.custom()
-				.setSocketTimeout(socketTimeout)
-                .setConnectTimeout(connectionTimeout)
-                .setConnectionRequestTimeout(connectionTimeout)
-                .setCookieSpec(CookieSpecs.IGNORE_COOKIES)
-	            .build();
-		return defaultRequestConfig;
-
+				.setConnectionRequestTimeout(connectionTimeout, TimeUnit.MILLISECONDS)
+				.setCookieSpec("ignoreCookies")
+				.build();
+		// Set the retry handler
+		IntuitRetryPolicyHandler handler = getRetryHandler();
+		return HttpClients.custom()
+				.setRetryStrategy(handler)
+				.setDefaultCredentialsProvider(setProxyAuthentication())
+				.setDefaultRequestConfig(defaultRequestConfig)
+				.setConnectionManager(cm);
 	}
 }

@@ -18,6 +18,7 @@ package com.intuit.oauth2.http;
 import static org.testng.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
@@ -30,13 +31,14 @@ public class ResponseTest {
 	
 	
 	@Test
-    public void testGetStream() throws UnsupportedEncodingException, ConnectionException {
+    public void testGetStream() throws IOException, ConnectionException {
         
         String content = "frobozz";
-        InputStream istream = new ByteArrayInputStream(content.getBytes("UTF-8"));
+        byte[] bytes = content.getBytes("UTF-8");
+        InputStream istream = new ByteArrayInputStream(bytes);
         String intuit_tid = "abcd-123-xyz";
         Response response = new Response(istream, 200, intuit_tid);
-        assertEquals(istream, response.getStream());
+        assertEquals(bytes, response.getStream().readAllBytes());
         assertEquals(content, response.getContent());
         assertEquals(intuit_tid, response.getIntuit_tid());
     }

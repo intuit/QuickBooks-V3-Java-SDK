@@ -15,57 +15,47 @@
  *******************************************************************************/
 package com.intuit.oauth2.http;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.KeyStore;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.net.ssl.SSLContext;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
-import org.apache.http.NameValuePair;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.NTCredentials;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.config.Registry;
-import org.apache.http.config.RegistryBuilder;
-import org.apache.http.conn.socket.ConnectionSocketFactory;
-import org.apache.http.conn.socket.PlainConnectionSocketFactory;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.ssl.SSLContexts;
-import org.slf4j.Logger;
-
 import com.intuit.oauth2.config.ProxyConfig;
 import com.intuit.oauth2.data.OAuthMigrationRequest;
 import com.intuit.oauth2.exception.InvalidRequestException;
 import com.intuit.oauth2.utils.LoggerImpl;
 import com.intuit.oauth2.utils.PropertiesConfig;
-
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
+import org.apache.hc.client5.http.auth.AuthScope;
+import org.apache.hc.client5.http.auth.CredentialsProvider;
+import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.config.ConnectionConfig;
+import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
+import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.TrustAllStrategy;
+import org.apache.hc.core5.http.*;
+import org.apache.hc.core5.http.config.Registry;
+import org.apache.hc.core5.http.config.RegistryBuilder;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
+import org.apache.hc.core5.http.message.BasicHeader;
+import org.apache.hc.core5.ssl.SSLContexts;
+import org.slf4j.Logger;
+
+import javax.net.ssl.SSLContext;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Client class to make http request calls
@@ -83,7 +73,7 @@ public class HttpRequestClient {
 	 * Build the HttpClient
 	 */
 	public HttpRequestClient(ProxyConfig proxyConfig) {
-		RequestConfig config = RequestConfig.custom().setConnectTimeout(CONNECTION_TIMEOUT).setSocketTimeout(SOCKET_TIMEOUT).build();
+		ConnectionConfig config = ConnectionConfig.custom().setConnectTimeout(CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS).setSocketTimeout(SOCKET_TIMEOUT, TimeUnit.MILLISECONDS).build();
 
 		//add default headers
 		List<BasicHeader> headers = new ArrayList<BasicHeader>();
@@ -94,7 +84,9 @@ public class HttpRequestClient {
 		//build the client
 		Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create().register("https", prepareClientSSL()).register("http", new PlainConnectionSocketFactory()).build();
 		PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
-		HttpClientBuilder hcBuilder = HttpClients.custom().setConnectionManager(cm).setDefaultRequestConfig(config).setDefaultHeaders(headers).setMaxConnPerRoute(10).setDefaultCredentialsProvider(setProxyAuthentication(proxyConfig));
+		cm.setDefaultConnectionConfig(config);
+		cm.setDefaultMaxPerRoute(10);
+		HttpClientBuilder hcBuilder = HttpClients.custom().setConnectionManager(cm).setDefaultHeaders(headers).setDefaultCredentialsProvider(setProxyAuthentication(proxyConfig));
 
 		// getting proxy from Config file.
 		HttpHost proxy = getProxy(proxyConfig);
@@ -107,12 +99,10 @@ public class HttpRequestClient {
 
 	public SSLConnectionSocketFactory prepareClientSSL() {
 		try {
-			KeyStore trustStore = null;
-			SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(trustStore, new TrustSelfSignedStrategy()).build();
+			SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(null, new TrustAllStrategy()).build();
 
 			String tlsVersion = PropertiesConfig.getInstance().getProperty("TLS_VERSION");
-			SSLConnectionSocketFactory sslConnectionFactory = new SSLConnectionSocketFactory(sslContext, new String[]{tlsVersion}, null, new NoopHostnameVerifier());
-			return sslConnectionFactory;
+			return new SSLConnectionSocketFactory(sslContext, new String[]{tlsVersion}, null, new NoopHostnameVerifier());
 		} catch (Exception ex) {
 			logger.error("couldn't create httpClient!! {}", ex.getMessage(), ex);
 			return null;
@@ -136,13 +126,8 @@ public class HttpRequestClient {
 			String host = proxyConfig.getHost();
 			String port = proxyConfig.getPort();
 			if (!host.isEmpty() && !port.isEmpty()) {
-				CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-				String domain = proxyConfig.getDomain();
-				if (!domain.isEmpty()) {
-					credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new NTCredentials(username, password, host, domain));
-				} else {
-					credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new UsernamePasswordCredentials(username, password));
-				}
+				BasicCredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+				credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new UsernamePasswordCredentials(username, password.toCharArray()));
 				return credentialsProvider;
 			}
 		}
@@ -180,7 +165,7 @@ public class HttpRequestClient {
 		logger.debug("Enter HttpRequestClient::makeRequest");
 
 		//prepare request
-		RequestBuilder builder = RequestBuilder.create(request.getMethod().value()).setUri(request.constructURL().toString()).setVersion(HttpVersion.HTTP_1_1).setCharset(StandardCharsets.UTF_8);
+		ClassicRequestBuilder builder = ClassicRequestBuilder.create(request.getMethod().value()).setUri(request.constructURL().toString()).setVersion(HttpVersion.HTTP_1_1).setCharset(StandardCharsets.UTF_8);
 
 		//add auth header
 		if (request.isRequiresAuthentication()) {
@@ -202,15 +187,7 @@ public class HttpRequestClient {
 
 		try {
 			//make the call
-			HttpResponse response = client.execute(builder.build());
-			
-			int httpStatusCode = response.getStatusLine().getStatusCode();
-			logger.info("httpStatusCode : " + httpStatusCode);
-			String intuit_tid = getIntuitTid(response);
-			logger.debug("intuit_tid : " + intuit_tid);
-			
-			//prepare response
-			return new Response(response.getEntity() == null ? null : response.getEntity().getContent(), httpStatusCode, intuit_tid);
+			return client.execute(builder.build(), HttpRequestClient::handleHttpResponse);
 		} catch (IOException e) {
 			logger.error("Exception while making httpRequest", e);
 			throw new InvalidRequestException(e.getMessage());
@@ -256,26 +233,13 @@ public class HttpRequestClient {
 		logger.debug("request payload : " + request.getPostJson());
 
 		// add post data
-		HttpEntity entity = new StringEntity(request.getPostJson(), "UTF-8");
+		HttpEntity entity = new StringEntity(request.getPostJson(), StandardCharsets.UTF_8);
 		post.setEntity(entity);
 
 		CloseableHttpResponse httpResponse = null;
 		try {
 			//make the call
-			httpResponse = client.execute(post);
-			
-			int httpStatusCode = httpResponse.getStatusLine().getStatusCode();
-			logger.info("httpStatusCode : " + httpStatusCode);
-			String intuit_tid = getIntuitTid(httpResponse);
-			logger.debug("intuit_tid : " + intuit_tid);
-			
-			//prepare response
-			return new Response(httpResponse.getEntity() == null ? null : httpResponse.getEntity().getContent(), httpStatusCode, intuit_tid);
-
-
-		} catch (ClientProtocolException e) {
-			logger.error("Exception while making httpRequest", e);
-			throw new InvalidRequestException(e.getMessage());
+			return client.execute(post, HttpRequestClient::handleHttpResponse);
 		} catch (IOException e) {
 			logger.error("Exception while making httpRequest", e);
 			throw new InvalidRequestException(e.getMessage());
@@ -283,6 +247,22 @@ public class HttpRequestClient {
 
 	}
 
+	/**
+	 * Parses the http response and returns an Intuit response
+	 *
+	 * @param response
+	 * @return Response
+	 * @throws IOException
+	 */
+	public static Response handleHttpResponse(ClassicHttpResponse response) throws IOException {
+		int httpStatusCode = response.getCode();
+		logger.info("httpStatusCode : " + httpStatusCode);
+		String intuit_tid = getIntuitTid(response);
+		logger.debug("intuit_tid : " + intuit_tid);
+
+		//prepare response
+		return new Response(response.getEntity() == null ? null : response.getEntity().getContent(), httpStatusCode, intuit_tid);
+	}
 
 	/**
 	 * Parses the response headers and returns value for intuit_tid parameter

@@ -15,6 +15,34 @@
  *******************************************************************************/
 package com.intuit.payment.http;
 
+import com.intuit.payment.config.ProxyConfig;
+import com.intuit.payment.exception.BadRequestException;
+import com.intuit.payment.util.LoggerImpl;
+import com.intuit.payment.util.PropertiesConfig;
+import org.apache.hc.client5.http.auth.AuthScope;
+import org.apache.hc.client5.http.auth.CredentialsProvider;
+import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
+import org.apache.hc.client5.http.config.ConnectionConfig;
+import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
+import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.TrustSelfSignedStrategy;
+import org.apache.hc.core5.http.*;
+import org.apache.hc.core5.http.config.Registry;
+import org.apache.hc.core5.http.config.RegistryBuilder;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
+import org.apache.hc.core5.http.message.BasicHeader;
+import org.apache.hc.core5.ssl.SSLContexts;
+import org.slf4j.Logger;
+
+import javax.net.ssl.SSLContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,42 +50,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.net.ssl.SSLContext;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.NTCredentials;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.client.utils.HttpClientUtils;
-import org.apache.http.config.Registry;
-import org.apache.http.config.RegistryBuilder;
-import org.apache.http.conn.socket.ConnectionSocketFactory;
-import org.apache.http.conn.socket.PlainConnectionSocketFactory;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.ssl.SSLContexts;
-import org.slf4j.Logger;
-
-import com.intuit.payment.config.ProxyConfig;
-import com.intuit.payment.exception.BadRequestException;
-import com.intuit.payment.util.LoggerImpl;
-import com.intuit.payment.util.PropertiesConfig;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Client class to make http request calls
@@ -79,8 +72,8 @@ public class HttpRequestClient {
 	 *
 	 */
 	public HttpRequestClient(ProxyConfig proxyConfig) {
-		RequestConfig config = RequestConfig.custom().setConnectTimeout(CONNECTION_TIMEOUT)
-				.setSocketTimeout(SOCKET_TIMEOUT).build();
+		ConnectionConfig config = ConnectionConfig.custom().setConnectTimeout(CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS)
+				.setSocketTimeout(SOCKET_TIMEOUT, TimeUnit.MILLISECONDS).build();
 
 		// add default headers
 		List<BasicHeader> headers = new ArrayList<BasicHeader>();
@@ -93,8 +86,9 @@ public class HttpRequestClient {
 		// build the client
 		Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create().register("https", prepareClientSSL()).register("http", new PlainConnectionSocketFactory()).build();
 		PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
-		HttpClientBuilder hcBuilder = HttpClients.custom().setConnectionManager(cm).setDefaultRequestConfig(config)
-				.setDefaultHeaders(headers).setMaxConnPerRoute(10)
+		cm.setDefaultConnectionConfig(config);
+		cm.setDefaultMaxPerRoute(10);
+		HttpClientBuilder hcBuilder = HttpClients.custom().setConnectionManager(cm).setDefaultHeaders(headers)
 				.setDefaultCredentialsProvider(setProxyAuthentication(proxyConfig));
 
 		// getting proxy from Config file.
@@ -119,7 +113,7 @@ public class HttpRequestClient {
 		logger.debug("Enter HttpRequestClient::makeRequest");
 
 		// prepare request
-		RequestBuilder builder = RequestBuilder.create(serviceRequest.getMethod().toString())
+		ClassicRequestBuilder builder = ClassicRequestBuilder.create(serviceRequest.getMethod().toString())
 				.setUri(serviceRequest.getUrl()).setVersion(HttpVersion.HTTP_1_1).setCharset(StandardCharsets.UTF_8);
 
 		builder.addHeader("Request-Id", serviceRequest.getContext().getRequestId());
@@ -132,27 +126,20 @@ public class HttpRequestClient {
 		MethodType method = serviceRequest.getMethod();
 		if (method == MethodType.POST && serviceRequest.getPostJson() != null) {
 			// add post json
-			HttpEntity entity = new StringEntity(serviceRequest.getPostJson(), "UTF-8");
+			HttpEntity entity = new StringEntity(serviceRequest.getPostJson(), StandardCharsets.UTF_8);
 			builder.setEntity(entity);
 		}
 
 		logger.debug("Request URI : " + builder.getUri());
 		logger.debug("Http Method : " + builder.getMethod());
 		
-		HttpResponse httpResponse = null;
+		ClassicHttpResponse httpResponse = null;
 		try {
 			// make the call
-			httpResponse = client.execute(builder.build());
-			
-			// prepare response
-			return new Response(httpResponse.getStatusLine().getStatusCode(), getResult(httpResponse), getIntuitTid(httpResponse));
-
+			return client.execute(builder.build(), HttpRequestClient::handleHttpResponse);
 		} catch (IOException e) {
 			logger.error("Exception while making httpRequest", e);
 			throw new BadRequestException(e.getMessage());
-		} finally {
-			//close
-			HttpClientUtils.closeQuietly(httpResponse);
 		}
 	}
 
@@ -173,13 +160,8 @@ public class HttpRequestClient {
 			String host = proxyConfig.getHost();
 			String port = proxyConfig.getPort();
 			if (!host.isEmpty() && !port.isEmpty()) {
-				CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-				String domain = proxyConfig.getDomain();
-				if (!domain.isEmpty()) {
-					credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new NTCredentials(username, password, host, domain));
-				} else {
-					credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new UsernamePasswordCredentials(username, password));
-				}
+				BasicCredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+				credentialsProvider.setCredentials(new AuthScope(host, Integer.parseInt(port)), new UsernamePasswordCredentials(username, password.toCharArray()));
 				return credentialsProvider;
 			}
 		}
@@ -225,13 +207,24 @@ public class HttpRequestClient {
 	}
 
 	/**
+	 * Parses the httpresponse and returns an Intuit response
+	 *
+	 * @param response
+	 * @return Response
+	 * @throws IOException
+	 */
+	public static Response handleHttpResponse(ClassicHttpResponse response) throws IOException {
+		return new Response(response.getCode(), getResult(response), getIntuitTid(response));
+	}
+
+	/**
 	 * Parse the response and return the string from httpresponse body
 	 * 
 	 * @param response
 	 * @return String
 	 * @throws IOException
 	 */
-	public static String getResult(HttpResponse response) throws IOException {
+	public static String getResult(ClassicHttpResponse response) throws IOException {
 		StringBuffer result = new StringBuffer();
 		if (response.getEntity() != null && response.getEntity().getContent() != null) {
 			BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));

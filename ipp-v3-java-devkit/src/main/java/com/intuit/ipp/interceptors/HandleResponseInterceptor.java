@@ -15,7 +15,6 @@
  *******************************************************************************/
 package com.intuit.ipp.interceptors;
 
-import org.apache.http.StatusLine;
 
 import com.intuit.ipp.data.EntitlementsResponse;
 import com.intuit.ipp.data.Fault;
@@ -32,6 +31,7 @@ import com.intuit.ipp.exception.ServiceException;
 import com.intuit.ipp.exception.ServiceUnavailableException;
 import com.intuit.ipp.exception.ValidationException;
 import com.intuit.ipp.util.Logger;
+import org.apache.hc.core5.http.message.StatusLine;
 
 /**
  * Interceptor to handle Http response. 
