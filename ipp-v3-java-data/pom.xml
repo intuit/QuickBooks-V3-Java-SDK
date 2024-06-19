@@ -76,7 +76,7 @@
 			<!-- end of maven shade plugin -->
 
 			<!-- commented to avoid regeneration of entities, as the same is not required everytime	-->
-			<!--<plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>2.5</version>
@@ -87,7 +87,39 @@
 						</fileset>
 					</filesets>
 				</configuration>
-			</plugin>-->
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxb2-maven-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<id>fmsdata</id>
+						<goals>
+							<goal>xjc</goal>
+						</goals>
+						<configuration>
+							<extension>true</extension>
+							<sources>
+								<source>${project.basedir}/src/main/xsd/Finance.xsd</source>
+								<source>${project.basedir}/src/main/xsd/IntuitBaseTypes.xsd</source>
+								<source>${project.basedir}/src/main/xsd/IntuitNamesTypes.xsd</source>
+								<source>${project.basedir}/src/main/xsd/IntuitRestServiceDef.xsd</source>
+								<source>${project.basedir}/src/main/xsd/Report.xsd</source>
+								<source>${project.basedir}/src/main/xsd/SalesTax.xsd</source>
+							</sources>
+							<xjbSources>
+								<xjbSource>${project.basedir}/src/main/xsd/bindings.xjb</xjbSource>
+								<xjbSource>${project.basedir}/src/main/xsd/Finance.xjb</xjbSource>
+							</xjbSources>
+							<packageName>com.intuit.ipp.data</packageName>
+							<outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+							<clearOutputDir>false</clearOutputDir>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<!--<plugin>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
@@ -182,24 +214,24 @@
 			</build>
 		</profile>
 	</profiles>
-    <dependencyManagement>
-	<dependencies>
-	    <dependency>
-		<groupId>org.jvnet.staxex</groupId>
-		<artifactId>stax-ex</artifactId>
-		<version>1.8</version>
-	    </dependency>
-	    <dependency>
-		<groupId>com.sun.xml.fastinfoset</groupId>
-		<artifactId>FastInfoset</artifactId>
-		<version>1.2.15</version>
-	    </dependency>
-	    <dependency>
-		<groupId>org.apache.commons</groupId>
-		<artifactId>commons-lang3</artifactId>
-		<version>3.9</version>
-	    </dependency>
-        </dependencies>
-    </dependencyManagement>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.jvnet.staxex</groupId>
+				<artifactId>stax-ex</artifactId>
+				<version>1.8</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.xml.fastinfoset</groupId>
+				<artifactId>FastInfoset</artifactId>
+				<version>1.2.15</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.9</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 </project>

@@ -305,7 +305,7 @@ public class JSONSerializer implements IEntitySerializer {
 			}
 			else
 			{
-			intuitResponse = mapper.readValue(json, IntuitResponse.class);
+			intuitResponse = (Response) mapper.readValue(json, IntuitResponse.class);
 			}
 		} catch (Exception e) {
 			LOG.error("Exception while json deserialize", e);
