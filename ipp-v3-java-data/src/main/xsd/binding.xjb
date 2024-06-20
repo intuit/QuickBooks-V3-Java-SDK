@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<jxb:bindings version="1.0" xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+<jxb:bindings version="3.0" xmlns:jxb="https://jakarta.ee/xml/ns/jaxb"
               xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+              xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
               jxb:extensionBindingPrefixes="xjc">
 
 	<jxb:bindings schemaLocation="IntuitBaseTypes.xsd">
@@ -31,34 +31,46 @@
 			</inheritance:implements>
 		</jxb:bindings>
 	</jxb:bindings>
-	
+
 			<jxb:bindings schemaLocation="Finance.xsd">
 		<jxb:bindings node="//xs:complexType[@name='OLBAccount']">
 			<inheritance:implements>com.intuit.ipp.core.IEntity
 			</inheritance:implements>
 		</jxb:bindings>
 	</jxb:bindings>
-	
+
 			<jxb:bindings schemaLocation="Finance.xsd">
 		<jxb:bindings node="//xs:complexType[@name='OLBStatus']">
 			<inheritance:implements>com.intuit.ipp.core.IEntity
 			</inheritance:implements>
 		</jxb:bindings>
 	</jxb:bindings>
-	
+
 		<jxb:bindings schemaLocation="SalesTax.xsd">
 		<jxb:bindings node="//xs:complexType[@name='TaxService']">
 			<inheritance:implements>com.intuit.ipp.core.IEntity
 			</inheritance:implements>
 		</jxb:bindings>
 	</jxb:bindings>
-	
+
 	<jxb:bindings schemaLocation="SalesTax.xsd">
 		<jxb:bindings node="//xs:complexType[@name='TaxService']">
 			<inheritance:implements>com.intuit.ipp.core.Response
 			</inheritance:implements>
 		</jxb:bindings>
 	</jxb:bindings>
+	<jxb:globalBindings>
+        		     <jxb:serializable uid="1" />
+        			 <xjc:javaType name="java.util.Date"
+                                       xmlType="xs:dateTime"
+                                       adapter="com.intuit.sb.cdm.util.v3.DateTimeAdapter"/>
+        			 <xjc:javaType name="java.util.Date"
+                                       xmlType="xs:date"
+                                       adapter="com.intuit.sb.cdm.util.v3.DateAdapter"/>
+                     <xjc:javaType name="java.util.Date"
+                                       xmlType="xs:time"
+                                       adapter="com.intuit.sb.cdm.util.v3.TimestampAdapter"/>
+        </jxb:globalBindings >
 	<!--
 	<jxb:globalBindings>
 		<jxb:javaType name="java.util.Calendar" xmlType="xs:date"

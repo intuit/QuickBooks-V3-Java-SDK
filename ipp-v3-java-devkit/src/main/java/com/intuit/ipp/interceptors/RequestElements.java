@@ -21,6 +21,7 @@ import java.util.Map;
 
 import com.intuit.ipp.core.Context;
 import com.intuit.ipp.core.IEntity;
+import com.intuit.ipp.data.TaxService;
 import com.intuit.ipp.services.BatchOperation;
 import com.intuit.ipp.services.CallbackHandler;
 
@@ -725,5 +726,5 @@ public class RequestElements {
 	public void setUploadFile(byte[] uploadFile) {
 		this.uploadFile = uploadFile;
 	}
-	
+
 }

@@ -34,14 +34,14 @@ public class CallbackHandlerInterceptorTest extends CallbackHandlerBase {
     @Test(expectedExceptions = NullPointerException.class)
     public void noCallBackMessageNotOk() throws FMSException {
         IntuitMessage m = new IntuitMessage();
-        m.getResponseElements().setResponse(new IntuitResponse());
+        m.getResponseElements().setResponse((Response) new IntuitResponse());
         callback().execute(m);
     }
 
     @Test(expectedExceptions = NullPointerException.class)
     public void noCallBackHandlerNotOk() throws FMSException {
         IntuitMessage m = new IntuitMessage();
-        m.getResponseElements().setResponse(new IntuitResponse());
+        m.getResponseElements().setResponse((Response) new IntuitResponse());
         m.getResponseElements().setCallbackMessage(new CallbackMessage());
         callback().execute(m);
     }
@@ -55,7 +55,7 @@ public class CallbackHandlerInterceptorTest extends CallbackHandlerBase {
     @Test
     public void stubOK() throws FMSException {
         IntuitMessage m = new IntuitMessage();
-        m.getResponseElements().setResponse(new IntuitResponse());
+        m.getResponseElements().setResponse( new IntuitResponse());
         final CallbackMessage message = new CallbackMessage();
         m.getResponseElements().setCallbackMessage(message);
         m.getRequestElements().setCallbackHandler(new CallbackHandler() {
