@@ -47,9 +47,8 @@ public class CallbackHandlerInterceptorCDCTest extends CallbackHandlerBase {
         queryResponse.setIntuitObject(Collections.<JAXBElement<? extends IntuitEntity>>singletonList(getDummyTestEntity()));
 
         response.setQueryResponse(Collections.singletonList(queryResponse));
-//
-//        new ResultChecker( assertAndGetFirst(invokeCDC(Collections.singletonList(response))))
-//            .assertQueryKeys("IntuitTestEntity");
+        new ResultChecker( assertAndGetFirst(invokeCDC(Collections.singletonList(response))))
+           .assertQueryKeys("IntuitTestEntity");
     }
 
 
@@ -101,9 +100,10 @@ public class CallbackHandlerInterceptorCDCTest extends CallbackHandlerBase {
         queryResponse.setIntuitObject(Collections.<JAXBElement<? extends IntuitEntity>>singletonList(getDummyTestEntity()));
 
         o.setQueryResponse(Collections.singletonList(queryResponse));
-//       new ResultChecker( assertAndGetFirst(invokeCDC(Collections.singletonList(o))))
-//               .assertErrorsDetails("My custom error")
-//                .assertQueryKeys("IntuitTestEntity");
+
+       new ResultChecker( assertAndGetFirst(invokeCDC(Collections.singletonList(o))))
+               .assertErrorsDetails("My custom error")
+                .assertQueryKeys("IntuitTestEntity");
     }
 
 
@@ -204,6 +204,8 @@ public class CallbackHandlerInterceptorCDCTest extends CallbackHandlerBase {
          * @return
          */
         ResultChecker assertQueryKeys(String... keys) {
+            System.out.println(Arrays.asList(keys));
+            System.out.println(it().getQueryResults());
             assertEquals(Arrays.asList(keys), it().getQueryResults().keySet());
             return this;
         }

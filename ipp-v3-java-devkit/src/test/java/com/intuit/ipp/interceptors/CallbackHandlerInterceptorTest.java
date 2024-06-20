@@ -72,9 +72,9 @@ public class CallbackHandlerInterceptorTest extends CallbackHandlerBase {
         final IntuitResponse response = new IntuitResponse();
         response.setIntuitObject(getDummyTestEntity());
 
-//        final CallbackMessage message  = invokeInterceptor(response);
-//        assertNotNull(message.getEntity());
-//        assertTrue(message.getEntity() instanceof IntuitTestEntity);
+        final CallbackMessage message  = invokeInterceptor(response);
+        assertNotNull(message.getEntity());
+        assertTrue(message.getEntity() instanceof IntuitTestEntity);
     }
 
     @Test

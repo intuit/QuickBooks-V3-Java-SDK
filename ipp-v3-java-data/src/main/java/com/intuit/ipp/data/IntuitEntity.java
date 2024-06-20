@@ -11,6 +11,8 @@ package com.intuit.ipp.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.intuit.ipp.core.IEntity;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -108,7 +110,7 @@ import jakarta.xml.bind.annotation.XmlType;
     UOM.class,
     TemplateName.class
 })
-public abstract class IntuitEntity implements Serializable
+public abstract class IntuitEntity implements Serializable, IEntity
 {
 
     private final static long serialVersionUID = 1L;

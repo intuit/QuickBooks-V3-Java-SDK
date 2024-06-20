@@ -289,5 +289,6 @@ public class QueryResponse
     }
 
     public void setIntuitObject(List<JAXBElement<? extends IntuitEntity>> jaxbElements) {
+        this.intuitObject = jaxbElements;
     }
 }
