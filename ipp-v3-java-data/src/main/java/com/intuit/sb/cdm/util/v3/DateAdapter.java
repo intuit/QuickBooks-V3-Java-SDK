@@ -17,8 +17,8 @@ package com.intuit.sb.cdm.util.v3;
 
 import java.util.Date;
 
-import jakarta.xml.bind.DatatypeConverter;
-import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.DatatypeConverter;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;

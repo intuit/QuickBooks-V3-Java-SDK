@@ -17,7 +17,7 @@ package com.intuit.ipp.serialization.custom;
 
 import java.lang.reflect.Field;
 
-import jakarta.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElement;
 
 import com.google.gson.FieldNamingStrategy;
 

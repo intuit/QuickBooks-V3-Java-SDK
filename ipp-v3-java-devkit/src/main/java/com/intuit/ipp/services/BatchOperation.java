@@ -23,7 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBElement;
 
 import com.intuit.ipp.core.IEntity;
 import com.intuit.ipp.data.BatchItemRequest;

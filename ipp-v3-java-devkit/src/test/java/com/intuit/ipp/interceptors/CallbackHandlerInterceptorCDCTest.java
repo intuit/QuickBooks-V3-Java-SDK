@@ -9,7 +9,7 @@ import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.services.CDCQueryResult;
 import org.testng.annotations.Test;
 
-import jakarta.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBElement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

@@ -14,9 +14,11 @@
  * limitations under the License.
  *******************************************************************************/
 package com.intuit.oauth2.data;
-import jakarta.annotation.Generated;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;

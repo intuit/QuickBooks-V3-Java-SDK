@@ -10,9 +10,9 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;

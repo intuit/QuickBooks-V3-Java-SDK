@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import jakarta.mail.internet.AddressException;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.xml.bind.JAXBElement;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.xml.bind.JAXBElement;
 
 import com.intuit.ipp.core.Context;
 import com.intuit.ipp.core.IEntity;
