@@ -65,7 +65,9 @@ public final class JsonResourceTypeLocator {
 			put("FixedAsset", FixedAsset.class);
 			put("InventorySite", InventorySite.class);
 			put("Invoice", Invoice.class);
+			put("InventoryAdjustment", InventoryAdjustment.class);
 			put("Item", Item.class);
+			put("ItemAdjustmentLineDetail", ItemAdjustmentLineDetail.class);
 			put("JobType", JobType.class);
 			put("JournalCode", JournalCode.class);
 			put("JournalEntry", JournalEntry.class);

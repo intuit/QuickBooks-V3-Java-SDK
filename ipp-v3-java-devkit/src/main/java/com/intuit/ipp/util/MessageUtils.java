@@ -203,7 +203,9 @@ public final class MessageUtils {
 				entityList.add(FixedAsset.class);
 				entityList.add(InventorySite.class);
 				entityList.add(Invoice.class);
+				entityList.add(InventoryAdjustment.class);
 				entityList.add(Item.class);
+				entityList.add(ItemAdjustmentLineDetail.class);
 				entityList.add(JobType.class);
 				entityList.add(JournalCode.class);
 				entityList.add(JournalEntry.class);
@@ -258,6 +260,7 @@ public final class MessageUtils {
 				entityList.add(VendorCredit.class);
 				entityList.add(VendorType.class);
 				entityList.add(RecurringScheduleInfo.class);
+
 			}
 			return entityList;
 		}
