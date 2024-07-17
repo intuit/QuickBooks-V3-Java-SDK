@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBElement;
 
 import com.intuit.ipp.data.BatchItemRequest;
 import com.intuit.ipp.data.BatchItemResponse;

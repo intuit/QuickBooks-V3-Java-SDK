@@ -17,7 +17,7 @@ package com.intuit.ipp.serialization.custom;
 
 import java.lang.reflect.Type;
 
-import jakarta.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBElement;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;

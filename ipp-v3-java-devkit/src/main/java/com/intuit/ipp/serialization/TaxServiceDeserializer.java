@@ -30,8 +30,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-//import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
-import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 
@@ -63,7 +62,7 @@ public class TaxServiceDeserializer extends JsonDeserializer<TaxService>{
 		TaxService taxService = new TaxService();
 
 		//Make the mapper JAXB annotations aware
-				AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector();
+				AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
 				AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
 				AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
 				mapper.setAnnotationIntrospector(pair);
@@ -124,7 +123,7 @@ public class TaxServiceDeserializer extends JsonDeserializer<TaxService>{
 		ObjectMapper mapper = new ObjectMapper();
 		
 		//Make the mapper JAXB annotations aware
-		AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector(mapper.getTypeFactory());
+		AnnotationIntrospector primary = new JaxbAnnotationIntrospector(mapper.getTypeFactory());
 		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
 		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
 		mapper.setAnnotationIntrospector(pair);

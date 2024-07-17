@@ -18,10 +18,10 @@ package com.intuit.ipp.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Marshaller;
-import jakarta.xml.bind.Unmarshaller;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import com.google.gson.Gson;
 import com.intuit.ipp.data.*;
@@ -203,7 +203,9 @@ public final class MessageUtils {
 				entityList.add(FixedAsset.class);
 				entityList.add(InventorySite.class);
 				entityList.add(Invoice.class);
+				entityList.add(InventoryAdjustment.class);
 				entityList.add(Item.class);
+				entityList.add(ItemAdjustmentLineDetail.class);
 				entityList.add(JobType.class);
 				entityList.add(JournalCode.class);
 				entityList.add(JournalEntry.class);
@@ -258,6 +260,7 @@ public final class MessageUtils {
 				entityList.add(VendorCredit.class);
 				entityList.add(VendorType.class);
 				entityList.add(RecurringScheduleInfo.class);
+
 			}
 			return entityList;
 		}
