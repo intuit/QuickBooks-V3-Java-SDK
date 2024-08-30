@@ -18,24 +18,23 @@ package com.intuit.ipp.data;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.params.ConnRoutePNames;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.params.CoreProtocolPNames;
+import org.apache.hc.client5.http.ClientProtocolException;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.HttpHost;
+import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.HttpVersion;
 
 import com.intuit.ipp.core.IEntity;
 import com.intuit.ipp.data.Customer;
 import com.intuit.ipp.data.IntuitResponse;
 import com.intuit.ipp.extra.SerializeXML;
 import com.intuit.ipp.util.Logger;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 
 public class EntityTest {
 	
@@ -73,17 +72,16 @@ public class EntityTest {
 		try {
 			StringEntity bodyDataEntity = new StringEntity(bodyData);
 			httpPost.setEntity(bodyDataEntity);
-			httpPost.setProtocolVersion(HttpVersion.HTTP_1_0);
-		
-			HttpResponse response = httpclient.execute(httpPost);
-			
-			BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
-			StringBuilder builder = new StringBuilder();
-			for (String line = null; (line = reader.readLine()) != null;) {
-			    builder.append(line).append("\n");
-			}
-			LOG.debug(builder.toString());
-			return builder.toString();
+
+			return httpclient.execute(httpPost, response -> {
+				BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), StandardCharsets.UTF_8));
+				StringBuilder builder = new StringBuilder();
+				for (String line = null; (line = reader.readLine()) != null;) {
+					builder.append(line).append("\n");
+				}
+				LOG.debug(builder.toString());
+				return builder.toString();
+			});
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

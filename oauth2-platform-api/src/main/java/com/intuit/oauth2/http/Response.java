@@ -15,10 +15,7 @@
  *******************************************************************************/
 package com.intuit.oauth2.http;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import org.slf4j.Logger;
 
@@ -33,18 +30,18 @@ import com.intuit.oauth2.utils.LoggerImpl;
  */
 public class Response {
 	
-	private final InputStream stream;
+	private final byte[] bytes;
     private final int statusCode;
     private String content;
     private final String intuit_tid;
     
     private static final Logger logger = LoggerImpl.getInstance();
-    
-	public Response(final InputStream stream, final int statusCode, final String intuit_tid) {
-        this.stream = stream;
-        this.statusCode = statusCode;
-        this.intuit_tid = intuit_tid;
-    }
+
+	public Response(final InputStream inputStream, final int statusCode, final String intuit_tid) throws IOException {
+		this.bytes = inputStream != null ? inputStream.readAllBytes() : new byte[0];
+		this.statusCode = statusCode;
+		this.intuit_tid = intuit_tid;
+	}
 	
     /**
      * Returns the json content from http response
@@ -55,27 +52,16 @@ public class Response {
     public String getContent() throws ConnectionException {
     	
     	logger.debug("Enter Response::getContent");	
-    	
+
     	if (content != null) {
     		logger.debug("content already available ");
     		logger.debug("Response json : " + content);
             return content;
         }
 
-    	BufferedReader rd = new BufferedReader(new InputStreamReader(stream));
-		StringBuffer result = new StringBuffer();
-		String line = "";
-		try {
-			while ((line = rd.readLine()) != null) {
-			    result.append(line);
-			}
-		} catch (IOException e) {
-			logger.error("Exception while retrieving content", e);
-            throw new ConnectionException(e.getMessage());
-		}
-		content = result.toString();
-		logger.debug("Response json : " + result.toString());
-		logger.debug("End Response::getContent");	
+		content = new String(bytes);
+		logger.debug("Response json : " + content);
+		logger.debug("End Response::getContent");
 		return content;
         
     }
@@ -95,7 +81,7 @@ public class Response {
 	 * @return
 	 */
 	public InputStream getStream() {
-		return stream;
+		return new ByteArrayInputStream(bytes);
 	}
     
 	public String getIntuit_tid() {

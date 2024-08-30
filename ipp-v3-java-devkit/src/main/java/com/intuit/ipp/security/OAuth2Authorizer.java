@@ -2,9 +2,8 @@ package com.intuit.ipp.security;
 
 import java.net.HttpURLConnection;
 
-import org.apache.http.client.methods.HttpRequestBase;
-
 import com.intuit.ipp.exception.FMSException;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
 
 /**
  * This class will sign the http request using oAuth2 credentials
@@ -14,7 +13,7 @@ public class OAuth2Authorizer implements IAuthorizer {
 	private String accessToken;
 
 	@Override
-	public void authorize(HttpRequestBase httpRequest) throws FMSException {
+	public void authorize(HttpUriRequestBase httpRequest) throws FMSException {
 		httpRequest.setHeader("Authorization", "Bearer " + accessToken);
 	}
 	

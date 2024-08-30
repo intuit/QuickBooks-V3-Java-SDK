@@ -23,9 +23,9 @@
 package com.intuit.ipp.security;
 
 import java.net.HttpURLConnection;
-import org.apache.http.client.methods.HttpRequestBase;
 
 import com.intuit.ipp.exception.FMSException;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
 
 /**
  * Interface for Authorizer
@@ -38,7 +38,7 @@ public interface IAuthorizer {
 	 * @param httpRequest
 	 * @throws FMSException
 	 */
-	void authorize(HttpRequestBase httpRequest) throws FMSException;
+	void authorize(HttpUriRequestBase httpRequest) throws FMSException;
 	/**
 	 * Authorize a http url connection using Signpost
 	 * @param httpUrlConnection
