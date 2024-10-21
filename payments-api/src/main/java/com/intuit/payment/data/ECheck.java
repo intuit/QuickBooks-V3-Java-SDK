@@ -37,7 +37,7 @@ public class ECheck extends Entity {
 	private ECheckStatus status = null;
 
 	public enum ECheckStatus {
-		PENDING, SUCCEEDED, DECLINED, VOIDED, REFUNDED
+		VOIDED, PENDING, SUCCEEDED, DECLINED, DISPUTED, REFUNDED, WITHHELD, IN_REVIEW, TRANSACTION_DELAYED
 	}
 
 	private BigDecimal amount = null;
