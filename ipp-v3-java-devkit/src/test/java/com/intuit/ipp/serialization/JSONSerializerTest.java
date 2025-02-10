@@ -19,12 +19,11 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 
 import com.intuit.ipp.data.Transfer;
 import com.intuit.ipp.data.Customer;
 import com.intuit.ipp.data.IntuitResponse;
-import com.intuit.ipp.data.TaxRate;
 import com.intuit.ipp.data.BatchItemResponse;
 import com.intuit.ipp.data.ObjectFactory;
 import com.intuit.ipp.data.Invoice;

@@ -30,10 +30,11 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+//import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
 import com.intuit.ipp.data.CDCResponse;
 import com.intuit.ipp.data.Fault;
 import com.intuit.ipp.data.QueryResponse;
@@ -71,7 +72,7 @@ public class CDCQueryResponseDeserializer extends JsonDeserializer<CDCResponse> 
 		ObjectMapper mapper = new ObjectMapper();
 
 		//Make the mapper JAXB annotations aware
-		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
+		AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector();
 		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
 		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
 		mapper.setAnnotationIntrospector(pair);

@@ -15,7 +15,7 @@
  *******************************************************************************/
 package com.intuit.oauth2.data;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
