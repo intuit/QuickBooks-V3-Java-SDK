@@ -5,5 +5,5 @@
 // Generated on: 2025.01.16 at 03:08:03 PM IST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://schema.intuit.com/finance/v3", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@jakarta.xml.bind.annotation.XmlSchema(namespace = "http://schema.intuit.com/finance/v3", elementFormDefault = jakarta.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package com.intuit.ipp.data;

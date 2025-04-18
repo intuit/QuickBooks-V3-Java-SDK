@@ -24,9 +24,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+//import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
 
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
 import com.intuit.ipp.data.BatchItemRequest;
 import com.intuit.ipp.data.CDCQuery;
 import com.intuit.ipp.exception.SerializationException;
@@ -163,7 +164,7 @@ public class BatchItemRequestSerializer extends JsonSerializer<BatchItemRequest>
 	private ObjectMapper getObjectMapper() {
 		ObjectMapper mapper = new ObjectMapper();
 		AnnotationIntrospector primary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector secondary = new JaxbAnnotationIntrospector(mapper.getTypeFactory());
+		AnnotationIntrospector secondary = new JakartaXmlBindAnnotationIntrospector(mapper.getTypeFactory());
 		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
 
 		mapper.setAnnotationIntrospector(pair);

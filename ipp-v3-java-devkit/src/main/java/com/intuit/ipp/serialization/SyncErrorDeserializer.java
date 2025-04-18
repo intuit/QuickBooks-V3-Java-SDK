@@ -18,21 +18,19 @@ package com.intuit.ipp.serialization;
 import java.io.IOException;
 import java.util.Iterator;
 
-import javax.xml.bind.JAXBElement;
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
+import jakarta.xml.bind.JAXBElement;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
-import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+//import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 
@@ -80,7 +78,7 @@ public class SyncErrorDeserializer extends JsonDeserializer<SyncError> {
 		
 
 		//Make the mapper JAXB annotations aware
-		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
+		AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector();
 		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
 		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
 		mapper.setAnnotationIntrospector(pair);
