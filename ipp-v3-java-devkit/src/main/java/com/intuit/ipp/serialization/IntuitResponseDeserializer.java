@@ -152,6 +152,7 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 		mapper.setAnnotationIntrospector(pair);
 		
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
 
 
         //Read the QueryResponse as a tree
