@@ -17,7 +17,7 @@ package com.intuit.payment.data;
 
 import java.math.BigDecimal;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

@@ -15,7 +15,7 @@
  *******************************************************************************/
 package com.intuit.payment.data;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

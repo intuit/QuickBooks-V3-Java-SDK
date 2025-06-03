@@ -144,7 +144,7 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 			throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		Report report = new Report();
-
+		mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS,true);
 		//Make the mapper JAXB annotations aware
 		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
 		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
