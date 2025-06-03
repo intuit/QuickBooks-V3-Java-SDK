@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum MonthEnum {
 
-    @XmlEnumValue("JANUARY")
+    @XmlEnumValue("January")
     JANUARY("January"),
     @XmlEnumValue("February")
     FEBRUARY("February"),
