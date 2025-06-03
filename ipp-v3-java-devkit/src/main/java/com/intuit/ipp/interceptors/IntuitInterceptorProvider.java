@@ -27,7 +27,7 @@ import com.intuit.ipp.services.CallbackMessage;
 import com.intuit.ipp.util.Config;
 import com.intuit.ipp.util.Logger;
 import com.intuit.ipp.util.StringUtils;
-import org.apache.commons.configuration2.Configuration;
+import org.apache.commons.configuration.Configuration;
 
 /**
  * Class to provide the provision to add interceptors in the order those have to be executed. 

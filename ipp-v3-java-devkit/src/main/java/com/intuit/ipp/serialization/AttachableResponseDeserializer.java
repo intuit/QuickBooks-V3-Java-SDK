@@ -18,11 +18,17 @@ package com.intuit.ipp.serialization;
 import java.io.IOException;
 import java.util.Iterator;
 
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 
 import com.intuit.ipp.data.Attachable;
 import com.intuit.ipp.data.AttachableResponse;
@@ -51,7 +57,7 @@ public class AttachableResponseDeserializer extends JsonDeserializer<AttachableR
 	@Override
 	public AttachableResponse deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS,true);
+
 		//Make the mapper JAXB annotations aware
 		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
 		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();

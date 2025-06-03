@@ -27,9 +27,9 @@
   <description>Quickbooks API Helper Project for OAuth2</description>
   <dependencies>
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.17.0</version>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
     </dependency>
     <dependency>
       <groupId>org.json</groupId>
@@ -49,7 +49,7 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.18.3</version>
+      <version>2.9.10.7</version>
     </dependency>
     <dependency>
       <groupId>commons-codec</groupId>

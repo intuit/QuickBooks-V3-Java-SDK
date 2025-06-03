@@ -16,7 +16,7 @@
 package com.intuit.payment.data;
 
 import com.intuit.payment.data.Charge.ChargeStatus;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;

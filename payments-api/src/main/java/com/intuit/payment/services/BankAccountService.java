@@ -17,7 +17,7 @@ package com.intuit.payment.services;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.core.type.TypeReference;

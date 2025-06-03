@@ -20,13 +20,19 @@ import java.util.Iterator;
 
 import javax.xml.bind.JAXBElement;
 
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 
 import com.intuit.ipp.data.*;
 import com.intuit.ipp.util.Logger;
@@ -81,7 +87,7 @@ public class QueryResponseDeserializer extends JsonDeserializer<QueryResponse> {
 	@Override
 	public QueryResponse deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS,true);
+
 		//Make the mapper JAXB annotations aware
 		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
 		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
