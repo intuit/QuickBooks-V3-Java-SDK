@@ -82,7 +82,7 @@ public class HandleResponseInterceptorTest {
 	public void testHandleResponseInterceptor_Validation() {
 		boolean isValid = false;
 		IntuitResponse intuitResponse = (IntuitResponse) intuitMessage.getResponseElements().getResponse();
-		intuitResponse.getFault().setType("Validation");
+		intuitResponse.getFault().setType("ValidationException");
 		HandleResponseInterceptor interceptor = new HandleResponseInterceptor();
 		try {
 			interceptor.execute(intuitMessage);

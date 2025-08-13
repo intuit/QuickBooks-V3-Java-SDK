@@ -104,7 +104,7 @@ public class HandleResponseInterceptor implements Interceptor {
 		if (intuitResponse != null && intuitResponse.getFault() != null) {
 			Fault fault = intuitResponse.getFault();
 
-			if ("Validation".equalsIgnoreCase(fault.getType())) {
+			if ("ValidationException".equalsIgnoreCase(fault.getType())) {
 				throw new ValidationException(fault.getError());
 			} else if ("Service".equalsIgnoreCase(fault.getType())) {
 				throw new ServiceException(fault.getError());
