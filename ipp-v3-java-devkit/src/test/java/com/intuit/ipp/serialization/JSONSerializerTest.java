@@ -30,6 +30,7 @@ import com.intuit.ipp.data.Invoice;
 import com.intuit.ipp.data.Deposit;
 import com.intuit.ipp.data.Account;
 import com.intuit.ipp.data.JournalCode;
+import com.intuit.ipp.data.QbdtEntityIdMapping;
 import com.intuit.ipp.util.Config;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -110,6 +111,14 @@ public class JSONSerializerTest {
         Account account = (Account) intuitResponse.getQueryResponse().getIntuitObject().get(0).getValue();
         Assert.assertEquals(account.getCurrentBalance(), new BigDecimal("-646.80"));
 
+    }
+
+    @Test
+    public void testDeserialize_QbdtEntityIdMapping() throws SerializationException {
+        String jsonResponse = "{\"QueryResponse\":{\"QbdtEntityIdMapping\":[{\"QboEntityId\":\"42\",\"QbdtExportableId\":\"80000000-8675309000\",\"QboEntityType\":\"CUSTOMER\",\"QbdtEntityType\":\"CUSTOMER\"}],\"startPosition\":1,\"maxResults\":1},\"time\":\"2024-12-31T23:59:59.999-00:00\"}";
+        IntuitResponse intuitResponse = (IntuitResponse) jsonObj.deserialize(jsonResponse, IntuitResponse.class);
+        QbdtEntityIdMapping mapping = (QbdtEntityIdMapping) intuitResponse.getQueryResponse().getIntuitObject().get(0).getValue();
+        Assert.assertEquals(mapping.getQbdtEntityType(), "CUSTOMER");
     }
 
     @Test

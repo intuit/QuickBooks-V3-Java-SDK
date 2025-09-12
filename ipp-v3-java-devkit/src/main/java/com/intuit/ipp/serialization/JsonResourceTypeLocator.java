@@ -83,6 +83,7 @@ public final class JsonResourceTypeLocator {
 			put("OLBStatus", OLBStatus.class);
 			put("OLBTransaction", OLBTransaction.class);
 			put("OtherName", OtherName.class);
+			put("QbdtEntityIdMapping", QbdtEntityIdMapping.class);
 			put("QueryResponse", QueryResponse.class);
 			put("RecurringTransaction", RecurringTransaction.class);
 			put("RefundReceipt", RefundReceipt.class);
