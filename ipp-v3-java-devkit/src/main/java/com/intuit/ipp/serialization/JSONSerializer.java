@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.AnnotationIntrospectorPair;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
@@ -285,7 +286,7 @@ public class JSONSerializer implements IEntitySerializer {
 
 		Response intuitResponse = null;
 		ObjectMapper mapper = new ObjectMapper();
-
+		mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS,true);
 		SimpleModule simpleModule = new SimpleModule("IntuitResponseDeserializer", new Version(1, 0, 0, null));
 		simpleModule.addDeserializer(IntuitResponse.class, new IntuitResponseDeserializer());
 		mapper.registerModule(simpleModule);
