@@ -15,6 +15,7 @@
  *******************************************************************************/
 package com.intuit.ipp.serialization;
 
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
 import jakarta.xml.bind.JAXBElement;
 
@@ -287,6 +288,7 @@ public class JSONSerializer implements IEntitySerializer {
 		Response intuitResponse = null;
 		ObjectMapper mapper = new ObjectMapper();
 
+        mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS,true);
 		SimpleModule simpleModule = new SimpleModule("IntuitResponseDeserializer", new Version(1, 0, 0, null));
 		simpleModule.addDeserializer(IntuitResponse.class, new IntuitResponseDeserializer());
 		mapper.registerModule(simpleModule);

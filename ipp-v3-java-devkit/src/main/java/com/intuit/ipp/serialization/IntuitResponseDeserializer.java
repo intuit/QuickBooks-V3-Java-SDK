@@ -139,6 +139,7 @@ public class IntuitResponseDeserializer extends JsonDeserializer<IntuitResponse>
 		ObjectMapper mapper = new ObjectMapper();
 		Report report = new Report();
 
+        mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS,true);
 		//Make the mapper JAXB annotations aware
 		AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector();
 		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
