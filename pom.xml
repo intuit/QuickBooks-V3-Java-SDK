@@ -112,15 +112,6 @@
             <artifactId>central-publishing-maven-plugin</artifactId>
             <version>0.9.0</version>
             <extensions>true</extensions>
-            <executions>
-                <execution>
-                    <id>default-deploy</id>
-                    <phase>deploy</phase>
-                    <goals>
-                        <goal>deploy</goal>
-                    </goals>
-                </execution>
-            </executions>
             <configuration>
                 <publishingServerId>central</publishingServerId>
             </configuration>
@@ -156,7 +147,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.8</version>
                     <executions>
                         <execution>
                             <id>sign-artifacts</id>
