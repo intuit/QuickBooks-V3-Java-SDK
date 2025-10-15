@@ -166,6 +166,7 @@ public final class MessageUtils {
 				enumList.add(WeekEnum.class);
 				enumList.add(SourceTypeEnum.class);
 				enumList.add(PaymentExtendedTypeEnum.class);
+                enumList.add(AgencyVerificationStatus.class);
 			}
 			return enumList;
 		}
@@ -261,6 +262,8 @@ public final class MessageUtils {
 				entityList.add(VendorCredit.class);
 				entityList.add(VendorType.class);
 				entityList.add(RecurringScheduleInfo.class);
+                entityList.add(CustomExtensions.class);
+                entityList.add(CustomExtensionAssociatedValues.class);
 
 			}
 			return entityList;

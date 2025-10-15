@@ -5,7 +5,7 @@
 
     <groupId>com.intuit.quickbooks-online</groupId>
     <artifactId>ipp-v3-java-devkit-pom</artifactId>
-    <version>6.6.0</version>
+    <version>6.6.1</version>
     <packaging>pom</packaging>
     <name>IPP V3 Java DevKit</name>
     <url>https://github.com/intuit/QuickBooks-V3-Java-SDK</url>
@@ -69,7 +69,7 @@
     </dependencies>
 
     <!-- distributionManagement -->
-    <distributionManagement>
+    <!--<distributionManagement>
       <snapshotRepository>
         <id>ossrh</id>
         <url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -78,7 +78,7 @@
         <id>ossrh</id>
         <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
-</distributionManagement>
+</distributionManagement>-->
 
 <build>
     <plugins>
@@ -108,23 +108,12 @@
             <version>2.5.3</version>
         </plugin>
         <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.13</version>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>0.9.0</version>
             <extensions>true</extensions>
-            <executions>
-                <execution>
-                    <id>default-deploy</id>
-                    <phase>deploy</phase>
-                    <goals>
-                        <goal>deploy</goal>
-                    </goals>
-                </execution>
-            </executions>
             <configuration>
-                <serverId>ossrh</serverId>
-                <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                <publishingServerId>central</publishingServerId>
             </configuration>
         </plugin>
     </plugins>
@@ -158,7 +147,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.8</version>
                     <executions>
                         <execution>
                             <id>sign-artifacts</id>
