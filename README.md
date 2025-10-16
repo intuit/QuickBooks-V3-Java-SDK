@@ -72,7 +72,7 @@ Steps to contribute:
 5. Create a pull request for review to request merge.
 6. Obtain approval before your changes can be merged.
 
-Note: Before you submit the pull request, make sure to remove the keys and tokens from [ippdevkit.properties](https://github.com/intuit/QuickBooks-V3-Java-SDK/blob/master/ipp-v3-java-devkit/src/test/resources/ippdevkit.properties) that you might have added for testing. Create an account in [developers](https://developer.intuit.com/) and create an app to retieve the parameters mentioned in ippdevkit.properties.
+Note: Before you submit the pull request, make sure to remove the keys and tokens from [ippdevkit.properties](https://github.com/intuit/QuickBooks-V3-Java-SDK/blob/master/ipp-v3-java-devkit/src/test/resources/ippdevkit.properties) that you might have added for testing. Create an account in [developers](https://developer.intuit.com/) and create an app to retrieve the parameters mentioned in ippdevkit.properties.
 
 Thank you for your contribution!
 
