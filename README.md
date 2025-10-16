@@ -72,7 +72,7 @@ Steps to contribute:
 5. Create a pull request for review to request merge.
 6. Obtain approval before your changes can be merged.
 
-Note: Before you submit the pull request, make sure to remove the keys and tokens from [ippdevkit.properties](https://github.com/intuit/QuickBooks-V3-Java-SDK/blob/master/ipp-v3-java-devkit/src/test/resources/ippdevkit.properties) that you might have added for testing. Create an account in [developers](https://developer.intuit.com/) and create an app to retrieve the parameters mentioned in ippdevkit.properties.
+Note: Before you submit the pull request, make sure to remove the keys and tokens from [ippdevkit.properties](https://github.com/intuit/QuickBooks-V3-Java-SDK/blob/master/ipp-v3-java-devkit/src/test/resources/ippdevkit.properties) that you might have added for testing. To populate the security tokens in staging environment for testing,create an account in https://developer.intuit.com and then create an app to get client id and client secret in keys and credentials tab of the app and to get access token and realm id navigate to playground in Myhub. App id is the testsuit.qbo.app.token, client id is the testsuit.qbo.consumer.key,client secret is the testsuit.qbo.consumer.secret, access token is the testsuit.qbo.access.token and realm id is the testsuit.qbo.realm.id. There is no value mapping to testsuit.qbo.access.token.secret.
 
 Thank you for your contribution!
 
