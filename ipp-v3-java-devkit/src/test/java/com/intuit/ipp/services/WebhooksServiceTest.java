@@ -15,6 +15,7 @@
  *******************************************************************************/
 package com.intuit.ipp.services;
 
+import com.intuit.ipp.data.WebhooksCloudEvents;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -55,6 +56,16 @@ public class WebhooksServiceTest {
 		WebhooksEvent webhooksEvent = webhooksService.getWebhooksEvent(payload);
 		Assert.assertNotNull(webhooksEvent);
 		Assert.assertEquals(webhooksEvent.getEventNotifications().size(), 1);
+	}
+
+	@Test
+	public void testGetWebhooksCloudEvents() throws FMSException {
+		String newPayload = "[{\"specversion\":\"1.0\",\"id\":\"d1a3aedd-9670-41bf-a4f9-c148a1cc4e03\",\"source\":\"intuit.dsnBgbseACLLRZNxo2dfc4evmEJdxde58xeeYcZliOU=\",\"type\":\"qbo.class.created.v1\",\"time\":\"2025-10-07T19:59:07.034359333Z\",\"intuitentityid\":\"1234\",\"intuitaccountid\":\"310687\"}]";
+		java.util.List<WebhooksCloudEvents> events = webhooksService.getWebhooksCloudEvents(newPayload);
+		Assert.assertNotNull(events);
+		Assert.assertEquals(events.size(), 1);
+		Assert.assertEquals(events.get(0).getSpecVersion(), "1.0");
+		Assert.assertEquals(events.get(0).getId(), "d1a3aedd-9670-41bf-a4f9-c148a1cc4e03");
 	}
 	
 
