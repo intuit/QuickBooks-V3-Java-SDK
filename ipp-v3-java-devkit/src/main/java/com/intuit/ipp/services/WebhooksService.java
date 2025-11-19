@@ -19,14 +19,18 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+
 import jakarta.xml.bind.DatatypeConverter;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.intuit.ipp.data.WebhooksCloudEvents;
 import com.intuit.ipp.util.StringUtils;
 
 import com.intuit.ipp.data.WebhooksEvent;
@@ -88,6 +92,31 @@ public class WebhooksService {
 		}
 			
 	}
+
+    /**
+     * Deserialize new CloudEvents-based webhook payloads which are arrays of events
+     * PR parity: method name uses getWebhooksCloudEvents (typo preserved)
+     * @param payload JSON array payload
+     * @return list of WebhooksCloudEvents or null if payload empty/invalid
+     */
+    public List<WebhooksCloudEvents> getWebhooksCloudEvents(String payload) {
+        if (!StringUtils.hasText(payload)) {
+            return null;
+        }
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(payload, new TypeReference<List<WebhooksCloudEvents>>() {});
+        } catch (JsonParseException e) {
+            LOG.error("Error while parsing new webhooks payload", e);
+            return null;
+        } catch (JsonMappingException e) {
+            LOG.error("Error while mapping new webhooks payload", e);
+            return null;
+        } catch (IOException e) {
+            LOG.error("IO exception while parsing new webhooks payload", e);
+            return null;
+        }
+    }
 	
 	/**
      * Verifier key to validate webhooks payload
