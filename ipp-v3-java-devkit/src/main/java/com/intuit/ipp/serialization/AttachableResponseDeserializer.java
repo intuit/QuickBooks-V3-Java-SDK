@@ -43,21 +43,24 @@ public class AttachableResponseDeserializer extends JsonDeserializer<AttachableR
 	 * variable ATTACHABLE
 	 */
 	private static final String ATTACHABLE = "Attachable";
-	
+
+	/** Shared ObjectMapper instance (thread-safe, reuse for performance) */
+	@SuppressWarnings("deprecation")
+	private static final ObjectMapper mapper;
+	static {
+		mapper = new ObjectMapper();
+		mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
+		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+		mapper.setAnnotationIntrospector(new AnnotationIntrospectorPair(primary, secondary));
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	}
+
 	/**
 	 * {@inheritDoc}}
 	 */
-	@SuppressWarnings("deprecation")
 	@Override
 	public AttachableResponse deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS,true);
-		//Make the mapper JAXB annotations aware
-		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
-		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
-		mapper.setAnnotationIntrospector(pair);
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		//Read the QueryResponse as a tree
 		JsonNode jn = jp.readValueAsTree();

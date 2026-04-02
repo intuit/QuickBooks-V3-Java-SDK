@@ -77,17 +77,20 @@ public class QueryResponseDeserializer extends JsonDeserializer<QueryResponse> {
 	 */
 	private ObjectFactory objFactory = new ObjectFactory();
 
+	/** Shared ObjectMapper instance (thread-safe, reuse for performance) */
 	@SuppressWarnings("deprecation")
-	@Override
-	public QueryResponse deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS,true);
-		//Make the mapper JAXB annotations aware
+	private static final ObjectMapper mapper;
+	static {
+		mapper = new ObjectMapper();
+		mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
 		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
 		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
-		mapper.setAnnotationIntrospector(pair);
+		mapper.setAnnotationIntrospector(new AnnotationIntrospectorPair(primary, secondary));
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	}
+
+	@Override
+	public QueryResponse deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
 
 		//Read the QueryResponse as a tree
 		JsonNode jn = jp.readValueAsTree();

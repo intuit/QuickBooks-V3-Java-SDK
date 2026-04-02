@@ -70,20 +70,20 @@ public class SyncErrorResponseDeserializer extends JsonDeserializer<SyncErrorRes
 	 */
 	private static final String LATESTUPLOADTIME = "latestUploadTime";
 
+	/** Shared ObjectMapper instance (thread-safe, reuse for performance) */
 	@SuppressWarnings("deprecation")
-	@Override
-	public SyncErrorResponse deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		
-		DateFormat date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-		
-
-		//Make the mapper JAXB annotations aware
+	private static final ObjectMapper mapper;
+	static {
+		mapper = new ObjectMapper();
 		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
 		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
-		mapper.setAnnotationIntrospector(pair);
+		mapper.setAnnotationIntrospector(new AnnotationIntrospectorPair(primary, secondary));
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	}
+
+	@Override
+	public SyncErrorResponse deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
+		DateFormat date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
 		//Read the QueryResponse as a tree
 		JsonNode jn = jp.readValueAsTree();

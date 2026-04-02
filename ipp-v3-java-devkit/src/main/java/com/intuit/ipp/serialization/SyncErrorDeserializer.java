@@ -44,8 +44,17 @@ import com.intuit.ipp.data.SyncObject;
 import com.intuit.ipp.util.Logger;
 
 public class SyncErrorDeserializer extends JsonDeserializer<SyncError> {
-	
-	ObjectMapper mapper = new ObjectMapper();
+
+	/** Shared ObjectMapper instance (thread-safe, reuse for performance) */
+	@SuppressWarnings("deprecation")
+	private static final ObjectMapper mapper;
+	static {
+		mapper = new ObjectMapper();
+		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
+		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+		mapper.setAnnotationIntrospector(new AnnotationIntrospectorPair(primary, secondary));
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	}
 	
 	/**
 	 * logger instance
@@ -74,17 +83,8 @@ public class SyncErrorDeserializer extends JsonDeserializer<SyncError> {
 	 */
 	private ObjectFactory objFactory = new ObjectFactory();
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public SyncError deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
-		
-
-		//Make the mapper JAXB annotations aware
-		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
-		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
-		mapper.setAnnotationIntrospector(pair);
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		//Read the QueryResponse as a tree
 		JsonNode jn = jp.readValueAsTree();

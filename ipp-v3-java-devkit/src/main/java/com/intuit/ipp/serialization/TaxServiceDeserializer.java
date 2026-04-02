@@ -47,27 +47,24 @@ public class TaxServiceDeserializer extends JsonDeserializer<TaxService>{
 	 * variable FAULT
 	 */
 	private static final String FAULT = "Fault";
-	
 
-	
-	
+	/** Shared ObjectMapper instance (thread-safe, reuse for performance) */
+	@SuppressWarnings("deprecation")
+	private static final ObjectMapper mapper;
+	static {
+		mapper = new ObjectMapper();
+		AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
+		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+		mapper.setAnnotationIntrospector(new AnnotationIntrospectorPair(primary, secondary));
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	}
+
 	/**
 	 * {@inheritDoc}}
 	 */
-	@SuppressWarnings("deprecation")
 	@Override
 	public TaxService deserialize(JsonParser jp, DeserializationContext desContext) throws IOException {
-		
-		ObjectMapper mapper = new ObjectMapper();
 		TaxService taxService = new TaxService();
-
-		//Make the mapper JAXB annotations aware
-				AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
-				AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-				AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
-				mapper.setAnnotationIntrospector(pair);
-				
-				mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		
 		//mapper.setPropertyNamingStrategy(PascalCaseStrategy);
 
@@ -119,17 +116,6 @@ public class TaxServiceDeserializer extends JsonDeserializer<TaxService>{
 	private TaxRateDetails getTaxRateDetails(JsonNode jn) throws IOException
 	{
 		TaxRateDetails taxRateDetails = new TaxRateDetails();
-		
-		ObjectMapper mapper = new ObjectMapper();
-		
-		//Make the mapper JAXB annotations aware
-		AnnotationIntrospector primary = new JaxbAnnotationIntrospector(mapper.getTypeFactory());
-		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
-		mapper.setAnnotationIntrospector(pair);
-		
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		
 		Iterator<String> ite = jn.fieldNames();
 		
 		while (ite.hasNext()) {
