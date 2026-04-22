@@ -5968,6 +5968,14 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="EnabledSurchargeInfo" type="EnabledSurchargeInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Product: QBO
+								Description: Per-invoice surcharging settings indicating whether surcharging is enabled and for which payment methods
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="InvoiceLinkSecurityCode" type="xs:string" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
@@ -6103,6 +6111,58 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:complexType name="SurchargePaymentMethodInfo">
+		<xs:annotation>
+			<xs:documentation>
+				Product: QBO
+				Description: Payment method-specific surcharge settings
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Enabled" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Whether surcharging is enabled for this payment method
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EnabledSurchargeInfo">
+		<xs:annotation>
+			<xs:documentation>
+				Product: QBO
+				Description: Per-invoice surcharging settings
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Enabled" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Whether surcharging is enabled for this invoice
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Card" type="SurchargePaymentMethodInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: Credit card-specific surcharge settings
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ACH" type="SurchargePaymentMethodInfo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Product: QBO
+						Description: ACH-specific surcharge settings
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="SalesReceipt">
 		<xs:annotation>
 			<xs:documentation>SalesReceipt Transaction entity </xs:documentation>
@@ -6168,6 +6228,54 @@
 								minOccurs="0" maxOccurs="1">
 						<xs:annotation>
 							<xs:documentation>Extension entity for Estimate
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ChangeOrder">
+		<xs:annotation>
+			<xs:documentation>ChangeOrder represents a modification or addition to a
+				Project Cost Estimate (PCE). Modeled after Project Estimate -- extends
+				SalesTransaction directly with the same field structure.
+				Product: QBO
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="SalesTransaction">
+				<xs:sequence>
+					<xs:element name="ExpirationDate" type="xs:date"
+								minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Date by which the change order must be
+								accepted before invalidation.
+								QBO only field.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AcceptedBy" type="xs:string"
+								minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Name of customer who accepted the change
+								order.
+								QBO only field.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AcceptedDate" type="xs:date"
+								minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Date change order was accepted.
+								QBO only field.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ChangeOrderEx" type="IntuitAnyType"
+								minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Extension entity for ChangeOrder
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -10759,6 +10867,16 @@
 								Description: Use the DeferredRevenue property to indicate that the goods/services sold
 								have not yet been delivered to the customer, and therefore not appropriate for the
 								accounting engine to book as Revenue for accounting.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CustomExtensions" type="CustomExtensions"
+								minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								Product: IES
+								Description: Custom extensions of the Item
+								Extensions like dimensions and other user defined categories
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>

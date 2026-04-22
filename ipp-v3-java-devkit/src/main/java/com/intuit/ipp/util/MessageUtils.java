@@ -264,6 +264,9 @@ public final class MessageUtils {
 				entityList.add(RecurringScheduleInfo.class);
                 entityList.add(CustomExtensions.class);
                 entityList.add(CustomExtensionAssociatedValues.class);
+                entityList.add(ChangeOrder.class);
+                entityList.add(EnabledSurchargeInfo.class);
+                entityList.add(SurchargePaymentMethodInfo.class);
 
 			}
 			return entityList;

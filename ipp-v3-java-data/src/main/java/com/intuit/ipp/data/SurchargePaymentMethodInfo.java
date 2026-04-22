@@ -25,23 +25,22 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 
 /**
  * 
- * 				Product: ALL
- * 				Description: SalesOrder item detail for
- * 				a transaction line.
+ * 				Product: QBO
+ * 				Description: Payment method-specific surcharge settings
  * 			
  * 
- * <p>Java class for SalesOrderItemLineDetail complex type.
+ * <p>Java class for SurchargePaymentMethodInfo complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="SalesOrderItemLineDetail"&gt;
+ * &lt;complexType name="SurchargePaymentMethodInfo"&gt;
  *   &lt;complexContent&gt;
- *     &lt;extension base="{http://schema.intuit.com/finance/v3}SalesItemLineDetail"&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="ManuallyClosed" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
+ *         &lt;element name="Enabled" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
- *     &lt;/extension&gt;
+ *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
@@ -49,40 +48,38 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SalesOrderItemLineDetail", propOrder = {
-    "manuallyClosed"
+@XmlType(name = "SurchargePaymentMethodInfo", propOrder = {
+    "enabled"
 })
-public class SalesOrderItemLineDetail
-    extends SalesItemLineDetail
-    implements Serializable, Equals2, HashCode2
+public class SurchargePaymentMethodInfo implements Serializable, Equals2, HashCode2
 {
 
     private final static long serialVersionUID = 1L;
-    @XmlElement(name = "ManuallyClosed")
-    protected Boolean manuallyClosed;
+    @XmlElement(name = "Enabled")
+    protected Boolean enabled;
 
     /**
-     * Gets the value of the manuallyClosed property.
+     * Gets the value of the enabled property.
      * 
      * @return
      *     possible object is
      *     {@link Boolean }
      *     
      */
-    public Boolean isManuallyClosed() {
-        return manuallyClosed;
+    public Boolean isEnabled() {
+        return enabled;
     }
 
     /**
-     * Sets the value of the manuallyClosed property.
+     * Sets the value of the enabled property.
      * 
      * @param value
      *     allowed object is
      *     {@link Boolean }
      *     
      */
-    public void setManuallyClosed(Boolean value) {
-        this.manuallyClosed = value;
+    public void setEnabled(Boolean value) {
+        this.enabled = value;
     }
 
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy2 strategy) {
@@ -92,16 +89,13 @@ public class SalesOrderItemLineDetail
         if (this == object) {
             return true;
         }
-        if (!super.equals(thisLocator, thatLocator, object, strategy)) {
-            return false;
-        }
-        final SalesOrderItemLineDetail that = ((SalesOrderItemLineDetail) object);
+        final SurchargePaymentMethodInfo that = ((SurchargePaymentMethodInfo) object);
         {
-            Boolean lhsManuallyClosed;
-            lhsManuallyClosed = this.isManuallyClosed();
-            Boolean rhsManuallyClosed;
-            rhsManuallyClosed = that.isManuallyClosed();
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "manuallyClosed", lhsManuallyClosed), LocatorUtils.property(thatLocator, "manuallyClosed", rhsManuallyClosed), lhsManuallyClosed, rhsManuallyClosed, (this.manuallyClosed!= null), (that.manuallyClosed!= null))) {
+            Boolean lhsEnabled;
+            lhsEnabled = this.isEnabled();
+            Boolean rhsEnabled;
+            rhsEnabled = that.isEnabled();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "enabled", lhsEnabled), LocatorUtils.property(thatLocator, "enabled", rhsEnabled), lhsEnabled, rhsEnabled, (this.enabled!= null), (that.enabled!= null))) {
                 return false;
             }
         }
@@ -114,11 +108,11 @@ public class SalesOrderItemLineDetail
     }
 
     public int hashCode(ObjectLocator locator, HashCodeStrategy2 strategy) {
-        int currentHashCode = super.hashCode(locator, strategy);
+        int currentHashCode = 1;
         {
-            Boolean theManuallyClosed;
-            theManuallyClosed = this.isManuallyClosed();
-            currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "manuallyClosed", theManuallyClosed), currentHashCode, theManuallyClosed, (this.manuallyClosed!= null));
+            Boolean theEnabled;
+            theEnabled = this.isEnabled();
+            currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "enabled", theEnabled), currentHashCode, theEnabled, (this.enabled!= null));
         }
         return currentHashCode;
     }

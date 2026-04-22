@@ -28,22 +28,25 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 
 
 /**
- * Transaction entity is the base class of all
- * 				transactions
+ * ChangeOrder represents a modification or addition to a
+ * 				Project Cost Estimate (PCE). Modeled after Project Estimate -- extends
+ * 				SalesTransaction directly with the same field structure.
+ * 				Product: QBO
+ * 			
  * 
- * <p>Java class for Estimate complex type.
+ * <p>Java class for ChangeOrder complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="Estimate"&gt;
+ * &lt;complexType name="ChangeOrder"&gt;
  *   &lt;complexContent&gt;
  *     &lt;extension base="{http://schema.intuit.com/finance/v3}SalesTransaction"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="ExpirationDate" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/&gt;
  *         &lt;element name="AcceptedBy" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="AcceptedDate" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/&gt;
- *         &lt;element name="EstimateEx" type="{http://schema.intuit.com/finance/v3}IntuitAnyType" minOccurs="0"/&gt;
+ *         &lt;element name="ChangeOrderEx" type="{http://schema.intuit.com/finance/v3}IntuitAnyType" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/extension&gt;
  *   &lt;/complexContent&gt;
@@ -53,13 +56,13 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Estimate", propOrder = {
+@XmlType(name = "ChangeOrder", propOrder = {
     "expirationDate",
     "acceptedBy",
     "acceptedDate",
-    "estimateEx"
+    "changeOrderEx"
 })
-public class Estimate
+public class ChangeOrder
     extends SalesTransaction
     implements Serializable, Equals2, HashCode2
 {
@@ -75,8 +78,8 @@ public class Estimate
     @XmlJavaTypeAdapter(DateAdapter.class)
     @XmlSchemaType(name = "date")
     protected Date acceptedDate;
-    @XmlElement(name = "EstimateEx")
-    protected IntuitAnyType estimateEx;
+    @XmlElement(name = "ChangeOrderEx")
+    protected IntuitAnyType changeOrderEx;
 
     /**
      * Gets the value of the expirationDate property.
@@ -151,27 +154,27 @@ public class Estimate
     }
 
     /**
-     * Gets the value of the estimateEx property.
+     * Gets the value of the changeOrderEx property.
      * 
      * @return
      *     possible object is
      *     {@link IntuitAnyType }
      *     
      */
-    public IntuitAnyType getEstimateEx() {
-        return estimateEx;
+    public IntuitAnyType getChangeOrderEx() {
+        return changeOrderEx;
     }
 
     /**
-     * Sets the value of the estimateEx property.
+     * Sets the value of the changeOrderEx property.
      * 
      * @param value
      *     allowed object is
      *     {@link IntuitAnyType }
      *     
      */
-    public void setEstimateEx(IntuitAnyType value) {
-        this.estimateEx = value;
+    public void setChangeOrderEx(IntuitAnyType value) {
+        this.changeOrderEx = value;
     }
 
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy2 strategy) {
@@ -184,7 +187,7 @@ public class Estimate
         if (!super.equals(thisLocator, thatLocator, object, strategy)) {
             return false;
         }
-        final Estimate that = ((Estimate) object);
+        final ChangeOrder that = ((ChangeOrder) object);
         {
             Date lhsExpirationDate;
             lhsExpirationDate = this.getExpirationDate();
@@ -213,11 +216,11 @@ public class Estimate
             }
         }
         {
-            IntuitAnyType lhsEstimateEx;
-            lhsEstimateEx = this.getEstimateEx();
-            IntuitAnyType rhsEstimateEx;
-            rhsEstimateEx = that.getEstimateEx();
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "estimateEx", lhsEstimateEx), LocatorUtils.property(thatLocator, "estimateEx", rhsEstimateEx), lhsEstimateEx, rhsEstimateEx, (this.estimateEx!= null), (that.estimateEx!= null))) {
+            IntuitAnyType lhsChangeOrderEx;
+            lhsChangeOrderEx = this.getChangeOrderEx();
+            IntuitAnyType rhsChangeOrderEx;
+            rhsChangeOrderEx = that.getChangeOrderEx();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "changeOrderEx", lhsChangeOrderEx), LocatorUtils.property(thatLocator, "changeOrderEx", rhsChangeOrderEx), lhsChangeOrderEx, rhsChangeOrderEx, (this.changeOrderEx!= null), (that.changeOrderEx!= null))) {
                 return false;
             }
         }
@@ -247,9 +250,9 @@ public class Estimate
             currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "acceptedDate", theAcceptedDate), currentHashCode, theAcceptedDate, (this.acceptedDate!= null));
         }
         {
-            IntuitAnyType theEstimateEx;
-            theEstimateEx = this.getEstimateEx();
-            currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "estimateEx", theEstimateEx), currentHashCode, theEstimateEx, (this.estimateEx!= null));
+            IntuitAnyType theChangeOrderEx;
+            theChangeOrderEx = this.getChangeOrderEx();
+            currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "changeOrderEx", theChangeOrderEx), currentHashCode, theChangeOrderEx, (this.changeOrderEx!= null));
         }
         return currentHashCode;
     }

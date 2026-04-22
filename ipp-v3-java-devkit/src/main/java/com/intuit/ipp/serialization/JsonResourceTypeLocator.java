@@ -117,6 +117,9 @@ public final class JsonResourceTypeLocator {
 			put("VendorType", VendorType.class);
 			put("CustomExtension", CustomExtensions.class);
             put("CustomExtensionAssociatedValues", CustomExtensionAssociatedValues.class);
+            put("ChangeOrder", ChangeOrder.class);
+            put("EnabledSurchargeInfo", EnabledSurchargeInfo.class);
+            put("SurchargePaymentMethodInfo", SurchargePaymentMethodInfo.class);
 		}
 	};
 
