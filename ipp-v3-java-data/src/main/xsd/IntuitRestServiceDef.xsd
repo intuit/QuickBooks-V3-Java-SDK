@@ -14,6 +14,7 @@
     <xs:element name="Vendor" type="Vendor" substitutionGroup="IntuitObject"/>
     <xs:element name="OtherName" type="OtherName" substitutionGroup="IntuitObject"/>
     <xs:element name="Estimate" type="Estimate" substitutionGroup="IntuitObject"/>
+    <xs:element name="ChangeOrder" type="ChangeOrder" substitutionGroup="IntuitObject"/>
     <xs:element name="SalesOrder" type="SalesOrder" substitutionGroup="IntuitObject"/>
     <xs:element name="SalesReceipt" type="SalesReceipt" substitutionGroup="IntuitObject"/>
     <xs:element name="PurchaseOrder" type="PurchaseOrder" substitutionGroup="IntuitObject"/>

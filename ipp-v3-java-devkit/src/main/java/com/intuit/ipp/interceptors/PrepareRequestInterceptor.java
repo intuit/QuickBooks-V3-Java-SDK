@@ -458,6 +458,9 @@ public class PrepareRequestInterceptor implements Interceptor {
 				else if (value=="donotUpdateAccountOnTxns"){
 					reqParams.append("include").append("=").append("donotupdateaccountontxns").append("&");
 					}
+				else if (RequestElements.REPORT_QUERY_PARAM_AS_BARE_FLAG.equals(value)) {
+					reqParams.append(key).append("&");
+					}
 				else
 					{
 						reqParams.append(key).append("=").append(value).append("&");
@@ -541,7 +544,8 @@ public class PrepareRequestInterceptor implements Interceptor {
         		|| key.equals(RequestElements.REPORT_PARAM_SHIPVIA)
         		|| key.equals(RequestElements.REPORT_PARAM_ACCOUNT_STATUS)
         		|| key.equals(RequestElements.REPORT_PARAM_SUBCOL_PCT_INC)
-        		|| key.equals(RequestElements.REPORT_PARAM_SUBCOL_PCT_EXP);
+        		|| key.equals(RequestElements.REPORT_PARAM_SUBCOL_PCT_EXP)
+        		|| key.equals(RequestElements.REPORT_PARAM_TESTING_MIGRATION);
     }
 
     /**

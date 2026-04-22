@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.intuit.quickbooks-online</groupId>
 		<artifactId>ipp-v3-java-devkit-pom</artifactId>
-		<version>6.5.2</version>
+		<version>6.5.3</version>
 	</parent>
 
 	<artifactId>ipp-v3-java-data</artifactId>
@@ -83,57 +83,57 @@
 					</filesets>
 				</configuration>
 			</plugin>-->
-			<!--<plugin>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.15.3</version>
-				<configuration>
-					<extension>true</extension>
-					<cleanPackageDirectories>false</cleanPackageDirectories>
-					<generateDirectory>src/main/java</generateDirectory>
-					<bindingDirectory>src/main/xsd/</bindingDirectory>
-					<forceRegenerate>true</forceRegenerate>
-					<args>
-						<arg>-Xcollection-setter-injector</arg>
-						<arg>-Xequals</arg>
-						<arg>-XhashCode</arg>
-						<arg>-Xinheritance</arg>
-					</args>
-					<writeCode>true</writeCode>
-					<plugins>
-						<plugin>
-							<groupId>org.andromda.thirdparty.jaxb2_commons</groupId>
-							<artifactId>collection-setter-injector</artifactId>
-							<version>1.0</version>
-						</plugin>
-						<plugin>
-							<groupId>org.jvnet.jaxb2_commons</groupId>
-							<artifactId>jaxb2-basics</artifactId>
-							<version>1.11.1</version>
-						</plugin>
-					</plugins>
-				</configuration>
-				<executions>
-					<execution>
-						<id>fmsdata</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<generatePackage>com.intuit.ipp.data</generatePackage>
-							<schemaDirectory>src/main/xsd/</schemaDirectory>
-							<schemaIncludes>
-								<include>Finance.xsd</include>
-								<include>IntuitBaseTypes.xsd</include>
-								<include>IntuitNamesTypes.xsd</include>
-								<include>IntuitRestServiceDef.xsd</include>
-								<include>Report.xsd</include>
-								<include>SalesTax.xsd</include>
-							</schemaIncludes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>-->
+		<!--<plugin>
+			<groupId>org.jvnet.jaxb2.maven2</groupId>
+			<artifactId>maven-jaxb2-plugin</artifactId>
+			<version>0.15.3</version>
+			<configuration>
+				<extension>true</extension>
+				<cleanPackageDirectories>false</cleanPackageDirectories>
+				<generateDirectory>src/main/java</generateDirectory>
+				<bindingDirectory>src/main/xsd/</bindingDirectory>
+				<forceRegenerate>true</forceRegenerate>
+				<args>
+					<arg>-Xcollection-setter-injector</arg>
+					<arg>-Xequals</arg>
+					<arg>-XhashCode</arg>
+					<arg>-Xinheritance</arg>
+				</args>
+				<writeCode>true</writeCode>
+				<plugins>
+					<plugin>
+						<groupId>org.andromda.thirdparty.jaxb2_commons</groupId>
+						<artifactId>collection-setter-injector</artifactId>
+						<version>1.0</version>
+					</plugin>
+					<plugin>
+						<groupId>org.jvnet.jaxb2_commons</groupId>
+						<artifactId>jaxb2-basics</artifactId>
+						<version>1.11.1</version>
+					</plugin>
+				</plugins>
+			</configuration>
+			<executions>
+				<execution>
+					<id>fmsdata</id>
+					<goals>
+						<goal>generate</goal>
+					</goals>
+					<configuration>
+						<generatePackage>com.intuit.ipp.data</generatePackage>
+						<schemaDirectory>src/main/xsd/</schemaDirectory>
+						<schemaIncludes>
+							<include>Finance.xsd</include>
+							<include>IntuitBaseTypes.xsd</include>
+							<include>IntuitNamesTypes.xsd</include>
+							<include>IntuitRestServiceDef.xsd</include>
+							<include>Report.xsd</include>
+							<include>SalesTax.xsd</include>
+						</schemaIncludes>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>-->
 			<!-- end of regeneration code block -->
 
 		</plugins>
