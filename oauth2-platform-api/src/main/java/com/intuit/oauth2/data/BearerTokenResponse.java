@@ -43,7 +43,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "refresh_token",
         "x_refresh_token_expires_in",
         "access_token",
-        "token_type"
+        "token_type",
+        "x_refresh_token_hard_expires_in"
 })
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -66,6 +67,9 @@ public class BearerTokenResponse {
    
     @JsonProperty("token_type")
     private String tokenType;
+
+    @JsonProperty("x_refresh_token_hard_expires_in")
+    private Long xRefreshTokenHardExpiresIn;
     
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -190,6 +194,26 @@ public class BearerTokenResponse {
     @JsonProperty("token_type")
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
+    }
+
+    /**
+     *
+     * @return
+     * The xRefreshTokenHardExpiresIn
+     */
+    @JsonProperty("x_refresh_token_hard_expires_in")
+    public Long getXRefreshTokenHardExpiresIn() {
+        return xRefreshTokenHardExpiresIn;
+    }
+
+    /**
+     *
+     * @param xRefreshTokenHardExpiresIn
+     * The x_refresh_token_hard_expires_in
+     */
+    @JsonProperty("x_refresh_token_hard_expires_in")
+    public void setXRefreshTokenHardExpiresIn(Long xRefreshTokenHardExpiresIn) {
+        this.xRefreshTokenHardExpiresIn = xRefreshTokenHardExpiresIn;
     }
 
     @JsonAnyGetter

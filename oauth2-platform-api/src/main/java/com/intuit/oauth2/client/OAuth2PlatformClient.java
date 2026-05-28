@@ -86,6 +86,21 @@ public class OAuth2PlatformClient {
      * @throws OAuthException
      */
     public BearerTokenResponse retrieveBearerTokens(String authCode, String redirectURI) throws OAuthException {
+        return retrieveBearerTokens(authCode, redirectURI, false);
+    }
+
+    /**
+     * Method to retrieve OAuth2 access token by passing the redirectURI and authCode.
+     * When includeRefreshTokenHardExpiresIn is true, the response will contain the
+     * x_refresh_token_hard_expires_in attribute indicating the refresh token lifespan.
+     *
+     * @param authCode
+     * @param redirectURI
+     * @param includeRefreshTokenHardExpiresIn
+     * @return
+     * @throws OAuthException
+     */
+    public BearerTokenResponse retrieveBearerTokens(String authCode, String redirectURI, boolean includeRefreshTokenHardExpiresIn) throws OAuthException {
 
         logger.debug("Enter OAuth2PlatformClient::retrieveBearerTokens");
 
@@ -95,6 +110,7 @@ public class OAuth2PlatformClient {
                     .requiresAuthentication(true)
                     .authString(getAuthHeader())
                     .postParams(getUrlParameters(null, authCode, redirectURI))
+                    .includeRefreshTokenHardExpiresIn(includeRefreshTokenHardExpiresIn)
                     .build();
 
             Response response = client.makeRequest(request);
@@ -130,6 +146,20 @@ public class OAuth2PlatformClient {
      * @throws OAuthException
      */
     public BearerTokenResponse refreshToken(String refreshToken) throws OAuthException {
+        return refreshToken(refreshToken, false);
+    }
+
+    /**
+     * Method to renew OAuth2 tokens by passing the refreshToken.
+     * When includeRefreshTokenHardExpiresIn is true, the response will contain the
+     * x_refresh_token_hard_expires_in attribute indicating the refresh token lifespan.
+     *
+     * @param refreshToken
+     * @param includeRefreshTokenHardExpiresIn
+     * @return
+     * @throws OAuthException
+     */
+    public BearerTokenResponse refreshToken(String refreshToken, boolean includeRefreshTokenHardExpiresIn) throws OAuthException {
 
         logger.debug("Enter OAuth2PlatformClient::refreshToken");
         try {
@@ -138,6 +168,7 @@ public class OAuth2PlatformClient {
                     .requiresAuthentication(true)
                     .authString(getAuthHeader())
                     .postParams(getUrlParameters("refresh", refreshToken, null))
+                    .includeRefreshTokenHardExpiresIn(includeRefreshTokenHardExpiresIn)
                     .build();
             Response response = client.makeRequest(request);
 
