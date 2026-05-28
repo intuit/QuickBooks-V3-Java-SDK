@@ -39,6 +39,7 @@ public class Request {
     private final boolean requiresAuthentication;
     private final String authString;
     private final String postJson;
+    private final boolean includeRefreshTokenHardExpiresIn;
     
     private Request(RequestBuilder builder) {
         this.method = builder.method;
@@ -47,6 +48,7 @@ public class Request {
         this.authString = builder.authString;
         this.postParams = builder.postParams;
         this.postJson = builder.postJson;
+        this.includeRefreshTokenHardExpiresIn = builder.includeRefreshTokenHardExpiresIn;
 	}
 
 
@@ -73,6 +75,10 @@ public class Request {
 	
 	public String getPostJson() {
 		return postJson;
+	}
+
+	public boolean isIncludeRefreshTokenHardExpiresIn() {
+		return includeRefreshTokenHardExpiresIn;
 	}
 
 
@@ -104,6 +110,7 @@ public class Request {
 	    private boolean requiresAuthentication;
 	    private String authString;
 	    private String postJson;
+	    private boolean includeRefreshTokenHardExpiresIn;
 
 		public RequestBuilder(MethodType method, String url) {
 			this.method = method;
@@ -127,6 +134,11 @@ public class Request {
 		
 		public RequestBuilder postJson(String postJson) {
 			this.postJson = postJson;
+			return this;
+		}
+
+		public RequestBuilder includeRefreshTokenHardExpiresIn(boolean includeRefreshTokenHardExpiresIn) {
+			this.includeRefreshTokenHardExpiresIn = includeRefreshTokenHardExpiresIn;
 			return this;
 		}
 

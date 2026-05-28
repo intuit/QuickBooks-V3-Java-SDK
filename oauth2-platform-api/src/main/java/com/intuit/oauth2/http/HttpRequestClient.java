@@ -187,6 +187,10 @@ public class HttpRequestClient {
 			builder.addHeader(HttpHeaders.AUTHORIZATION, request.getAuthString());
 		}
 
+		if (request.isIncludeRefreshTokenHardExpiresIn()) {
+			builder.addHeader("x-include-refresh-token-hard-expires-in", "true");
+		}
+
 		MethodType method = request.getMethod();
 		if (method == MethodType.POST) {
 			//add post header
