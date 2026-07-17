@@ -160,6 +160,7 @@ public final class MessageUtils {
 				enumList.add(TimeEntryUsedForPaychecksEnum.class);
 				enumList.add(TransactionLocationTypeEnum.class);
 				enumList.add(TxnSourceEnum.class);
+				enumList.add(TxnSubTypeEnum.class);
 				enumList.add(TxnTypeEnum.class);
 				enumList.add(UOMBaseTypeEnum.class);
 				enumList.add(UOMFeatureTypeEnum.class);
@@ -260,6 +261,7 @@ public final class MessageUtils {
 				entityList.add(UserAlert.class);
 				entityList.add(Vendor.class);
 				entityList.add(VendorCredit.class);
+				entityList.add(VendorPrepayment.class);
 				entityList.add(VendorType.class);
 				entityList.add(RecurringScheduleInfo.class);
                 entityList.add(CustomExtensions.class);
@@ -267,6 +269,9 @@ public final class MessageUtils {
                 entityList.add(ChangeOrder.class);
                 entityList.add(EnabledSurchargeInfo.class);
                 entityList.add(SurchargePaymentMethodInfo.class);
+                entityList.add(TxnRetainageDetail.class);
+                entityList.add(BudgetCustomExtensions.class);
+                entityList.add(BudgetCustomExtensionAssociatedValue.class);
 
 			}
 			return entityList;
