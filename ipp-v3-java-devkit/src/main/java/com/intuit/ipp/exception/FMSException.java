@@ -73,6 +73,41 @@ public class FMSException extends Exception {
 		super(throwable);
 		this.throwable = throwable;
 	}
+	
+	/**
+	 * Constructor FMSException
+	 * 
+	 * @param errorList the list of errors
+	 * @param intuit_tid the transaction id
+	 */
+	public FMSException(List<Error> errorList, String intuit_tid) {
+		super(getString(errorList));
+		this.errorList = errorList;
+		this.intuit_tid = intuit_tid;
+	}
+	
+	/**
+	 * Constructor FMSException
+	 * 
+	 * @param errorMessage the error message
+	 * @param intuit_tid the transaction id
+	 */
+	public FMSException(String errorMessage, String intuit_tid) {
+		super(errorMessage);
+		this.intuit_tid = intuit_tid;
+	}
+	
+	/**
+	 * Constructor FMSException
+	 * 
+	 * @param throwable the throwable
+	 * @param intuit_tid the transaction id
+	 */
+	public FMSException(Throwable throwable, String intuit_tid) {
+		super(throwable);
+		this.throwable = throwable;
+		this.intuit_tid = intuit_tid;
+	}
 
 	/**
 	 * Constructor FMSException

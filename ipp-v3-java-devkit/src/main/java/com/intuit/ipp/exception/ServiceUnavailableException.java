@@ -66,4 +66,15 @@ public class ServiceUnavailableException extends FMSException {
 	public ServiceUnavailableException(String errorMessage, Throwable throwable) {
 		super(errorMessage, throwable);
 	}
+	
+	/**
+	 * Constructor ServiceUnavailableException
+	 * 
+	 * @param errorMessage the error message
+	 * @param throwable the throwable
+	 * @param intuit_tid the transaction id
+	 */
+	public ServiceUnavailableException(String errorMessage, Throwable throwable, String intuit_tid) {
+		super(errorMessage, throwable, intuit_tid);
+	}
 }

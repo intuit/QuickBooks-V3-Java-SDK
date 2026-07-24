@@ -55,4 +55,17 @@ public class CompressionException extends FMSException {
 	public CompressionException(String errorMessage, Throwable e) {
 		super(errorMessage, e);
 	}
+	
+	/**
+	 * Constructor CompressionException
+	 * 
+	 * @param errorMessage
+	 *            the error message
+	 * @param e
+	 *            the throwable object
+	 * @param intuit_tid the transaction id
+	 */
+	public CompressionException(String errorMessage, Throwable e, String intuit_tid) {
+		super(errorMessage, e, intuit_tid);
+	}
 }

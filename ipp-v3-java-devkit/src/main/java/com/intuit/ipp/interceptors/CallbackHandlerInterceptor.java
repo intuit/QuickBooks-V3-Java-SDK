@@ -143,7 +143,7 @@ public class CallbackHandlerInterceptor implements Interceptor {
 			}
 		} else if (isDownload(intuitMessage.getRequestElements().getAction())) {
 			LOG.debug("CallbackHandlerInterceptor setting downloadedFile...");
-			callbackMessage.setDownloadedFile(getDownloadedFile(intuitMessage.getResponseElements().getDecompressedData()));
+			callbackMessage.setDownloadedFile(getDownloadedFile(intuitMessage.getResponseElements().getDecompressedData(), intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID)));
 		} else if (isDownloadPDF(intuitMessage.getRequestElements().getRequestParameters())) {
             LOG.debug("CallbackHandlerInterceptor setting binary content for PDF...");
             callbackMessage.setDownloadedFile(intuitMessage.getResponseElements().getResponseBytes());
@@ -303,16 +303,17 @@ public class CallbackHandlerInterceptor implements Interceptor {
 	 * Method to get the input stream from the download URL returned from service
 	 *  
 	 * @param response the download URL string
+	 * @param intuit_tid 
 	 * @return InputStream the downloaded file
 	 * @throws FMSException
 	 */
-	private InputStream getDownloadedFile(String response) throws FMSException {
+	private InputStream getDownloadedFile(String response, String intuit_tid) throws FMSException {
 		if (response != null) {
 			try {
 				URL url = new URL(response);
 				return url.openStream();
 			} catch (Exception e) {
-				throw new FMSException("Exception while downloading the file from URL.", e);
+				throw new FMSException("Exception while downloading the file from URL.", e, intuit_tid);
 			}
 		}
 		

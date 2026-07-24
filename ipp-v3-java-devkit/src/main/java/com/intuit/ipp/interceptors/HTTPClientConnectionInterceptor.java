@@ -115,7 +115,7 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 		try {
 			uri = new URI(intuitRequest.getRequestParameters().get(RequestElements.REQ_PARAM_RESOURCE_URL));
 		} catch (URISyntaxException e) {
-			throw new FMSException("URISyntaxException", e);
+			throw new FMSException("URISyntaxException", e, intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 		}
 		
 		String methodtype = intuitRequest.getRequestParameters().get(RequestElements.REQ_PARAM_METHOD_TYPE);
@@ -136,7 +136,7 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 				try {
 					entity = new StringEntity(intuitRequest.getPostString());
 				} catch (UnsupportedEncodingException e) {
-					throw new FMSException("UnsupportedEncodingException", e);
+					throw new FMSException("UnsupportedEncodingException", e, intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 				}
 				((HttpPost) httpRequest).setEntity(entity);
 			}
@@ -163,7 +163,7 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 		} catch (ClientProtocolException e) {
 			throw new ConfigurationException("Error in Http Protocol definition", e);
 		} catch (IOException e) {
-			throw new FMSException(e);
+			throw new FMSException(e, intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 		} finally {
 			if (httpResponse != null) {
 				try {
@@ -365,10 +365,10 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 			responseElements.setResponseContent(getCopyOfResponseContent(httpResponse.getEntity().getContent()));
 		} catch (IllegalStateException e) {
 			LOG.error("IllegalStateException while get the content from HttpRespose.", e);
-			throw new FMSException(e);
+			throw new FMSException(e, intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 		} catch (Exception e) {
 			LOG.error("IOException in HTTPClientConnectionInterceptor while reading the entity from HttpResponse.", e);
-			throw new FMSException(e);
+			throw new FMSException(e, intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 		}
 	}
 	

@@ -68,10 +68,10 @@ public class DecompressionInterceptor implements Interceptor {
                     decompressedData = new String(bytes.toByteArray());
 				} catch (IllegalStateException e) {
 					LOG.error("IllegalStateException while get the content from HttpResponse.", e);
-					throw new FMSException(e);
+					throw new FMSException(e, intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 				} catch (Exception e) {
 					LOG.error("IOException in DecompressInterceptor.", e);
-					throw new FMSException(e);
+					throw new FMSException(e, intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 				}
 			}
 		}
@@ -90,10 +90,10 @@ public class DecompressionInterceptor implements Interceptor {
 				}
 			} catch (IllegalStateException e) {
 				LOG.error("IllegalStateException while get the content from HttpResponse.", e);
-				throw new FMSException(e);
+				throw new FMSException(e, intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 			} catch (Exception e) {
 				LOG.error("IOException in DecompressInterceptor.", e);
-				throw new FMSException(e);
+				throw new FMSException(e, intuitMessage.getRequestElements().getRequestHeaders().get(RequestElements.HEADER_INTUIT_TID));
 			} finally {
 				if (br != null) {
 					try {
