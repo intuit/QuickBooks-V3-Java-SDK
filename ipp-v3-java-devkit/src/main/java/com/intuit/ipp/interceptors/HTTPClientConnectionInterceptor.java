@@ -359,6 +359,7 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 		{
 			responseElements.setContentTypeHeader(null);
 		}
+		responseElements.setResponseHeaders(httpResponse.getAllHeaders());
 		responseElements.setStatusLine(httpResponse.getStatusLine());
 		responseElements.setStatusCode(httpResponse.getStatusLine().getStatusCode());
 		try {

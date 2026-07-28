@@ -16,7 +16,11 @@
 package com.intuit.ipp.interceptors;
 
 import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
+import org.apache.http.Header;
 import org.apache.http.StatusLine;
 
 import com.intuit.ipp.core.Response;
@@ -71,6 +75,13 @@ public class ResponseElements {
      * contains bytes of the received content
      */
     private InputStream responseBytes;
+
+	/**
+	 * variable responseHeaders - all headers received on the response, keyed case-insensitively.
+	 * Where a header is repeated, the last value received is retained, consistent with the use of
+	 * HttpResponse#getLastHeader for the encoding and content type headers.
+	 */
+	private Map<String, String> responseHeaders = newHeaderMap();
 	
 	/**
 	 * Gets decompressed data 
@@ -218,5 +229,81 @@ public class ResponseElements {
 	}
 
     public void setResponseBytes(InputStream responseBytes) {this.responseBytes = responseBytes;}
-	
+
+	/**
+	 * Gets all response headers, keyed case-insensitively. Never null.
+	 *
+	 * @return the response headers
+	 */
+	public Map<String, String> getResponseHeaders() {
+		return responseHeaders;
+	}
+
+	/**
+	 * Sets the response headers. Keys are re-indexed case-insensitively.
+	 *
+	 * @param responseHeaders the response headers
+	 */
+	public void setResponseHeaders(Map<String, String> responseHeaders) {
+		Map<String, String> headers = newHeaderMap();
+		if (responseHeaders != null) {
+			headers.putAll(responseHeaders);
+		}
+		this.responseHeaders = headers;
+	}
+
+	/**
+	 * Sets the response headers from an Apache HttpResponse. Where a header is repeated, the last
+	 * value received is retained.
+	 *
+	 * @param headers the headers as returned by HttpResponse#getAllHeaders
+	 */
+	public void setResponseHeaders(Header[] headers) {
+		Map<String, String> headerMap = newHeaderMap();
+		if (headers != null) {
+			for (Header header : headers) {
+				if (header != null && header.getName() != null) {
+					headerMap.put(header.getName(), header.getValue());
+				}
+			}
+		}
+		this.responseHeaders = headerMap;
+	}
+
+	/**
+	 * Sets the response headers from an HttpURLConnection. Where a header carries multiple values,
+	 * the last one is retained.
+	 *
+	 * <p>Named separately from {@link #setResponseHeaders(Map)} because both would erase to the same
+	 * signature.
+	 *
+	 * @param headerFields the header fields as returned by HttpURLConnection#getHeaderFields
+	 */
+	public void setResponseHeaderFields(Map<String, List<String>> headerFields) {
+		Map<String, String> headerMap = newHeaderMap();
+		if (headerFields != null) {
+			for (Map.Entry<String, List<String>> entry : headerFields.entrySet()) {
+				// HttpURLConnection returns the status line under a null key
+				if (entry.getKey() == null) {
+					continue;
+				}
+				List<String> values = entry.getValue();
+				if (values != null && !values.isEmpty()) {
+					headerMap.put(entry.getKey(), values.get(values.size() - 1));
+				}
+			}
+		}
+		this.responseHeaders = headerMap;
+	}
+
+	/**
+	 * Creates an empty header map with case-insensitive keys. Header names are case-insensitive per
+	 * RFC 7230, and HTTP/2 lowercases them, so callers must not have to guess the casing.
+	 *
+	 * @return an empty case-insensitive map
+	 */
+	private static Map<String, String> newHeaderMap() {
+		return new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
+	}
+
 }

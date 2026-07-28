@@ -15,8 +15,11 @@
  *******************************************************************************/
 package com.intuit.ipp.exception;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import com.intuit.ipp.data.Error;
 
 /**
@@ -44,7 +47,13 @@ public class FMSException extends Exception {
 	 * variable intuit_tid
 	 */
 	private String intuit_tid;
-	
+
+	/**
+	 * variable responseHeaders - the headers received on the response that produced this exception,
+	 * keyed case-insensitively
+	 */
+	private Map<String, String> responseHeaders;
+
 	/**
 	 * Constructor FMSException
 	 * 
@@ -118,7 +127,60 @@ public class FMSException extends Exception {
 	public void setIntuit_tid(String intuit_tid) {
 		this.intuit_tid = intuit_tid;
 	}
-	
+
+	/**
+	 * Method to get the headers received on the response that produced this exception.
+	 *
+	 * <p>Keys are case-insensitive. Where a header was repeated, the last value received is
+	 * retained. Returns an empty map rather than null when no headers were captured.
+	 *
+	 * <p>Useful for auth failures, where the {@code WWW-Authenticate} challenge distinguishes
+	 * causes that the response body may not:
+	 *
+	 * <pre>
+	 * catch (AuthenticationException e) {
+	 *     String challenge = e.getResponseHeader("WWW-Authenticate");
+	 *     // Bearer realm="Intuit", error="invalid_token", error_description="Token expired"
+	 * }
+	 * </pre>
+	 *
+	 * @return the response headers, never null
+	 */
+	public Map<String, String> getResponseHeaders() {
+		if (responseHeaders == null) {
+			return Collections.emptyMap();
+		}
+		return responseHeaders;
+	}
+
+	/**
+	 * Method to get a single response header by name, case-insensitively.
+	 *
+	 * @param name the header name
+	 * @return the header value, or null if absent
+	 */
+	public String getResponseHeader(String name) {
+		if (responseHeaders == null || name == null) {
+			return null;
+		}
+		return responseHeaders.get(name);
+	}
+
+	/**
+	 * Method to set the response headers. Keys are re-indexed case-insensitively.
+	 *
+	 * @param responseHeaders the response headers
+	 */
+	public void setResponseHeaders(Map<String, String> responseHeaders) {
+		if (responseHeaders == null) {
+			this.responseHeaders = null;
+			return;
+		}
+		Map<String, String> headers = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
+		headers.putAll(responseHeaders);
+		this.responseHeaders = headers;
+	}
+
 	/**
 	 * Method to get the error codes received from server as String message
 	 * 
