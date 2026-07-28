@@ -149,6 +149,7 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
             originalResponseElements.setResponseContent(   receivedResponseElements.getResponseContent()   );
             originalResponseElements.setEncodingHeader(    receivedResponseElements.getEncodingHeader()    );
             originalResponseElements.setContentTypeHeader( receivedResponseElements.getContentTypeHeader() );
+            originalResponseElements.setResponseHeaders(   receivedResponseElements.getResponseHeaders()   );
             originalResponseElements.setStatusLine(        receivedResponseElements.getStatusLine()        );
             originalResponseElements.setStatusCode(        receivedResponseElements.getStatusCode()        );
 
@@ -458,6 +459,7 @@ public class HTTPBatchClientConnectionInterceptor implements Interceptor {
         {
             responseElements.setContentTypeHeader(null);
         }
+        responseElements.setResponseHeaders(httpResponse.getAllHeaders());
         responseElements.setStatusLine(httpResponse.getStatusLine());
         responseElements.setStatusCode(httpResponse.getStatusLine().getStatusCode());
         try {

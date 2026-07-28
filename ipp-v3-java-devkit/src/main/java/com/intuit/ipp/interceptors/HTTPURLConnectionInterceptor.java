@@ -185,7 +185,8 @@ public class HTTPURLConnectionInterceptor implements Interceptor {
 		LOG.debug("Response headers:"+httpUrlConnection.getHeaderFields());
 		ResponseElements responseElements = intuitMessage.getResponseElements();
 		responseElements.setEncodingHeader(httpUrlConnection.getContentEncoding());
-		responseElements.setContentTypeHeader(httpUrlConnection.getContentType());		
+		responseElements.setContentTypeHeader(httpUrlConnection.getContentType());
+		responseElements.setResponseHeaderFields(httpUrlConnection.getHeaderFields());
 		try {
 			responseElements.setStatusCode(httpUrlConnection.getResponseCode());
 			

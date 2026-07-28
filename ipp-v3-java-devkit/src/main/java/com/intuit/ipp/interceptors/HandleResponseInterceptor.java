@@ -85,9 +85,28 @@ public class HandleResponseInterceptor implements Interceptor {
 	 */
 	@Override
 	public void execute(IntuitMessage intuitMessage) throws FMSException {
+		try {
+			handleResponse(intuitMessage);
+		} catch (FMSException e) {
+			// Attach the response headers to every exception raised from this interceptor. Some
+			// failures are only distinguishable from a header - for example the WWW-Authenticate
+			// challenge tells an expired token apart from a revoked one when the fault body does
+			// not. Done here rather than at each throw site so no path is missed.
+			e.setResponseHeaders(intuitMessage.getResponseElements().getResponseHeaders());
+			throw e;
+		}
+	}
+
+	/**
+	 * Validates the response and throws the corresponding exception for the fault codes.
+	 *
+	 * @param intuitMessage the intuit message
+	 * @throws FMSException
+	 */
+	private void handleResponse(IntuitMessage intuitMessage) throws FMSException {
 
 		LOG.debug("Enter HandleResponseInterceptor...");
-		
+
 		IntuitResponse intuitResponse = null;
 		ResponseElements responseElements = intuitMessage.getResponseElements();
 		if(responseElements.getResponse() instanceof TaxService)
