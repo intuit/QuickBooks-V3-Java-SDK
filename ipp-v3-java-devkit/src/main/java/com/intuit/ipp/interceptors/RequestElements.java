@@ -725,5 +725,14 @@ public class RequestElements {
 	public void setUploadFile(byte[] uploadFile) {
 		this.uploadFile = uploadFile;
 	}
-	
+
+	public static final String REPORT_PARAM_TESTING_MIGRATION = "testing_migration";
+
+	/**
+	 * Sentinel for report request parameter values: the key is appended to the query string as a bare
+	 * flag ({@code name&}), with no {@code =value}. {@link com.intuit.ipp.services.ReportService} sets
+	 * this when the API expects a presence-only parameter.
+	 */
+	public static final String REPORT_QUERY_PARAM_AS_BARE_FLAG = "__IPP_BARE_QUERY_PARAM__";
+
 }

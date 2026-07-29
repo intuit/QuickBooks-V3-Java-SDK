@@ -167,6 +167,7 @@ public final class MessageUtils {
 				enumList.add(SourceTypeEnum.class);
 				enumList.add(PaymentExtendedTypeEnum.class);
                 enumList.add(AgencyVerificationStatus.class);
+                enumList.add(TxnSubTypeEnum.class);
 			}
 			return enumList;
 		}
@@ -264,6 +265,13 @@ public final class MessageUtils {
 				entityList.add(RecurringScheduleInfo.class);
                 entityList.add(CustomExtensions.class);
                 entityList.add(CustomExtensionAssociatedValues.class);
+                entityList.add(ChangeOrder.class);
+                entityList.add(EnabledSurchargeInfo.class);
+                entityList.add(SurchargePaymentMethodInfo.class);
+                entityList.add(TxnRetainageDetail.class);
+                entityList.add(VendorPrepayment.class);
+                entityList.add(BudgetCustomExtensions.class);
+                entityList.add(BudgetCustomExtensionAssociatedValue.class);
 
 			}
 			return entityList;

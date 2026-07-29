@@ -52,6 +52,11 @@ public class ResponseElements {
 	 * variable contentTypeHeader
 	 */
 	private String contentTypeHeader;
+
+	/**
+	 * variable intuit_tid - the transaction id returned by QBO in the response header
+	 */
+	private String intuit_tid;
 	/**
 	 * variable statusCode
 	 */
@@ -160,6 +165,24 @@ public class ResponseElements {
 	 */
 	public void setContentTypeHeader(String contentTypeHeader) {
 		this.contentTypeHeader = contentTypeHeader;
+	}
+
+	/**
+	 * Gets intuit_tid
+	 * 
+	 * @return intuit_tid
+	 */
+	public String getIntuit_tid() {
+		return intuit_tid;
+	}
+
+	/**
+	 * Sets intuit_tid
+	 * 
+	 * @param intuit_tid
+	 */
+	public void setIntuit_tid(String intuit_tid) {
+		this.intuit_tid = intuit_tid;
 	}
 
 	/**

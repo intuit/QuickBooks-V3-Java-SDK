@@ -265,7 +265,7 @@ public class ReportService {
 
     private String showrows = null;
 
-
+    private Boolean testing_migration = false;
 
     /**
 	 * Hiding the default constructor as Context is always required to function properly
@@ -555,8 +555,10 @@ public class ReportService {
         {
             requestParameters.put(RequestElements.REPORT_PARAM_SUBCOL_PCT_EXP, getSubcol_pct_exp());
         }
-
-			
+		if (Boolean.TRUE.equals(getTesting_migration())) {
+            requestParameters.put(RequestElements.REPORT_PARAM_TESTING_MIGRATION,
+                    RequestElements.REPORT_QUERY_PARAM_AS_BARE_FLAG);
+        }
 			requestElements.setAction(OperationType.REPORTS.toString() + "/" + reportName);
 			requestElements.setContext(context);
 
@@ -1218,5 +1220,13 @@ public class ReportService {
 
     public void setShowrows(String showrows) {
         this.showrows = showrows;
+    }
+
+    public Boolean getTesting_migration() {
+        return testing_migration;
+    }
+
+    public void setTesting_migration(Boolean testing_migration) {
+        this.testing_migration = testing_migration;
     }
 }
