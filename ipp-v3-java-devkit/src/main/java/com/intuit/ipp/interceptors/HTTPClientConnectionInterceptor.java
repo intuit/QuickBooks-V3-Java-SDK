@@ -359,6 +359,14 @@ public class HTTPClientConnectionInterceptor implements Interceptor {
 		{
 			responseElements.setContentTypeHeader(null);
 		}
+		if(httpResponse.getLastHeader(RequestElements.HEADER_INTUIT_TID) != null)
+		{
+			responseElements.setIntuit_tid(httpResponse.getLastHeader(RequestElements.HEADER_INTUIT_TID).getValue());
+		}
+		else
+		{
+			responseElements.setIntuit_tid(null);
+		}
 		responseElements.setStatusLine(httpResponse.getStatusLine());
 		responseElements.setStatusCode(httpResponse.getStatusLine().getStatusCode());
 		try {

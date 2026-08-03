@@ -1890,6 +1890,7 @@
 			<xs:enumeration value="UOM"/>
 			<xs:enumeration value="Vendor"/>
 			<xs:enumeration value="VendorCredit"/>
+			<xs:enumeration value="VendorPrepayment"/>
 			<xs:enumeration value="CustomFieldDefinition"/>
 			<xs:enumeration value="ChangeOrder"/>
 		</xs:restriction>
