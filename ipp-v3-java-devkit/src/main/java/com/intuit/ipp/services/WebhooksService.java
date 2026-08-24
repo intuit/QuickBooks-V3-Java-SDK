@@ -51,6 +51,9 @@ public class WebhooksService {
 	 * define algorithm
 	 */
 	private static final String ALGORITHM = "HmacSHA256";
+
+	/** Shared ObjectMapper instance (thread-safe, reuse for performance) */
+	private static final ObjectMapper mapper = new ObjectMapper();
 	
 	public boolean verifyPayload(String intuitSignature, String payload) {	
 		try {
@@ -77,7 +80,6 @@ public class WebhooksService {
 			return null;
 		}
 		try {
-			ObjectMapper mapper = new ObjectMapper();
 			return mapper.readValue(payload, WebhooksEvent.class);
 		} catch (JsonParseException e) {
 			LOG.error("Error while parsing payload", e);

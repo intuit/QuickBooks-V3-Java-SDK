@@ -234,6 +234,31 @@ public class JSONSerializer implements IEntitySerializer {
 	 */
 	private static final org.slf4j.Logger LOG = Logger.getLogger();
 
+	/** Shared ObjectMapper for serialization (thread-safe, reuse for performance) */
+	@SuppressWarnings("deprecation")
+	private static final ObjectMapper serializeMapper;
+	static {
+		serializeMapper = new ObjectMapper();
+		AnnotationIntrospector primary = new JacksonAnnotationIntrospector();
+		AnnotationIntrospector secondary = new JaxbAnnotationIntrospector(serializeMapper.getTypeFactory());
+		serializeMapper.setAnnotationIntrospector(new AnnotationIntrospectorPair(primary, secondary));
+		serializeMapper.setSerializationInclusion(Include.NON_NULL);
+	}
+
+	/** Shared ObjectMapper for deserialization (thread-safe, reuse for performance) */
+	private static final ObjectMapper deserializeMapper;
+	static {
+		deserializeMapper = new ObjectMapper();
+		deserializeMapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+		SimpleModule simpleModule = new SimpleModule("IntuitResponseDeserializer", new Version(1, 0, 0, null));
+		simpleModule.addDeserializer(IntuitResponse.class, new IntuitResponseDeserializer());
+		deserializeMapper.registerModule(simpleModule);
+		simpleModule = new SimpleModule("TaxServiceDeserializer", new Version(1, 0, 0, null));
+		simpleModule.addDeserializer(TaxService.class, new TaxServiceDeserializer());
+		deserializeMapper.registerModule(simpleModule);
+		deserializeMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -244,14 +269,7 @@ public class JSONSerializer implements IEntitySerializer {
 			return null;
 		}
 
-		ObjectMapper mapper = new ObjectMapper();
-		AnnotationIntrospector primary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector secondary = new JaxbAnnotationIntrospector(mapper.getTypeFactory());
-		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
-
-		mapper.setAnnotationIntrospector(pair);
-		mapper.setSerializationInclusion(Include.NON_NULL);
-
+		ObjectMapper mapper = serializeMapper.copy();
 		registerModulesForEnum(mapper);
 
 		SimpleModule testModule = new SimpleModule("BatchItemRequest", new Version(1, 0, 0, null));
@@ -285,16 +303,7 @@ public class JSONSerializer implements IEntitySerializer {
 	public Response deserialize(String json, Class<?> cl) throws SerializationException {
 
 		Response intuitResponse = null;
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS,true);
-		SimpleModule simpleModule = new SimpleModule("IntuitResponseDeserializer", new Version(1, 0, 0, null));
-		simpleModule.addDeserializer(IntuitResponse.class, new IntuitResponseDeserializer());
-		mapper.registerModule(simpleModule);
-
-		simpleModule = new SimpleModule("TaxServiceDeserializer", new Version(1, 0, 0, null));
-		simpleModule.addDeserializer(TaxService.class, new TaxServiceDeserializer());
-		mapper.registerModule(simpleModule);
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		ObjectMapper mapper = deserializeMapper;
 		
 
 

@@ -74,6 +74,17 @@ public class BatchItemRequestSerializer extends JsonSerializer<BatchItemRequest>
 	 */
 	private static final String OPTIONS_DATA = "optionsData";
 
+	/** Shared ObjectMapper instance (thread-safe, reuse for performance) */
+	@SuppressWarnings("deprecation")
+	private static final ObjectMapper mapper;
+	static {
+		mapper = new ObjectMapper();
+		AnnotationIntrospector primary = new JacksonAnnotationIntrospector();
+		AnnotationIntrospector secondary = new JaxbAnnotationIntrospector(mapper.getTypeFactory());
+		mapper.setAnnotationIntrospector(new AnnotationIntrospectorPair(primary, secondary));
+		mapper.setSerializationInclusion(Include.NON_NULL);
+	}
+
 	@Override
 	public void serialize(BatchItemRequest batchItemRequest, JsonGenerator jgen, SerializerProvider provider) throws IOException {
 
@@ -161,14 +172,6 @@ public class BatchItemRequestSerializer extends JsonSerializer<BatchItemRequest>
 	 * @return ObjectMapper the object mapper
 	 */
 	private ObjectMapper getObjectMapper() {
-		ObjectMapper mapper = new ObjectMapper();
-		AnnotationIntrospector primary = new JacksonAnnotationIntrospector();
-		AnnotationIntrospector secondary = new JaxbAnnotationIntrospector(mapper.getTypeFactory());
-		AnnotationIntrospector pair = new AnnotationIntrospectorPair(primary, secondary);
-
-		mapper.setAnnotationIntrospector(pair);
-		mapper.setSerializationInclusion(Include.NON_NULL);
-
 		return mapper;
 	}
 
