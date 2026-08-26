@@ -95,6 +95,23 @@ public class HandleResponseInterceptorTest {
 		Assert.assertTrue(isValid);
 	}
 	
+	@Test  (enabled = false)
+	public void testHandleResponseInterceptor_ValidationFault() {
+		boolean isValid = false;
+		IntuitResponse intuitResponse = (IntuitResponse) intuitMessage.getResponseElements().getResponse();
+		intuitResponse.getFault().setType("ValidationFault");
+		HandleResponseInterceptor interceptor = new HandleResponseInterceptor();
+		try {
+			interceptor.execute(intuitMessage);
+		} catch (FMSException e) {
+			if (e instanceof ValidationException) {
+				isValid = true;
+			}
+		}
+
+		Assert.assertTrue(isValid);
+	}
+	
 	@Test (enabled = false)
 	public void testHandleResponseInterceptor_Service() {
 		boolean isValid = false;
