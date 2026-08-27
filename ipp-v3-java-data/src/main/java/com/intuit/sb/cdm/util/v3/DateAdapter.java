@@ -15,14 +15,13 @@
  *******************************************************************************/
 package com.intuit.sb.cdm.util.v3;
 
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 
 /**
  * Adapter for JAXB to bind xs:date type to java.util.Date rather than the
@@ -32,7 +31,8 @@ public class DateAdapter extends XmlAdapter<String, Date> {
 	private static final int lengthOfDateFmtYYYY_MM_DD = 10;
 	private static final String INVALIDDATE = "9999-12-31";
 	private static final String datePattern = "(19|20)\\d\\d([- /.])(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])";
-	private static final DateTimeFormatter formatter = ISODateTimeFormat.date();
+
+	private static final String DATE_FORMAT = "yyyy-MM-dd";
 	
 	/**
 	 * Unmarshal a Date.
@@ -76,7 +76,7 @@ public class DateAdapter extends XmlAdapter<String, Date> {
 			return null;
 		}
 		
-		return formatter.print(new DateTime(value));
+		return new SimpleDateFormat(DATE_FORMAT).format(value);
 
 	}	
 	
