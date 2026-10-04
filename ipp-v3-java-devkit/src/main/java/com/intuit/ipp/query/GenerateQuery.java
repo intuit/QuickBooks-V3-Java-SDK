@@ -53,9 +53,14 @@ public final class GenerateQuery {
 	public static ThreadLocal<Path<?>> path = new ThreadLocal<Path<?>>();
 
 	/**
-	 * varriable message
+	 * variable message, kept per thread so concurrent queries don't overwrite each other
 	 */
-	private static QueryMessage message = new QueryMessage();
+	private static final ThreadLocal<QueryMessage> message = new ThreadLocal<QueryMessage>() {
+		@Override
+		protected QueryMessage initialValue() {
+			return new QueryMessage();
+		}
+	};
 
 	/**
 	 * variable CLASSNAME_SPLIT_PATTERN
@@ -244,7 +249,7 @@ public final class GenerateQuery {
 	 * @return QueryMessage the query message
 	 */
 	public static QueryMessage getMessage() {
-		return message;
+		return message.get();
 	}
 
 	/**
@@ -253,7 +258,7 @@ public final class GenerateQuery {
 	 * @param mess the query message
 	 */
 	public static void setMessage(QueryMessage mess) {
-		message = mess;
+		message.set(mess);
 	}
 
 	/**
